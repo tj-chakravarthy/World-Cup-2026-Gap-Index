@@ -34,6 +34,10 @@ data/processed/**
 !data/raw/venues_2026.csv
 # team-code crosswalk: small, canonical, hand-reviewed source-name -> FIFA map → tracked.
 !data/raw/team_codes.csv
+# squads: 48 final 26-man rosters, canonical tournament input → tracked.
+!data/raw/squads_2026.csv
+# name overrides: hand-curated, append-only manual name corrections → tracked.
+!data/raw/name_overrides.csv
 # data/predictions/ is the committed record (locked file's verifiable git timestamp,
 # append-only audit log, market benchmark) — no ignore rule, tracked normally.
 
