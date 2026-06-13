@@ -145,3 +145,36 @@ during Stage 0 to unblock the lock:
 - `src/models/tiebreakers.py` — PLAN Stage 4 work, pulled forward. PLAN
   Build-Order Stage 4 already notes this: "tiebreakers.py + test suite done
   (pulled forward to Art. 13)."
+
+---
+
+## Stage 1 data layer (environment constraints + deferrals)
+
+PLAN Build-Order Stage 1 assumes all sources fetch overnight on one box. This
+environment is Cloudflare-blocked on FBref (403), has no pandas / pip stack (only
+numpy/scipy/pytest), and has no API keys, so Stage 1 was split by what runs here.
+
+**Built and run (keyless, stdlib/bs4):**
+- `fetch_squad_rosters.py` → `squads_2026.csv` (committed). 2026 only; the 2018/2022
+  squads PLAN §1.1 also wants are Stage-2 backtest inputs, built when needed.
+- `fetch_club_elo.py` (clubelo snapshot), `extract_qualifying.py` (derived),
+  `fetch_statsbomb.py` (match index for the 5 backtest tournaments). Outputs are
+  regenerable → gitignored.
+- `name_matcher.py` + `name_overrides.csv` — fuzzy match with difflib fallback
+  (rapidfuzz when present).
+
+**Built but not run (key-gated, no keys here):** `fetch_injuries.py` (API-Football),
+`fetch_odds.py` (The Odds API). Cron-ready; loud exit without the key.
+
+**Deferred — scrape-heavy / blocked, to run on an unblocked box (overnight):**
+- **FBref Tier 1/2 club stats** — the Stage-1 spine and predicted-VAEP input.
+  403 here; soccerdata not installed and wouldn't clear Cloudflare anyway. This
+  is the gating dependency for Stages 2–3; needs a non-blocked network or a
+  cached/mirror dataset. Not yet built.
+- **Transfermarkt market values** — same scrape-heavy/blocked bucket; not built.
+
+**Deferred — bulk downloads to Stage 2:** StatsBomb full event JSON (VAEP
+training) and Wyscout Figshare events. Only the StatsBomb index is fetched now.
+
+**Not yet built (small, keyless, next):** Open-Meteo heat-forecast wiring (climate
+normals are already in `venues_2026.csv` from Stage 0).
