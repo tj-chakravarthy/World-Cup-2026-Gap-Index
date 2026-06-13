@@ -1,0 +1,17 @@
+# Local dev parity: python pipeline + node web dev server (PLAN.md Phase 7.4).
+services:
+  pipeline:
+    build: .
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+
+  web:
+    image: node:20-alpine
+    working_dir: /app/web
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app/web
