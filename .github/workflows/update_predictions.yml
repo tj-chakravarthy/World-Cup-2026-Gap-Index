@@ -20,19 +20,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      # Kör i pipeline-imagen (apt-bas + pip-gap, se Dockerfile/apt-packages.txt).
+      # ubuntu-latest har inte trixie-paketen, så ett `pip install -r requirements.txt`
+      # skulle installera mot fel bas (requirements.txt utelämnar numpy/pandas/...).
+      # Imagen är enda trogna paritet med dev-boxen.
+      - name: Build pipeline image
+        run: docker build -t gapindex .
       - name: Run update pipeline
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: |
           echo "TODO (Stage 6): update_actuals -> update_injuries -> update_lineups -> inference -> monte_carlo -> market_benchmark -> freshness_check"
-          # python -m src.pipeline.run_all --update
+          # docker run --rm -v "$PWD:/app" -e API_FOOTBALL_KEY -e ODDS_API_KEY gapindex \
+          #   python -m src.pipeline.run_all --update
       - name: Commit refreshed data
         run: |
           echo "TODO (Stage 6): commit web/public/data/*.json + data/predictions/* and push"
