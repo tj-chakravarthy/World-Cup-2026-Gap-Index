@@ -1,0 +1,34 @@
+# GAPINDEX system dependencies (Debian 13 trixie) — the scientific + scraping
+# base, all from apt. Install with:
+#   sudo apt install $(sed 's/#.*//' apt-packages.txt)
+#
+# The football + ML libs Debian does NOT package come from pip instead — see
+# requirements.txt (soccerdata, statsbombpy, socceraction, pyarrow, mapie, pymc,
+# lifelines, shap). Versions here are whatever trixie ships; that is the point of
+# going apt-first (distro-pinned, reproducible without lockfiles).
+
+# data + scraping
+python3-pandas
+python3-requests
+python3-bs4
+python3-lxml
+python3-rapidfuzz
+python3-unidecode
+python3-haversine
+python3-dotenv
+
+# scientific / ML base
+python3-numpy
+python3-scipy
+python3-sklearn
+python3-xgboost
+python3-matplotlib
+python3-seaborn
+
+# tooling (pip/venv to install the unpackaged gap; build-essential for pymc's
+# pytensor C++ at runtime)
+python3-pytest
+python3-pip
+python3-venv
+jupyter
+build-essential

@@ -1,4 +1,6 @@
-# Local dev parity: python pipeline + node web dev server (PLAN.md Phase 7.4).
+# Local dev parity: python pipeline container (PLAN.md Phase 7.4). The node/npm
+# web dev server är parkerad tills frontend-stacken är vald (PLAN §7) — ingen npm
+# tills dess. Lägg tillbaka en web-service när stacken är bestämd (Stage 5).
 services:
   pipeline:
     build: .
@@ -11,12 +13,3 @@ services:
     env_file:
       - path: .env
         required: false
-
-  web:
-    image: node:20-alpine
-    working_dir: /app/web
-    command: sh -c "npm install && npm run dev"
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./web:/app/web
