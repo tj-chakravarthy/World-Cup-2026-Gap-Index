@@ -8,6 +8,7 @@ tilting C's lambdas, never by ad-hoc reweighting of scoreline cells.
 import pytest
 
 
-@pytest.mark.skip(reason="TODO: implement with src/models/monte_carlo.py (PLAN.md §5.2)")
+@pytest.mark.mandatory
+@pytest.mark.skip(reason="MANDATORY contract NOT YET ENFORCED — implement with src/models/monte_carlo.py (PLAN.md §5.2)")
 def test_simulated_marginals_match_stacked():
     raise NotImplementedError

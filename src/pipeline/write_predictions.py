@@ -1,0 +1,126 @@
+"""Prediction-artifact writer + schema validator (Stage 0).
+
+Enforces the invariants in `docs/artifact_schema.md` before anything touches
+disk. The locked file can never be re-issued, so the cheap insurance is to
+refuse to write a malformed or invariant-breaking artifact at all — and to
+refuse to clobber an existing locked file.
+
+Stdlib only by design: the artifact is JSON and the checks are arithmetic on
+it, so validation stays out of the modelling stack and runs in plain CI.
+"""
+
+from __future__ import annotations
+
+import json
+from datetime import datetime
+from pathlib import Path
+
+SCHEMA_VERSION = "1.0"
+WDL_TOL = 1e-6  # |sum(wdl) - 1| must stay under this
+
+_TOP_KEYS = {
+    "schema_version", "kind", "model_version", "generated_at", "locked_at_utc",
+    "tournament", "coverage", "sources", "predictions",
+}
+_COVERAGE_SETS = (
+    "covered_fixture_ids",
+    "excluded_played_fixture_ids",
+    "pending_undetermined_fixture_ids",
+)
+_MODEL_SOURCE = {"locked": "locked_minimal", "live": "live_full"}
+
+
+class SchemaError(ValueError):
+    """Artifact violates docs/artifact_schema.md."""
+
+
+def _utc(value: str, field: str) -> datetime:
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except (AttributeError, ValueError) as e:
+        raise SchemaError(f"{field}: not an ISO-8601 timestamp: {value!r}") from e
+
+
+def validate(artifact: dict) -> None:
+    """Raise SchemaError if `artifact` breaks any documented invariant."""
+    missing = _TOP_KEYS - artifact.keys()
+    if missing:
+        raise SchemaError(f"missing top-level keys: {sorted(missing)}")
+    if artifact["schema_version"] != SCHEMA_VERSION:
+        raise SchemaError(f"schema_version must be {SCHEMA_VERSION!r}")
+
+    kind = artifact["kind"]
+    if kind not in _MODEL_SOURCE:
+        raise SchemaError(f"kind must be 'locked' or 'live', got {kind!r}")
+
+    generated_at = _utc(artifact["generated_at"], "generated_at")
+
+    cov = artifact["coverage"]
+    sets = {name: set(cov.get(name, [])) for name in _COVERAGE_SETS}
+    for name in _COVERAGE_SETS:
+        ids = cov.get(name, [])
+        if len(ids) != len(set(ids)):
+            raise SchemaError(f"coverage.{name} has duplicate ids")
+    # pairwise disjoint (invariant 5)
+    names = list(_COVERAGE_SETS)
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            overlap = sets[a] & sets[b]
+            if overlap:
+                raise SchemaError(f"coverage {a} and {b} overlap: {sorted(overlap)}")
+
+    preds = artifact["predictions"]
+    pred_ids = [p["fixture_id"] for p in preds]
+    if len(pred_ids) != len(set(pred_ids)):
+        raise SchemaError("duplicate fixture_id in predictions")
+    # exactly one prediction per covered id, none for excluded/pending (invariant 5)
+    if set(pred_ids) != sets["covered_fixture_ids"]:
+        raise SchemaError(
+            "predictions must match covered_fixture_ids exactly "
+            f"(only_in_covered={sorted(sets['covered_fixture_ids'] - set(pred_ids))}, "
+            f"only_in_predictions={sorted(set(pred_ids) - sets['covered_fixture_ids'])})"
+        )
+
+    if kind == "locked":
+        locked_at = artifact["locked_at_utc"]
+        if locked_at is None:
+            raise SchemaError("locked file must set locked_at_utc (invariant 1)")
+        locked_at = _utc(locked_at, "locked_at_utc")
+        if locked_at > generated_at:
+            raise SchemaError("locked_at_utc must be <= generated_at (invariant 1)")
+    else:
+        if artifact["locked_at_utc"] is not None:
+            raise SchemaError("live file must set locked_at_utc to null")
+        locked_at = None
+
+    for p in preds:
+        fx = p["fixture_id"]
+        if p["model_source"] != _MODEL_SOURCE[kind]:
+            raise SchemaError(
+                f"{fx}: model_source must be {_MODEL_SOURCE[kind]!r} in a {kind} file"
+            )
+        wdl = p["wdl"]
+        s = wdl["team1"] + wdl["draw"] + wdl["team2"]
+        if abs(s - 1.0) > WDL_TOL:
+            raise SchemaError(f"{fx}: wdl sums to {s}, not 1 (invariant 4)")
+        for sc in p["scorelines"]:
+            if not 0.0 <= sc["p"] <= 1.0:
+                raise SchemaError(f"{fx}: scoreline p out of [0,1]: {sc}")
+        # core lock invariant: nothing already kicked off is predicted here
+        if locked_at is not None and _utc(p["kickoff_utc"], f"{fx}.kickoff_utc") <= locked_at:
+            raise SchemaError(
+                f"{fx}: kickoff_utc <= locked_at_utc — already played, must be "
+                "in excluded_played_fixture_ids, not predicted (invariant 1)"
+            )
+
+
+def write(artifact: dict, path: str | Path) -> Path:
+    """Validate then write `artifact` to `path`. A locked file is never allowed
+    to overwrite an existing one (invariant 2)."""
+    validate(artifact)
+    path = Path(path)
+    if artifact["kind"] == "locked" and path.exists():
+        raise SchemaError(f"refusing to rewrite locked file: {path} (invariant 2)")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(artifact, indent=2) + "\n")
+    return path

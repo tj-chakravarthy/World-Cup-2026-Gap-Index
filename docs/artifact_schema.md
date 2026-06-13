@@ -23,7 +23,7 @@ mirror the per-prediction fields below plus `outcome` (null until played).
 | `kind` | `"locked"` \| `"live"` | |
 | `model_version` | string | exact model identity, e.g. `"stage0-AC-thin@<git-sha>"` — pins which code/model produced the file |
 | `generated_at` | UTC ISO-8601 | when this file was written |
-| `locked_at_utc` | UTC ISO-8601 \| null | **locked only:** the verifiable lock instant; the file covers fixtures unplayed *as of this time*. `null` for live. |
+| `locked_at_utc` | UTC ISO-8601 \| null | **locked only:** the verifiable lock instant; the file covers fixtures unplayed *as of this time*. `null` for live. For a locked file `locked_at_utc <= generated_at` — you fix the lock instant first, then generate from inputs as of that instant; the two collapse to equal when written in one shot. The external witness is the git commit time, `>=` both. |
 | `tournament` | string | `"FIFA World Cup 26"` |
 | `coverage` | object | see below |
 | `sources` | array | freshness manifest, see below |
@@ -33,12 +33,18 @@ mirror the per-prediction fields below plus `outcome` (null until played).
 
 | field | type | notes |
 |---|---|---|
-| `covered_fixture_ids` | string[] | fixtures this file predicts |
+| `covered_fixture_ids` | string[] | fixtures this file predicts (both teams known and kickoff `> locked_at_utc`) |
 | `excluded_played_fixture_ids` | string[] | fixtures already kicked off at `locked_at_utc`/`generated_at` — **never predicted here**, used only as in-tournament evidence |
-| `lock_basis` | string | locked only, e.g. `"unplayed at locked_at_utc"` |
+| `pending_undetermined_fixture_ids` | string[] | future fixtures that exist as bracket *slots* but whose participants aren't decided yet (R32+ knockout slots like "Winner Group A vs 3rd B/E/F"). Unplayed but **not predictable** at lock time, so **never predicted here**. May be `[]` once all teams are known. |
+| `lock_basis` | string | locked only, e.g. `"unplayed and both teams known at locked_at_utc"` |
 
-`covered_fixture_ids` and `excluded_played_fixture_ids` must be disjoint, and
-together account for every remaining tournament fixture at issue time.
+The three id sets are pairwise disjoint and together account for every
+tournament fixture at issue time: `covered` (predictable now) ∪
+`excluded_played` (already evidence) ∪ `pending_undetermined` (knockout slots
+with unknown teams). A locked file at group stage predicts only `covered`; the
+knockout slots sit in `pending_undetermined` until the bracket fills, and are
+picked up by the live file once their teams are set — the locked file is never
+amended to add them.
 
 ### `sources` (freshness — PLAN.md §6)
 
@@ -63,12 +69,14 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
 
 ## Invariants (assert in the writer)
 
-1. Locked file: `kind=="locked"`, `locked_at_utc` set, and every
-   `covered_fixture_ids` kickoff `> locked_at_utc`.
+1. Locked file: `kind=="locked"`, `locked_at_utc` set, `locked_at_utc <=
+   generated_at`, and every `covered_fixture_ids` kickoff `> locked_at_utc`.
 2. Locked file is content-addressed in git history and never rewritten.
 3. `model_source` is per-prediction; a fixture predicted by both the locked and
    live files appears once in each, never merged.
 4. Probabilities are calibrated and sum to 1 within tolerance.
+5. `coverage` id sets are pairwise disjoint; `predictions[]` has exactly one
+   entry per `covered_fixture_ids` and none for the excluded/pending sets.
 
 ## Example (locked, abridged)
 
@@ -77,13 +85,14 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
   "schema_version": "1.0",
   "kind": "locked",
   "model_version": "stage0-AC-thin@a1b2c3d",
-  "generated_at": "2026-06-13T07:58:00Z",
   "locked_at_utc": "2026-06-13T08:00:00Z",
+  "generated_at": "2026-06-13T08:00:00Z",
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": ["WC26-M037", "WC26-M038"],
     "excluded_played_fixture_ids": ["WC26-M001", "WC26-M002"],
-    "lock_basis": "unplayed at locked_at_utc"
+    "pending_undetermined_fixture_ids": ["WC26-R32-01", "WC26-R32-02"],
+    "lock_basis": "unplayed and both teams known at locked_at_utc"
   },
   "sources": [
     {"name": "fixtures", "as_of": "2026-06-12T20:00:00Z", "stale": false},

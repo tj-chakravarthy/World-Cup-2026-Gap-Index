@@ -6,6 +6,8 @@ Several scenarios are built so the *old* 2018/2022 order (overall GD first)
 would give a different answer — they fail loudly if the order regresses.
 """
 
+import pytest
+
 from src.models.tiebreakers import (
     Match,
     Standing,
@@ -13,6 +15,8 @@ from src.models.tiebreakers import (
     rank_group,
     rank_third_placed,
 )
+
+pytestmark = pytest.mark.mandatory
 
 
 def test_no_ties_sorts_by_points():

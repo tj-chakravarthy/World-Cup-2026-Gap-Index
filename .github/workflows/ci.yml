@@ -38,11 +38,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
-          cache-dependency-path: web/package-lock.json
-      # npm ci needs web/package-lock.json committed (npm install once locally).
+      # TODO: kör `npm install` lokalt, committa web/package-lock.json, sätt
+      # sen tillbaka `npm ci` + npm-cachen (cache: npm, cache-dependency-path).
+      # Utan lockfil pajar både `npm ci` och setup-nodes cache-steg.
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Lint
         run: npm run lint
       - name: Build

@@ -1,0 +1,8 @@
+[tool.pytest.ini_options]
+# -ra prints a summary of skips with their reasons at the end of every run, so a
+# green CI never quietly implies the mandatory contracts are enforced — the two
+# placeholder suites show up loudly as SKIPPED until their modules land.
+addopts = "-ra --strict-markers"
+markers = [
+    "mandatory: a never-cut contract (PLAN.md Build Order). Skipped == not yet enforced.",
+]
