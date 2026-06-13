@@ -166,12 +166,22 @@ numpy/scipy/pytest), and has no API keys, so Stage 1 was split by what runs here
 **Built but not run (key-gated, no keys here):** `fetch_injuries.py` (API-Football),
 `fetch_odds.py` (The Odds API). Cron-ready; loud exit without the key.
 
-**Deferred — scrape-heavy / blocked, to run on an unblocked box (overnight):**
-- **FBref Tier 1/2 club stats** — the Stage-1 spine and predicted-VAEP input.
-  403 here; soccerdata not installed and wouldn't clear Cloudflare anyway. This
-  is the gating dependency for Stages 2–3; needs a non-blocked network or a
-  cached/mirror dataset. Not yet built.
-- **Transfermarkt market values** — same scrape-heavy/blocked bucket; not built.
+**FBref Tier-1 club stats — resolved via headless Chromium (`fetch_club_stats.py`).**
+The Stage-1 spine and predicted-VAEP input. FBref sits behind a Cloudflare JS
+challenge that no plain HTTP client clears (curl / requests / soccerdata 403
+everywhere, residential or not — confirmed). A real browser executes it: the
+fetcher drives headless Chromium via Selenium, all from apt (chromium,
+chromium-driver, python3-selenium — no pip), and clears CF locally on the dev box
+(helsinki). soccerdata is not used (requests can't clear CF, and it isn't
+apt-packaged). bedford (residential) is a fallback only if the dev IP is flagged.
+Player tables FBref wraps in HTML comments are read from the live DOM or
+comment-stripped. Output: one CSV per (league, season, stat_type) under data/raw/
+(gitignored, regenerable). The ~30-league Tier-1 list (PLAN §1.2) is finalised
+before the full overnight matrix; the five top European leagues (verified ids)
+run first.
+
+**Transfermarkt market values** — same Cloudflare situation; the same
+Chromium/Selenium approach applies, not built yet.
 
 **Deferred — bulk downloads to Stage 2:** StatsBomb full event JSON (VAEP
 training) and Wyscout Figshare events. Only the StatsBomb index is fetched now.
