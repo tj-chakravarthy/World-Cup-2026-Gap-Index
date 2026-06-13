@@ -2,7 +2,14 @@ name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+
+# one run per ref, newer push wins. push only on main so PR branches don't
+# get built twice over.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   python:
@@ -13,10 +20,9 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      # Full requirements is heavy (pymc/xgboost/socceraction). Trim to a
-      # test-only subset if CI gets slow — see PLAN.md Phase 6.
+      # dev subset only; the heavy stack runs in the image, not in CI
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements-dev.txt
       - name: Compile check
         run: python -m compileall src
       - name: Tests

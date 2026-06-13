@@ -1,0 +1,9 @@
+# What the test job actually needs. The heavy modelling stack stays in
+# requirements.txt and gets exercised through the Docker image instead — no
+# point dragging pymc into CI just to run a few numeric tests. The leakage-guard
+# suite that does need it runs there, not here.
+pytest>=8.0.0
+numpy>=1.26.0,<2.0
+scipy>=1.12.0
+pandas>=2.0.0
+pyarrow>=14.0.0

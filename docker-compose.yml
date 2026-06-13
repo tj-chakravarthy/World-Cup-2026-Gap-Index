@@ -2,10 +2,15 @@
 services:
   pipeline:
     build: .
+    # keep it alive so `compose up` doesn't just exit; real work goes through
+    # `docker compose run pipeline ...`
+    command: sleep infinity
     volumes:
       - ./:/app
+    # don't blow up a fresh checkout that hasn't copied .env.example over yet
     env_file:
-      - .env
+      - path: .env
+        required: false
 
   web:
     image: node:20-alpine
