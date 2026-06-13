@@ -181,13 +181,20 @@ stat_type) under data/raw/ (gitignored). League ids/slugs were taken from FBref'
 competitions index (152 comps), not guessed. `src/features/club_stats.py` merges
 the six per-stat CSVs into one tidy player-club row (the Stage-2 input contract).
 
-**Open issue — advanced tables served empty.** `standard` + `shooting` come
-through fully, but FBref currently serves the `passing`/`defense`/`possession`
-tables with empty value cells (class `iz`, no number) to the headless scraper —
-almost certainly rate-limiting after heavy same-page access during today's build.
-The parser is verified correct on standard/shooting; the advanced detail needs a
-cooldown + slower re-test or a different access path before it's usable. No full
-re-pull launched until this is resolved (it would capture empty data).
+**Open issue — FBref withholds ALL Opta-derived advanced stats from the headless
+scrape.** Only basic box-score stats come through (appearances, minutes, goals,
+assists, shots, SoT, cards, pens). The advanced stats are withheld: not just the
+`passing`/`defense`/`possession` tables (empty `iz` cells), but also xG / npxG /
+xA / progression on the `standard` and `shooting` tables (those column groups are
+absent entirely). Established it is NOT rate/volume: a fresh, never-hit league
+(Turkey) returns the same empty advanced data, and `standard`/`shooting` basics
+work regardless of how often hit. bedford can't serve as a load-shedding node —
+its IP can't clear Cloudflare at all (4 reloads stuck). The likely lever is
+defeating headless detection with a headed browser under xvfb (helsinki clears
+CF); to be tested. Until then, the player feature layer (`player_features.py`)
+runs on the basic set and auto-includes the advanced stats once they flow. No
+full league-wide re-pull launched yet — it would capture thin (no-xG) data we'd
+re-pull anyway.
 
 **FBref Tier-1 = 18 first-tier European leagues** (Big 5 + NED/POR/BEL, the
 English Championship, and TUR/SCO/SUI/AUT/GRE/DEN/CRO/POL/CZE). They share an
