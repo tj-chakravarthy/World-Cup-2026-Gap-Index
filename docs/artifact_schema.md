@@ -77,6 +77,11 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
 4. Probabilities are calibrated and sum to 1 within tolerance.
 5. `coverage` id sets are pairwise disjoint; `predictions[]` has exactly one
    entry per `covered_fixture_ids` and none for the excluded/pending sets.
+6. **Completeness:** the three `coverage` sets together account for *every*
+   fixture in the canonical list (`fixtures_2026.csv`) — no omissions, no
+   unknown ids. Enforced by passing `load_fixture_ids()` to `validate()`/`write()`;
+   a locked file **cannot** be written without it (the permanent artifact can't
+   be re-issued, so a dropped fixture is unrecoverable).
 
 ## Example (locked, abridged)
 

@@ -45,20 +45,54 @@ def _locked() -> dict:
     }
 
 
+def _universe(a: dict) -> set[str]:
+    """The fixture-id set the artifact's coverage should exactly cover."""
+    c = a["coverage"]
+    return (set(c["covered_fixture_ids"]) | set(c["excluded_played_fixture_ids"])
+            | set(c["pending_undetermined_fixture_ids"]))
+
+
 def test_valid_locked_passes():
     validate(_locked())
 
 
 def test_write_roundtrips_and_validates(tmp_path):
-    path = write(_locked(), tmp_path / "predictions_locked_20260613.json")
+    a = _locked()
+    path = write(a, tmp_path / "predictions_locked_20260613.json", _universe(a))
     validate(json.loads(path.read_text()))
 
 
 def test_locked_file_never_overwritten(tmp_path):
+    a = _locked()
     p = tmp_path / "predictions_locked_20260613.json"
-    write(_locked(), p)
+    write(a, p, _universe(a))
     with pytest.raises(SchemaError, match="rewrite locked"):
-        write(_locked(), p)
+        write(a, p, _universe(a))
+
+
+def test_locked_write_requires_fixture_universe(tmp_path):
+    # the permanent artifact can't skip the completeness check
+    with pytest.raises(SchemaError, match="fixture universe"):
+        write(_locked(), tmp_path / "predictions_locked_20260613.json")
+
+
+def test_coverage_completeness_passes_for_full_universe():
+    a = _locked()
+    validate(a, _universe(a))
+
+
+def test_coverage_completeness_rejects_omitted_fixture():
+    a = _locked()
+    # a fixture that exists but sits in none of the three sets
+    with pytest.raises(SchemaError, match="omits"):
+        validate(a, _universe(a) | {"WC26-M999"})
+
+
+def test_coverage_completeness_rejects_unknown_id():
+    a = _locked()
+    # coverage lists the pending id, but it's not in the universe
+    with pytest.raises(SchemaError, match="unknown fixture"):
+        validate(a, {"WC26-M037", "WC26-M001"})
 
 
 def test_locked_at_after_generated_rejected():

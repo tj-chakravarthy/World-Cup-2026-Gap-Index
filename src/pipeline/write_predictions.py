@@ -11,6 +11,7 @@ it, so validation stays out of the modelling stack and runs in plain CI.
 
 from __future__ import annotations
 
+import csv
 import json
 from datetime import datetime
 from pathlib import Path
@@ -29,9 +30,19 @@ _COVERAGE_SETS = (
 )
 _MODEL_SOURCE = {"locked": "locked_minimal", "live": "live_full"}
 
+_FIXTURES_CSV = Path(__file__).resolve().parents[2] / "data" / "raw" / "fixtures_2026.csv"
+
 
 class SchemaError(ValueError):
     """Artifact violates docs/artifact_schema.md."""
+
+
+def load_fixture_ids(path: str | Path = _FIXTURES_CSV) -> set[str]:
+    """The canonical fixture-id universe (all 104), for the completeness check
+    (invariant 6). Pass to validate()/write() so a locked file can't drop a
+    fixture and still pass."""
+    with open(path, newline="") as f:
+        return {row["fixture_id"] for row in csv.DictReader(f)}
 
 
 def _utc(value: str, field: str) -> datetime:
@@ -41,8 +52,11 @@ def _utc(value: str, field: str) -> datetime:
         raise SchemaError(f"{field}: not an ISO-8601 timestamp: {value!r}") from e
 
 
-def validate(artifact: dict) -> None:
-    """Raise SchemaError if `artifact` breaks any documented invariant."""
+def validate(artifact: dict, fixture_universe: set[str] | None = None) -> None:
+    """Raise SchemaError if `artifact` breaks any documented invariant. When
+    `fixture_universe` is given (the canonical fixture-id set), also enforce that
+    the three coverage sets together account for exactly it — no omitted
+    fixtures, no unknown ids (invariant 6)."""
     missing = _TOP_KEYS - artifact.keys()
     if missing:
         raise SchemaError(f"missing top-level keys: {sorted(missing)}")
@@ -81,6 +95,22 @@ def validate(artifact: dict) -> None:
             f"only_in_predictions={sorted(set(pred_ids) - sets['covered_fixture_ids'])})"
         )
 
+    # invariant 6: the three sets together account for every fixture, no extras
+    if fixture_universe is not None:
+        union = (sets["covered_fixture_ids"] | sets["excluded_played_fixture_ids"]
+                 | sets["pending_undetermined_fixture_ids"])
+        missing = fixture_universe - union
+        unknown = union - fixture_universe
+        if missing:
+            raise SchemaError(
+                f"coverage omits {len(missing)} fixture(s) — the three sets must "
+                f"account for every fixture (invariant 6): {sorted(missing)[:10]}"
+            )
+        if unknown:
+            raise SchemaError(
+                f"coverage references unknown fixture ids (invariant 6): {sorted(unknown)}"
+            )
+
     if kind == "locked":
         locked_at = artifact["locked_at_utc"]
         if locked_at is None:
@@ -114,10 +144,18 @@ def validate(artifact: dict) -> None:
             )
 
 
-def write(artifact: dict, path: str | Path) -> Path:
+def write(artifact: dict, path: str | Path,
+          fixture_universe: set[str] | None = None) -> Path:
     """Validate then write `artifact` to `path`. A locked file is never allowed
-    to overwrite an existing one (invariant 2)."""
-    validate(artifact)
+    to overwrite an existing one (invariant 2), and must be checked for coverage
+    completeness against the canonical fixture set (invariant 6) — the permanent
+    artifact can't be re-issued, so an omitted fixture is unrecoverable."""
+    if artifact["kind"] == "locked" and fixture_universe is None:
+        raise SchemaError(
+            "locked artifact must be validated against the fixture universe "
+            "(coverage completeness, invariant 6) — pass load_fixture_ids()"
+        )
+    validate(artifact, fixture_universe)
     path = Path(path)
     if artifact["kind"] == "locked" and path.exists():
         raise SchemaError(f"refusing to rewrite locked file: {path} (invariant 2)")
