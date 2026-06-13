@@ -130,6 +130,10 @@ def validate(artifact: dict, fixture_universe: set[str] | None = None) -> None:
                 f"{fx}: model_source must be {_MODEL_SOURCE[kind]!r} in a {kind} file"
             )
         wdl = p["wdl"]
+        for outcome in ("team1", "draw", "team2"):
+            pv = wdl[outcome]
+            if not 0.0 <= pv <= 1.0:
+                raise SchemaError(f"{fx}: wdl[{outcome}]={pv} out of [0,1] (invariant 4)")
         s = wdl["team1"] + wdl["draw"] + wdl["team2"]
         if abs(s - 1.0) > WDL_TOL:
             raise SchemaError(f"{fx}: wdl sums to {s}, not 1 (invariant 4)")

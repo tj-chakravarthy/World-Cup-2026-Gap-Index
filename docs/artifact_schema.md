@@ -61,7 +61,7 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
 | `kickoff_utc` | UTC ISO-8601 | |
 | `team1`, `team2` | string (FIFA code) | deterministic ordering per PLAN.md §4.1 |
 | `model_source` | `"locked_minimal"` \| `"live_full"` | honesty label (PLAN.md §0). Live entries for fixtures also in a locked file keep `"live_full"`; the locked timestamp is **never** retro-credited to the full model. |
-| `wdl` | `{team1, draw, team2}` floats, sum≈1 | calibrated, order-invariant marginals |
+| `wdl` | `{team1, draw, team2}` floats in [0,1], sum≈1 | calibrated, order-invariant marginals |
 | `scorelines` | `[{score:"H-A", p:float}]` | top-N from Dixon-Coles (member C) |
 | `members` | object | per-member W/D/L for audit, e.g. `{"A":{...}, "C":{...}}`; omit on the fan-facing mirror |
 | `conformal_set` | string[] \| null | α=0.10 set; **method surface only** (PLAN.md §7.1a), `null` if disabled |
@@ -74,7 +74,7 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
 2. Locked file is content-addressed in git history and never rewritten.
 3. `model_source` is per-prediction; a fixture predicted by both the locked and
    live files appears once in each, never merged.
-4. Probabilities are calibrated and sum to 1 within tolerance.
+4. Probabilities are calibrated, each in [0,1], and sum to 1 within tolerance.
 5. `coverage` id sets are pairwise disjoint; `predictions[]` has exactly one
    entry per `covered_fixture_ids` and none for the excluded/pending sets.
 6. **Completeness:** the three `coverage` sets together account for *every*

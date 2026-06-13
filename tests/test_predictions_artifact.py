@@ -130,6 +130,14 @@ def test_wdl_must_sum_to_one():
         validate(a)
 
 
+def test_wdl_components_must_be_in_unit_interval():
+    a = _locked()
+    # sums to 1 but contains impossible probabilities — must not pass on the sum alone
+    a["predictions"][0]["wdl"] = {"team1": 1.2, "draw": -0.2, "team2": 0.0}
+    with pytest.raises(SchemaError, match=r"out of \[0,1\]"):
+        validate(a)
+
+
 def test_locked_requires_locked_at_utc():
     a = _locked()
     a["locked_at_utc"] = None
