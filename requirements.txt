@@ -1,20 +1,22 @@
 soccerdata>=1.9.0
 statsbombpy>=1.3.0
 socceraction>=1.5.3
+kaggle>=1.6.0       # Elo history + martj42 results pull
 pandas>=2.0.0
 pyarrow>=14.0.0
 requests>=2.31.0
 beautifulsoup4>=4.12.0
+lxml>=5.0.0         # read_html needs a real parser for the squad pages
 rapidfuzz>=3.0.0
 unidecode>=1.3.0
 python-dotenv>=1.0.0
 xgboost>=2.0.0
-scikit-learn>=1.4.0
+scikit-learn>=1.4.0,<1.6   # sklearn 1.6 changed estimator tags and mapie 0.8.6 chokes on it
 pymc>=5.0.0
 shap>=0.44.0
 mapie==0.8.6        # PINNED — verify import paths against this version's docs
 lifelines>=0.28.0
-numpy>=1.26.0
+numpy>=1.26.0,<2.0         # the socceraction/shap deps still want numpy 1.x
 scipy>=1.12.0
 matplotlib>=3.8.0
 seaborn>=0.13.0
