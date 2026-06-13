@@ -32,6 +32,8 @@ data/processed/**
 # reference + a structured fixture feed), not bulk scrape → tracked, not ignored.
 !data/raw/fixtures_2026.csv
 !data/raw/venues_2026.csv
+# team-code crosswalk: small, canonical, hand-reviewed source-name -> FIFA map → tracked.
+!data/raw/team_codes.csv
 # data/predictions/ is the committed record (locked file's verifiable git timestamp,
 # append-only audit log, market benchmark) — no ignore rule, tracked normally.
 
