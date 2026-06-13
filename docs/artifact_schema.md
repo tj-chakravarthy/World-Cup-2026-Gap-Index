@@ -56,8 +56,8 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
 
 | field | type | notes |
 |---|---|---|
-| `fixture_id` | string | matches `fixtures_2026.csv` |
-| `stage` | string | `"group"`, `"R32"`, `"R16"`, `"QF"`, `"SF"`, `"final"` |
+| `fixture_id` | string | matches `fixtures_2026.csv` — `WC26-M{match_number:03d}` (FIFA official match number 1..104, stable for group and knockout fixtures alike) |
+| `stage` | string | `"group"`, `"R32"`, `"R16"`, `"QF"`, `"SF"`, `"third_place"`, `"final"` |
 | `kickoff_utc` | UTC ISO-8601 | |
 | `team1`, `team2` | string (FIFA code) | deterministic ordering per PLAN.md §4.1 |
 | `model_source` | `"locked_minimal"` \| `"live_full"` | honesty label (PLAN.md §0). Live entries for fixtures also in a locked file keep `"live_full"`; the locked timestamp is **never** retro-credited to the full model. |
@@ -91,7 +91,7 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
   "coverage": {
     "covered_fixture_ids": ["WC26-M037", "WC26-M038"],
     "excluded_played_fixture_ids": ["WC26-M001", "WC26-M002"],
-    "pending_undetermined_fixture_ids": ["WC26-R32-01", "WC26-R32-02"],
+    "pending_undetermined_fixture_ids": ["WC26-M073", "WC26-M074"],
     "lock_basis": "unplayed and both teams known at locked_at_utc"
   },
   "sources": [
