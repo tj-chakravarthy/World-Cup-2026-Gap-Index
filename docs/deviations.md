@@ -174,10 +174,20 @@ fetcher drives headless Chromium via Selenium, all from apt (chromium,
 chromium-driver, python3-selenium — no pip), and clears CF locally on the dev box
 (helsinki). soccerdata is not used (requests can't clear CF, and it isn't
 apt-packaged). bedford (residential) is a fallback only if the dev IP is flagged.
-Player tables FBref wraps in HTML comments are read from the live DOM or
-comment-stripped. Output: one CSV per (league, season, stat_type) under data/raw/
-(gitignored, regenerable). League ids/slugs were taken from FBref's competitions
-index (152 comps), not guessed.
+Player tables (often comment-wrapped, multi-level over-headers) are parsed by
+each cell's FBref `data-stat` key — `pandas.read_html` silently drops the grouped
+stat columns to NaN on these tables. Output: one CSV per (league, season,
+stat_type) under data/raw/ (gitignored). League ids/slugs were taken from FBref's
+competitions index (152 comps), not guessed. `src/features/club_stats.py` merges
+the six per-stat CSVs into one tidy player-club row (the Stage-2 input contract).
+
+**Open issue — advanced tables served empty.** `standard` + `shooting` come
+through fully, but FBref currently serves the `passing`/`defense`/`possession`
+tables with empty value cells (class `iz`, no number) to the headless scraper —
+almost certainly rate-limiting after heavy same-page access during today's build.
+The parser is verified correct on standard/shooting; the advanced detail needs a
+cooldown + slower re-test or a different access path before it's usable. No full
+re-pull launched until this is resolved (it would capture empty data).
 
 **FBref Tier-1 = 18 first-tier European leagues** (Big 5 + NED/POR/BEL, the
 English Championship, and TUR/SCO/SUI/AUT/GRE/DEN/CRO/POL/CZE). They share an
