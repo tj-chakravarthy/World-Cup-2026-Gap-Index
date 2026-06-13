@@ -8,9 +8,17 @@ back to running on a residential box (bedford) only if an IP gets flagged.
 
 One CSV per (league, season, stat_type) under data/raw/ — large, regenerable, so
 gitignored. The scrape is the slow/fragile step: it caches on disk (skips files
-already pulled), waits out the challenge, and is polite between requests. Player
-tables are sometimes wrapped in HTML comments; we read them from the live DOM
-when present and strip comments otherwise.
+already pulled), waits out the challenge, and is polite between requests. FBref
+hides most player tables inside HTML comments and uses multi-level over-headers,
+so we strip the comments and parse by each cell's data-stat key — pandas.read_html
+silently drops the grouped stat columns (Total/Short/… → NaN) on these tables.
+
+KNOWN ISSUE: `standard` and `shooting` come through fully, but FBref currently
+serves the `passing`/`defense`/`possession` advanced tables with empty value
+cells (class "iz", no number) to this headless scraper — almost certainly
+rate-limiting/anti-scrape after heavy same-page access. Needs a cooldown + slower
+re-test (or a different access path) before that detail is usable; the parser
+itself is correct (verified on standard/shooting).
 
 Run a pilot:   python -m src.pipeline.fetch_club_stats --league ENG --season 2023-2024
 Run the lot:   python -m src.pipeline.fetch_club_stats
@@ -21,7 +29,6 @@ from __future__ import annotations
 import argparse
 import sys
 import time
-from io import StringIO
 from pathlib import Path
 
 import pandas as pd
@@ -107,15 +114,21 @@ def _load(driver, url: str, table_id: str, timeout: float = 45.0) -> str:
     raise RuntimeError(f"blocked/timeout loading {url} (title={driver.title!r})")
 
 
-def _clean(df: pd.DataFrame) -> pd.DataFrame:
-    def flat(col):
-        if isinstance(col, tuple):
-            top, sub = str(col[0]), str(col[1])
-            return sub if top.startswith("Unnamed") else f"{top}_{sub}"
-        return col
-    df.columns = [flat(c) for c in df.columns]
-    df = df[df.get("Player") != "Player"].dropna(subset=["Player"])
-    return df.drop(columns=[c for c in df.columns if c == "Matches"], errors="ignore").reset_index(drop=True)
+def _parse_players(table_html: str) -> pd.DataFrame:
+    """Parse the player table by FBref's per-cell data-stat keys (stable ids like
+    'passes_completed', 'xg'), skipping the repeated mid-table header rows.
+    data-stat parsing sidesteps the multi-level over-headers that make
+    pandas.read_html drop the grouped stat columns to NaN."""
+    table = BeautifulSoup(table_html, "lxml").find("table")
+    rows = []
+    for tr in table.select("tbody tr"):
+        if "thead" in (tr.get("class") or []):
+            continue
+        row = {c.get("data-stat"): c.get_text(strip=True)
+               for c in tr.find_all(["th", "td"]) if c.get("data-stat")}
+        if row.get("player"):
+            rows.append(row)
+    return pd.DataFrame(rows).drop(columns=["ranker", "matches"], errors="ignore")
 
 
 def fetch_one(driver, league: str, season: str, stat: str, refresh: bool = False) -> Path:
@@ -125,7 +138,7 @@ def fetch_one(driver, league: str, season: str, stat: str, refresh: bool = False
     if out.exists() and not refresh:
         return out
     url = f"https://fbref.com/en/comps/{comp_id}/{season}/{path}/{season}-{slug}-Stats"
-    df = _clean(pd.read_html(StringIO(_load(driver, url, table_id)))[0])
+    df = _parse_players(_load(driver, url, table_id))
     df.insert(0, "stat_type", stat)
     df.insert(0, "season", season)
     df.insert(0, "league", league)

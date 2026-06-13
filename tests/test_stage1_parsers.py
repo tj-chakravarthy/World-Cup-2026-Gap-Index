@@ -54,18 +54,21 @@ def test_squad_parsers():
     assert r["dob"] == "1992-10-02" and r["caps"] == 70 and r["club"] == "Liverpool"
 
 
-def test_club_stats_clean_drops_repeat_headers_and_matches_col():
+def test_club_stats_parse_by_datastat():
     pytest.importorskip("selenium")
-    pd = pytest.importorskip("pandas")
-    from src.pipeline.fetch_club_stats import _clean
-    df = pd.DataFrame(
-        [["1", "Haaland", 2552, "m1"],
-         ["Rk", "Player", "Min", "Matches"],   # FBref's mid-table repeated header
-         ["2", "Saka", 3000, "m3"]],
-        columns=[("Unnamed: 0_level_0", "Rk"), ("Unnamed: 1_level_0", "Player"),
-                 ("Playing Time", "Min"), ("Unnamed: 3_level_0", "Matches")],
+    pytest.importorskip("pandas")
+    from src.pipeline.fetch_club_stats import _parse_players
+    html = (
+        '<table><tbody>'
+        '<tr class="thead"><th data-stat="player">Player</th>'
+        '<td data-stat="goals">Gls</td></tr>'  # repeated header row -> skipped
+        '<tr><th data-stat="ranker">1</th><td data-stat="player">Erling Haaland</td>'
+        '<td data-stat="team">Manchester City</td><td data-stat="goals">27</td>'
+        '<td data-stat="matches">Matches</td></tr>'
+        '<tr><td data-stat="team">No Player</td><td data-stat="goals">0</td></tr>'  # no player -> skipped
+        '</tbody></table>'
     )
-    out = _clean(df)
-    assert list(out["Player"]) == ["Haaland", "Saka"]
-    assert "Matches" not in out.columns
-    assert "Playing Time_Min" in out.columns
+    df = _parse_players(html)
+    assert list(df["player"]) == ["Erling Haaland"]
+    assert "ranker" not in df.columns and "matches" not in df.columns
+    assert df.loc[0, "goals"] == "27" and df.loc[0, "team"] == "Manchester City"
