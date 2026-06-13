@@ -35,14 +35,31 @@ RAW = REPO / "data" / "raw"
 CHROMIUM = "/usr/bin/chromium"
 CHROMEDRIVER = "/usr/bin/chromedriver"
 
-# FBref comp-id + URL slug. Seeded with the top-5 European leagues (verified ids);
-# the full Tier-1 ~30-league list (PLAN §1.2) is finished before the overnight run.
+# FBref comp-id + URL slug. Tier-1 = senior men's first-tier European leagues
+# (PLAN §1.2). Ids verified against FBref's competitions index. These all run an
+# Aug–May calendar, so they share the {YYYY}-{YYYY} season format below. The
+# calendar-year / non-European leagues (MLS, Brazil, Argentina, J1, K-League,
+# Saudi, Scandinavia, …) use single-year season strings and need per-league
+# season handling — tracked as a follow-up, see docs/deviations.md.
 LEAGUES = {
     "ENG": (9, "Premier-League"),
     "ESP": (12, "La-Liga"),
     "ITA": (11, "Serie-A"),
     "GER": (20, "Bundesliga"),
     "FRA": (13, "Ligue-1"),
+    "NED": (23, "Eredivisie"),
+    "POR": (32, "Primeira-Liga"),
+    "BEL": (37, "Belgian-Pro-League"),
+    "ENG2": (10, "Championship"),
+    "TUR": (26, "Super-Lig"),
+    "SCO": (40, "Scottish-Premiership"),
+    "SUI": (57, "Swiss-Super-League"),
+    "AUT": (56, "Austrian-Bundesliga"),
+    "GRE": (27, "Super-League-Greece"),
+    "DEN": (50, "Danish-Superliga"),
+    "CRO": (63, "Hrvatska-NL"),
+    "POL": (36, "Ekstraklasa"),
+    "CZE": (66, "Czech-First-League"),
 }
 # pre-tournament club seasons for the backtest/CV set + the live season (PLAN §1.2).
 SEASONS = ["2017-2018", "2020-2021", "2021-2022", "2023-2024", "2025-2026"]

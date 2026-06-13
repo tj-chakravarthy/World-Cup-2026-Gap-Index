@@ -176,9 +176,16 @@ chromium-driver, python3-selenium — no pip), and clears CF locally on the dev 
 apt-packaged). bedford (residential) is a fallback only if the dev IP is flagged.
 Player tables FBref wraps in HTML comments are read from the live DOM or
 comment-stripped. Output: one CSV per (league, season, stat_type) under data/raw/
-(gitignored, regenerable). The ~30-league Tier-1 list (PLAN §1.2) is finalised
-before the full overnight matrix; the five top European leagues (verified ids)
-run first.
+(gitignored, regenerable). League ids/slugs were taken from FBref's competitions
+index (152 comps), not guessed.
+
+**FBref Tier-1 = 18 first-tier European leagues** (Big 5 + NED/POR/BEL, the
+English Championship, and TUR/SCO/SUI/AUT/GRE/DEN/CRO/POL/CZE). They share an
+Aug–May calendar, so one `{YYYY}-{YYYY}` season format covers them. The
+calendar-year / non-European leagues PLAN §1.2 also implies (MLS, Brazil,
+Argentina, Liga MX, J1, K-League, Saudi, Scandinavia, …) use single-year season
+strings and patchier advanced-stat coverage; they need per-league season handling
+and are a follow-up, not part of the first matrix run.
 
 **Transfermarkt market values** — same Cloudflare situation; the same
 Chromium/Selenium approach applies, not built yet.
@@ -186,5 +193,7 @@ Chromium/Selenium approach applies, not built yet.
 **Deferred — bulk downloads to Stage 2:** StatsBomb full event JSON (VAEP
 training) and Wyscout Figshare events. Only the StatsBomb index is fetched now.
 
-**Not yet built (small, keyless, next):** Open-Meteo heat-forecast wiring (climate
-normals are already in `venues_2026.csv` from Stage 0).
+**Built since:** Open-Meteo heat-forecast wiring (`fetch_weather.py`, keyless) —
+the live half of the heat feature on top of the climate normals already in
+`venues_2026.csv`. Still open: Transfermarkt, the non-European FBref leagues, and
+the 2018/2022 squads.
