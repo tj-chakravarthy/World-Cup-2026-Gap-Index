@@ -91,6 +91,35 @@ def test_fifa_ranking_is_final_fallback():
     assert rank_group(matches, fifa) == ["D", "A", "B", "C"]
 
 
+def test_group_unresolved_when_fifa_rank_ties_raises():
+    """A and B identical on points, H2H, overall GD/goals AND conduct — only the
+    FIFA ranking is left, but they share a rank. The current edition can't
+    separate them; Art. 13(h) (older editions) isn't loaded, so fail loud rather
+    than fabricate an order (cf. test_fifa_ranking_is_final_fallback)."""
+    matches = [
+        Match("A", "B", 1, 1),
+        Match("A", "C", 2, 0),
+        Match("A", "D", 0, 1),
+        Match("B", "C", 2, 0),
+        Match("B", "D", 0, 1),
+        Match("C", "D", 0, 0),
+    ]
+    fifa = {"A": 5, "B": 5, "C": 3, "D": 4}  # A,B share a rank -> unseparable
+    with pytest.raises(ValueError, match="Art. 13"):
+        rank_group(matches, fifa)
+
+
+def test_third_place_unresolved_when_fifa_rank_ties_raises():
+    """Two thirds identical on every criterion incl. the FIFA ranking — fail loud
+    (Art. 13 h) instead of an arbitrary order."""
+    thirds = [
+        Standing("C", points=3, gd=0, gf=4, conduct=0, fifa_rank=8),
+        Standing("D", points=3, gd=0, gf=4, conduct=0, fifa_rank=8),
+    ]
+    with pytest.raises(ValueError, match="Art. 13"):
+        rank_third_placed(thirds)
+
+
 def test_three_way_tie_partial_break_reapplies_h2h():
     """Three teams (A,B,C) tied on 6 pts. The full 3-way H2H table separates A
     (bottom) but leaves B and C identical on H2H pts/GD/goals. Step 2 re-applies

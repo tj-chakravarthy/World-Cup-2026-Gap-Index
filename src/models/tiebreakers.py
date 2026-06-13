@@ -13,7 +13,11 @@ Ranking of teams equal on points (Art. 13 §1):
     between the *remaining* tied teams only; whoever is still equal is ranked by
     d) overall goal difference  e) overall goals scored  f) team conduct score.
     Step 2 does not restart once a criterion separates a team.
-  Step 3: g) most recent FIFA ranking  h) successively older editions.
+  Step 3: g) most recent FIFA ranking; h) successively older editions if (g)
+    still ties. A single ranking edition is a strict total order over distinct
+    teams (unique integer positions), so (g) separates them; we carry the current
+    edition and fail loud if it somehow doesn't, rather than fabricate an order.
+    (h) isn't wired — it can only matter under duplicate ranks, i.e. bad data.
 
 Best eight third-placed teams (Art. 13 §2): overall points -> GD -> goals ->
 conduct score -> FIFA ranking. No head-to-head (the thirds come from different
@@ -120,15 +124,33 @@ class _Ctx:
     fifa_rank: dict[str, int]
 
 
+def _check_separated(ordered: list, key) -> None:
+    """Art. 13's last criterion is the current FIFA ranking. If two items reach
+    it equal on everything AND share a rank, the current edition can't separate
+    them; Art. 13(h) would consult successively older editions, which we don't
+    carry. Fail loud rather than fabricate an order (a real edition has unique
+    ranks, so this only fires on bad data)."""
+    for a, b in zip(ordered, ordered[1:]):
+        if key(a) == key(b):
+            raise ValueError(
+                f"Art. 13: {getattr(a, 'team', a)} and {getattr(b, 'team', b)} are "
+                "equal on every criterion including the current FIFA ranking; "
+                "separating them needs older ranking editions (Art. 13 h), not loaded"
+            )
+
+
 def _order_overall(tied: list[str], ctx: _Ctx) -> list[str]:
     """Art. 13 §1 d)-f) then Step 3 g)-h). A lexicographic sort is exactly the
-    'apply next criterion to whoever is still tied, never restart' rule. FIFA
-    rank is a strict total order, so this always resolves."""
+    'apply next criterion to whoever is still tied, never restart' rule. The FIFA
+    ranking is the last key; _check_separated fails loud if it still leaves a tie
+    (would need older editions, Art. 13 h)."""
     def key(t: str):
         r = ctx.overall[t]
         # higher gd/gf/conduct first; lower (better) FIFA rank first
         return (r.gd, r.gf, ctx.conduct.get(t, 0), -ctx.fifa_rank[t])
-    return sorted(tied, key=key, reverse=True)
+    ordered = sorted(tied, key=key, reverse=True)
+    _check_separated(ordered, key)
+    return ordered
 
 
 def _order_tied(tied: list[str], ctx: _Ctx) -> list[str]:
@@ -191,9 +213,10 @@ def rank_group(
 def rank_third_placed(thirds: Iterable[Standing]) -> list[Standing]:
     """Rank the third-placed teams (Art. 13 §2): overall points -> GD -> goals
     -> conduct -> FIFA ranking. No head-to-head; the Standings already carry
-    every field, so this is a single lexicographic sort."""
-    return sorted(
-        thirds,
-        key=lambda s: (s.points, s.gd, s.gf, s.conduct, -s.fifa_rank),
-        reverse=True,
-    )
+    every field, so this is a single lexicographic sort. Fails loud (Art. 13 h)
+    if two thirds tie through the FIFA ranking too."""
+    def key(s: Standing):
+        return (s.points, s.gd, s.gf, s.conduct, -s.fifa_rank)
+    ordered = sorted(thirds, key=key, reverse=True)
+    _check_separated(ordered, key)
+    return ordered
