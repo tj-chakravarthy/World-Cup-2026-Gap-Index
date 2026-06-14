@@ -30,7 +30,7 @@ All public data. The inputs and where they come from:
 - International match results, about 150 years of them — [martj42](https://github.com/martj42/international_results) (GitHub)
 - National-team Elo ratings — [eloratings.net](https://www.eloratings.net/)
 - 2026 fixtures and the 16 venues — [fixturedownload.com](https://fixturedownload.com/)
-- The 48 squads, 1,248 players — Wikipedia
+- The 48 squads, 1,248 players (plus the 2018 and 2022 squads for backtesting) — Wikipedia
 - Each team's manager, for coaching quality — StatsBomb match data (past tournaments), Wikipedia (2026)
 - Club strength, as club Elo — [clubelo.com](http://clubelo.com/)
 - Club-season player stats (appearances, minutes, goals, assists, shots) — [FBref](https://fbref.com/)
@@ -51,9 +51,10 @@ used only for the tiebreakers, not as a feature.
 - Every gap is reported with an uncertainty band. With only a few tournaments per
   nation, a single run can swing the picture, so a point estimate on its own would
   mislead.
-- No accuracy numbers yet, on purpose. The test is whether the player indices beat a
-  plain Elo-plus-market-value baseline. I'll report that result either way, with
-  intervals, once the full model is validated.
+- No accuracy numbers yet, on purpose. The model is validated by backtesting against
+  recent tournaments (World Cups 2018 and 2022, Euros 2020 and 2024, Copa América
+  2024): the test is whether the player indices beat a plain Elo-plus-market-value
+  baseline. I'll report that result either way, with intervals.
 
 ## Status
 
