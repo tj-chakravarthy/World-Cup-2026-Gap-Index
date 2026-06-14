@@ -33,7 +33,8 @@ All public data. The inputs and where they come from:
 - The 48 squads, 1,248 players — Wikipedia
 - Each team's manager, for coaching quality — StatsBomb match data (past tournaments), Wikipedia (2026)
 - Club strength, as club Elo — [clubelo.com](http://clubelo.com/)
-- Club-season player stats (appearances, minutes, goals, shots, on-ball actions) — [FBref](https://fbref.com/)
+- Club-season player stats (appearances, minutes, goals, assists, shots) — [FBref](https://fbref.com/)
+- Club-season expected goals and assists (xG, npxG, xA, buildup) — [Understat](https://understat.com/)
 - Match event data from past tournaments, used to value player actions (VAEP) — [StatsBomb open data](https://github.com/statsbomb/open-data)
 - Venue temperature forecasts — [Open-Meteo](https://open-meteo.com/)
 
