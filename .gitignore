@@ -36,6 +36,8 @@ data/processed/**
 !data/raw/team_codes.csv
 # squads: 48 final 26-man rosters, canonical tournament input → tracked.
 !data/raw/squads_2026.csv
+!data/raw/squads_2018.csv
+!data/raw/squads_2022.csv
 # name overrides: hand-curated, append-only manual name corrections → tracked.
 !data/raw/name_overrides.csv
 # managers_2026: canonical skeleton, filled from Wikipedia → tracked.
