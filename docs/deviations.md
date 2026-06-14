@@ -16,9 +16,14 @@ We use keyless public feeds instead: `eloratings.net/World.tsv` + `en.teams.tsv`
 WC2026 feed (`src/pipeline/fetch_fixtures_venues.py`). Same underlying data; no
 credentials means CI and the daily cron run without secrets.
 
-Note: `fetch_elo.py` delivers current Elo only. Year-end snapshots needed for
-the nested-CV folds (§4.5) aren't yet wired — flagged as a TODO in that file
-since it doesn't block the Stage-0 lock.
+Note: `fetch_elo.py` delivers current eloratings.net Elo only (kept as the
+member-E live baseline). The historical pre-tournament snapshots the nested-CV
+folds (§4.5) and the per-tournament ELO index need are **computed ourselves** from
+match_results (`src/features/elo_history.py`, World Football Elo conventions: K by
+importance, goal-difference multiplier, 100 home advantage) rather than pulled from
+the Kaggle eloratings history — keyless and reproducible. Snapshots for the 6
+tournaments land in data/processed/elo_pretournament.csv; sanity-checked, the 2026
+top is Spain/Argentina/France/England/Brazil.
 
 ---
 
