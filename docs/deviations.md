@@ -181,20 +181,27 @@ stat_type) under data/raw/ (gitignored). League ids/slugs were taken from FBref'
 competitions index (152 comps), not guessed. `src/features/club_stats.py` merges
 the six per-stat CSVs into one tidy player-club row (the Stage-2 input contract).
 
-**Open issue — FBref withholds ALL Opta-derived advanced stats from the headless
-scrape.** Only basic box-score stats come through (appearances, minutes, goals,
-assists, shots, SoT, cards, pens). The advanced stats are withheld: not just the
-`passing`/`defense`/`possession` tables (empty `iz` cells), but also xG / npxG /
-xA / progression on the `standard` and `shooting` tables (those column groups are
-absent entirely). Established it is NOT rate/volume: a fresh, never-hit league
-(Turkey) returns the same empty advanced data, and `standard`/`shooting` basics
-work regardless of how often hit. bedford can't serve as a load-shedding node —
-its IP can't clear Cloudflare at all (4 reloads stuck). The likely lever is
-defeating headless detection with a headed browser under xvfb (helsinki clears
-CF); to be tested. Until then, the player feature layer (`player_features.py`)
-runs on the basic set and auto-includes the advanced stats once they flow. No
-full league-wide re-pull launched yet — it would capture thin (no-xG) data we'd
-re-pull anyway.
+**Resolved issue — FBref serves only basic box-score stats; the Opta-derived
+advanced columns are not in the delivered HTML at all.** The `standard` table comes
+back with just games/minutes/goals/assists/pens/cards/per90. `data-stat="xg"` (and
+`npxg`, `xg_assist`, `progressive_carries`, `progressive_passes`) appear **zero
+times** in the page source. The columns are absent, not blank. This is structural,
+not an access barrier, and the earlier "xvfb headed fetch" lever is **falsified**
+(tested 2026-06-14):
+- Not rate/volume: a fresh, never-hit league (Turkey) returns the same stripped table.
+- Not headless detection: a HEADED Chromium under xvfb returns the same stripped table.
+- Not IP/Cloudflare: bedford (a different residential IP) clears CF cleanly under
+  headed-xvfb and still gets no advanced columns. So bedford CAN clear CF — the
+  earlier "bedford IP can't clear CF" note above was a headless-only artifact.
+
+FBref appears to gate Opta advanced stats from automated extraction since the 2024
+StatsBomb→Opta switch. Conclusion: FBref via Selenium = basic box-score only, full
+stop; no headless/headed/IP trick recovers xG. The replacement source for club-level
+xG / advanced metrics is **Understat** (keyless, xG embedded as a JSON blob in the
+page, no Cloudflare; Big-5 + RPL) — to be wired as the advanced-club feed. StatsBomb
+open-data covers the tournament events (VAEP input), not club seasons. The basic
+FBref set still feeds `player_features.py`; the advanced rate features stay dormant
+there until the Understat feed lands.
 
 **FBref Tier-1 = 18 first-tier European leagues** (Big 5 + NED/POR/BEL, the
 English Championship, and TUR/SCO/SUI/AUT/GRE/DEN/CRO/POL/CZE). They share an
