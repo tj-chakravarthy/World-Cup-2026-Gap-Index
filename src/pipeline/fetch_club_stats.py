@@ -13,15 +13,16 @@ hides most player tables inside HTML comments and uses multi-level over-headers,
 so we strip the comments and parse by each cell's data-stat key — pandas.read_html
 silently drops the grouped stat columns (Total/Short/… → NaN) on these tables.
 
-KNOWN ISSUE: `standard` and `shooting` come through fully, but FBref currently
-serves the `passing`/`defense`/`possession` advanced tables with empty value
-cells (class "iz", no number) to this headless scraper — almost certainly
-rate-limiting/anti-scrape after heavy same-page access. Needs a cooldown + slower
-re-test (or a different access path) before that detail is usable; the parser
-itself is correct (verified on standard/shooting).
+NOTE: FBref serves real data only on the `standard` and `shooting` tables (basic
+box-score). All Opta advanced stats — xG/npxG/progression plus the whole
+passing/defense/possession/misc tables — are structurally withheld from automated
+extraction (not rate-limiting; tested headed+xvfb on a second IP — see
+docs/deviations.md). So pull `--stats standard,shooting` only; club xG comes from
+Understat (fetch_understat.py). On a box where headless can't clear Cloudflare
+(e.g. bedford), run headed under xvfb: `xvfb-run -a python ... --headed`.
 
-Run a pilot:   python -m src.pipeline.fetch_club_stats --league ENG --season 2023-2024
-Run the lot:   python -m src.pipeline.fetch_club_stats
+Run a pilot:   python -m src.pipeline.fetch_club_stats --league ENG --season 2023-2024 --stats standard
+Run the lot:   python -m src.pipeline.fetch_club_stats --stats standard,shooting
 """
 
 from __future__ import annotations
@@ -82,13 +83,16 @@ STATS = {
 DELAY_S = 4.0  # polite gap between page loads
 
 
-def make_driver() -> webdriver.Chrome:
+def make_driver(headless: bool = True) -> webdriver.Chrome:
     opts = Options()
     opts.binary_location = CHROMIUM
-    for a in ("--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu",
-              "--window-size=1920,1080", "--disable-blink-features=AutomationControlled",
-              "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-              "(KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"):
+    args = ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu",
+            "--window-size=1920,1080", "--disable-blink-features=AutomationControlled",
+            "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"]
+    if headless:
+        args.insert(0, "--headless=new")  # else headed (under xvfb) where headless can't clear CF
+    for a in args:
         opts.add_argument(a)
     opts.add_experimental_option("excludeSwitches", ["enable-automation"])
     opts.add_experimental_option("useAutomationExtension", False)
@@ -151,14 +155,25 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--league", choices=list(LEAGUES), help="limit to one league")
     ap.add_argument("--season", choices=SEASONS, help="limit to one season")
+    ap.add_argument("--stats", help="comma-separated stat types (default all); "
+                    "use 'standard,shooting' — the only tables FBref serves real data for")
+    ap.add_argument("--headed", action="store_true",
+                    help="run headed under xvfb (needed where headless can't clear Cloudflare)")
     ap.add_argument("--refresh", action="store_true", help="re-pull cached files")
     args = ap.parse_args()
 
     leagues = [args.league] if args.league else list(LEAGUES)
     seasons = [args.season] if args.season else SEASONS
-    jobs = [(lg, sn, st) for lg in leagues for sn in seasons for st in STATS]
+    if args.stats:
+        stat_types = args.stats.split(",")
+        bad = [s for s in stat_types if s not in STATS]
+        if bad:
+            ap.error(f"unknown stat types {bad}; choose from {list(STATS)}")
+    else:
+        stat_types = list(STATS)
+    jobs = [(lg, sn, st) for lg in leagues for sn in seasons for st in stat_types]
 
-    driver = make_driver()
+    driver = make_driver(headless=not args.headed)
     done = fail = 0
     try:
         for i, (lg, sn, st) in enumerate(jobs):
