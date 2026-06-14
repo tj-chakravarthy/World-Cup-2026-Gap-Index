@@ -38,6 +38,9 @@ data/processed/**
 !data/raw/squads_2026.csv
 # name overrides: hand-curated, append-only manual name corrections → tracked.
 !data/raw/name_overrides.csv
+# managers_2026: canonical skeleton, filled from Wikipedia → tracked.
+# (managers_historical.csv is regenerable from the StatsBomb mirror → ignored.)
+!data/raw/managers_2026.csv
 # data/predictions/ is the committed record (locked file's verifiable git timestamp,
 # append-only audit log, market benchmark) — no ignore rule, tracked normally.
 
