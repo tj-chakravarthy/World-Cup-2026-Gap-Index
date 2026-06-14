@@ -9,6 +9,12 @@ team, and compare that to how the team actually plays. The difference is the gap
 Some nations do better than their players suggest, some do worse. Measuring that gap
 is the main point of the project.
 
+Some of that gap comes from things around the players, and the clearest one is the
+manager. Most national-team coaches couldn't get a top club job; a few now can
+(Thomas Tuchel at England, Carlo Ancelotti at Brazil), so the model includes
+coaching quality as one of the things that can explain why a squad over- or
+under-performs.
+
 It also does the ordinary things you'd want from a forecast: a win/draw/loss
 probability and a likely scoreline for each match, and a full simulation of the
 tournament under the real 2026 rules (12 groups, the 8 best third-placed teams, the
@@ -25,6 +31,7 @@ All public data. The inputs and where they come from:
 - National-team Elo ratings — [eloratings.net](https://www.eloratings.net/)
 - 2026 fixtures and the 16 venues — [fixturedownload.com](https://fixturedownload.com/)
 - The 48 squads, 1,248 players — Wikipedia
+- Each team's manager, for coaching quality — StatsBomb match data (past tournaments), Wikipedia (2026)
 - Club strength, as club Elo — [clubelo.com](http://clubelo.com/)
 - Club-season player stats (appearances, minutes, goals, shots, on-ball actions) — [FBref](https://fbref.com/)
 - Match event data from past tournaments, used to value player actions (VAEP) — [StatsBomb open data](https://github.com/statsbomb/open-data)
@@ -52,7 +59,7 @@ used only for the tiebreakers, not as a feature.
 | Stage | What | State |
 |---|---|---|
 | 0 | Lock the predictions (verifiable timestamp) | done |
-| 1 | Data pipeline (results, squads, club stats, events) | in progress |
+| 1 | Data pipeline (results, squads, club stats, events, managers) | in progress |
 | 2 | Player ratings (the club-to-country translation) | in progress |
 | 3 | Match model + validation | planned |
 | 4 | Tournament simulation | planned |
