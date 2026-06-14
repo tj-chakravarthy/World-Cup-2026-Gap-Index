@@ -25,3 +25,9 @@ def test_parse_plain_payload():
     raw = json.dumps(_SAMPLE).encode("utf-8")
     players = parse_league_data(raw, gzipped=False)
     assert players[0]["npxG"] == "25.56"
+
+
+def test_parse_unescapes_html_entities_in_names():
+    payload = {"players": [{"player_name": "Dara O&#039;Shea", "team_title": "Ipswich Town"}]}
+    players = parse_league_data(json.dumps(payload).encode("utf-8"), gzipped=False)
+    assert players[0]["player_name"] == "Dara O'Shea"

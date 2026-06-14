@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import csv
 import gzip
+import html
 import json
 import sys
 import time
@@ -37,10 +38,16 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
 
 
 def parse_league_data(raw: bytes, gzipped: bool) -> list[dict]:
-    """gzip-decode (if needed) and return the players list. Pure, testable."""
+    """gzip-decode (if needed) and return the players list, HTML-unescaping string
+    fields (Understat encodes names as entities, e.g. O&#039;Shea). Pure, testable."""
     if gzipped:
         raw = gzip.decompress(raw)
-    return json.loads(raw.decode("utf-8"))["players"]
+    players = json.loads(raw.decode("utf-8"))["players"]
+    for p in players:
+        for k, v in p.items():
+            if isinstance(v, str):
+                p[k] = html.unescape(v)
+    return players
 
 
 def fetch_players(league: str, season: str) -> list[dict]:
