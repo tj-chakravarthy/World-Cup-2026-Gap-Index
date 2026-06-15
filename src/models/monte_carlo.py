@@ -232,14 +232,37 @@ def _walk_knockout(r32_winners: dict[str, str], tilted, rng, reach):
             reach[w]["winner"] += 1
 
 
+def write_simulation_json(df: pd.DataFrame, n_sims: int) -> Path:
+    """Emit the committed sim artifact (advancement + winner odds) + web mirror — the
+    /simulate data, alongside predictions_live.json."""
+    import json
+    from datetime import datetime, timezone
+    cols = ["country_code", "win_group", "runner_up", "p_R32", "p_R16", "p_QF", "p_SF",
+            "p_final", "p_winner"]
+    cols = [c for c in cols if c in df.columns]
+    payload = {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "tournament": "FIFA World Cup 26", "n_sims": n_sims,
+        "teams": df[cols].round(5).to_dict("records"),
+    }
+    out = REPO / "data" / "predictions" / "simulation.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(payload, indent=2) + "\n")
+    mirror = REPO / "web" / "public" / "data" / "simulation.json"
+    mirror.parent.mkdir(parents=True, exist_ok=True)
+    mirror.write_text(out.read_text())
+    return out
+
+
 def main() -> None:
     df = simulate()
     PROC.mkdir(parents=True, exist_ok=True)
     out = PROC / "tournament_sim.csv"
     df.to_csv(out, index=False)
+    sim_json = write_simulation_json(df, N_SIMS)
     cols = [c for c in ["country_code", "win_group", "p_R32", "p_R16", "p_QF", "p_SF",
                         "p_final", "p_winner"] if c in df.columns]
-    print(f"tournament sim ({N_SIMS} draws) -> {out.relative_to(REPO)}")
+    print(f"tournament sim ({N_SIMS} draws) -> {out.relative_to(REPO)} + {sim_json.name}")
     print(df[cols].head(12).to_string(index=False))
 
 

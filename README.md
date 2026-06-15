@@ -60,8 +60,8 @@ used only for the tiebreakers, not as a feature.
 ## Results so far
 
 Two things were pre-registered as the deliverable: a calibrated match model, and an
-honest gap analysis. The first is met. The headline hypothesis is not — and that is
-itself the finding.
+honest gap analysis. Both are built. The headline hypothesis — that translated club
+talent beats the obvious baselines — is not supported, and that is itself the finding.
 
 **The match model is well calibrated.** On held-out tournaments the expected calibration
 error is 0.054: when it says 60%, it happens about 60% of the time. That was the stated
@@ -83,6 +83,13 @@ obvious baselines — is not supported. National Elo is already built from resul
 is a hard baseline to beat with squad composition. I'd rather report that plainly than
 bury it.
 
+**The gap analysis — the namesake — holds up as a description.** Talent (mostly market
+value and Elo) explains about a third of how teams actually do (R²≈0.30), so the residual
+*is* the story: who beat or fell short of the level their squad implies. In the backtest
+the clear overperformers include Morocco 2022 and Croatia/Uruguay 2018; Germany 2018 is a
+clear underperformer. Every gap carries an uncertainty band — three group games is a tiny
+sample, so several gaps sit within noise, reported as such.
+
 **The forecast still works.** The calibrated model drives a Monte-Carlo run of the whole
 tournament under the real 2026 rules (12 groups, 8 best thirds, Article 13). Current top
 of the board to win it: Spain 12%, Argentina 9%, France 9%, England 8%.
@@ -96,7 +103,8 @@ of the board to win it: Spain 12%, Argentina 9%, France 9%, England 8%.
 | 2 | Player ratings (the club-to-country translation) | done |
 | 3 | Match model + nested-CV validation + the ablation above | done |
 | 4 | Tournament simulation (Article 13 tiebreakers, Monte Carlo) | done |
-| 5 | Website | planned |
+| 5 | Live daily updates + public track record (cron, append-only log) | in progress |
+| 6 | Website | planned |
 
 All three correctness-critical test suites are green: the Article 13 tiebreakers (the
 exact 2026 order — head-to-head before goal difference, world ranking as the final

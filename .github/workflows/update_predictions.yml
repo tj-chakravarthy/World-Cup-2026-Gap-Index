@@ -1,42 +1,65 @@
-name: Update Predictions (daily)
+name: Update Predictions (live)
 
-# Scaffold — PLAN.md Phase 6. The daily schedule is intentionally commented out
-# until the update pipeline exists; enable it in Stage 6. workflow_dispatch lets
-# you trigger a manual run in the meantime.
+# PLAN.md §6. Matches play in North America: kickoffs cluster at 16:00-04:00 UTC, so
+# full-times land ~18:00-06:00 UTC. GitHub cron is imprecise (can lag/skip) and the
+# results feed lags full-time, so we don't chase the whistle — we POLL every 15 min in
+# that window and act only when a new result has landed (run_all is idempotent). Cheap
+# `--check` runs on bare python every poll; the heavy recompute (Docker image, faithful
+# env) and the commit fire only on a new result. Realistic SLA: live within ~20-40 min
+# of full-time. Note: scheduled runs use the DEFAULT branch — this goes live on merge to
+# main. Make the repo public so Actions minutes are free.
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "0 8 * * *"   # 08:00 UTC daily
+  schedule:
+    - cron: "*/15 0-7,17-23 * * *"   # every 15 min, 00:00-07:59 & 17:00-23:59 UTC
 
 concurrency:
   group: update-predictions
   cancel-in-progress: false
 
 permissions:
-  contents: write # the cron commits regenerated JSON back to the repo
+  contents: write   # the job commits regenerated JSON + the append-only log back to the repo
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Kör i pipeline-imagen (apt-bas + pip-gap, se Dockerfile/apt-packages.txt).
-      # ubuntu-latest har inte trixie-paketen, så ett `pip install -r requirements.txt`
-      # skulle installera mot fel bas (requirements.txt utelämnar numpy/pandas/...).
-      # Imagen är enda trogna paritet med dev-boxen.
-      - name: Build pipeline image
-        run: docker build -t gapindex .
-      - name: Run update pipeline
+
+      # cheap gate: refresh results, exit 10 iff a new result landed (recompute needed).
+      - id: check
+        name: New result?
+        run: |
+          pip install -q pandas requests beautifulsoup4 lxml
+          set +e
+          python -m src.pipeline.run_all --check
+          code=$?
+          set -e
+          if [ "$code" -eq 10 ]; then echo "changed=true"  >> "$GITHUB_OUTPUT";
+          elif [ "$code" -eq 0 ]; then echo "changed=false" >> "$GITHUB_OUTPUT";
+          else echo "check failed (exit $code)"; exit "$code"; fi
+
+      # faithful env (apt trixie base + pip gap, see Dockerfile) — ubuntu-latest isn't
+      # trixie, so a bare `pip install -r requirements.txt` would build on the wrong base.
+      - name: Recompute forecast + simulation
+        if: steps.check.outputs.changed == 'true'
         env:
-          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}   # optional; pipeline is keyless today
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: |
-          echo "TODO (Stage 6): update_actuals -> update_injuries -> update_lineups -> inference -> monte_carlo -> market_benchmark -> freshness_check"
-          # docker run --rm -v "$PWD:/app" -e API_FOOTBALL_KEY -e ODDS_API_KEY gapindex \
-          #   python -m src.pipeline.run_all --update
-      - name: Commit refreshed data
+          docker build -t gapindex .
+          docker run --rm -v "$PWD:/app" -w /app -e API_FOOTBALL_KEY -e ODDS_API_KEY \
+            gapindex python -m src.pipeline.run_all --force
+
+      - name: Commit refreshed artifacts
+        if: steps.check.outputs.changed == 'true'
         run: |
-          echo "TODO (Stage 6): commit web/public/data/*.json + data/predictions/* and push"
-          # git config user.name "gapindex-bot" && git config user.email "bot@users.noreply.github.com"
-          # git add web/public/data data/predictions
-          # git commit -m "data: daily update $(date -u +%F)" && git push
+          git config user.name  "gapindex-bot"
+          git config user.email "gapindex-bot@users.noreply.github.com"
+          git add data/predictions web/public/data
+          if git diff --cached --quiet; then
+            echo "no artifact changes to commit"
+          else
+            git commit -m "data: live update $(date -u +%FT%TZ)"
+            git push
+          fi

@@ -1,0 +1,211 @@
+"""Append-only prediction audit log (PLAN.md §6, §7.2) — the receipts behind /track-record.
+
+Logs what the model predicted for each fixture BEFORE it was played, then scores
+those predictions against the realised result. Append-only: a logged (model_version,
+fixture_id) pair is never rewritten or deleted, so the track record can't be tuned
+after the fact. Re-runs are idempotent on that key.
+
+Columns mirror the per-prediction artifact fields (docs/artifact_schema.md) flattened
+to one row, plus the outcome columns filled in by resolve() once a fixture is played.
+pandas + pyarrow (parquet).
+"""
+
+from __future__ import annotations
+
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pandas as pd
+
+REPO = Path(__file__).resolve().parents[2]
+LOG_PATH = REPO / "data" / "predictions" / "prediction_log.parquet"
+
+# what every log row carries; load_log returns an empty frame with exactly these
+LOG_COLUMNS = [
+    "logged_at",
+    "model_version",
+    "model_source",
+    "fixture_id",
+    "kickoff_utc",
+    "team1",
+    "team2",
+    "p_team1",
+    "p_draw",
+    "p_team2",
+    "top_score",
+    "top_score_p",
+]
+
+# idempotency key — one logged prediction per model identity per fixture
+KEY = ["model_version", "fixture_id"]
+
+
+def _now_iso() -> str:
+    """UTC now, ISO-8601 with trailing Z (matches the artifact's generated_at)."""
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _top_score(scorelines: list[dict]) -> tuple[str | None, float | None]:
+    """Highest-p scoreline as (label, p). Argmax rather than trusting sort order."""
+    if not scorelines:
+        return None, None
+    best = max(scorelines, key=lambda s: s["p"])
+    return best["score"], float(best["p"])
+
+
+def _artifact_rows(artifact: dict) -> pd.DataFrame:
+    """Flatten an artifact's predictions[] to log rows (model_version from top level)."""
+    model_version = artifact["model_version"]
+    logged_at = _now_iso()
+    rows = []
+    for p in artifact["predictions"]:
+        wdl = p["wdl"]
+        top_score, top_score_p = _top_score(p.get("scorelines") or [])
+        rows.append(
+            {
+                "logged_at": logged_at,
+                "model_version": model_version,
+                "model_source": p["model_source"],
+                "fixture_id": p["fixture_id"],
+                "kickoff_utc": p["kickoff_utc"],
+                "team1": p["team1"],
+                "team2": p["team2"],
+                "p_team1": float(wdl["team1"]),
+                "p_draw": float(wdl["draw"]),
+                "p_team2": float(wdl["team2"]),
+                "top_score": top_score,
+                "top_score_p": top_score_p,
+            }
+        )
+    return pd.DataFrame(rows, columns=LOG_COLUMNS)
+
+
+def load_log(log_path: Path = LOG_PATH) -> pd.DataFrame:
+    """The full log; empty frame with LOG_COLUMNS if the file doesn't exist yet."""
+    log_path = Path(log_path)
+    if not log_path.exists():
+        return pd.DataFrame(columns=LOG_COLUMNS)
+    return pd.read_parquet(log_path)
+
+
+def log_predictions(artifact: dict, log_path: Path = LOG_PATH) -> int:
+    """Append one row per prediction not already logged on (model_version, fixture_id).
+
+    Idempotent: re-running the same artifact appends nothing; a new model_version logs
+    fresh even for the same fixtures. Returns the number of rows appended.
+    """
+    log_path = Path(log_path)
+    new = _artifact_rows(artifact)
+    existing = load_log(log_path)
+
+    if not existing.empty:
+        seen = set(map(tuple, existing[KEY].itertuples(index=False, name=None)))
+        mask = [tuple(t) not in seen for t in new[KEY].itertuples(index=False, name=None)]
+        new = new[mask]
+
+    if new.empty:
+        return 0
+
+    out = new if existing.empty else pd.concat([existing, new], ignore_index=True)
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    out.to_parquet(log_path, index=False)
+    return len(new)
+
+
+def resolve(log: pd.DataFrame, fixtures: pd.DataFrame) -> pd.DataFrame:
+    """Join each logged prediction to its realised result. PURE (no IO).
+
+    Adds actual_home, actual_away, actual_outcome (0 team1 win / 1 draw / 2 team2 win,
+    from team1's = home_code's perspective), called (argmax of the wdl == outcome), and
+    exact_score_hit (top_score == realised "H-A"). Unplayed fixtures stay unresolved
+    (NaN/None) — outcome is null until played, per the schema contract.
+    """
+    out = log.copy()
+
+    played = fixtures[fixtures["played"] == True]  # noqa: E712 — pandas mask, not `is`
+    res = played.set_index("fixture_id")[["home_score", "away_score"]]
+    mapping = {fid: (h, a) for fid, (h, a) in res.iterrows()}
+
+    actual_home, actual_away, actual_outcome = [], [], []
+    called, exact = [], []
+    for r in out.itertuples(index=False):
+        hit = mapping.get(r.fixture_id)
+        if hit is None or pd.isna(hit[0]) or pd.isna(hit[1]):
+            actual_home.append(pd.NA)
+            actual_away.append(pd.NA)
+            actual_outcome.append(pd.NA)
+            called.append(pd.NA)
+            exact.append(pd.NA)
+            continue
+        h, a = int(hit[0]), int(hit[1])
+        oc = 0 if h > a else (1 if h == a else 2)
+        probs = [r.p_team1, r.p_draw, r.p_team2]
+        pred = int(max(range(3), key=lambda k: probs[k]))
+        actual_home.append(h)
+        actual_away.append(a)
+        actual_outcome.append(oc)
+        called.append(bool(pred == oc))
+        exact.append(bool(r.top_score == f"{h}-{a}"))
+
+    out["actual_home"] = pd.array(actual_home, dtype="Int64")
+    out["actual_away"] = pd.array(actual_away, dtype="Int64")
+    out["actual_outcome"] = pd.array(actual_outcome, dtype="Int64")
+    out["called"] = pd.array(called, dtype="boolean")
+    out["exact_score_hit"] = pd.array(exact, dtype="boolean")
+    return out
+
+
+def _brier(rows: pd.DataFrame) -> float:
+    """Multiclass Brier: mean over rows of sum_k (p_k - onehot_k)^2 (lower is better)."""
+    total = 0.0
+    for r in rows.itertuples(index=False):
+        oc = int(r.actual_outcome)
+        probs = [r.p_team1, r.p_draw, r.p_team2]
+        total += sum((probs[k] - (1.0 if k == oc else 0.0)) ** 2 for k in range(3))
+    return total / len(rows)
+
+
+def _summary(logged: pd.DataFrame, resolved: pd.DataFrame) -> dict:
+    """Block of metrics for one slice (a model_source or the overall set)."""
+    n_logged = len(logged)
+    n_resolved = len(resolved)
+    if n_resolved == 0:
+        return {
+            "n_logged": n_logged,
+            "n_resolved": 0,
+            "called": {"count": 0, "rate": None},
+            "brier": None,
+            "exact_score_hits": {"count": 0, "rate": None, "note": "for fun"},
+        }
+    called_n = int(resolved["called"].sum())
+    exact_n = int(resolved["exact_score_hit"].sum())
+    return {
+        "n_logged": n_logged,
+        "n_resolved": n_resolved,
+        "called": {"count": called_n, "rate": called_n / n_resolved},
+        "brier": _brier(resolved),
+        "exact_score_hits": {
+            "count": exact_n,
+            "rate": exact_n / n_resolved,
+            "note": "for fun",
+        },
+    }
+
+
+def track_record(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
+    """Scored track record over resolved (played) predictions, per model_source + overall.
+
+    PURE. Unresolved rows are excluded from the resolved metrics (Brier, called rate,
+    exact hits) but still counted in n_logged.
+    """
+    resolved_all = resolve(log, fixtures)
+    is_resolved = resolved_all["actual_outcome"].notna()
+
+    out: dict = {"by_model_source": {}}
+    for src in sorted(log["model_source"].unique()) if not log.empty else []:
+        logged_src = resolved_all[resolved_all["model_source"] == src]
+        out["by_model_source"][src] = _summary(
+            logged_src, logged_src[logged_src["actual_outcome"].notna()]
+        )
+    out["overall"] = _summary(resolved_all, resolved_all[is_resolved])
+    return out
