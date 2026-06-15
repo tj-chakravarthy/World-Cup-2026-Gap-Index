@@ -34,6 +34,23 @@ def test_aggregate_sums_offense_defense_and_per90():
     assert by.loc["B", "vaep_per90"] == pytest.approx(0.8)        # 45 min -> /0.5
 
 
+def test_tournament_column_splits_rows_per_tournament():
+    # same player+team across two tournaments -> two rows, not one summed row
+    actions = pd.DataFrame({"player_id": [1, 1, 1], "team_id": [10, 10, 10],
+                            "tournament": ["wc18", "wc18", "euro24"]})
+    values = pd.DataFrame({"vaep_value": [0.2, 0.2, 0.5],
+                           "offensive_value": [0.2, 0.2, 0.5],
+                           "defensive_value": [0.0, 0.0, 0.0]})
+    players = pd.DataFrame({"player_id": [1, 1], "team_id": [10, 10],
+                            "tournament": ["wc18", "euro24"],
+                            "minutes_played": [90, 90], "player_name": ["A", "A"]})
+    out = aggregate_player_vaep(actions, values, players)
+    assert len(out) == 2
+    by = out.set_index("tournament")
+    assert by.loc["wc18", "vaep"] == pytest.approx(0.4)
+    assert by.loc["euro24", "vaep"] == pytest.approx(0.5)
+
+
 def test_minutes_floor_avoids_divide_by_zero():
     actions = pd.DataFrame({"player_id": [1], "team_id": [10]})
     values = pd.DataFrame({"vaep_value": [0.5], "offensive_value": [0.5],

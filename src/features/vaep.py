@@ -67,18 +67,24 @@ def aggregate_player_vaep(actions: pd.DataFrame, values: pd.DataFrame,
 
     Pure function (no socceraction, no network) so it is unit-testable. `actions`
     and `values` are row-aligned; `players` carries minutes_played + player_name
-    per (player_id, team_id)."""
-    v = actions[["player_id", "team_id"]].reset_index(drop=True).copy()
+    per (player_id, team_id). When `actions`/`players` carry a `tournament` column
+    the aggregation keys on it too — so a player who appears in several tournaments
+    gets one row per tournament, not one summed row. The predicted-VAEP model (§2.2)
+    and its nested CV (§4.5) need that per-tournament grain (one is held out)."""
+    keys = ["player_id", "team_id"]
+    if "tournament" in actions.columns:
+        keys = keys + ["tournament"]
+    v = actions[keys].reset_index(drop=True).copy()
     v["vaep"] = values["vaep_value"].to_numpy()
     v["offensive"] = values["offensive_value"].to_numpy()
     v["defensive"] = values["defensive_value"].to_numpy()
-    agg = (v.groupby(["player_id", "team_id"], as_index=False)
+    agg = (v.groupby(keys, as_index=False)
              .agg(vaep=("vaep", "sum"), offensive=("offensive", "sum"),
                   defensive=("defensive", "sum"), n_actions=("vaep", "size")))
-    mins = (players.groupby(["player_id", "team_id"], as_index=False)
+    mins = (players.groupby(keys, as_index=False)
                    .agg(minutes=("minutes_played", "sum"),
                         player_name=("player_name", "first")))
-    out = agg.merge(mins, on=["player_id", "team_id"], how="left")
+    out = agg.merge(mins, on=keys, how="left")
     out["vaep_per90"] = out["vaep"] / (out["minutes"].clip(lower=1) / 90.0)
     return out.sort_values("vaep", ascending=False).reset_index(drop=True)
 
@@ -97,17 +103,19 @@ def build_vaep(tournaments=None, root: Path = SB_ROOT,
     per_game, Xs, Ys, players_list, skipped = [], [], [], [], 0
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        for cid, sid, _label in targets:
+        for cid, sid, label in targets:
             for _, g in loader.games(competition_id=cid, season_id=sid).iterrows():
                 if not (root / "events" / f"{g['game_id']}.json").exists():
                     skipped += 1
                     continue
                 acts = game_actions(loader, g)
                 X, Y = features_labels(acts, g["home_team_id"])
-                per_game.append((acts.reset_index(drop=True), X.astype(float)))
+                per_game.append((acts.reset_index(drop=True), X.astype(float), label))
                 Xs.append(X.astype(float))
                 Ys.append(Y.astype(int))
-                players_list.append(loader.players(g["game_id"]))
+                pf = loader.players(g["game_id"])
+                pf["tournament"] = label
+                players_list.append(pf)
         if not per_game:
             raise FileNotFoundError(f"no game events found under {root}")
 
@@ -119,11 +127,13 @@ def build_vaep(tournaments=None, root: Path = SB_ROOT,
             models[col] = m
 
         act_frames, val_frames = [], []
-        for acts, X in per_game:
+        for acts, X, label in per_game:
             ps = pd.Series(models["scores"].predict_proba(X.to_numpy())[:, 1])
             pc = pd.Series(models["concedes"].predict_proba(X.to_numpy())[:, 1])
             val_frames.append(fm.value(acts, ps, pc).reset_index(drop=True))
-            act_frames.append(acts)
+            tagged = acts.copy()
+            tagged["tournament"] = label
+            act_frames.append(tagged)
 
     actions = pd.concat(act_frames, ignore_index=True)
     values = pd.concat(val_frames, ignore_index=True)
