@@ -17,7 +17,6 @@ urgent). pandas only.
 
 from __future__ import annotations
 
-import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -27,10 +26,13 @@ import pandas as pd
 REPO = Path(__file__).resolve().parents[2]
 RAW = REPO / "data" / "raw"
 PRED = REPO / "data" / "predictions"
+PROC = REPO / "data" / "processed"
 FIXTURES = RAW / "fixtures_2026.csv"
 MARKER = PRED / ".last_played"
 LIVE = PRED / "predictions_live.json"
 SIM = PRED / "simulation.json"
+WEB_LIVE = REPO / "web" / "public" / "data" / "predictions_live.json"
+LIVE_SIMS = 20_000   # cron draw count (fast live updates); 100k is the manual snapshot
 
 
 def played_fixture_ids(fixtures: pd.DataFrame) -> set[str]:
@@ -60,28 +62,44 @@ def _step(name: str, fn) -> None:
 
 def main(force: bool = False) -> None:
     _refresh_fixtures()
-    played = played_fixture_ids(pd.read_csv(FIXTURES))
+    fixtures = pd.read_csv(FIXTURES)
+    played = played_fixture_ids(fixtures)
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
-    artifacts_exist = LIVE.exists() and SIM.exists()
-    if not force and artifacts_exist and played == last:
+    if not force and LIVE.exists() and SIM.exists() and played == last:
         print(f"no new results ({len(played)} played); nothing to update")
         return
     print(f"new evidence: {len(played)} played (was {len(last)}); recomputing forecast")
 
-    from src.models import match_model, monte_carlo
-    from src.pipeline import build_live_artifact
-    _step("match_model", match_model.main)        # predictions_2026_wdl.csv
-    _step("monte_carlo", monte_carlo.main)         # tournament_sim.csv + simulation.json
-    _step("build_live_artifact", build_live_artifact.main)  # predictions_live.json
+    from src.models import monte_carlo
+    from src.pipeline import build_live_artifact, write_predictions
+    bundle = monte_carlo.load_or_build_bundle()   # cached pre-tournament model (+ bags)
 
-    try:  # track-record log (append-only); best-effort so a log hiccup never fails the run
-        from src.update import prediction_log
-        n = prediction_log.log_predictions(json.loads(LIVE.read_text()))
-        print(f"prediction_log: +{n} new rows")
-    except Exception as e:  # noqa: BLE001
-        print(f"warn: prediction_log skipped ({e})", file=sys.stderr)
+    def _sim():  # tournament_sim.csv + simulation.json (+ web mirror)
+        # live updates use a lighter draw count than monte_carlo's 100k default: at 20k
+        # the MC noise is ~0.3pp, far below how much the odds move between matches, and a
+        # 100k param-uncertainty run is ~30 min — too slow for a per-match cron. Run
+        # monte_carlo.main directly for a one-off 100k published snapshot.
+        df = monte_carlo.simulate(bundle, fixtures, n_sims=LIVE_SIMS)
+        PROC.mkdir(parents=True, exist_ok=True)
+        df.to_csv(PROC / "tournament_sim.csv", index=False)
+        monte_carlo.write_simulation_json(df, LIVE_SIMS)
 
-    PRED.mkdir(parents=True, exist_ok=True)
+    def _live():  # predictions_2026_wdl.csv -> predictions_live.json -> track-record log
+        preds = monte_carlo.group_fixture_wdl(bundle, fixtures)
+        preds.to_csv(PROC / "predictions_2026_wdl.csv", index=False)
+        artifact = build_live_artifact.build_live(preds, fixtures, bundle.dc, bundle.code2m)
+        write_predictions.write(artifact, LIVE,
+                                fixture_universe=write_predictions.load_fixture_ids())
+        WEB_LIVE.parent.mkdir(parents=True, exist_ok=True)
+        WEB_LIVE.write_text(LIVE.read_text())
+        try:  # append-only log, best-effort so a log hiccup never fails the run
+            from src.update import prediction_log
+            print(f"prediction_log: +{prediction_log.log_predictions(artifact)} new rows")
+        except Exception as e:  # noqa: BLE001
+            print(f"warn: prediction_log skipped ({e})", file=sys.stderr)
+
+    _step("simulate", _sim)
+    _step("live_artifact", _live)
     MARKER.write_text(" ".join(sorted(played)))
     print(f"update complete {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')} "
           f"({len(played)} results in)")
