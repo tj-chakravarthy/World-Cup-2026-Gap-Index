@@ -3,14 +3,14 @@ WC26-M001,1,group,A,1,2026-06-11T19:00:00Z,Mexico City Stadium,Mexico,South Afri
 WC26-M002,2,group,A,1,2026-06-12T02:00:00Z,Guadalajara Stadium,Korea Republic,Czechia,KOR,CZE,2,1,True
 WC26-M003,3,group,B,1,2026-06-12T19:00:00Z,Toronto Stadium,Canada,Bosnia and Herzegovina,CAN,BIH,1,1,True
 WC26-M004,4,group,D,1,2026-06-13T01:00:00Z,Los Angeles Stadium,USA,Paraguay,USA,PAR,4,1,True
-WC26-M008,8,group,B,1,2026-06-13T19:00:00Z,San Francisco Bay Area Stadium,Qatar,Switzerland,QAT,SUI,,,False
-WC26-M007,7,group,C,1,2026-06-13T22:00:00Z,New York/New Jersey Stadium,Brazil,Morocco,BRA,MAR,,,False
-WC26-M005,5,group,C,1,2026-06-14T01:00:00Z,Boston Stadium,Haiti,Scotland,HAI,SCO,,,False
-WC26-M006,6,group,D,1,2026-06-14T04:00:00Z,BC Place Vancouver,Australia,Türkiye,AUS,TUR,,,False
-WC26-M010,10,group,E,1,2026-06-14T17:00:00Z,Houston Stadium,Germany,Curaçao,GER,CUW,,,False
-WC26-M011,11,group,F,1,2026-06-14T20:00:00Z,Dallas Stadium,Netherlands,Japan,NED,JPN,,,False
-WC26-M009,9,group,E,1,2026-06-14T23:00:00Z,Philadelphia Stadium,Côte d'Ivoire,Ecuador,CIV,ECU,,,False
-WC26-M012,12,group,F,1,2026-06-15T02:00:00Z,Monterrey Stadium,Sweden,Tunisia,SWE,TUN,,,False
+WC26-M008,8,group,B,1,2026-06-13T19:00:00Z,San Francisco Bay Area Stadium,Qatar,Switzerland,QAT,SUI,1,1,True
+WC26-M007,7,group,C,1,2026-06-13T22:00:00Z,New York/New Jersey Stadium,Brazil,Morocco,BRA,MAR,1,1,True
+WC26-M005,5,group,C,1,2026-06-14T01:00:00Z,Boston Stadium,Haiti,Scotland,HAI,SCO,0,1,True
+WC26-M006,6,group,D,1,2026-06-14T04:00:00Z,BC Place Vancouver,Australia,Türkiye,AUS,TUR,2,0,True
+WC26-M010,10,group,E,1,2026-06-14T17:00:00Z,Houston Stadium,Germany,Curaçao,GER,CUW,7,1,True
+WC26-M011,11,group,F,1,2026-06-14T20:00:00Z,Dallas Stadium,Netherlands,Japan,NED,JPN,2,2,True
+WC26-M009,9,group,E,1,2026-06-14T23:00:00Z,Philadelphia Stadium,Côte d'Ivoire,Ecuador,CIV,ECU,1,0,True
+WC26-M012,12,group,F,1,2026-06-15T02:00:00Z,Monterrey Stadium,Sweden,Tunisia,SWE,TUN,5,1,True
 WC26-M014,14,group,H,1,2026-06-15T16:00:00Z,Atlanta Stadium,Spain,Cabo Verde,ESP,CPV,,,False
 WC26-M016,16,group,G,1,2026-06-15T19:00:00Z,Seattle Stadium,Belgium,Egypt,BEL,EGY,,,False
 WC26-M013,13,group,H,1,2026-06-15T22:00:00Z,Miami Stadium,Saudi Arabia,Uruguay,KSA,URU,,,False
