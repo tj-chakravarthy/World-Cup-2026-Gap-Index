@@ -350,3 +350,41 @@ results and already encodes squad strength; predicted VAEP is weak at player lev
 negative outcome, reported as a finding not a failure. Per PLAN §7.1a the fan product
 stands without the thesis — the gap analysis, scorelines and simulation are unaffected;
 /method reports this ablation as the honest headline.
+
+---
+
+## Stage 4 — calibration + tournament simulation
+
+**Calibration (`src/models/calibration.py`) — the pre-registered success metric is met.**
+Top-label ECE 0.054 on the leave-one-tournament-out held-out predictions for the
+production model (Elo+market), reliability near the diagonal. PLAN's success criterion is
+a calibrated model decoupled from beating Elo/market, so the project succeeds on its own
+terms even though the §4.5 thesis is unsupported. Raw held-out ECE (no recalibration on
+the same data); isotonic recalibration (PLAN §4.4) is a later production refinement.
+
+**Scoreline coherence (`src/models/scoreline.py`) — lambda-tilt, not cell reweighting.**
+Per PLAN §5.2: tilt Dixon-Coles' lambdas (2 params: total-goals scale + home/away
+balance) until the joint's implied W/D/L matches the calibrated marginals, then sample.
+The mandatory test_scoreline_coherence is now live (tilt hits target marginals incl
+lopsided; sampled scorelines reproduce them within MC error). Third mandatory suite green.
+
+**Monte Carlo (`src/models/monte_carlo.py`).** 20k draws (PLAN §5.2 says 100k; 20k keeps
+it tractable and the probabilities stable to ~0.3pp — raise for the final artifact). Group
+stage is exact (Art. 13 via tiebreakers); knockout via bracket.py. Keyed by FIFA code
+throughout. Deviations from PLAN §5:
+- **FIFA-ranking final tiebreaker proxied by Elo order.** Art. 13's last criterion is the
+  FIFA ranking, a fixed pre-tournament input; we don't have it loaded, so the deterministic
+  residual-tie break uses Elo order instead (unique ints, always resolves). Swap in the
+  real ranking when loaded — it only matters for exact ties through every prior criterion.
+- **Third-place allocation is a constraint-matching approximation** (bracket.py): FIFA's
+  495-row Annex C wasn't obtainable; we assign each qualifying third to a slot whose
+  group-set contains it (bijective). The bracket TREE (R16->final) is verified exact
+  (Wikipedia/NBC); only which third meets which seed in R32 is approximate.
+- **Knockout draws: 90' draw -> a near-50/50 nudge**, folding extra time into the penalty
+  coin flip rather than PLAN §5.2's explicit reduced-rate ET goals then penalties. A
+  simplification; the §5.3 capped-near-50/50 penalty spirit holds.
+- Parameter-uncertainty Monte Carlo (PLAN §5.2: draw model params per run) not yet done —
+  the sim samples scorelines but not a fresh parameter draw per run. Follow-up.
+
+Sanity: Spain 12.4% / Argentina 9.5% / France 9.4% / England 8.0% to win, P(reach R32)
+decaying sensibly from ~0.97 — consistent with the bookmaker board and the calibration.
