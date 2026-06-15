@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 
 pd = pytest.importorskip("pandas")
+pytest.importorskip("sklearn")  # market_benchmark imports the indices chain (predicted_vaep -> sklearn)
 
 from src.models.market_benchmark import align, compare, devig  # noqa: E402
 
