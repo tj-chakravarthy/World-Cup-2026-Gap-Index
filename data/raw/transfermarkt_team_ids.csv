@@ -1,0 +1,59 @@
+country_code,country,tm_id,tm_slug,tm_text,score,method
+ALG,Algeria,3614,algerien,Algeria,1.0,exact
+ARG,Argentina,3437,argentinien,Argentina,1.0,exact
+AUS,Australia,3433,australien,Australia,1.0,exact
+AUT,Austria,3383,osterreich,Austria,1.0,exact
+BEL,Belgium,3382,belgien,Belgium,1.0,exact
+BIH,Bosnia and Herzegovina,3446,bosnien-herzegowina,Bosnia-Herzegovina,1.0,manual
+BRA,Brazil,3439,brasilien,Brazil,1.0,exact
+CAN,Canada,3510,kanada,Canada,1.0,exact
+CIV,Ivory Coast,3591,elfenbeinkuste,Ivory Coast,1.0,exact
+CMR,Cameroon,3434,kamerun,Cameroon,1.0,exact
+COD,DR Congo,3854,demokratische-republik-kongo,Democratic Republic of the Congo,1.0,manual
+COL,Colombia,3816,kolumbien,Colombia,1.0,exact
+CPV,Cape Verde,4311,kap-verde,Cape Verde,1.0,exact
+CRC,Costa Rica,8497,costa-rica,Costa Rica,1.0,exact
+CRO,Croatia,3556,kroatien,Croatia,1.0,exact
+CUW,Curaçao,32364,curacao,Curaçao,1.0,exact
+CZE,Czech Republic,3445,tschechien,Czechia,1.0,manual
+DEN,Denmark,3436,danemark,Denmark,1.0,exact
+ECU,Ecuador,5750,ecuador,Ecuador,1.0,exact
+EGY,Egypt,3672,agypten,Egypt,1.0,exact
+ENG,England,3299,england,England,1.0,exact
+ESP,Spain,3375,spanien,Spain,1.0,exact
+FRA,France,3377,frankreich,France,1.0,exact
+GER,Germany,3262,deutschland,Germany,1.0,exact
+GHA,Ghana,3441,ghana,Ghana,1.0,exact
+HAI,Haiti,14161,haiti,Haiti,1.0,exact
+IRN,Iran,3582,iran,Iran,1.0,exact
+IRQ,Iraq,3560,irak,Iraq,1.0,exact
+ISL,Iceland,3574,island,Iceland,1.0,exact
+JOR,Jordan,15737,jordanien,Jordan,1.0,exact
+JPN,Japan,3435,japan,Japan,1.0,exact
+KOR,South Korea,3589,sudkorea,South Korea,1.0,exact
+KSA,Saudi Arabia,3807,saudi-arabien,Saudi Arabia,1.0,exact
+MAR,Morocco,3575,marokko,Morocco,1.0,exact
+MEX,Mexico,6303,mexiko,Mexico,1.0,exact
+NED,Netherlands,3379,niederlande,Netherlands,1.0,exact
+NGA,Nigeria,3444,nigeria,Nigeria,1.0,exact
+NOR,Norway,3440,norwegen,Norway,1.0,exact
+NZL,New Zealand,9171,neuseeland,New Zealand,1.0,exact
+PAN,Panama,3577,panama,Panama,1.0,exact
+PAR,Paraguay,3581,paraguay,Paraguay,1.0,exact
+PER,Peru,3584,peru,Peru,1.0,exact
+POL,Poland,3442,polen,Poland,1.0,exact
+POR,Portugal,3300,portugal,Portugal,1.0,exact
+QAT,Qatar,14162,katar,Qatar,1.0,exact
+RSA,South Africa,3806,sudafrika,South Africa,1.0,exact
+RUS,Russia,3448,russland,Russia,1.0,exact
+SCO,Scotland,3380,schottland,Scotland,1.0,exact
+SEN,Senegal,3499,senegal,Senegal,1.0,exact
+SRB,Serbia,3438,serbien,Serbia,1.0,exact
+SUI,Switzerland,3384,schweiz,Switzerland,1.0,exact
+SWE,Sweden,3557,schweden,Sweden,1.0,exact
+TUN,Tunisia,3670,tunesien,Tunisia,1.0,exact
+TUR,Turkey,3381,turkei,Turkiye,1.0,manual
+URU,Uruguay,3449,uruguay,Uruguay,1.0,exact
+USA,United States,3505,vereinigte-staaten,United States,1.0,exact
+UZB,Uzbekistan,3563,usbekistan,Uzbekistan,1.0,exact
+WAL,Wales,3864,wales,Wales,1.0,exact
