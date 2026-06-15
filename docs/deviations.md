@@ -298,3 +298,54 @@ captain-stripper (`_CAPTAIN`, fetch_squad_rosters.py) landed (the 2018/2022 file
 added later, are clean). It broke every name join for those players (Mbappé scored
 nothing). Cleaned in place with the parser's own `_clean`/`_norm`; market-value
 coverage rose ~40 players and Mbappé/Marquinhos rate correctly.
+
+---
+
+## Stage 3 — indices, match model, and the thesis test
+
+**Squad indices (`src/features/indices.py`).** Per (tournament, team), z-scored within
+each tournament's field (§3 leakage-safe contract). 12 indices over 6 tournaments (176
+team-tournaments): predicted-VAEP ATK/MID/DEF/GK, plus MKT, ELO, EXP, AGE, DEPTH, COH,
+COV, FAT. Deviation from §3's list: TAC (PPDA) and QUAL are dropped for now — PPDA is
+in the FBref tables Opta withholds, and per-tournament qualifying form isn't assembled
+yet. Predicted-VAEP indices are kept SEPARATE from MKT and ELO (not pre-blended like
+the §2.3 display score) precisely so the §4.5 ablation can isolate the thesis signal.
+The predicted-VAEP model is passed into `build_indices`, so the nested CV refits it per
+fold (the leakage guard). Market value is NaN for Euro2020/2024/Copa2024 (Transfermarkt
+2020/2023 seasons not scraped), so the MKT index — and the ablation's "+market" step —
+is real only for WC2018/2022/2026.
+
+**Match training set (`src/models/match_dataset.py`).** One row per fixture (§4.1):
+both teams' index levels + differentials, 3-class target {team1/draw/team2},
+swap-augmented. Built from the 5 backtest tournaments' matches (match_results.csv joined
+to that tournament's indices) → 262 fixtures. WC2026 is the prediction target, not
+training. This is the realistic sample: ~262 fixtures, autocorrelated within
+team-tournament, so the effective independent N is small and CIs are wide by design.
+
+**The thesis test — feature-group ablation (`src/models/evaluate.py`), result: NOT
+supported.** Nested forward-chaining temporal CV (predicted-VAEP refit + index rebuild
+per fold, leakage guard live in `tests/test_leakage_guard.py`). Pooled held-out
+multiclass Brier, tournament-clustered bootstrap 90% CI, multinomial logistic on the
+index differentials, strong L2 (the per-fold train set is tiny). Headline:
+
+|feature set|Brier|90% CI|
+|---|---|---|
+|Elo only|0.594|[0.564, 0.617]|
+|+ market value|0.606|[0.587, 0.623]|
+|+ predicted-VAEP|0.610|[0.592, 0.629]|
+|full (+ structure)|0.616|[0.587, 0.636]|
+
+(uniform-guess Brier 0.667.) **Elo alone is the best feature set; adding market value,
+the predicted-VAEP indices, or the full structure does not improve held-out Brier —
+predicted-VAEP never beats Elo+market.** The ordering is robust across regularization
+C∈[1.0, 0.015] (at weak C the richer sets overfit and degrade outright; at strong C they
+shrink toward Elo-only but never overtake it), so the verdict isn't a tuning artifact.
+The CIs overlap, so the honest statement is "indistinguishable from Elo, and certainly
+not better" — the §4.5 pre-registered negative outcome, reported as a finding not a
+failure. Why it lands this way: national Elo is itself computed from results and already
+encodes squad strength, so it's a strong baseline; predicted VAEP is weak at player
+level (R²≈0); the backtest "+market" step is degraded by the missing TM seasons; and
+262 autocorrelated fixtures give little power. Scraping TM 2020/2023 would sharpen the
+market comparison but is unlikely to flip the predicted-VAEP verdict. Per PLAN §7.1a the
+fan product stands without the thesis — the gap analysis, scorelines and simulation are
+unaffected; /method reports this ablation as the honest headline.
