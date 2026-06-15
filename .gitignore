@@ -47,6 +47,11 @@ data/processed/**
 # managers_2026: canonical skeleton, filled from Wikipedia → tracked.
 # (managers_historical.csv is regenerable from the StatsBomb mirror → ignored.)
 !data/raw/managers_2026.csv
+# market_odds: small (112K) Pinnacle closing-odds slices for the 4 backtest tournaments,
+# the basis of the §4.6 market benchmark. Third-party (eatpizzanot/soccer-dataset,
+# CC-BY-4.0) and could vanish, so committed for a reproducible benchmark, with attribution.
+!data/raw/market_odds/
+!data/raw/market_odds/*.csv
 # data/predictions/ is the committed record (locked file's verifiable git timestamp,
 # append-only audit log, market benchmark) — no ignore rule, tracked normally.
 
