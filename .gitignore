@@ -28,6 +28,12 @@ data/processed/**
 !data/raw/**/
 !data/processed/**/
 !**/.gitkeep
+# the frozen pre-tournament model bundle (indices + production logistic + Dixon-Coles +
+# bootstrap bags) is the ONE processed artifact the live cron can't regenerate: building it
+# needs the raw scrape (FBref/Understat/match_results), which is ignored. So it's committed
+# (3.9M) and loaded as-is on every run. Rebuild + recommit when the model code changes
+# (BUNDLE_VERSION bump): a stale-version load would try to rebuild and fail in CI (no raw data).
+!data/processed/model_bundle.pkl
 # fixtures + venues are small canonical inputs (the lock's spine, hand-curated venue
 # reference + a structured fixture feed), not bulk scrape → tracked, not ignored.
 !data/raw/fixtures_2026.csv

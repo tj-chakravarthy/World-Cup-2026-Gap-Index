@@ -423,3 +423,15 @@ line prices lineup news + money the model excludes by the odds-never-an-input ru
 ahead of Elo. The honest "within a hair of the market, beats Elo" stat. Odds are never a
 model feature — benchmark only. Live WC2026 benchmark runs via `fetch_odds.py` once an
 odds key + snapshot exist. Odds slices committed (112K) with attribution for reproducibility.
+
+**Model bundle committed (`data/processed/model_bundle.pkl`).** PLAN/gitignore treats
+`data/processed/**` as regenerable cache, not committed. The bundle is the exception: it's
+the frozen pre-tournament model (indices + production logistic + Dixon-Coles + 25 bootstrap
+bags), and building it needs the raw scrape (FBref/Understat/match_results) which stays
+ignored. The cron checkout has none of that, so a rebuild-from-raw can't run in CI — it died
+at `load_club_stats` (FileNotFoundError) on the first dispatch that got past the Docker fix.
+Committing the 3.9M pickle and loading it as-is is the fix: matches "fixed for the whole
+tournament", keeps the cron self-contained, no raw data in the public repo. The actions/cache
+step stays as an optimisation but is no longer load-bearing. Rebuild + recommit on a
+BUNDLE_VERSION bump (a stale-version load would try to rebuild and fail the same way).
+Verified end-to-end against a clean git-tracked-only tree (zero FBref) in the cron image.
