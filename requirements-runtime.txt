@@ -1,0 +1,11 @@
+# Runtime pip gap for the live cron (src.pipeline.run_all) — ONLY what the apt
+# base (apt-packages.txt) doesn't already provide. The orchestrator's import chain
+# (fixtures -> bundle -> simulate -> live predictions -> prediction_log) needs one
+# unpackaged lib: pyarrow, the parquet engine pandas uses for the append-only log.
+#
+# The full data-prep stack (socceraction/statsbombpy/soccerdata, mapie/pymc/
+# lifelines/shap — see requirements.txt) is NOT installed here: socceraction has no
+# Python 3.13 wheel (trixie ships 3.13), and none of it runs in the cron. Those libs
+# build the inputs (VAEP, conformal/survival/SHAP) on the dev boxes, offline.
+
+pyarrow>=14.0.0
