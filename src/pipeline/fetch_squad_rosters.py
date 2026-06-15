@@ -14,9 +14,15 @@ for nations that played a past WC but not 2026. The build VALIDATES: the right
 squad count for the edition, every team coded, plausible squad sizes — a silent
 miss here poisons every downstream player feature.
 
+The §4.5 backtest also needs three continental editions (Euro 2020, Euro 2024,
+Copa América 2024). Same page shape, same parser; they go through fetch_backtest
+into squads_{slug}.csv with softer validation (thin/uncoded nations logged and
+skipped, not fatal — a partial file still feeds the index).
+
 bs4 + stdlib by design (no pandas). The default run fetches the historical editions
 (2018, 2022); squads_2026.csv already exists — regenerate it with `--year 2026`.
 Run: python -m src.pipeline.fetch_squad_rosters
+     python -m src.pipeline.fetch_squad_rosters --backtest euro2024
 """
 
 from __future__ import annotations
@@ -26,6 +32,7 @@ import csv
 import re
 import sys
 import unicodedata
+import urllib.parse
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -45,11 +52,26 @@ EDITIONS = {
     2026: ("2026_FIFA_World_Cup_squads", date(2026, 6, 11), 48),
 }
 
-# FIFA trigrams for nations in a past WC squad but absent from the 2026 crosswalk.
+# Continental tournaments the backtest needs (§4.5). Same page shape as the WC
+# editions (one wikitable per nation), so the WC parser handles them as-is; they
+# write to squads_{slug}.csv and carry the tournament YEAR in the year column.
+# slug -> (wikipedia page, year, tournament start date, expected squad count)
+BACKTEST_EDITIONS = {
+    "euro2020": ("UEFA_Euro_2020_squads", 2020, date(2021, 6, 11), 24),
+    "euro2024": ("UEFA_Euro_2024_squads", 2024, date(2024, 6, 14), 24),
+    "copa2024": ("2024_Copa_América_squads", 2024, date(2024, 6, 20), 16),
+}
+
+# FIFA trigrams for nations in a past WC/continental squad but absent from the
+# 2026 crosswalk. The euro/copa block covers teams that never made WC 2018/2022.
 _EXTRA_CODES = {
     "Costa Rica": "CRC", "Denmark": "DEN", "Iceland": "ISL", "Nigeria": "NGA",
     "Peru": "PER", "Poland": "POL", "Russia": "RUS", "Serbia": "SRB",
     "Cameroon": "CMR", "Wales": "WAL",
+    "Albania": "ALB", "Bolivia": "BOL", "Chile": "CHI", "Finland": "FIN",
+    "Georgia": "GEO", "Hungary": "HUN", "Italy": "ITA", "Jamaica": "JAM",
+    "North Macedonia": "MKD", "Romania": "ROU", "Slovakia": "SVK",
+    "Slovenia": "SVN", "Ukraine": "UKR", "Venezuela": "VEN",
 }
 
 FIELDS = ["year", "country_code", "country", "player_name", "player_name_norm",
@@ -85,6 +107,13 @@ def _age(dob: str, on: date = date(2026, 6, 11)) -> int | str:
     except ValueError:
         return ""
     return on.year - d.year - ((on.month, on.day) < (d.month, d.day))
+
+
+def _fetch_html(page: str) -> str:
+    # quote the path: continental page titles carry non-ASCII (Copa "América").
+    url = "https://en.wikipedia.org/wiki/" + urllib.parse.quote(page)
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    return urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
 
 
 def _is_squad_table(table) -> bool:
@@ -161,8 +190,7 @@ def build_rows(players: list[dict], tc: TeamCodes, *, year: int,
 
 def fetch_year(year: int, tc: TeamCodes) -> Path:
     page, start, n = EDITIONS[year]
-    req = urllib.request.Request(f"https://en.wikipedia.org/wiki/{page}", headers={"User-Agent": UA})
-    html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
+    html = _fetch_html(page)
     rows = build_rows(parse_squads(html), tc, year=year, tournament_start=start, expected_teams=n)
     out = RAW / f"squads_{year}.csv"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -175,13 +203,66 @@ def fetch_year(year: int, tc: TeamCodes) -> Path:
     return out
 
 
+def fetch_backtest(slug: str, tc: TeamCodes) -> Path:
+    """Euro/Copa edition -> squads_{slug}.csv. Robust by design: a nation that
+    parses thin or stays uncoded is logged to stderr and skipped, not fatal — a
+    partial roster file still feeds the index. Same schema as the WC editions."""
+    page, year, start, n_teams = BACKTEST_EDITIONS[slug]
+    html = _fetch_html(page)
+    players = parse_squads(html)
+
+    # squad sizes per team, to drop implausibly thin (mis-parsed) squads.
+    sizes = {}
+    for p in players:
+        sizes[p["team"]] = sizes.get(p["team"], 0) + 1
+
+    rows, dropped = [], set()
+    for p in players:
+        team = p["team"]
+        code = _code(team, tc)
+        if not code:
+            dropped.add(f"{team} (no FIFA code)")
+            continue
+        if sizes[team] < 11:
+            dropped.add(f"{team} (thin: {sizes[team]} rows)")
+            continue
+        rows.append({
+            "year": year, "country_code": code, "country": team,
+            "player_name": p["player_name"], "player_name_norm": p["player_name_norm"],
+            "position": p["position"], "dob": p["dob"],
+            "age_at_tournament": _age(p["dob"], start),
+            "caps": p["caps"], "goals": p["goals"], "club": p["club"],
+            "club_country": "", "data_tier": "",
+        })
+
+    teams_ok = {r["country"] for r in rows}
+    if dropped:
+        print(f"{slug}: dropped {sorted(dropped)}", file=sys.stderr)
+    if len(teams_ok) != n_teams:
+        print(f"{slug}: WARN parsed {len(teams_ok)}/{n_teams} squads", file=sys.stderr)
+
+    out = RAW / f"squads_{slug}.csv"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=FIELDS)
+        w.writeheader()
+        w.writerows(rows)
+    print(f"{slug}: wrote {len(rows)} players across {len(teams_ok)} squads -> {out.name}")
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--year", type=int, choices=list(EDITIONS),
-                    help="one edition (default: the historical 2018 + 2022)")
+                    help="one WC edition (default: the historical 2018 + 2022)")
+    ap.add_argument("--backtest", choices=list(BACKTEST_EDITIONS),
+                    help="one continental edition (euro2020/euro2024/copa2024)")
     args = ap.parse_args()
-    years = [args.year] if args.year else [2018, 2022]
     tc = TeamCodes.load()
+    if args.backtest:
+        fetch_backtest(args.backtest, tc)
+        return
+    years = [args.year] if args.year else [2018, 2022]
     for y in years:
         fetch_year(y, tc)
 
