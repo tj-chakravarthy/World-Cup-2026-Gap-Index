@@ -83,6 +83,12 @@ obvious baselines — is not supported. National Elo is already built from resul
 is a hard baseline to beat with squad composition. I'd rather report that plainly than
 bury it.
 
+**Against the betting market.** On the same held-out matches, the model's Brier is 0.589
+versus the bookmaker closing line's 0.573 — about 0.017 behind the market, and ahead of
+Elo-only (0.594). That's the honest place to be: the market prices lineup news and money
+the model deliberately excludes (odds are never a model input here), so beating it was
+never the goal; landing within a hair of it while beating Elo is the result.
+
 **The gap analysis — the namesake — holds up as a description.** Talent (mostly market
 value and Elo) explains about a third of how teams actually do (R²≈0.30), so the residual
 *is* the story: who beat or fell short of the level their squad implies. In the backtest

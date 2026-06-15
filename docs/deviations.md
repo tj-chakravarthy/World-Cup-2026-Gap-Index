@@ -383,8 +383,43 @@ throughout. Deviations from PLAN §5:
 - **Knockout draws: 90' draw -> a near-50/50 nudge**, folding extra time into the penalty
   coin flip rather than PLAN §5.2's explicit reduced-rate ET goals then penalties. A
   simplification; the §5.3 capped-near-50/50 penalty spirit holds.
-- Parameter-uncertainty Monte Carlo (PLAN §5.2: draw model params per run) not yet done —
-  the sim samples scorelines but not a fresh parameter draw per run. Follow-up.
+- Parameter-uncertainty Monte Carlo — now done (see Stage 6 below): the pre-tournament
+  model is bootstrapped into a 25-member bag (logistic refit on resampled fixtures,
+  Dixon-Coles on resampled results) and each draw samples a member, so the exit-stage odds
+  are distributions over model uncertainty, not point estimates (PLAN §5.2).
 
 Sanity: Spain 12.4% / Argentina 9.5% / France 9.4% / England 8.0% to win, P(reach R32)
 decaying sensibly from ~0.97 — consistent with the bookmaker board and the calibration.
+
+---
+
+## Stage 6 — live ops, market benchmark, sim polish
+
+**Live update layer (`src/pipeline/run_all.py`, `.github/workflows/update_predictions.yml`,
+`src/update/prediction_log.py`).** Idempotent orchestrator: refresh results, and only on a
+NEW played result recompute forecast+sim, rewrite the JSON artifacts, append the
+append-only track-record log, stamp freshness; loud non-zero exit on any step. The cron
+polls every 15 min in the NA full-time window (00-07 & 17-23 UTC) with a cheap `--check`
+gate, heavy Docker recompute + commit only on a new result. Validated end-to-end on live
+data (the feed advanced to 12 played; the pipeline moved them to evidence, logged 60
+predictions, refreshed the odds). Goes live on merge to main.
+
+**Model bundle caching (`monte_carlo.py`).** The pre-tournament pieces (indices, the
+production logistic, Dixon-Coles, and the bootstrap bags) are fixed for the whole
+tournament, so they're built once into a pickled `Bundle` and reused every update; only
+the played results change per matchday. Cuts a per-update recompute from ~8 min (rebuild)
+to the draws alone, and 25-member parameter uncertainty rides along (PLAN §5.2 — odds as
+distributions over model uncertainty). Draw count: the live cron uses 20k (~0.3pp MC
+noise, far below the between-match odds shift; ~6 min), while monte_carlo.main runs 100k
+for a one-off published snapshot (~30 min — too slow per-match, and invisibly better).
+
+**Market benchmark (§4.6, `src/models/market_benchmark.py`) — done, real backtest.**
+football-data.co.uk is club-leagues-only (PLAN's worry confirmed). Usable free source:
+`eatpizzanot/soccer-dataset` (CC-BY-4.0), Pinnacle closing 1X2 odds covering Euro2020,
+WC2022, Euro2024, Copa2024 — exactly the held-out CV fixtures (198/198; WC2018 has no free
+odds and is never a test fold, so no gap). Pooled held-out multiclass Brier: **model 0.589,
+market 0.573, Elo 0.594** — the model is ~0.017 behind the market (expected; the closing
+line prices lineup news + money the model excludes by the odds-never-an-input rule) and
+ahead of Elo. The honest "within a hair of the market, beats Elo" stat. Odds are never a
+model feature — benchmark only. Live WC2026 benchmark runs via `fetch_odds.py` once an
+odds key + snapshot exist. Odds slices committed (112K) with attribution for reproducibility.
