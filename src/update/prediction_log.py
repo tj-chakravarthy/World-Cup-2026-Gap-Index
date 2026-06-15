@@ -155,6 +155,17 @@ def resolve(log: pd.DataFrame, fixtures: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def latest_per_fixture(log: pd.DataFrame) -> pd.DataFrame:
+    """Keep only the most-recent logged prediction per (model_source, fixture_id) — the
+    one standing at kickoff. The append-only log keeps every model_version's row; scoring
+    uses the latest so a model-version bump can't double-count a fixture. PURE."""
+    if log.empty:
+        return log
+    return (log.sort_values("logged_at")
+               .drop_duplicates(["model_source", "fixture_id"], keep="last")
+               .reset_index(drop=True))
+
+
 def _brier(rows: pd.DataFrame) -> float:
     """Multiclass Brier: mean over rows of sum_k (p_k - onehot_k)^2 (lower is better)."""
     total = 0.0
@@ -195,9 +206,11 @@ def _summary(logged: pd.DataFrame, resolved: pd.DataFrame) -> dict:
 def track_record(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
     """Scored track record over resolved (played) predictions, per model_source + overall.
 
-    PURE. Unresolved rows are excluded from the resolved metrics (Brier, called rate,
-    exact hits) but still counted in n_logged.
+    PURE. Scored on the standing prediction per fixture (latest model_version), so a
+    version bump doesn't double-count. Unresolved rows are excluded from the resolved
+    metrics (Brier, called rate, exact hits) but still counted in n_logged.
     """
+    log = latest_per_fixture(log)
     resolved_all = resolve(log, fixtures)
     is_resolved = resolved_all["actual_outcome"].notna()
 

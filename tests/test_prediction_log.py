@@ -12,11 +12,25 @@ pytest.importorskip("pyarrow")
 
 from src.update.prediction_log import (  # noqa: E402
     LOG_COLUMNS,
+    latest_per_fixture,
     load_log,
     log_predictions,
     resolve,
     track_record,
 )
+
+
+def test_latest_per_fixture_keeps_standing_prediction():
+    # same fixture logged under two model versions before kickoff -> keep the later one
+    log = pd.DataFrame({
+        "logged_at": ["2026-06-14T10:00:00Z", "2026-06-14T12:00:00Z"],
+        "model_source": ["live_full", "live_full"],
+        "fixture_id": ["WC26-M050", "WC26-M050"],
+        "model_version": ["live@aaa", "live@bbb"],
+    })
+    out = latest_per_fixture(log)
+    assert len(out) == 1
+    assert out.iloc[0]["model_version"] == "live@bbb"  # the later-logged version stands
 
 
 def _artifact(model_version="m@v1", preds=None):
