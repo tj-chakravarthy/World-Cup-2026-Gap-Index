@@ -311,9 +311,9 @@ in the FBref tables Opta withholds, and per-tournament qualifying form isn't ass
 yet. Predicted-VAEP indices are kept SEPARATE from MKT and ELO (not pre-blended like
 the §2.3 display score) precisely so the §4.5 ablation can isolate the thesis signal.
 The predicted-VAEP model is passed into `build_indices`, so the nested CV refits it per
-fold (the leakage guard). Market value is NaN for Euro2020/2024/Copa2024 (Transfermarkt
-2020/2023 seasons not scraped), so the MKT index — and the ablation's "+market" step —
-is real only for WC2018/2022/2026.
+fold (the leakage guard). Market value is now scraped for every backtest season (TM
+2020 for Euro2020, TM 2023 for Euro2024/Copa2024), so the MKT index is real for all six
+tournaments and the ablation's "+market" step is fair across folds.
 
 **Match training set (`src/models/match_dataset.py`).** One row per fixture (§4.1):
 both teams' index levels + differentials, 3-class target {team1/draw/team2},
@@ -330,22 +330,23 @@ index differentials, strong L2 (the per-fold train set is tiny). Headline:
 
 |feature set|Brier|90% CI|
 |---|---|---|
-|Elo only|0.594|[0.564, 0.617]|
-|+ market value|0.606|[0.587, 0.623]|
-|+ predicted-VAEP|0.610|[0.592, 0.629]|
-|full (+ structure)|0.616|[0.587, 0.636]|
+|Elo only|0.594|[0.562, 0.617]|
+|+ market value|0.589|[0.559, 0.611]|
+|+ predicted-VAEP|0.596|[0.564, 0.622]|
+|full (+ structure)|0.599|[0.562, 0.623]|
 
-(uniform-guess Brier 0.667.) **Elo alone is the best feature set; adding market value,
-the predicted-VAEP indices, or the full structure does not improve held-out Brier —
-predicted-VAEP never beats Elo+market.** The ordering is robust across regularization
-C∈[1.0, 0.015] (at weak C the richer sets overfit and degrade outright; at strong C they
-shrink toward Elo-only but never overtake it), so the verdict isn't a tuning artifact.
-The CIs overlap, so the honest statement is "indistinguishable from Elo, and certainly
-not better" — the §4.5 pre-registered negative outcome, reported as a finding not a
-failure. Why it lands this way: national Elo is itself computed from results and already
-encodes squad strength, so it's a strong baseline; predicted VAEP is weak at player
-level (R²≈0); the backtest "+market" step is degraded by the missing TM seasons; and
-262 autocorrelated fixtures give little power. Scraping TM 2020/2023 would sharpen the
-market comparison but is unlikely to flip the predicted-VAEP verdict. Per PLAN §7.1a the
-fan product stands without the thesis — the gap analysis, scorelines and simulation are
-unaffected; /method reports this ablation as the honest headline.
+(uniform-guess Brier 0.667; Transfermarkt market values now scraped for every backtest
+season 2017/2020/2021/2023/2025, so "+market" is fair across all folds.) **Market value
+adds a small gain over Elo (0.594 -> 0.589); the predicted-VAEP indices do NOT improve on
+Elo+market (0.589 -> 0.596) — the thesis is not supported.** The "+market" step now
+behaves as it should (market is informative), which validates the pipeline — the earlier
+run had market degrading the Brier purely because it was NaN for three folds. Against this
+clean baseline predicted VAEP still earns nothing. All CIs overlap (≈0.56-0.62), so the
+honest statement is "predicted VAEP is indistinguishable from Elo+market — no measurable
+signal"; even the market gain is within noise. The verdict is robust across regularization
+C∈[1.0, 0.015] (a sweep). Why it lands this way: national Elo is itself computed from
+results and already encodes squad strength; predicted VAEP is weak at player level
+(R²≈0); and 262 autocorrelated fixtures give little power. The §4.5 pre-registered
+negative outcome, reported as a finding not a failure. Per PLAN §7.1a the fan product
+stands without the thesis — the gap analysis, scorelines and simulation are unaffected;
+/method reports this ablation as the honest headline.

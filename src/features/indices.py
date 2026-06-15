@@ -36,10 +36,10 @@ PROC = REPO / "data" / "processed"
 # tournament -> (squad csv, preceding club season, Transfermarkt value season or None)
 TOURNAMENTS = {
     "world_cup_2018": ("squads_2018.csv", "2017-2018", "2017"),
-    "euro_2020": ("squads_euro2020.csv", "2020-2021", None),
+    "euro_2020": ("squads_euro2020.csv", "2020-2021", "2020"),
     "world_cup_2022": ("squads_2022.csv", "2021-2022", "2021"),
-    "euro_2024": ("squads_euro2024.csv", "2023-2024", None),
-    "copa_america_2024": ("squads_copa2024.csv", "2023-2024", None),
+    "euro_2024": ("squads_euro2024.csv", "2023-2024", "2023"),
+    "copa_america_2024": ("squads_copa2024.csv", "2023-2024", "2023"),
     "world_cup_2026": ("squads_2026.csv", "2025-2026", "2025"),
 }
 # predicted-VAEP indices (the thesis signal) | market value | Elo | squad structure

@@ -14,9 +14,9 @@ Two steps, both cached on disk:
   2. scrape — per (nation, season) load the squad page, VERIFY the page title names
      the team, parse the items table → one CSV per (code, season) under data/raw/.
 
-Season maps to the pre-tournament squad year (PLAN §1.2): 2018->2017, 2022->2021,
-2026->2025 (Transfermarkt saison_id = start year). Market value is time-stamped, so
-the backtest squads get their own season's values, not today's.
+Each squad file maps to its pre-tournament Transfermarkt season (PLAN §1.2; saison_id =
+the season's start year) — see SQUAD_SOURCES. Market value is time-stamped, so the
+backtest squads get their own season's values, not today's.
 
 Run discovery:  python -m src.pipeline.fetch_transfermarkt --discover
 Run the lot:    python -m src.pipeline.fetch_transfermarkt
@@ -52,8 +52,15 @@ SQUAD_FIELDS = ["country_code", "season", "player_name", "position", "club",
 SEARCH_URL = "https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query={q}"
 KADER_URL = ("https://www.transfermarkt.com/{slug}/kader/verein/{tm_id}"
              "/saison_id/{season}/plus/1")
-# squad-file year -> Transfermarkt saison_id (pre-tournament season, PLAN §1.2)
-YEAR_TO_SEASON = {"2018": "2017", "2022": "2021", "2026": "2025"}
+# squad file -> Transfermarkt saison_id (the squad's pre-tournament season, PLAN §1.2).
+# WC editions plus the continental backtest editions (Euro 2020 -> 2020/21, Euro 2024
+# and Copa 2024 -> 2023/24) so the §4.5 ablation's market step is fair across folds.
+SQUAD_SOURCES = {
+    "squads_2018.csv": "2017", "squads_2022.csv": "2021", "squads_2026.csv": "2025",
+    "squads_euro2020.csv": "2020", "squads_euro2024.csv": "2023",
+    "squads_copa2024.csv": "2023",
+}
+TM_SEASONS = sorted(set(SQUAD_SOURCES.values()))
 # non-senior variants to drop from search candidates before the fuzzy match
 _VARIANT = re.compile(r"\b(U-?\d+|Olympic|Olympia|Beach|Futsal|Women|Ladies|Youth|"
                       r"amateur|XI|B)\b", re.I)
@@ -239,8 +246,8 @@ def squad_jobs() -> list[tuple[str, str, str]]:
     """(code, country, season) for every nation in each squad file, mapped to its
     pre-tournament Transfermarkt season. De-duplicated."""
     jobs, seen = [], set()
-    for year, season in YEAR_TO_SEASON.items():
-        f = RAW / f"squads_{year}.csv"
+    for fname, season in SQUAD_SOURCES.items():
+        f = RAW / fname
         if not f.exists():
             continue
         for r in csv.DictReader(f.open()):
@@ -255,7 +262,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--discover", action="store_true", help="harvest team ids only")
     ap.add_argument("--country", help="limit to one FIFA code")
-    ap.add_argument("--season", choices=sorted(set(YEAR_TO_SEASON.values())))
+    ap.add_argument("--season", choices=TM_SEASONS)
     ap.add_argument("--headed", action="store_true", help="run headed under xvfb")
     ap.add_argument("--refresh", action="store_true", help="re-pull cached files")
     args = ap.parse_args()
@@ -263,12 +270,15 @@ def main() -> None:
     driver = make_driver(headless=not args.headed)
     try:
         ids = load_ids()
-        if args.discover or not ids:
-            nations = sorted({(c, n) for c, n, _ in squad_jobs()})
-            if args.country:
-                nations = [(c, n) for c, n in nations if c == args.country]
-            print(f"discovering {len(nations)} national-team ids...")
-            ids = {r["country_code"]: r for r in discover_ids(driver, nations)}
+        # incremental discovery: only nations not already in the crosswalk, so manual
+        # alias overrides (Türkiye, Czechia, ...) are preserved, not re-resolved away.
+        needed = sorted({(c, n) for c, n, _ in squad_jobs()})
+        if args.country:
+            needed = [(c, n) for c, n in needed if c == args.country]
+        todo = needed if args.discover else [(c, n) for c, n in needed if c not in ids]
+        if todo:
+            print(f"discovering {len(todo)} national-team ids...")
+            ids.update({r["country_code"]: r for r in discover_ids(driver, todo)})
             write_ids(sorted(ids.values(), key=lambda r: r["country_code"]))
             print(f"wrote {len(ids)} ids -> {IDS_CSV.name}")
             if args.discover:
