@@ -7,7 +7,30 @@ import pytest
 pd = pytest.importorskip("pandas")
 
 from src.features.player_scores import (  # noqa: E402
-    W_MARKET, W_OBS, W_PRED, composite, percentile_within_position)
+    W_MARKET, W_OBS, W_PRED, _tm_pos_group, composite, join_market_value,
+    percentile_within_position)
+
+
+def test_tm_pos_group_maps_strings():
+    assert _tm_pos_group("Goalkeeper") == "GK"
+    assert _tm_pos_group("Centre-Back") == "DF"
+    assert _tm_pos_group("Attacking Midfield") == "MF"
+    assert _tm_pos_group("Centre-Forward") == "FW"
+
+
+def test_join_market_value_disambiguates_name_collision_by_position():
+    # two BRA players fold to the same key: a GK and a MF with different values
+    squads = pd.DataFrame({
+        "country_code": ["BRA", "BRA"],
+        "player_name": ["Ederson", "Éderson"], "position": ["GK", "MF"]})
+    tm = {"BRA": [
+        {"player_name": "Ederson", "position": "Goalkeeper", "market_value_eur": 30_000_000},
+        {"player_name": "Éderson", "position": "Central Midfield", "market_value_eur": 50_000_000},
+    ]}
+    mv, unmatched = join_market_value(squads, tm)
+    assert mv.iloc[0] == 30_000_000   # the GK gets the keeper's value, not the MF's
+    assert mv.iloc[1] == 50_000_000
+    assert unmatched == []
 
 NAN = float("nan")
 

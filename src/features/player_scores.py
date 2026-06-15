@@ -24,6 +24,7 @@ a worklist that seeds name_overrides.csv. pandas only.
 from __future__ import annotations
 
 import re
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
@@ -76,6 +77,21 @@ def load_market_values(season: str = "2025", raw_dir: Path = RAW) -> dict[str, l
     return out
 
 
+def _tm_pos_group(tm_position) -> str:
+    """Transfermarkt position string (e.g. 'Goalkeeper', 'Centre-Back', 'Attacking
+    Midfield', 'Centre-Forward') -> GK/DF/MF/FW, for disambiguating name collisions."""
+    p = (tm_position or "").lower()
+    if "keeper" in p:
+        return "GK"
+    if "back" in p or "defender" in p:
+        return "DF"
+    if "midfield" in p:
+        return "MF"
+    if "forward" in p or "winger" in p or "striker" in p or "attack" in p:
+        return "FW"
+    return "NA"
+
+
 def join_market_value(squads: pd.DataFrame, tm: dict[str, list[dict]]
                       ) -> tuple[pd.Series, list[tuple[str, str]]]:
     """Per-nation fuzzy match of squad players to Transfermarkt values. Returns the
@@ -85,10 +101,15 @@ def join_market_value(squads: pd.DataFrame, tm: dict[str, list[dict]]
     unmatched: list[tuple[str, str]] = []
     for code, group in squads.groupby("country_code"):
         cand = tm.get(code, [])
-        by_norm = {normalize(c["player_name"]): c for c in cand}
+        # keep ALL candidates per folded name — two players can fold to one key (BRA
+        # "Ederson" GK vs "Éderson" MF). On a collision, disambiguate by position group;
+        # if still ambiguous, leave unmatched (a wrong value is worse than a missing one).
+        by_norm: dict[str, list[dict]] = defaultdict(list)
+        for c in cand:
+            by_norm[normalize(c["player_name"])].append(c)
         # threshold a touch below the default: the candidate set is one nation's squad
-        # (~30-50 names), so collision risk is low and a looser match recovers spelling
-        # variants (nicknames, transliterations) that cost real market-value coverage.
+        # (~30-50 names), so a looser match recovers spelling variants (nicknames,
+        # transliterations) that cost real market-value coverage.
         matcher = Matcher(choices=[c["player_name"] for c in cand],
                           overrides=overrides, threshold=0.80)
         for idx, name in group["player_name"].items():
@@ -96,8 +117,14 @@ def join_market_value(squads: pd.DataFrame, tm: dict[str, list[dict]]
             if target is None:
                 unmatched.append((code, name))
                 continue
-            val = by_norm.get(normalize(target), {}).get("market_value_eur")
-            mv.at[idx] = pd.to_numeric(val, errors="coerce")
+            hits = by_norm.get(normalize(target), [])
+            if len(hits) > 1:
+                want = position_group(group.loc[idx, "position"])
+                hits = [c for c in hits if _tm_pos_group(c.get("position")) == want]
+            if len(hits) != 1:
+                unmatched.append((code, name))  # absent or ambiguous collision
+                continue
+            mv.at[idx] = pd.to_numeric(hits[0].get("market_value_eur"), errors="coerce")
     return mv, unmatched
 
 
