@@ -1,124 +1,71 @@
 # World Cup 2026 — Gap Index
 
-I'm building a machine-learning model to forecast the 2026 World Cup, and to test
-one idea: a national team is just a set of club players, so does it perform as well
-as their club form says it should?
+A calibrated machine-learning forecast of the 2026 World Cup, built to test one idea: a
+national team is just its club players, so does it perform as well as their club form
+predicts? Rate every player from his club season, add them into a squad, compare to how
+the team actually plays — the difference is the gap.
 
-The method is to rate every player from his club season, add the players up into a
-team, and compare that to how the team actually plays. The difference is the gap.
-Some nations do better than their players suggest, some do worse. Measuring that gap
-is the main point of the project.
+Built in the open, updating live during the tournament.
 
-Some of that gap comes from things around the players, and the clearest one is the
-manager. Most national-team coaches couldn't get a top club job; a few now can
-(Thomas Tuchel at England, Carlo Ancelotti at Brazil), so the model includes
-coaching quality as one of the things that can explain why a squad over- or
-under-performs.
+## The result
 
-It also does the ordinary things you'd want from a forecast: a win/draw/loss
-probability and a likely scoreline for each match, and a full simulation of the
-tournament under the real 2026 rules (12 groups, the 8 best third-placed teams, the
-FIFA tiebreakers).
+The project was designed so that either answer is honest. Two things were pre-registered:
 
-Work in progress, built in the open during the tournament. Current state is in the
-table below.
+**1. A calibrated model — met.** On held-out tournaments the expected calibration error is
+0.054: when it says 60%, it happens about 60% of the time.
 
-## What the model uses
+**2. Does translated club talent beat the obvious baselines? — no.** That was the
+hypothesis, and it is not supported. A leakage-guarded backtest (five recent tournaments,
+the whole rating pipeline refit inside each fold) shows the player-talent indices add
+nothing over Elo + market value:
 
-All public data. The inputs and where they come from:
+| features | held-out Brier (lower is better) |
+|---|---|
+| Elo only | 0.594 |
+| + market value | 0.589 |
+| + player-talent indices | 0.596 |
+| + everything else | 0.599 |
 
-- International match results, about 150 years of them — [martj42](https://github.com/martj42/international_results) (GitHub)
-- National-team Elo ratings — [eloratings.net](https://www.eloratings.net/)
-- 2026 fixtures and the 16 venues — [fixturedownload.com](https://fixturedownload.com/)
-- The 48 squads, 1,248 players (plus the 2018 and 2022 squads for backtesting) — Wikipedia
-- Each team's manager, for coaching quality — StatsBomb match data (past tournaments), Wikipedia (2026)
-- Club strength, as club Elo — [clubelo.com](http://clubelo.com/)
-- Club-season player stats (appearances, minutes, goals, assists, shots) — [FBref](https://fbref.com/)
-- Club-season expected goals and assists (xG, npxG, xA, buildup) — [Understat](https://understat.com/)
-- Match event data from past tournaments, used to value player actions (VAEP) — [StatsBomb open data](https://github.com/statsbomb/open-data)
-- Venue temperature forecasts — [Open-Meteo](https://open-meteo.com/)
+National Elo is already built from results, so it is a hard baseline to beat with squad
+composition. The negative *is* the finding — reported plainly, not buried.
 
-Two things are deliberately not model inputs. Bookmaker odds are used only to score
-the model against the market, never to make a prediction. The FIFA world ranking is
-used only for the tiebreakers, not as a feature.
+For scale, the model's Brier (0.589) lands within 0.017 of the bookmaker closing line
+(0.573) and ahead of Elo. The market prices lineup news and money the model excludes by
+rule, so beating it was never the goal.
 
-## Method notes
+The gap analysis still works as a description: talent explains about a third of results
+(R²≈0.30), and the residual is the story — Morocco 2022 over, Germany 2018 under, each
+with an uncertainty band (three group games is a tiny sample).
 
-- Predictions are committed to git with a timestamp before the matches are played.
-  The git history is the record; nothing is predicted after kickoff.
-- The locked file is the simple baseline model and is labelled as such. The full
-  model comes later and does not inherit the early timestamp.
-- Every gap is reported with an uncertainty band. With only a few tournaments per
-  nation, a single run can swing the picture, so a point estimate on its own would
-  mislead.
-- The headline test is a feature-group ablation: do the player-talent indices beat a
-  plain Elo-plus-market-value baseline at predicting matches? Backtested on five recent
-  tournaments (World Cups 2018/2022, Euros 2020/2024, Copa América 2024), with the whole
-  rating pipeline refit inside each fold so the held-out tournament never trains its own
-  prediction. Result below, reported either way.
+## The forecast
 
-## Results so far
+The calibrated model drives a Monte-Carlo run of the whole tournament under the real 2026
+rules — 12 groups, 8 best third-placed teams, FIFA Article 13 tiebreakers. Top of the
+board to win it: **Spain 13%, France 9%, Argentina 9%, England 8%.** It updates within
+half an hour of each full-time.
 
-Two things were pre-registered as the deliverable: a calibrated match model, and an
-honest gap analysis. Both are built. The headline hypothesis — that translated club
-talent beats the obvious baselines — is not supported, and that is itself the finding.
+## How it's built
 
-**The match model is well calibrated.** On held-out tournaments the expected calibration
-error is 0.054: when it says 60%, it happens about 60% of the time. That was the stated
-success criterion, deliberately separated from beating any baseline.
+All public data: 150 years of international results, national and club Elo, the 48 squads
+(Wikipedia), club stats (FBref) and expected goals (Understat), past-tournament event data
+for player VAEP (StatsBomb), 2026 fixtures, venues and heat. Bookmaker odds and the FIFA
+ranking are used only for scoring and tiebreakers — never as model inputs.
 
-**The talent indices do not beat Elo + market value.** Pooled held-out Brier as the
-feature set grows (lower is better; a 3-way coin guess is 0.667):
+The integrity is the point:
 
-| features | Brier | 90% CI |
-|---|---|---|
-| Elo only | 0.594 | [0.562, 0.617] |
-| + market value | 0.589 | [0.559, 0.611] |
-| + player-talent indices | 0.596 | [0.564, 0.622] |
-| + everything else | 0.599 | [0.562, 0.623] |
-
-Market value nudges it (within the intervals); the club-to-country talent indices add
-nothing on top. So the project's own thesis — that translated club talent beats the
-obvious baselines — is not supported. National Elo is already built from results, so it
-is a hard baseline to beat with squad composition. I'd rather report that plainly than
-bury it.
-
-**Against the betting market.** On the same held-out matches, the model's Brier is 0.589
-versus the bookmaker closing line's 0.573 — about 0.017 behind the market, and ahead of
-Elo-only (0.594). That's the honest place to be: the market prices lineup news and money
-the model deliberately excludes (odds are never a model input here), so beating it was
-never the goal; landing within a hair of it while beating Elo is the result.
-
-**The gap analysis — the namesake — holds up as a description.** Talent (mostly market
-value and Elo) explains about a third of how teams actually do (R²≈0.30), so the residual
-*is* the story: who beat or fell short of the level their squad implies. In the backtest
-the clear overperformers include Morocco 2022 and Croatia/Uruguay 2018; Germany 2018 is a
-clear underperformer. Every gap carries an uncertainty band — three group games is a tiny
-sample, so several gaps sit within noise, reported as such.
-
-**The forecast still works.** The calibrated model drives a Monte-Carlo run of the whole
-tournament under the real 2026 rules (12 groups, 8 best thirds, Article 13). Current top
-of the board to win it: Spain 12%, Argentina 9%, France 9%, England 8%.
+- Predictions are committed to git, timestamped, before kickoff. The history is the record.
+- Nested cross-validation: the rating pipeline is refit inside every backtest fold, so a
+  held-out tournament never trains its own prediction.
+- Three correctness tests are enforced in CI: the exact Article 13 tiebreakers, the
+  leakage guard, and scoreline coherence (simulated scorelines match the model's W/D/L).
+- Every gap is reported with an uncertainty band, never as a point verdict.
 
 ## Status
 
-| Stage | What | State |
-|---|---|---|
-| 0 | Lock the predictions (verifiable timestamp) | done |
-| 1 | Data pipeline (results, squads, club stats, xG, market values, Elo) | done |
-| 2 | Player ratings (the club-to-country translation) | done |
-| 3 | Match model + nested-CV validation + the ablation above | done |
-| 4 | Tournament simulation (Article 13 tiebreakers, Monte Carlo) | done |
-| 5 | Live daily updates + public track record (cron, append-only log) | in progress |
-| 6 | Website | planned |
+| Stage | State |
+|---|---|
+| Data pipeline · player ratings · match model + validation · tournament simulation | done |
+| Live daily updates + public track record | done |
+| Website | planned |
 
-All three correctness-critical test suites are green: the Article 13 tiebreakers (the
-exact 2026 order — head-to-head before goal difference, world ranking as the final
-decider, no drawing of lots), the leakage guard (the rating pipeline is refit inside
-every backtest fold), and scoreline coherence (simulated scorelines agree with the
-model's win/draw/loss probabilities).
-
-## Stack
-
-Python. The pipeline runs headless and writes predictions as plain files. The site
-will be static, so there is no backend to go dark mid-tournament.
+Python. Static output, committed as plain files — no backend to go dark mid-tournament.
