@@ -39,6 +39,17 @@ jobs:
           elif [ "$code" -eq 0 ]; then echo "changed=false" >> "$GITHUB_OUTPUT";
           else echo "check failed (exit $code)"; exit "$code"; fi
 
+      # the pre-tournament model bundle is fixed for the whole tournament, so cache it
+      # across cron runs keyed on the model code — rebuilt only when that code changes,
+      # not on every data commit. Runners are ephemeral, so without this each heavy run
+      # would rebuild it (~6 min). load_or_build_bundle self-heals if the restore is stale.
+      - name: Restore model bundle
+        if: steps.check.outputs.changed == 'true'
+        uses: actions/cache@v4
+        with:
+          path: data/processed/model_bundle.pkl
+          key: bundle-v1-${{ hashFiles('src/models/**.py', 'src/features/**.py') }}
+
       # faithful env (apt trixie base + pip gap, see Dockerfile) — ubuntu-latest isn't
       # trixie, so a bare `pip install -r requirements.txt` would build on the wrong base.
       - name: Recompute forecast + simulation

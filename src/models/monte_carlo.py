@@ -24,6 +24,7 @@ ties break deterministically, not by a random draw (§5.1). pandas + scipy.
 from __future__ import annotations
 
 import pickle
+import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -46,6 +47,7 @@ RAW = REPO / "data" / "raw"
 PROC = REPO / "data" / "predictions"
 PROC_DATA = REPO / "data" / "processed"
 BUNDLE_PATH = PROC_DATA / "model_bundle.pkl"
+BUNDLE_VERSION = 1   # bump when the Bundle shape or how it's built changes -> auto-rebuild
 
 GROUPS = list("ABCDEFGHIJKL")
 WC_START = "2026-06-11"
@@ -68,6 +70,7 @@ class Bundle:
     wdl_bag: list[dict[tuple[str, str], np.ndarray]]  # bootstrap pairwise W/D/L
     dc_bag: list[DCModel]                             # bootstrap Dixon-Coles
     n_boot: int
+    version: int                                      # BUNDLE_VERSION it was built under
 
 
 def code_to_martj42() -> dict[str, str]:
@@ -129,7 +132,7 @@ def build_bundle(n_boot: int = N_BOOT, seed: int = 0) -> Bundle:
         dc_bag.append(dc_fit(boot, ref_date=WC_START))
 
     return Bundle(indices, codes, code_to_martj42(), elo_rank_by_code(indices),
-                  wdl, dc, wdl_bag, dc_bag, n_boot)
+                  wdl, dc, wdl_bag, dc_bag, n_boot, BUNDLE_VERSION)
 
 
 def save_bundle(bundle: Bundle, path: Path = BUNDLE_PATH) -> None:
@@ -140,10 +143,18 @@ def save_bundle(bundle: Bundle, path: Path = BUNDLE_PATH) -> None:
 
 def load_or_build_bundle(path: Path = BUNDLE_PATH, rebuild: bool = False) -> Bundle:
     """Load the cached bundle (fixed pre-tournament -> reuse every update) or build+cache
-    it. Pass rebuild=True between tournaments or after a model change."""
+    it. Self-healing: a corrupt, unpicklable (e.g. a sklearn version change), or
+    stale-version cache is rebuilt rather than crashing the run. rebuild=True forces it."""
     if path.exists() and not rebuild:
-        with open(path, "rb") as f:
-            return pickle.load(f)
+        try:
+            with open(path, "rb") as f:
+                bundle = pickle.load(f)
+            if getattr(bundle, "version", None) == BUNDLE_VERSION:
+                return bundle
+            print(f"bundle version {getattr(bundle, 'version', None)} != {BUNDLE_VERSION}; "
+                  "rebuilding", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001 - any load failure -> rebuild, never crash
+            print(f"bundle load failed ({e}); rebuilding", file=sys.stderr)
     bundle = build_bundle()
     save_bundle(bundle, path)
     return bundle

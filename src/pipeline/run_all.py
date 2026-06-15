@@ -41,14 +41,18 @@ def played_fixture_ids(fixtures: pd.DataFrame) -> set[str]:
     return set(fixtures.loc[flag, "fixture_id"])
 
 
-def _refresh_fixtures() -> None:
-    """Best-effort live-score refresh (keyless fixturedownload feed). On failure keep the
-    cached fixtures — degrade freshness, don't crash (PLAN §6 cached fallback)."""
+def _refresh_fixtures() -> bool:
+    """Best-effort live-score refresh (keyless fixturedownload feed). Returns whether it
+    succeeded; on failure keep the cached fixtures — degrade freshness, don't crash
+    (PLAN §6 cached fallback). The caller surfaces the stale signal loudly."""
     try:
         from src.pipeline import fetch_fixtures_venues
         fetch_fixtures_venues.main()
+        return True
     except Exception as e:  # noqa: BLE001 - scrapers are allowed to fail
-        print(f"warn: fixture refresh failed ({e}); using cached fixtures", file=sys.stderr)
+        print(f"warn: fixture refresh FAILED ({e}); using cached fixtures — DATA MAY BE STALE",
+              file=sys.stderr)
+        return False
 
 
 def _step(name: str, fn) -> None:
@@ -60,19 +64,19 @@ def _step(name: str, fn) -> None:
         sys.exit(1)
 
 
-def main(force: bool = False) -> None:
-    _refresh_fixtures()
+def main(force: bool = False, rebuild: bool = False) -> None:
+    fresh = _refresh_fixtures()
     fixtures = pd.read_csv(FIXTURES)
     played = played_fixture_ids(fixtures)
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
-    if not force and LIVE.exists() and SIM.exists() and played == last:
+    if not force and not rebuild and LIVE.exists() and SIM.exists() and played == last:
         print(f"no new results ({len(played)} played); nothing to update")
         return
     print(f"new evidence: {len(played)} played (was {len(last)}); recomputing forecast")
 
     from src.models import monte_carlo
     from src.pipeline import build_live_artifact, write_predictions
-    bundle = monte_carlo.load_or_build_bundle()   # cached pre-tournament model (+ bags)
+    bundle = monte_carlo.load_or_build_bundle(rebuild=rebuild)  # cached pre-tournament model
 
     def _sim():  # tournament_sim.csv + simulation.json (+ web mirror)
         # live updates use a lighter draw count than monte_carlo's 100k default: at 20k
@@ -102,7 +106,7 @@ def main(force: bool = False) -> None:
     _step("live_artifact", _live)
     MARKER.write_text(" ".join(sorted(played)))
     print(f"update complete {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')} "
-          f"({len(played)} results in)")
+          f"({len(played)} results in, data {'fresh' if fresh else 'STALE (cached)'})")
 
 
 def check() -> bool:
@@ -121,4 +125,4 @@ def check() -> bool:
 if __name__ == "__main__":
     if "--check" in sys.argv:
         sys.exit(10 if check() else 0)  # exit 10 = new results, recompute needed
-    main(force="--force" in sys.argv)
+    main(force="--force" in sys.argv, rebuild="--rebuild" in sys.argv)
