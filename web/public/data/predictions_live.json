@@ -1,0 +1,3131 @@
+{
+  "schema_version": "1.0",
+  "kind": "live",
+  "model_version": "live-elo-mkt@f245be6",
+  "generated_at": "2026-06-15T14:42:27Z",
+  "locked_at_utc": null,
+  "tournament": "FIFA World Cup 26",
+  "coverage": {
+    "covered_fixture_ids": [
+      "WC26-M008",
+      "WC26-M007",
+      "WC26-M005",
+      "WC26-M006",
+      "WC26-M010",
+      "WC26-M011",
+      "WC26-M009",
+      "WC26-M012",
+      "WC26-M014",
+      "WC26-M016",
+      "WC26-M013",
+      "WC26-M015",
+      "WC26-M017",
+      "WC26-M018",
+      "WC26-M019",
+      "WC26-M020",
+      "WC26-M023",
+      "WC26-M022",
+      "WC26-M021",
+      "WC26-M024",
+      "WC26-M025",
+      "WC26-M026",
+      "WC26-M027",
+      "WC26-M028",
+      "WC26-M032",
+      "WC26-M030",
+      "WC26-M029",
+      "WC26-M031",
+      "WC26-M035",
+      "WC26-M033",
+      "WC26-M034",
+      "WC26-M036",
+      "WC26-M038",
+      "WC26-M039",
+      "WC26-M037",
+      "WC26-M040",
+      "WC26-M043",
+      "WC26-M042",
+      "WC26-M041",
+      "WC26-M044",
+      "WC26-M047",
+      "WC26-M045",
+      "WC26-M046",
+      "WC26-M048",
+      "WC26-M051",
+      "WC26-M052",
+      "WC26-M049",
+      "WC26-M050",
+      "WC26-M053",
+      "WC26-M054",
+      "WC26-M055",
+      "WC26-M056",
+      "WC26-M057",
+      "WC26-M058",
+      "WC26-M059",
+      "WC26-M060",
+      "WC26-M061",
+      "WC26-M062",
+      "WC26-M065",
+      "WC26-M066",
+      "WC26-M063",
+      "WC26-M064",
+      "WC26-M067",
+      "WC26-M068",
+      "WC26-M071",
+      "WC26-M072",
+      "WC26-M069",
+      "WC26-M070"
+    ],
+    "excluded_played_fixture_ids": [
+      "WC26-M001",
+      "WC26-M002",
+      "WC26-M003",
+      "WC26-M004"
+    ],
+    "pending_undetermined_fixture_ids": [
+      "WC26-M073",
+      "WC26-M074",
+      "WC26-M075",
+      "WC26-M076",
+      "WC26-M077",
+      "WC26-M078",
+      "WC26-M079",
+      "WC26-M080",
+      "WC26-M081",
+      "WC26-M082",
+      "WC26-M083",
+      "WC26-M084",
+      "WC26-M085",
+      "WC26-M086",
+      "WC26-M087",
+      "WC26-M088",
+      "WC26-M089",
+      "WC26-M090",
+      "WC26-M091",
+      "WC26-M092",
+      "WC26-M093",
+      "WC26-M094",
+      "WC26-M095",
+      "WC26-M096",
+      "WC26-M097",
+      "WC26-M098",
+      "WC26-M099",
+      "WC26-M100",
+      "WC26-M101",
+      "WC26-M102",
+      "WC26-M103",
+      "WC26-M104"
+    ]
+  },
+  "sources": [
+    {
+      "name": "fixtures",
+      "as_of": "2026-06-15T14:42:27Z",
+      "stale": false
+    },
+    {
+      "name": "match_results",
+      "as_of": "2026-06-15T14:42:27Z",
+      "stale": false
+    },
+    {
+      "name": "match_model",
+      "as_of": "2026-06-15T14:42:27Z",
+      "stale": false
+    }
+  ],
+  "predictions": [
+    {
+      "fixture_id": "WC26-M008",
+      "stage": "group",
+      "kickoff_utc": "2026-06-13T19:00:00Z",
+      "team1": "QAT",
+      "team2": "SUI",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1101033810254065,
+        "draw": 0.2101742162026266,
+        "team2": 0.6797224027719667
+      },
+      "scorelines": [
+        {
+          "score": "0-2",
+          "p": 0.1387
+        },
+        {
+          "score": "0-1",
+          "p": 0.1343
+        },
+        {
+          "score": "1-1",
+          "p": 0.0986
+        },
+        {
+          "score": "1-2",
+          "p": 0.0927
+        },
+        {
+          "score": "0-3",
+          "p": 0.0919
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1101033810254065,
+          "draw": 0.2101742162026266,
+          "team2": 0.6797224027719667
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M007",
+      "stage": "group",
+      "kickoff_utc": "2026-06-13T22:00:00Z",
+      "team1": "BRA",
+      "team2": "MAR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4684570390644456,
+        "draw": 0.2692851552505885,
+        "team2": 0.2622578056849659
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1284
+        },
+        {
+          "score": "1-0",
+          "p": 0.1051
+        },
+        {
+          "score": "2-1",
+          "p": 0.0929
+        },
+        {
+          "score": "2-0",
+          "p": 0.0857
+        },
+        {
+          "score": "0-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4684570390644456,
+          "draw": 0.2692851552505885,
+          "team2": 0.2622578056849659
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M005",
+      "stage": "group",
+      "kickoff_utc": "2026-06-14T01:00:00Z",
+      "team1": "HAI",
+      "team2": "SCO",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2049077710445356,
+        "draw": 0.2554688295054902,
+        "team2": 0.5396233994499742
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1217
+        },
+        {
+          "score": "0-1",
+          "p": 0.1155
+        },
+        {
+          "score": "0-2",
+          "p": 0.1023
+        },
+        {
+          "score": "1-2",
+          "p": 0.0965
+        },
+        {
+          "score": "0-0",
+          "p": 0.0794
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2049077710445356,
+          "draw": 0.2554688295054902,
+          "team2": 0.5396233994499742
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M006",
+      "stage": "group",
+      "kickoff_utc": "2026-06-14T04:00:00Z",
+      "team1": "AUS",
+      "team2": "TUR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2077141278828052,
+        "draw": 0.2563354368991614,
+        "team2": 0.5359504352180334
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1221
+        },
+        {
+          "score": "0-1",
+          "p": 0.115
+        },
+        {
+          "score": "0-2",
+          "p": 0.1014
+        },
+        {
+          "score": "1-2",
+          "p": 0.0964
+        },
+        {
+          "score": "0-0",
+          "p": 0.0794
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2077141278828052,
+          "draw": 0.2563354368991614,
+          "team2": 0.5359504352180334
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M010",
+      "stage": "group",
+      "kickoff_utc": "2026-06-14T17:00:00Z",
+      "team1": "GER",
+      "team2": "CUW",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6966362238452574,
+        "draw": 0.2030717580521848,
+        "team2": 0.1002920181025578
+      },
+      "scorelines": [
+        {
+          "score": "2-0",
+          "p": 0.1434
+        },
+        {
+          "score": "1-0",
+          "p": 0.1363
+        },
+        {
+          "score": "3-0",
+          "p": 0.097
+        },
+        {
+          "score": "1-1",
+          "p": 0.0949
+        },
+        {
+          "score": "2-1",
+          "p": 0.0911
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6966362238452574,
+          "draw": 0.2030717580521848,
+          "team2": 0.1002920181025578
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M011",
+      "stage": "group",
+      "kickoff_utc": "2026-06-14T20:00:00Z",
+      "team1": "NED",
+      "team2": "JPN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4353621808692861,
+        "draw": 0.2735131326683319,
+        "team2": 0.2911246864623821
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1304
+        },
+        {
+          "score": "1-0",
+          "p": 0.1001
+        },
+        {
+          "score": "2-1",
+          "p": 0.0902
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "2-0",
+          "p": 0.0783
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4353621808692861,
+          "draw": 0.2735131326683319,
+          "team2": 0.2911246864623821
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M009",
+      "stage": "group",
+      "kickoff_utc": "2026-06-14T23:00:00Z",
+      "team1": "CIV",
+      "team2": "ECU",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3072970570132159,
+        "draw": 0.2751875411788641,
+        "team2": 0.4175154018079199
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1312
+        },
+        {
+          "score": "0-1",
+          "p": 0.0974
+        },
+        {
+          "score": "1-2",
+          "p": 0.0884
+        },
+        {
+          "score": "0-0",
+          "p": 0.0805
+        },
+        {
+          "score": "1-0",
+          "p": 0.0801
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3072970570132159,
+          "draw": 0.2751875411788641,
+          "team2": 0.4175154018079199
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M012",
+      "stage": "group",
+      "kickoff_utc": "2026-06-15T02:00:00Z",
+      "team1": "SWE",
+      "team2": "TUN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4610762883357795,
+        "draw": 0.2703521067635358,
+        "team2": 0.2685716049006845
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1289
+        },
+        {
+          "score": "1-0",
+          "p": 0.104
+        },
+        {
+          "score": "2-1",
+          "p": 0.0923
+        },
+        {
+          "score": "2-0",
+          "p": 0.084
+        },
+        {
+          "score": "0-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4610762883357795,
+          "draw": 0.2703521067635358,
+          "team2": 0.2685716049006845
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M014",
+      "stage": "group",
+      "kickoff_utc": "2026-06-15T16:00:00Z",
+      "team1": "ESP",
+      "team2": "CPV",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.7664967142639819,
+        "draw": 0.1697851991612345,
+        "team2": 0.0637180865747835
+      },
+      "scorelines": [
+        {
+          "score": "2-0",
+          "p": 0.1631
+        },
+        {
+          "score": "1-0",
+          "p": 0.1428
+        },
+        {
+          "score": "3-0",
+          "p": 0.1207
+        },
+        {
+          "score": "2-1",
+          "p": 0.0808
+        },
+        {
+          "score": "1-1",
+          "p": 0.0769
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.7664967142639819,
+          "draw": 0.1697851991612345,
+          "team2": 0.0637180865747835
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M016",
+      "stage": "group",
+      "kickoff_utc": "2026-06-15T19:00:00Z",
+      "team1": "BEL",
+      "team2": "EGY",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5417667535712486,
+        "draw": 0.254955509203576,
+        "team2": 0.2032777372251753
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1215
+        },
+        {
+          "score": "1-0",
+          "p": 0.1158
+        },
+        {
+          "score": "2-0",
+          "p": 0.1028
+        },
+        {
+          "score": "2-1",
+          "p": 0.0966
+        },
+        {
+          "score": "0-0",
+          "p": 0.0793
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5417667535712486,
+          "draw": 0.254955509203576,
+          "team2": 0.2032777372251753
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M013",
+      "stage": "group",
+      "kickoff_utc": "2026-06-15T22:00:00Z",
+      "team1": "KSA",
+      "team2": "URU",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1348006325945394,
+        "draw": 0.2255886070782883,
+        "team2": 0.6396107603271721
+      },
+      "scorelines": [
+        {
+          "score": "0-1",
+          "p": 0.1293
+        },
+        {
+          "score": "0-2",
+          "p": 0.1278
+        },
+        {
+          "score": "1-1",
+          "p": 0.1067
+        },
+        {
+          "score": "1-2",
+          "p": 0.0955
+        },
+        {
+          "score": "0-3",
+          "p": 0.0807
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1348006325945394,
+          "draw": 0.2255886070782883,
+          "team2": 0.6396107603271721
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M015",
+      "stage": "group",
+      "kickoff_utc": "2026-06-16T01:00:00Z",
+      "team1": "IRN",
+      "team2": "NZL",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4673186377366497,
+        "draw": 0.2694543072809227,
+        "team2": 0.2632270549824275
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1285
+        },
+        {
+          "score": "1-0",
+          "p": 0.1049
+        },
+        {
+          "score": "2-1",
+          "p": 0.0928
+        },
+        {
+          "score": "2-0",
+          "p": 0.0854
+        },
+        {
+          "score": "0-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4673186377366497,
+          "draw": 0.2694543072809227,
+          "team2": 0.2632270549824275
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M017",
+      "stage": "group",
+      "kickoff_utc": "2026-06-16T19:00:00Z",
+      "team1": "FRA",
+      "team2": "SEN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5317003232808353,
+        "draw": 0.257317625152957,
+        "team2": 0.2109820515662077
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1226
+        },
+        {
+          "score": "1-0",
+          "p": 0.1143
+        },
+        {
+          "score": "2-0",
+          "p": 0.1004
+        },
+        {
+          "score": "2-1",
+          "p": 0.0963
+        },
+        {
+          "score": "0-0",
+          "p": 0.0795
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5317003232808353,
+          "draw": 0.257317625152957,
+          "team2": 0.2109820515662077
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M018",
+      "stage": "group",
+      "kickoff_utc": "2026-06-16T22:00:00Z",
+      "team1": "IRQ",
+      "team2": "NOR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1376204176096801,
+        "draw": 0.2271532695533404,
+        "team2": 0.6352263128369795
+      },
+      "scorelines": [
+        {
+          "score": "0-1",
+          "p": 0.1287
+        },
+        {
+          "score": "0-2",
+          "p": 0.1267
+        },
+        {
+          "score": "1-1",
+          "p": 0.1075
+        },
+        {
+          "score": "1-2",
+          "p": 0.0957
+        },
+        {
+          "score": "0-3",
+          "p": 0.0795
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1376204176096801,
+          "draw": 0.2271532695533404,
+          "team2": 0.6352263128369795
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M019",
+      "stage": "group",
+      "kickoff_utc": "2026-06-17T01:00:00Z",
+      "team1": "ARG",
+      "team2": "ALG",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5759586483876362,
+        "draw": 0.2460114915178717,
+        "team2": 0.178029860094492
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1207
+        },
+        {
+          "score": "1-1",
+          "p": 0.117
+        },
+        {
+          "score": "2-0",
+          "p": 0.1113
+        },
+        {
+          "score": "2-1",
+          "p": 0.0971
+        },
+        {
+          "score": "0-0",
+          "p": 0.0787
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5759586483876362,
+          "draw": 0.2460114915178717,
+          "team2": 0.178029860094492
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M020",
+      "stage": "group",
+      "kickoff_utc": "2026-06-17T04:00:00Z",
+      "team1": "AUT",
+      "team2": "JOR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5856208875068536,
+        "draw": 0.2432273093405354,
+        "team2": 0.1711518031526109
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.122
+        },
+        {
+          "score": "1-1",
+          "p": 0.1156
+        },
+        {
+          "score": "2-0",
+          "p": 0.1137
+        },
+        {
+          "score": "2-1",
+          "p": 0.097
+        },
+        {
+          "score": "0-0",
+          "p": 0.0785
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5856208875068536,
+          "draw": 0.2432273093405354,
+          "team2": 0.1711518031526109
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M023",
+      "stage": "group",
+      "kickoff_utc": "2026-06-17T17:00:00Z",
+      "team1": "POR",
+      "team2": "COD",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6007578141450335,
+        "draw": 0.2386385865629958,
+        "team2": 0.1606035992919706
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1241
+        },
+        {
+          "score": "2-0",
+          "p": 0.1176
+        },
+        {
+          "score": "1-1",
+          "p": 0.1133
+        },
+        {
+          "score": "2-1",
+          "p": 0.0969
+        },
+        {
+          "score": "0-0",
+          "p": 0.0782
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6007578141450335,
+          "draw": 0.2386385865629958,
+          "team2": 0.1606035992919706
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M022",
+      "stage": "group",
+      "kickoff_utc": "2026-06-17T20:00:00Z",
+      "team1": "ENG",
+      "team2": "CRO",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4911751693545779,
+        "draw": 0.2655633709707256,
+        "team2": 0.2432614596746965
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1266
+        },
+        {
+          "score": "1-0",
+          "p": 0.1084
+        },
+        {
+          "score": "2-1",
+          "p": 0.0944
+        },
+        {
+          "score": "2-0",
+          "p": 0.0908
+        },
+        {
+          "score": "0-0",
+          "p": 0.08
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4911751693545779,
+          "draw": 0.2655633709707256,
+          "team2": 0.2432614596746965
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M021",
+      "stage": "group",
+      "kickoff_utc": "2026-06-17T23:00:00Z",
+      "team1": "GHA",
+      "team2": "PAN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3544546831907529,
+        "draw": 0.2774913397259481,
+        "team2": 0.3680539770832989
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1323
+        },
+        {
+          "score": "0-1",
+          "p": 0.0898
+        },
+        {
+          "score": "1-0",
+          "p": 0.0877
+        },
+        {
+          "score": "1-2",
+          "p": 0.0826
+        },
+        {
+          "score": "2-1",
+          "p": 0.0808
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3544546831907529,
+          "draw": 0.2774913397259481,
+          "team2": 0.3680539770832989
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M024",
+      "stage": "group",
+      "kickoff_utc": "2026-06-18T02:00:00Z",
+      "team1": "UZB",
+      "team2": "COL",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1814804263207677,
+        "draw": 0.247349452121412,
+        "team2": 0.5711701215578203
+      },
+      "scorelines": [
+        {
+          "score": "0-1",
+          "p": 0.12
+        },
+        {
+          "score": "1-1",
+          "p": 0.1177
+        },
+        {
+          "score": "0-2",
+          "p": 0.1101
+        },
+        {
+          "score": "1-2",
+          "p": 0.097
+        },
+        {
+          "score": "0-0",
+          "p": 0.0788
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1814804263207677,
+          "draw": 0.247349452121412,
+          "team2": 0.5711701215578203
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M025",
+      "stage": "group",
+      "kickoff_utc": "2026-06-18T16:00:00Z",
+      "team1": "CZE",
+      "team2": "RSA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5328558063603579,
+        "draw": 0.2570527853830338,
+        "team2": 0.2100914082566083
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1225
+        },
+        {
+          "score": "1-0",
+          "p": 0.1145
+        },
+        {
+          "score": "2-0",
+          "p": 0.1007
+        },
+        {
+          "score": "2-1",
+          "p": 0.0963
+        },
+        {
+          "score": "0-0",
+          "p": 0.0795
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5328558063603579,
+          "draw": 0.2570527853830338,
+          "team2": 0.2100914082566083
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M026",
+      "stage": "group",
+      "kickoff_utc": "2026-06-18T19:00:00Z",
+      "team1": "SUI",
+      "team2": "BIH",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5614552453771764,
+        "draw": 0.2499785755955497,
+        "team2": 0.1885661790272738
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.119
+        },
+        {
+          "score": "1-0",
+          "p": 0.1186
+        },
+        {
+          "score": "2-0",
+          "p": 0.1077
+        },
+        {
+          "score": "2-1",
+          "p": 0.097
+        },
+        {
+          "score": "0-0",
+          "p": 0.079
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5614552453771764,
+          "draw": 0.2499785755955497,
+          "team2": 0.1885661790272738
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M027",
+      "stage": "group",
+      "kickoff_utc": "2026-06-18T22:00:00Z",
+      "team1": "CAN",
+      "team2": "QAT",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6287448133550422,
+        "draw": 0.2294232831235243,
+        "team2": 0.1418319035214335
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1279
+        },
+        {
+          "score": "2-0",
+          "p": 0.1249
+        },
+        {
+          "score": "1-1",
+          "p": 0.1086
+        },
+        {
+          "score": "2-1",
+          "p": 0.096
+        },
+        {
+          "score": "3-0",
+          "p": 0.0778
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6287448133550422,
+          "draw": 0.2294232831235243,
+          "team2": 0.1418319035214335
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M028",
+      "stage": "group",
+      "kickoff_utc": "2026-06-19T01:00:00Z",
+      "team1": "MEX",
+      "team2": "KOR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4322128352674966,
+        "draw": 0.2738399562907241,
+        "team2": 0.2939472084417792
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1306
+        },
+        {
+          "score": "1-0",
+          "p": 0.0997
+        },
+        {
+          "score": "2-1",
+          "p": 0.0899
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "0-1",
+          "p": 0.0779
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4322128352674966,
+          "draw": 0.2738399562907241,
+          "team2": 0.2939472084417792
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M032",
+      "stage": "group",
+      "kickoff_utc": "2026-06-19T19:00:00Z",
+      "team1": "USA",
+      "team2": "AUS",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4655142951209406,
+        "draw": 0.2697189885689797,
+        "team2": 0.2647667163100797
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1286
+        },
+        {
+          "score": "1-0",
+          "p": 0.1046
+        },
+        {
+          "score": "2-1",
+          "p": 0.0927
+        },
+        {
+          "score": "2-0",
+          "p": 0.085
+        },
+        {
+          "score": "0-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4655142951209406,
+          "draw": 0.2697189885689797,
+          "team2": 0.2647667163100797
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M030",
+      "stage": "group",
+      "kickoff_utc": "2026-06-19T22:00:00Z",
+      "team1": "SCO",
+      "team2": "MAR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3002863383361662,
+        "draw": 0.2745202411560898,
+        "team2": 0.4251934205077439
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1309
+        },
+        {
+          "score": "0-1",
+          "p": 0.0986
+        },
+        {
+          "score": "1-2",
+          "p": 0.0892
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "1-0",
+          "p": 0.0789
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3002863383361662,
+          "draw": 0.2745202411560898,
+          "team2": 0.4251934205077439
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M029",
+      "stage": "group",
+      "kickoff_utc": "2026-06-20T01:00:00Z",
+      "team1": "BRA",
+      "team2": "HAI",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6906966320521586,
+        "draw": 0.2056072049750244,
+        "team2": 0.1036961629728168
+      },
+      "scorelines": [
+        {
+          "score": "2-0",
+          "p": 0.1418
+        },
+        {
+          "score": "1-0",
+          "p": 0.1356
+        },
+        {
+          "score": "1-1",
+          "p": 0.0962
+        },
+        {
+          "score": "3-0",
+          "p": 0.0952
+        },
+        {
+          "score": "2-1",
+          "p": 0.0917
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6906966320521586,
+          "draw": 0.2056072049750244,
+          "team2": 0.1036961629728168
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M031",
+      "stage": "group",
+      "kickoff_utc": "2026-06-20T04:00:00Z",
+      "team1": "TUR",
+      "team2": "PAR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4413324367009266,
+        "draw": 0.2728571186270566,
+        "team2": 0.2858104446720169
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1301
+        },
+        {
+          "score": "1-0",
+          "p": 0.101
+        },
+        {
+          "score": "2-1",
+          "p": 0.0907
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "2-0",
+          "p": 0.0796
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4413324367009266,
+          "draw": 0.2728571186270566,
+          "team2": 0.2858104446720169
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M035",
+      "stage": "group",
+      "kickoff_utc": "2026-06-20T17:00:00Z",
+      "team1": "NED",
+      "team2": "SWE",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5316353344094658,
+        "draw": 0.2573324721864484,
+        "team2": 0.2110321934040857
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1226
+        },
+        {
+          "score": "1-0",
+          "p": 0.1143
+        },
+        {
+          "score": "2-0",
+          "p": 0.1004
+        },
+        {
+          "score": "2-1",
+          "p": 0.0963
+        },
+        {
+          "score": "0-0",
+          "p": 0.0795
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5316353344094658,
+          "draw": 0.2573324721864484,
+          "team2": 0.2110321934040857
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M033",
+      "stage": "group",
+      "kickoff_utc": "2026-06-20T20:00:00Z",
+      "team1": "GER",
+      "team2": "CIV",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4904602250294694,
+        "draw": 0.2656904689453264,
+        "team2": 0.2438493060252041
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1267
+        },
+        {
+          "score": "1-0",
+          "p": 0.1083
+        },
+        {
+          "score": "2-1",
+          "p": 0.0944
+        },
+        {
+          "score": "2-0",
+          "p": 0.0907
+        },
+        {
+          "score": "0-0",
+          "p": 0.08
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4904602250294694,
+          "draw": 0.2656904689453264,
+          "team2": 0.2438493060252041
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M034",
+      "stage": "group",
+      "kickoff_utc": "2026-06-21T00:00:00Z",
+      "team1": "ECU",
+      "team2": "CUW",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6378386411765634,
+        "draw": 0.2262238482973125,
+        "team2": 0.135937510526124
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1291
+        },
+        {
+          "score": "2-0",
+          "p": 0.1274
+        },
+        {
+          "score": "1-1",
+          "p": 0.107
+        },
+        {
+          "score": "2-1",
+          "p": 0.0956
+        },
+        {
+          "score": "3-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6378386411765634,
+          "draw": 0.2262238482973125,
+          "team2": 0.135937510526124
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M036",
+      "stage": "group",
+      "kickoff_utc": "2026-06-21T04:00:00Z",
+      "team1": "TUN",
+      "team2": "JPN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1923604669098457,
+        "draw": 0.2513229888422668,
+        "team2": 0.5563165442478875
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1197
+        },
+        {
+          "score": "0-1",
+          "p": 0.1179
+        },
+        {
+          "score": "0-2",
+          "p": 0.1064
+        },
+        {
+          "score": "1-2",
+          "p": 0.0969
+        },
+        {
+          "score": "0-0",
+          "p": 0.0791
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1923604669098457,
+          "draw": 0.2513229888422668,
+          "team2": 0.5563165442478875
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M038",
+      "stage": "group",
+      "kickoff_utc": "2026-06-21T16:00:00Z",
+      "team1": "ESP",
+      "team2": "KSA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.7613307910235994,
+        "draw": 0.1724722162889341,
+        "team2": 0.0661969926874666
+      },
+      "scorelines": [
+        {
+          "score": "2-0",
+          "p": 0.1617
+        },
+        {
+          "score": "1-0",
+          "p": 0.1424
+        },
+        {
+          "score": "3-0",
+          "p": 0.1188
+        },
+        {
+          "score": "2-1",
+          "p": 0.0817
+        },
+        {
+          "score": "1-1",
+          "p": 0.0784
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.7613307910235994,
+          "draw": 0.1724722162889341,
+          "team2": 0.0661969926874666
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M039",
+      "stage": "group",
+      "kickoff_utc": "2026-06-21T19:00:00Z",
+      "team1": "BEL",
+      "team2": "IRN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5399780171614679,
+        "draw": 0.2553842878422078,
+        "team2": 0.2046376949963242
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1217
+        },
+        {
+          "score": "1-0",
+          "p": 0.1155
+        },
+        {
+          "score": "2-0",
+          "p": 0.1024
+        },
+        {
+          "score": "2-1",
+          "p": 0.0965
+        },
+        {
+          "score": "0-0",
+          "p": 0.0794
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5399780171614679,
+          "draw": 0.2553842878422078,
+          "team2": 0.2046376949963242
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M037",
+      "stage": "group",
+      "kickoff_utc": "2026-06-21T22:00:00Z",
+      "team1": "URU",
+      "team2": "CPV",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.646681358028006,
+        "draw": 0.2230157443978744,
+        "team2": 0.1303028975741196
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1302
+        },
+        {
+          "score": "2-0",
+          "p": 0.1297
+        },
+        {
+          "score": "1-1",
+          "p": 0.1053
+        },
+        {
+          "score": "2-1",
+          "p": 0.0951
+        },
+        {
+          "score": "3-0",
+          "p": 0.0826
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.646681358028006,
+          "draw": 0.2230157443978744,
+          "team2": 0.1303028975741196
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M040",
+      "stage": "group",
+      "kickoff_utc": "2026-06-22T01:00:00Z",
+      "team1": "NZL",
+      "team2": "EGY",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2648103267289541,
+        "draw": 0.2697264140044472,
+        "team2": 0.4654632592665986
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1286
+        },
+        {
+          "score": "0-1",
+          "p": 0.1046
+        },
+        {
+          "score": "1-2",
+          "p": 0.0927
+        },
+        {
+          "score": "0-2",
+          "p": 0.085
+        },
+        {
+          "score": "0-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2648103267289541,
+          "draw": 0.2697264140044472,
+          "team2": 0.4654632592665986
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M043",
+      "stage": "group",
+      "kickoff_utc": "2026-06-22T17:00:00Z",
+      "team1": "ARG",
+      "team2": "AUT",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5590099116844863,
+        "draw": 0.250622331982251,
+        "team2": 0.1903677563332626
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1193
+        },
+        {
+          "score": "1-0",
+          "p": 0.1183
+        },
+        {
+          "score": "2-0",
+          "p": 0.1071
+        },
+        {
+          "score": "2-1",
+          "p": 0.0969
+        },
+        {
+          "score": "0-0",
+          "p": 0.0791
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5590099116844863,
+          "draw": 0.250622331982251,
+          "team2": 0.1903677563332626
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M042",
+      "stage": "group",
+      "kickoff_utc": "2026-06-22T21:00:00Z",
+      "team1": "FRA",
+      "team2": "IRQ",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.7396841282147577,
+        "draw": 0.1833316271895367,
+        "team2": 0.0769842445957055
+      },
+      "scorelines": [
+        {
+          "score": "2-0",
+          "p": 0.1556
+        },
+        {
+          "score": "1-0",
+          "p": 0.1407
+        },
+        {
+          "score": "3-0",
+          "p": 0.1111
+        },
+        {
+          "score": "2-1",
+          "p": 0.0854
+        },
+        {
+          "score": "1-1",
+          "p": 0.0843
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.7396841282147577,
+          "draw": 0.1833316271895367,
+          "team2": 0.0769842445957055
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M041",
+      "stage": "group",
+      "kickoff_utc": "2026-06-23T00:00:00Z",
+      "team1": "NOR",
+      "team2": "SEN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3961603063041866,
+        "draw": 0.2766132558745391,
+        "team2": 0.3272264378212742
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1319
+        },
+        {
+          "score": "1-0",
+          "p": 0.0942
+        },
+        {
+          "score": "2-1",
+          "p": 0.0861
+        },
+        {
+          "score": "0-1",
+          "p": 0.0833
+        },
+        {
+          "score": "0-0",
+          "p": 0.0805
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3961603063041866,
+          "draw": 0.2766132558745391,
+          "team2": 0.3272264378212742
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M044",
+      "stage": "group",
+      "kickoff_utc": "2026-06-23T03:00:00Z",
+      "team1": "JOR",
+      "team2": "ALG",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1831619769827034,
+        "draw": 0.2479876258823393,
+        "team2": 0.5688503971349572
+      },
+      "scorelines": [
+        {
+          "score": "0-1",
+          "p": 0.1197
+        },
+        {
+          "score": "1-1",
+          "p": 0.118
+        },
+        {
+          "score": "0-2",
+          "p": 0.1095
+        },
+        {
+          "score": "1-2",
+          "p": 0.097
+        },
+        {
+          "score": "0-0",
+          "p": 0.0789
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1831619769827034,
+          "draw": 0.2479876258823393,
+          "team2": 0.5688503971349572
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M047",
+      "stage": "group",
+      "kickoff_utc": "2026-06-23T17:00:00Z",
+      "team1": "POR",
+      "team2": "UZB",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6345446974003562,
+        "draw": 0.2273944044330127,
+        "team2": 0.138060898166631
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1286
+        },
+        {
+          "score": "2-0",
+          "p": 0.1265
+        },
+        {
+          "score": "1-1",
+          "p": 0.1076
+        },
+        {
+          "score": "2-1",
+          "p": 0.0958
+        },
+        {
+          "score": "3-0",
+          "p": 0.0793
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6345446974003562,
+          "draw": 0.2273944044330127,
+          "team2": 0.138060898166631
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M045",
+      "stage": "group",
+      "kickoff_utc": "2026-06-23T20:00:00Z",
+      "team1": "ENG",
+      "team2": "GHA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6683120076146158,
+        "draw": 0.2147622684685082,
+        "team2": 0.1169257239168758
+      },
+      "scorelines": [
+        {
+          "score": "2-0",
+          "p": 0.1356
+        },
+        {
+          "score": "1-0",
+          "p": 0.1329
+        },
+        {
+          "score": "1-1",
+          "p": 0.101
+        },
+        {
+          "score": "2-1",
+          "p": 0.0937
+        },
+        {
+          "score": "3-0",
+          "p": 0.0886
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6683120076146158,
+          "draw": 0.2147622684685082,
+          "team2": 0.1169257239168758
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M046",
+      "stage": "group",
+      "kickoff_utc": "2026-06-23T23:00:00Z",
+      "team1": "PAN",
+      "team2": "CRO",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2002127725764139,
+        "draw": 0.2539701932285138,
+        "team2": 0.5458170341950723
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.121
+        },
+        {
+          "score": "0-1",
+          "p": 0.1164
+        },
+        {
+          "score": "0-2",
+          "p": 0.1038
+        },
+        {
+          "score": "1-2",
+          "p": 0.0967
+        },
+        {
+          "score": "0-0",
+          "p": 0.0793
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2002127725764139,
+          "draw": 0.2539701932285138,
+          "team2": 0.5458170341950723
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M048",
+      "stage": "group",
+      "kickoff_utc": "2026-06-24T02:00:00Z",
+      "team1": "COL",
+      "team2": "COD",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.534635694199423,
+        "draw": 0.2566416314586415,
+        "team2": 0.2087226743419353
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1223
+        },
+        {
+          "score": "1-0",
+          "p": 0.1148
+        },
+        {
+          "score": "2-0",
+          "p": 0.1011
+        },
+        {
+          "score": "2-1",
+          "p": 0.0964
+        },
+        {
+          "score": "0-0",
+          "p": 0.0794
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.534635694199423,
+          "draw": 0.2566416314586415,
+          "team2": 0.2087226743419353
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M051",
+      "stage": "group",
+      "kickoff_utc": "2026-06-24T19:00:00Z",
+      "team1": "SUI",
+      "team2": "CAN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4221011795926273,
+        "draw": 0.2747986914348453,
+        "team2": 0.3031001289725273
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.131
+        },
+        {
+          "score": "1-0",
+          "p": 0.0981
+        },
+        {
+          "score": "2-1",
+          "p": 0.0889
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "0-1",
+          "p": 0.0794
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4221011795926273,
+          "draw": 0.2747986914348453,
+          "team2": 0.3031001289725273
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M052",
+      "stage": "group",
+      "kickoff_utc": "2026-06-24T19:00:00Z",
+      "team1": "BIH",
+      "team2": "QAT",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4960682782903821,
+        "draw": 0.2646762545510973,
+        "team2": 0.2392554671585206
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1262
+        },
+        {
+          "score": "1-0",
+          "p": 0.1092
+        },
+        {
+          "score": "2-1",
+          "p": 0.0947
+        },
+        {
+          "score": "2-0",
+          "p": 0.092
+        },
+        {
+          "score": "0-0",
+          "p": 0.0799
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4960682782903821,
+          "draw": 0.2646762545510973,
+          "team2": 0.2392554671585206
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M049",
+      "stage": "group",
+      "kickoff_utc": "2026-06-24T22:00:00Z",
+      "team1": "SCO",
+      "team2": "BRA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2104784818387278,
+        "draw": 0.2571681454766386,
+        "team2": 0.5323533726846335
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1226
+        },
+        {
+          "score": "0-1",
+          "p": 0.1144
+        },
+        {
+          "score": "0-2",
+          "p": 0.1006
+        },
+        {
+          "score": "1-2",
+          "p": 0.0963
+        },
+        {
+          "score": "0-0",
+          "p": 0.0795
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2104784818387278,
+          "draw": 0.2571681454766386,
+          "team2": 0.5323533726846335
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M050",
+      "stage": "group",
+      "kickoff_utc": "2026-06-24T22:00:00Z",
+      "team1": "MAR",
+      "team2": "HAI",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6002306841918941,
+        "draw": 0.2388030432526888,
+        "team2": 0.160966272555417
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.124
+        },
+        {
+          "score": "2-0",
+          "p": 0.1175
+        },
+        {
+          "score": "1-1",
+          "p": 0.1134
+        },
+        {
+          "score": "2-1",
+          "p": 0.0969
+        },
+        {
+          "score": "0-0",
+          "p": 0.0782
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6002306841918941,
+          "draw": 0.2388030432526888,
+          "team2": 0.160966272555417
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M053",
+      "stage": "group",
+      "kickoff_utc": "2026-06-25T01:00:00Z",
+      "team1": "CZE",
+      "team2": "MEX",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2894284952534783,
+        "draw": 0.2733095495414437,
+        "team2": 0.4372619552050779
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1303
+        },
+        {
+          "score": "0-1",
+          "p": 0.1004
+        },
+        {
+          "score": "1-2",
+          "p": 0.0903
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "0-2",
+          "p": 0.0787
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2894284952534783,
+          "draw": 0.2733095495414437,
+          "team2": 0.4372619552050779
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M054",
+      "stage": "group",
+      "kickoff_utc": "2026-06-25T01:00:00Z",
+      "team1": "RSA",
+      "team2": "KOR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2063464610960911,
+        "draw": 0.2559157943056858,
+        "team2": 0.5377377445982231
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1219
+        },
+        {
+          "score": "0-1",
+          "p": 0.1152
+        },
+        {
+          "score": "0-2",
+          "p": 0.1019
+        },
+        {
+          "score": "1-2",
+          "p": 0.0965
+        },
+        {
+          "score": "0-0",
+          "p": 0.0794
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2063464610960911,
+          "draw": 0.2559157943056858,
+          "team2": 0.5377377445982231
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M055",
+      "stage": "group",
+      "kickoff_utc": "2026-06-25T20:00:00Z",
+      "team1": "CUW",
+      "team2": "CIV",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1700333157240534,
+        "draw": 0.2427593955958989,
+        "team2": 0.5872072886800476
+      },
+      "scorelines": [
+        {
+          "score": "0-1",
+          "p": 0.1222
+        },
+        {
+          "score": "1-1",
+          "p": 0.1154
+        },
+        {
+          "score": "0-2",
+          "p": 0.1142
+        },
+        {
+          "score": "1-2",
+          "p": 0.097
+        },
+        {
+          "score": "0-0",
+          "p": 0.0785
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1700333157240534,
+          "draw": 0.2427593955958989,
+          "team2": 0.5872072886800476
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M056",
+      "stage": "group",
+      "kickoff_utc": "2026-06-25T20:00:00Z",
+      "team1": "ECU",
+      "team2": "GER",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.292815739230773,
+        "draw": 0.2737107271129655,
+        "team2": 0.4334735336562614
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1305
+        },
+        {
+          "score": "0-1",
+          "p": 0.0998
+        },
+        {
+          "score": "1-2",
+          "p": 0.09
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "0-2",
+          "p": 0.0779
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.292815739230773,
+          "draw": 0.2737107271129655,
+          "team2": 0.4334735336562614
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M057",
+      "stage": "group",
+      "kickoff_utc": "2026-06-25T23:00:00Z",
+      "team1": "JPN",
+      "team2": "SWE",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4575523725591814,
+        "draw": 0.2708366285823493,
+        "team2": 0.2716109988584692
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1292
+        },
+        {
+          "score": "1-0",
+          "p": 0.1035
+        },
+        {
+          "score": "2-1",
+          "p": 0.0921
+        },
+        {
+          "score": "2-0",
+          "p": 0.0832
+        },
+        {
+          "score": "0-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4575523725591814,
+          "draw": 0.2708366285823493,
+          "team2": 0.2716109988584692
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M058",
+      "stage": "group",
+      "kickoff_utc": "2026-06-25T23:00:00Z",
+      "team1": "TUN",
+      "team2": "NED",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1444534956103411,
+        "draw": 0.2307970652518676,
+        "team2": 0.6247494391377912
+      },
+      "scorelines": [
+        {
+          "score": "0-1",
+          "p": 0.1273
+        },
+        {
+          "score": "0-2",
+          "p": 0.1239
+        },
+        {
+          "score": "1-1",
+          "p": 0.1093
+        },
+        {
+          "score": "1-2",
+          "p": 0.0962
+        },
+        {
+          "score": "0-0",
+          "p": 0.0776
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1444534956103411,
+          "draw": 0.2307970652518676,
+          "team2": 0.6247494391377912
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M059",
+      "stage": "group",
+      "kickoff_utc": "2026-06-26T02:00:00Z",
+      "team1": "TUR",
+      "team2": "USA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.431852922880548,
+        "draw": 0.2738764568890843,
+        "team2": 0.2942706202303676
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1306
+        },
+        {
+          "score": "1-0",
+          "p": 0.0996
+        },
+        {
+          "score": "2-1",
+          "p": 0.0898
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "0-1",
+          "p": 0.0779
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.431852922880548,
+          "draw": 0.2738764568890843,
+          "team2": 0.2942706202303676
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M060",
+      "stage": "group",
+      "kickoff_utc": "2026-06-26T02:00:00Z",
+      "team1": "PAR",
+      "team2": "AUS",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4560416625732045,
+        "draw": 0.2710393939925929,
+        "team2": 0.2729189434342025
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1293
+        },
+        {
+          "score": "1-0",
+          "p": 0.1032
+        },
+        {
+          "score": "2-1",
+          "p": 0.0919
+        },
+        {
+          "score": "2-0",
+          "p": 0.0829
+        },
+        {
+          "score": "0-0",
+          "p": 0.0803
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4560416625732045,
+          "draw": 0.2710393939925929,
+          "team2": 0.2729189434342025
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M061",
+      "stage": "group",
+      "kickoff_utc": "2026-06-26T19:00:00Z",
+      "team1": "NOR",
+      "team2": "FRA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2386607007276218,
+        "draw": 0.2645414001579519,
+        "team2": 0.4967978991144263
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1261
+        },
+        {
+          "score": "0-1",
+          "p": 0.1093
+        },
+        {
+          "score": "1-2",
+          "p": 0.0947
+        },
+        {
+          "score": "0-2",
+          "p": 0.0922
+        },
+        {
+          "score": "0-0",
+          "p": 0.0799
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2386607007276218,
+          "draw": 0.2645414001579519,
+          "team2": 0.4967978991144263
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M062",
+      "stage": "group",
+      "kickoff_utc": "2026-06-26T19:00:00Z",
+      "team1": "SEN",
+      "team2": "IRQ",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6039565607796804,
+        "draw": 0.2376334117025487,
+        "team2": 0.1584100275177709
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1245
+        },
+        {
+          "score": "2-0",
+          "p": 0.1185
+        },
+        {
+          "score": "1-1",
+          "p": 0.1128
+        },
+        {
+          "score": "2-1",
+          "p": 0.0968
+        },
+        {
+          "score": "0-0",
+          "p": 0.0781
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6039565607796804,
+          "draw": 0.2376334117025487,
+          "team2": 0.1584100275177709
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M065",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T00:00:00Z",
+      "team1": "CPV",
+      "team2": "KSA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3531476512060718,
+        "draw": 0.2774762762063838,
+        "team2": 0.3693760725875443
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1323
+        },
+        {
+          "score": "0-1",
+          "p": 0.09
+        },
+        {
+          "score": "1-0",
+          "p": 0.0875
+        },
+        {
+          "score": "1-2",
+          "p": 0.0828
+        },
+        {
+          "score": "2-1",
+          "p": 0.0806
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3531476512060718,
+          "draw": 0.2774762762063838,
+          "team2": 0.3693760725875443
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M066",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T00:00:00Z",
+      "team1": "URU",
+      "team2": "ESP",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2164509134995954,
+        "draw": 0.2588978188420359,
+        "team2": 0.5246512676583687
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1234
+        },
+        {
+          "score": "0-1",
+          "p": 0.1133
+        },
+        {
+          "score": "0-2",
+          "p": 0.0987
+        },
+        {
+          "score": "1-2",
+          "p": 0.096
+        },
+        {
+          "score": "0-0",
+          "p": 0.0796
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2164509134995954,
+          "draw": 0.2588978188420359,
+          "team2": 0.5246512676583687
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M063",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T03:00:00Z",
+      "team1": "EGY",
+      "team2": "IRN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3594361568545386,
+        "draw": 0.27752436840756,
+        "team2": 0.3630394747379013
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1323
+        },
+        {
+          "score": "0-1",
+          "p": 0.089
+        },
+        {
+          "score": "1-0",
+          "p": 0.0885
+        },
+        {
+          "score": "1-2",
+          "p": 0.082
+        },
+        {
+          "score": "2-1",
+          "p": 0.0815
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3594361568545386,
+          "draw": 0.27752436840756,
+          "team2": 0.3630394747379013
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M064",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T03:00:00Z",
+      "team1": "NZL",
+      "team2": "BEL",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1361017695937443,
+        "draw": 0.2263151354490698,
+        "team2": 0.6375830949571859
+      },
+      "scorelines": [
+        {
+          "score": "0-1",
+          "p": 0.129
+        },
+        {
+          "score": "0-2",
+          "p": 0.1273
+        },
+        {
+          "score": "1-1",
+          "p": 0.107
+        },
+        {
+          "score": "1-2",
+          "p": 0.0956
+        },
+        {
+          "score": "0-3",
+          "p": 0.0801
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1361017695937443,
+          "draw": 0.2263151354490698,
+          "team2": 0.6375830949571859
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M067",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T21:00:00Z",
+      "team1": "PAN",
+      "team2": "ENG",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.1203804714984399,
+        "draw": 0.2169844227786465,
+        "team2": 0.6626351057229135
+      },
+      "scorelines": [
+        {
+          "score": "0-2",
+          "p": 0.1341
+        },
+        {
+          "score": "0-1",
+          "p": 0.1322
+        },
+        {
+          "score": "1-1",
+          "p": 0.1022
+        },
+        {
+          "score": "1-2",
+          "p": 0.0941
+        },
+        {
+          "score": "0-3",
+          "p": 0.087
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.1203804714984399,
+          "draw": 0.2169844227786465,
+          "team2": 0.6626351057229135
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M068",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T21:00:00Z",
+      "team1": "CRO",
+      "team2": "GHA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.552521246955408,
+        "draw": 0.2522953518047409,
+        "team2": 0.1951834012398509
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1202
+        },
+        {
+          "score": "1-0",
+          "p": 0.1173
+        },
+        {
+          "score": "2-0",
+          "p": 0.1055
+        },
+        {
+          "score": "2-1",
+          "p": 0.0968
+        },
+        {
+          "score": "0-0",
+          "p": 0.0792
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.552521246955408,
+          "draw": 0.2522953518047409,
+          "team2": 0.1951834012398509
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M071",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T23:30:00Z",
+      "team1": "COL",
+      "team2": "POR",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2950932532992615,
+        "draw": 0.2739684259305326,
+        "team2": 0.4309383207702058
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1307
+        },
+        {
+          "score": "0-1",
+          "p": 0.0995
+        },
+        {
+          "score": "1-2",
+          "p": 0.0897
+        },
+        {
+          "score": "0-0",
+          "p": 0.0804
+        },
+        {
+          "score": "1-0",
+          "p": 0.0781
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2950932532992615,
+          "draw": 0.2739684259305326,
+          "team2": 0.4309383207702058
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M072",
+      "stage": "group",
+      "kickoff_utc": "2026-06-27T23:30:00Z",
+      "team1": "COD",
+      "team2": "UZB",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3988902107948625,
+        "draw": 0.2764668154179992,
+        "team2": 0.3246429737871382
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1318
+        },
+        {
+          "score": "1-0",
+          "p": 0.0946
+        },
+        {
+          "score": "2-1",
+          "p": 0.0864
+        },
+        {
+          "score": "0-1",
+          "p": 0.0829
+        },
+        {
+          "score": "0-0",
+          "p": 0.0805
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3988902107948625,
+          "draw": 0.2764668154179992,
+          "team2": 0.3246429737871382
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M069",
+      "stage": "group",
+      "kickoff_utc": "2026-06-28T02:00:00Z",
+      "team1": "ALG",
+      "team2": "AUT",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.343864661079269,
+        "draw": 0.2772918024328566,
+        "team2": 0.3788435364878743
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1322
+        },
+        {
+          "score": "0-1",
+          "p": 0.0915
+        },
+        {
+          "score": "1-0",
+          "p": 0.086
+        },
+        {
+          "score": "1-2",
+          "p": 0.084
+        },
+        {
+          "score": "0-0",
+          "p": 0.0806
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.343864661079269,
+          "draw": 0.2772918024328566,
+          "team2": 0.3788435364878743
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M070",
+      "stage": "group",
+      "kickoff_utc": "2026-06-28T02:00:00Z",
+      "team1": "JOR",
+      "team2": "ARG",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.0741684292677023,
+        "draw": 0.1806188183567995,
+        "team2": 0.7452127523754983
+      },
+      "scorelines": [
+        {
+          "score": "0-2",
+          "p": 0.1571
+        },
+        {
+          "score": "0-1",
+          "p": 0.1411
+        },
+        {
+          "score": "0-3",
+          "p": 0.113
+        },
+        {
+          "score": "1-2",
+          "p": 0.0845
+        },
+        {
+          "score": "1-1",
+          "p": 0.0828
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.0741684292677023,
+          "draw": 0.1806188183567995,
+          "team2": 0.7452127523754983
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    }
+  ]
+}
