@@ -131,17 +131,24 @@ def bootstrap_brier_ci(rows: pd.DataFrame, cols: list[str], n_boot: int = 1000,
     return point, float(np.percentile(boot, 5)), float(np.percentile(boot, 95))
 
 
+def pooled_predictions(folds_data, cols: list[str]) -> pd.DataFrame:
+    """Concatenate every fold's held-out predictions for a feature set into one frame
+    (tournament, target, p0/p1/p2) — each tournament predicted by a model blind to it.
+    The input to both the Brier ablation and the calibration assessment."""
+    pooled = []
+    for tr, te, _ in folds_data:
+        probs = _fit_predict(tr, te, cols)
+        df = te[["tournament", "target"]].copy()
+        df[["p0", "p1", "p2"]] = probs
+        pooled.append(df)
+    return pd.concat(pooled, ignore_index=True)
+
+
 def feature_group_ablation(folds_data) -> pd.DataFrame:
     """Pooled held-out Brier (+ tournament-clustered CI) per cumulative feature group."""
     records = []
     for level, cols in FEATURE_GROUPS.items():
-        pooled = []
-        for tr, te, test_t in folds_data:
-            probs = _fit_predict(tr, te, cols)
-            df = te[["tournament", "target"]].copy()
-            df[["p0", "p1", "p2"]] = probs
-            pooled.append(df)
-        pooled = pd.concat(pooled, ignore_index=True)
+        pooled = pooled_predictions(folds_data, cols)
         point, lo, hi = bootstrap_brier_ci(pooled, cols)
         records.append({"feature_set": level, "n": len(pooled),
                         "brier": round(point, 4), "ci_lo": round(lo, 4),
