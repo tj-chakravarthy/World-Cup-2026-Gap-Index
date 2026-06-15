@@ -277,3 +277,24 @@ given the ~0 ceiling it is better spent in the §2.3 composite and the §4.5 bas
 than chasing player-level R^2. Coverage: predicted VAEP is produced for 736 of the
 1248 2026 squad players (those with 2025/26 Tier-1 club stats); the rest fall to the
 §2.3 market-value/percentile branches.
+
+**Composite player score is market-anchored, not PLAN's tiers
+(`src/features/player_scores.py`).** PLAN §2.3 weighted predicted VAEP up to 0.6 in
+discrete tiers, and its observed branch (0.5 obs + 0.5 pred) dropped market value
+entirely. With predicted-VAEP R^2~=0 that mis-rated stars: Bellingham (top market
+value) fell to 65 on one average tournament, and a back-up keeper with no market match
+scored ~95 from predicted-VAEP noise alone within the thin GK pool. Reworked
+market-anchored: market value is the backbone (0.60), recent observed VAEP a moderate
+tilt (0.25), predicted VAEP a small one (0.15), renormalised over present components;
+a player with neither market value nor observed VAEP is left unrated, not scored from
+predicted noise. Predicted VAEP still enters the §3 indices / §4.5 ablation on its
+own — that, not this display rating, is where it earns weight. Coverage: 1084/1248
+rated (market value 1077, recent observed 122); 156 market-value unmatched seed
+name_overrides.csv.
+
+**Stale squads_2026.csv fixed (data correction).** 48 captain names carried the
+literal "( captain )" annotation — squads_2026 was generated before the squad parser's
+captain-stripper (`_CAPTAIN`, fetch_squad_rosters.py) landed (the 2018/2022 files,
+added later, are clean). It broke every name join for those players (Mbappé scored
+nothing). Cleaned in place with the parser's own `_clean`/`_norm`; market-value
+coverage rose ~40 players and Mbappé/Marquinhos rate correctly.
