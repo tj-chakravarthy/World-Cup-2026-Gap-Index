@@ -216,13 +216,64 @@ Argentina, Liga MX, J1, K-League, Saudi, Scandinavia, …) use single-year seaso
 strings and patchier advanced-stat coverage; they need per-league season handling
 and are a follow-up, not part of the first matrix run.
 
-**Transfermarkt market values** — same Cloudflare situation; the same
-Chromium/Selenium approach applies, not built yet.
+**Transfermarkt market values — built + run (`fetch_transfermarkt.py`).** Same
+Cloudflare situation as FBref, same fix (headed Chromium/Selenium), but unlike FBref
+Transfermarkt serves the full squad table to a real browser — the
+`kader/.../plus/1` page carries per-player market value. Two cached steps: discover
+each nation's verein id by quick-search (senior team picked by fuzzy match of the
+result's anchor text to the country name; youth/Olympic variants lose the match),
+then scrape the squad and verify the page title names the team. 54/58 nations
+resolved automatically; 4 alias cases (Türkiye, Czechia, Bosnia-Herzegowina,
+Democratic Republic of the Congo) added by hand to `transfermarkt_team_ids.csv` (the
+committed crosswalk; per-squad value CSVs are bulk → gitignored). Season maps to the
+pre-tournament squad year (2018->2017, 2022->2021, 2026->2025), so backtest squads
+get their own season's values, not today's.
 
 **Deferred — bulk downloads to Stage 2:** StatsBomb full event JSON (VAEP
 training) and Wyscout Figshare events. Only the StatsBomb index is fetched now.
 
 **Built since:** Open-Meteo heat-forecast wiring (`fetch_weather.py`, keyless) —
 the live half of the heat feature on top of the climate normals already in
-`venues_2026.csv`. Still open: Transfermarkt, the non-European FBref leagues, and
-the 2018/2022 squads.
+`venues_2026.csv`. Transfermarkt market values and the 2018/2022 squads are now done
+(above / commit history). Still open: the non-European FBref leagues (basic
+box-score only there too, so lower priority).
+
+---
+
+## Stage 2 — player ratings (predicted VAEP)
+
+**Observed VAEP regained its tournament grain (`src/features/vaep.py`).** The first
+build aggregated VAEP per (player, team) only, so a player in several tournaments
+collapsed to one summed row — unusable for §2.2 (the predicted-VAEP target is
+*per tournament*) and §4.5 (the nested CV holds one tournament out). Fixed by
+threading the tournament label through the build and keying the aggregation on it
+when present (backward-compatible: no label -> old behaviour). `vaep_observed.csv`
+is now one row per (player, team, tournament): 1008 player-tournaments >= 270 min.
+
+**Predicted-VAEP signal is weak — the thesis, measured (`src/features/predicted_vaep.py`).**
+PLAN §2.2 expected R^2 ~0.3-0.5 from club stats -> tournament VAEP-per-90. The honest
+leave-one-tournament-out number is **R^2 ~= +0.01** (MAE 0.125), barely above a
+position-mean baseline (R^2 -0.02). A regularization sweep showed anything deeper
+than depth-1 stumps overfits to a *negative* held-out R^2; the shipped model is a
+heavily-regularized stump ensemble that lands the slightly-positive number. Feature
+correlations with the target are all weak (best ~0.17), and splitting to
+offensive-only VAEP does not recover signal. This is the PLAN-anticipated finding
+("club form genuinely doesn't fully translate, which IS the thesis"), reported
+plainly rather than tuned around. Consequences: (a) predicted VAEP is a *weak
+standalone* rating — the §2.3 composite should lean on market value; (b) the real
+thesis test is the §4.5 *team-level* ablation (does the predicted-VAEP index beat
+Elo + market value), where a weak player prior can still aggregate; (c) the §2.4
+eyeball review will show the per-90 ranking under-separates stars (e.g. Mbappé below
+some defenders) — expected from R^2~=0, documented not hidden.
+
+**Feature surface vs PLAN §2.2.** Club features today are basic FBref box-score rates
++ Understat xG rates (`us_*_per90`), all percentile-normalized within (season,
+position) per the §3 contract. FBref's withheld passing/defense/possession detail is
+absent (see Stage-1 note), so the model predicts VAEP — which includes defensive
+value — largely from offensive club stats; defensive translation is essentially
+unmodelled. Understat covers Big-5 only, so non-Big-5 players carry NaN xG (HGB
+takes NaN natively). Market-value percentile (now scraped) is not yet a feature:
+given the ~0 ceiling it is better spent in the §2.3 composite and the §4.5 baseline
+than chasing player-level R^2. Coverage: predicted VAEP is produced for 736 of the
+1248 2026 squad players (those with 2025/26 Tier-1 club stats); the rest fall to the
+§2.3 market-value/percentile branches.

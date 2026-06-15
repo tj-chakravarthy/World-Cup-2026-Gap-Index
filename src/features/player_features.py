@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from src.features.club_stats import load_club_stats
+from src.features.club_stats import load_club_stats, merge_understat_xg
 
 _POS_GROUP = {"GK": "GK", "DF": "DF", "MF": "MF", "FW": "FW"}
 
@@ -26,7 +26,10 @@ CANDIDATE_FEATURES = [
     # basic box-score (served by the headless scrape today)
     "goals_per90", "assists_per90", "goals_assists_per90",
     "shooting_shots_per90", "shooting_shots_on_target_per90",
-    # advanced (withheld from headless; populate via the xvfb headed fetch)
+    # Understat xG rates (the advanced-club feed FBref withholds; Big-5 only)
+    "us_xg_per90", "us_npxg_per90", "us_xa_per90", "us_shots_per90",
+    "us_key_passes_per90", "us_xgchain_per90", "us_xgbuildup_per90",
+    # FBref advanced (withheld — stay dormant unless a future feed populates them)
     "passing_passes_progressive_distance", "passing_passes_into_penalty_area",
     "defense_tackles_interceptions", "defense_blocks",
     "possession_carries_progressive_distance", "possession_touches_att_pen_area",
@@ -68,5 +71,7 @@ def build_features(merged: pd.DataFrame, min_90s: float = 5.0) -> pd.DataFrame:
 
 
 def load_player_features(leagues=None, seasons=None, min_90s: float = 5.0) -> pd.DataFrame:
-    """Convenience: merge club stats from disk and build the feature table."""
-    return build_features(load_club_stats(leagues=leagues, seasons=seasons), min_90s)
+    """Convenience: merge club stats (+ Understat xG) from disk and build the
+    feature table."""
+    merged = merge_understat_xg(load_club_stats(leagues=leagues, seasons=seasons))
+    return build_features(merged, min_90s)

@@ -67,6 +67,9 @@ class Matcher:
 
     def __post_init__(self):
         self._norm_to_choice = {normalize(c): c for c in self.choices}
+        # cache (normalised, original) once — the fuzzy loop runs per unmatched name
+        # over every choice, so re-normalising choices each call dominates runtime.
+        self._norm_choices = [(normalize(c), c) for c in self.choices]
 
     def match(self, name: str) -> tuple[str | None, float, str]:
         """Return (target or None, score, method) with method in
@@ -77,8 +80,8 @@ class Matcher:
         if n in self._norm_to_choice:
             return self._norm_to_choice[n], 1.0, "exact"
         best, best_score = None, 0.0
-        for c in self.choices:
-            s = _similarity(n, normalize(c))
+        for cn, c in self._norm_choices:
+            s = _similarity(n, cn)
             if s > best_score:
                 best, best_score = c, s
         if best_score >= self.threshold:

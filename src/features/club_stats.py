@@ -27,6 +27,13 @@ from src.pipeline.name_matcher import normalize
 REPO = Path(__file__).resolve().parents[2]
 RAW = REPO / "data" / "raw"
 
+# Understat xG feed (advanced-club stats FBref withholds, see docs/deviations.md).
+# Understat season is the start year; map to the FBref {YYYY}-{YYYY} season so the
+# two feeds join. League is irrelevant to the join (aggregated per season+player).
+UNDERSTAT_SEASON = {"2017": "2017-2018", "2020": "2020-2021", "2021": "2021-2022",
+                    "2023": "2023-2024", "2025": "2025-2026"}
+US_METRICS = ["xG", "npxG", "xA", "shots", "key_passes", "xGChain", "xGBuildup"]
+
 STATS = ["standard", "shooting", "passing", "defense", "possession", "misc"]
 # FBref data-stat keys. Identity columns repeat in every stat table; the standard
 # table carries them, so they (plus file metadata and the redundant 90s count) are
@@ -55,6 +62,43 @@ def merge_stats(by_stat: dict[str, pd.DataFrame]) -> pd.DataFrame:
     merged.insert(merged.columns.get_loc("player") + 1,
                   "player_name_norm", merged["player"].map(normalize))
     return merged
+
+
+def load_understat_xg(raw_dir: Path = RAW) -> pd.DataFrame:
+    """Aggregate the Understat CSVs to per (FBref season, player_name_norm) xG-rate
+    features. Summed across teams so a mid-season transfer is one row, then per-90.
+    Keyed on the folded name so it joins the FBref table (the 89%/3% exact/fuzzy
+    coverage is reported by name_match_report.py)."""
+    frames = []
+    for path in sorted(raw_dir.glob("understat_*_*.csv")):
+        m = re.match(r"understat_(.+)_(\d{4})\.csv$", path.name)
+        if not m or m.group(2) not in UNDERSTAT_SEASON:
+            continue
+        df = pd.read_csv(path)
+        df["season"] = UNDERSTAT_SEASON[m.group(2)]
+        df["player_name_norm"] = df["player_name"].map(normalize)
+        frames.append(df)
+    if not frames:
+        return pd.DataFrame(columns=["season", "player_name_norm"])
+    us = pd.concat(frames, ignore_index=True)
+    for c in ["time"] + US_METRICS:
+        us[c] = pd.to_numeric(us[c], errors="coerce")
+    agg = us.groupby(["season", "player_name_norm"], as_index=False)[["time"] + US_METRICS].sum()
+    mins90 = agg["time"].clip(lower=1) / 90.0
+    out = agg[["season", "player_name_norm"]].copy()
+    for c in US_METRICS:
+        out[f"us_{c.lower()}_per90"] = agg[c] / mins90
+    return out
+
+
+def merge_understat_xg(fbref_merged: pd.DataFrame, raw_dir: Path = RAW) -> pd.DataFrame:
+    """Left-join the Understat xG rates onto the FBref club table by (season,
+    folded name). Non-Big-5 players (no Understat row) keep NaN xG — handled
+    downstream (HGB takes NaN natively)."""
+    us = load_understat_xg(raw_dir)
+    if us.empty:
+        return fbref_merged
+    return fbref_merged.merge(us, on=["season", "player_name_norm"], how="left")
 
 
 def load_club_stats(leagues=None, seasons=None, raw_dir: Path = RAW) -> pd.DataFrame:
