@@ -168,10 +168,13 @@ def report(scored: pd.DataFrame) -> None:
 
 
 def predict_live(model: HistGradientBoostingRegressor, squad_csv: Path,
-                 club_feats: pd.DataFrame, features: list[str] = FEATURES) -> pd.DataFrame:
-    """Predicted VAEP for all 2026 squad players with 2025/26 club stats."""
+                 club_feats: pd.DataFrame, features: list[str] = FEATURES,
+                 season: str = LIVE_SEASON) -> pd.DataFrame:
+    """Predicted VAEP for a squad's players from their `season` club stats. Defaults
+    to the live 2025/26 season; the index builder (§3) and nested CV (§4.5) pass each
+    backtest tournament's preceding season instead."""
     squad = pd.read_csv(squad_csv)
-    season_club = club_feats[club_feats["season"] == LIVE_SEASON]
+    season_club = club_feats[club_feats["season"] == season]
     sc = (season_club.sort_values("minutes_90s", ascending=False)
                      .drop_duplicates("player_name_norm"))
     club_by_norm = {r["player_name_norm"]: r for _, r in sc.iterrows()}
