@@ -12,12 +12,6 @@ venv/
 .mypy_cache/
 *.egg-info/
 
-# --- Node / Next.js (web/) ---
-node_modules/
-web/.next/
-web/out/
-web/next-env.d.ts
-.vercel/
 .DS_Store
 
 # --- Data artifacts ---
