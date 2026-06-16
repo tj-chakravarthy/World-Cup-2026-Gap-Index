@@ -16,9 +16,12 @@ main{max-width:var(--maxw); margin:0 auto; padding:28px 18px 60px}
   margin:0; font-size:34px; font-weight:800; letter-spacing:.5px; line-height:1.05;
 }
 .head h1 span{color:var(--volt)}
-.sub{margin:.35rem 0 0; font-size:15px}
 .meta{margin:.4rem 0 0; color:var(--muted); font-size:12.5px}
 .meta .stale{color:#ff6b6b}
+
+.intro{margin-top:18px; max-width:66ch}
+.intro p{color:var(--white); font-size:14px; line-height:1.6; margin:0 0 11px}
+.intro p:last-child{margin-bottom:0}
 
 h2{
   font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px;
@@ -66,9 +69,7 @@ tbody tr:hover td.team{color:var(--volt)}
 .fx .top b{color:var(--white)}
 
 footer{margin-top:46px; border-top:1px solid var(--line); padding-top:18px}
-.how{color:var(--white); font-size:13px; max-width:62ch}
-.fine{color:var(--muted); font-size:12px; max-width:64ch}
-.fine em{color:var(--white); font-style:italic}
+.fine{color:var(--muted); font-size:12.5px}
 a{color:var(--volt); text-decoration:none}
 a:hover{text-decoration:underline}
 .err{color:#ff6b6b; padding:14px 0}
