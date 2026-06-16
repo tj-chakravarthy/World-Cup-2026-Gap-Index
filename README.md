@@ -4,6 +4,18 @@ My calibrated machine-learning forecast of the 2026 World Cup, built to test: a
 national team is just its club players, so does it perform as well as their club form
 predicts? Rate every player from his club season, add them into a squad, compare to how the team actually plays — difference is the gap.
 
+Each team carries two pre-tournament signals — national Elo (from 150 years of results) and
+squad market value — and an L2 multinomial logistic (C=0.03), scored in both orderings and
+averaged, turns each rating gap into a calibrated W/D/L (held-out ECE 0.054). Scorelines come
+from a Dixon-Coles double-Poisson (L-BFGS-B, time-decayed, τ low-score correction), then a
+2-parameter λ-tilt rescales total goals and balance until the matrix's implied W/D/L matches
+the logistic — a CI-enforced coherence check. I Monte-Carlo the bracket 100,000 times — group
+games drawn from the tilted matrix, exact FIFA Article 13 tiebreakers, the eight best thirds
+into the round of 32, level knockouts to a ~50/50 shootout — for each team's odds of reaching
+every stage. Every run draws one of 25 bootstrap refits, so the odds are distributions, not
+point estimates; the model is cached and re-runs on each new result, within half an hour of
+full-time.
+
 Open-source, updating live during the tournament.
 
 ## The result
