@@ -28,6 +28,6 @@ jobs:
       - name: Tests
         run: pytest -q
 
-  # web-jobbet borttaget: ingen npm tills frontend-stacken är vald (PLAN §7).
-  # Var ett icke-reproducerbart `npm install` utan lockfil. Lägg tillbaka ett
-  # bygg-jobb när stacken är bestämd (Stage 5).
+  # inget web-byggjobb: frontend-stacken är vald (Stage 5) som ren statisk site,
+  # noll npm/lockfil — web/public serveras som den är. Deploy sköts av
+  # deploy-pages.yml; det finns inget att bygga eller testa här.

@@ -1,0 +1,79 @@
+:root{
+  --black:#0A0A0F; --surface:#15151f; --line:#23232f;
+  --volt:#E8FF00; --white:#f5f5f7; --muted:#8b8b9e;
+  --maxw:920px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--black); color:var(--white);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+main{max-width:var(--maxw); margin:0 auto; padding:28px 18px 60px}
+
+.head h1{
+  margin:0; font-size:34px; font-weight:800; letter-spacing:.5px; line-height:1.05;
+}
+.head h1 span{color:var(--volt)}
+.sub{margin:.35rem 0 0; font-size:15px}
+.meta{margin:.4rem 0 0; color:var(--muted); font-size:12.5px}
+.meta .stale{color:#ff6b6b}
+
+h2{
+  font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px;
+  color:var(--muted); margin:42px 0 12px; border-bottom:1px solid var(--line); padding-bottom:8px;
+}
+
+/* forecast table */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; min-width:560px}
+thead th{
+  font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.4px; padding:6px 4px; text-align:center; white-space:nowrap;
+}
+thead th.team,thead th.rk{text-align:left}
+tbody td{padding:3px 4px; text-align:center}
+td.rk{color:var(--muted); font-variant-numeric:tabular-nums; width:24px; text-align:right; padding-right:8px}
+td.team{text-align:left; font-weight:600; white-space:nowrap}
+td.team .code{color:var(--muted); font-weight:500; font-size:12px; margin-left:6px}
+.cell{
+  display:block; border-radius:5px; padding:5px 0; font-weight:700;
+  font-variant-numeric:tabular-nums; font-size:13px; min-width:46px;
+}
+tbody tr:hover td.team{color:var(--volt)}
+
+/* fixtures */
+#fixture-list{display:grid; gap:8px}
+.fx{
+  background:var(--surface); border:1px solid var(--line); border-radius:10px;
+  padding:11px 14px;
+}
+.fx .when{color:var(--muted); font-size:11.5px; margin-bottom:6px; display:flex; justify-content:space-between}
+.fx .when .stage{text-transform:uppercase; letter-spacing:.5px}
+.fx .teams{display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:600}
+.fx .teams .t{flex:1}
+.fx .teams .t.away{text-align:right}
+.fx .teams .v{color:var(--muted); font-size:12px; font-weight:500}
+.bar{display:flex; height:7px; border-radius:4px; overflow:hidden; margin-top:9px; background:var(--line)}
+.bar i{display:block}
+.bar .w{background:var(--volt)}
+.bar .d{background:#4a4a58}
+.bar .l{background:#2a3a55}
+.fx .pct{display:flex; justify-content:space-between; color:var(--muted); font-size:11px; margin-top:5px; font-variant-numeric:tabular-nums}
+.fx .pct b{color:var(--white); font-weight:600}
+.fx .top{color:var(--muted); font-size:11px; margin-top:6px}
+.fx .top b{color:var(--white)}
+
+footer{margin-top:46px; border-top:1px solid var(--line); padding-top:18px}
+.how{color:var(--white); font-size:13px; max-width:62ch}
+.fine{color:var(--muted); font-size:12px; max-width:64ch}
+.fine em{color:var(--white); font-style:italic}
+a{color:var(--volt); text-decoration:none}
+a:hover{text-decoration:underline}
+.err{color:#ff6b6b; padding:14px 0}
+
+@media (max-width:560px){
+  .head h1{font-size:27px}
+  main{padding:20px 13px 50px}
+}

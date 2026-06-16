@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World Cup 2026 — Model Forecast</title>
+  <meta name="description" content="A calibrated statistical forecast of the 2026 World Cup, rebuilt live from public data after every result.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header class="head">
+      <h1>WORLD CUP <span>2026</span></h1>
+      <p class="sub">Model forecast — chance of reaching each stage</p>
+      <p class="meta" id="meta">loading…</p>
+    </header>
+
+    <section id="forecast">
+      <h2>Tournament forecast</h2>
+      <div class="tablewrap">
+        <table id="forecast-table"><thead></thead><tbody></tbody></table>
+      </div>
+    </section>
+
+    <section id="fixtures">
+      <h2>Next matches</h2>
+      <div id="fixture-list"></div>
+    </section>
+
+    <footer>
+      <p class="how">
+        Each team gets a strength index from public data — national Elo, club market value, and
+        translated club performance (predicted VAEP). A regularised logistic model turns index
+        gaps into win/draw/loss, a Dixon-Coles model into scorelines, and 20,000 Monte Carlo
+        runs of the bracket into the stage odds, refit after every result.
+      </p>
+      <p class="fine">
+        Pre-registered honestly: the model is calibrated (ECE 0.054) and lands within ~0.017 Brier
+        of the closing market, ahead of Elo — but the club-talent thesis it tests is <em>not</em>
+        supported. Odds are distributions over model uncertainty, never point bets, and betting
+        odds are never an input. <a id="repo" href="#">Code &amp; method on GitHub</a>.
+      </p>
+    </footer>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>

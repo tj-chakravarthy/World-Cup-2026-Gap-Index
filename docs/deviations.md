@@ -435,3 +435,14 @@ tournament", keeps the cron self-contained, no raw data in the public repo. The 
 step stays as an optimisation but is no longer load-bearing. Rebuild + recommit on a
 BUNDLE_VERSION bump (a stale-version load would try to rebuild and fail the same way).
 Verified end-to-end against a clean git-tracked-only tree (zero FBref) in the cron image.
+
+**Frontend stack (Stage 5) — plain static site, GitHub Pages.** PLAN §7 left the stack open.
+Chosen: zero-build vanilla HTML/CSS/JS in `web/public/`, fetching the cron-published
+`web/public/data/*.json` at runtime. No framework, no npm, no lockfile — the data is already
+static JSON, there's no backend or SSR to justify a toolchain, and a client-side fetch
+decouples data updates from site builds (the cron's data commits need no rebuild). Reproducible
+indefinitely (the prior `ci.yml` note flagged npm-without-lockfile as the thing that broke
+before). Deploy via `deploy-pages.yml` (official Pages actions); since the cron pushes with
+GITHUB_TOKEN — which doesn't trigger workflows — the deploy chains off the cron's `workflow_run`
+completion as well as source pushes. One-time manual step: repo Settings -> Pages -> Source =
+"GitHub Actions". Team names baked into app.js from team_codes.csv (fixed 48-team field).

@@ -1,0 +1,44 @@
+name: Deploy site (Pages)
+
+# Static site (web/public): plain HTML/CSS/JS that fetches the cron-published JSON at
+# runtime — no build step, no npm. Deploy triggers:
+#  - push to web/**            -> site source changed (my commits, SSH push)
+#  - after the live cron runs  -> data changed; the cron pushes with GITHUB_TOKEN, which
+#    by design does NOT trigger workflows, so we chain off its completion instead
+#  - manual
+# One-time setup: repo Settings -> Pages -> Source = "GitHub Actions".
+on:
+  push:
+    branches: [main]
+    paths: ["web/**", ".github/workflows/deploy-pages.yml"]
+  workflow_run:
+    workflows: ["Update Predictions (live)"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# latest published state wins; collapse rapid redeploys (frequent cron data commits)
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    # for cron-chained runs only deploy a green cron; push/dispatch always deploy
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/public
+      - id: deployment
+        uses: actions/deploy-pages@v4
