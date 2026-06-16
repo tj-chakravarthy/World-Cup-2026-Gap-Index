@@ -63,7 +63,7 @@ function renderMeta(sim, live) {
   const stale = (live.sources || []).some((s) => s.stale);
   document.getElementById("meta").innerHTML =
     `Updated ${isNaN(when) ? sim.generated_at : when.toLocaleString()} · ` +
-    `${sim.n_sims.toLocaleString()} simulations · 48 teams` +
+    `${sim.n_sims.toLocaleString("en-US").replace(/,/g, " ")} simulations` +
     (stale ? ` · <span class="stale">data stale</span>` : "");
 }
 

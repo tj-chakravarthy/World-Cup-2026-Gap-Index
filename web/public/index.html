@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TJ's World Cup 2026 Forecast</title>
   <meta name="description" content="A machine-learning forecast of the 2026 World Cup, built from public data and rebuilt automatically after every result.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- share preview (Open Graph + Twitter card) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tj-chakravarthy.github.io/World-Cup-2026-Gap-Index/">
+  <meta property="og:title" content="TJ's World Cup 2026 Forecast">
+  <meta property="og:description" content="Each team's chance of reaching every stage, rebuilt after every match. A machine-learning model built from public data — and it never uses the betting odds.">
+  <meta property="og:image" content="https://tj-chakravarthy.github.io/World-Cup-2026-Gap-Index/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TJ's World Cup 2026 Forecast">
+  <meta name="twitter:description" content="Each team's chance of reaching every stage, rebuilt after every match. Built from public data; never uses the betting odds.">
+  <meta name="twitter:image" content="https://tj-chakravarthy.github.io/World-Cup-2026-Gap-Index/og.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,12 +28,13 @@
     </header>
 
     <section class="intro">
-      <p>My machine-learning forecast of the 2026 World Cup, built entirely from public data.
+      <p>My machine-learning forecast of the 2026 World Cup, built entirely from public data (<a id="repo" href="#">Code &amp; method on GitHub</a>).
       Each team gets a strength rating from its national-team Elo (computed from past
-      international results), the market value of its squad (Transfermarkt), and how well its
-      players are playing for their clubs (club stats from FBref and Understat). My model turns
-      those into odds for every match, then plays the rest of the tournament out 100,000 times;
-      the percentages below are how often each team reaches each stage.</p>
+      international results) and the market value of its squad (Transfermarkt). My model turns
+      those into odds for every match, then plays the rest of the tournament out 100&nbsp;000 times;
+      the percentages below are how often each team reaches each stage. (I also rate players from
+      club stats — FBref and Understat — but it didn't improve the forecast, so the live model
+      leaves it out.)</p>
 
       <p>Model updates itself: after every match the new result feeds back in, the model re-runs,
       and this page refreshes — so the forecast always reflects what's happened so far.</p>
@@ -45,7 +59,8 @@
     </section>
 
     <footer>
-      <p class="fine">Built from public data. <a id="repo" href="#">Code &amp; method on GitHub</a>.</p>
+      <p class="fine">Built from public data.</p>
+      <p class="fine">© 2026 Tejas Chakravarthy · Code MIT · odds data CC-BY 4.0</p>
     </footer>
   </main>
   <script src="app.js" defer></script>
