@@ -63,6 +63,8 @@ def test_splash_dismisses_and_content_renders(base_url):
         # fixtures + track-record sections render something
         assert page.locator("#fixture-list .fx").count() >= 1
         assert page.locator("#track-list .tr").count() >= 1
+        # the model-input bars (tale of the tape) render on the match cards
+        assert page.locator(".tape").count() >= 1
         assert not errors, f"console/page errors: {errors[:5]}"
         assert not failed, f"failed asset requests: {failed[:5]}"
 
@@ -71,7 +73,8 @@ def test_key_assets_load(base_url):
     with _page(base_url) as (page, _errors, _failed):
         for asset in ("splash.jpg", "og.png", "favicon.svg", "trionda.glb",
                       "vendor/three.module.min.js", "data/simulation.json",
-                      "data/predictions_live.json", "data/track_record.json"):
+                      "data/predictions_live.json", "data/track_record.json",
+                      "data/model_inputs.json", "data/movement.json"):
             resp = page.request.get(base_url + asset)
             assert resp.ok, f"{asset} -> HTTP {resp.status}"
 

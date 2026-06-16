@@ -50,6 +50,32 @@ def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def model_inputs(indices: pd.DataFrame, fixtures: pd.DataFrame,
+                 field: str = "world_cup_2026") -> dict:
+    """The two live-model inputs per group fixture, in a legible form. The model is just
+    ELO + MKT (z-scored index differentials); here each team's Elo and squad-value standing
+    is expressed as a percentile within the tournament field — same ordering as the z-score,
+    but fan-readable. Fixed pre-tournament, so it serves both the upcoming-fixture cards and
+    the resolved track-record cards (predictions_live.json drops played games). Pure."""
+    idx = indices[indices["tournament"] == field].set_index("country_code")
+    elo_pct = idx["ELO"].rank(pct=True).mul(100)
+    mkt_pct = idx["MKT"].rank(pct=True).mul(100)
+
+    def _p(s: pd.Series, code: str):
+        v = s.get(code)
+        return None if v is None or pd.isna(v) else int(round(v))
+
+    fx = {}
+    for r in fixtures[fixtures["stage"] == "group"].itertuples():
+        if r.home_code not in idx.index or r.away_code not in idx.index:
+            continue
+        fx[r.fixture_id] = {"team1": r.home_code, "team2": r.away_code,
+                            "elo1": _p(elo_pct, r.home_code), "elo2": _p(elo_pct, r.away_code),
+                            "mkt1": _p(mkt_pct, r.home_code), "mkt2": _p(mkt_pct, r.away_code)}
+    return {"generated_at": _now(), "field": field,
+            "metric": "percentile_within_field", "fixtures": fx}
+
+
 def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str, str],
                *, stale: bool = False) -> dict:
     """Assemble the live artifact dict from per-fixture W/D/L + tilted scorelines.

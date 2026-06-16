@@ -77,6 +77,31 @@ tbody tr:hover td.team{color:var(--volt)}
 .fx .top{color:var(--muted); font-size:11px; margin-top:6px}
 .fx .top b{color:var(--white)}
 
+/* "what changed after the last result" — the resolved match(es) + the biggest odds shifts */
+.mv-intro{color:var(--white); font-size:13.5px; max-width:64ch; margin:0 0 12px}
+#movement-body{display:grid; gap:12px}
+.mv-since{margin:0; color:var(--white); font-size:13px; line-height:1.7; font-variant-numeric:tabular-nums}
+.mv-since b{color:var(--volt); font-weight:600}
+.mv-since .mv-n{color:var(--muted); text-transform:uppercase; letter-spacing:.5px; font-size:11px; margin-right:6px}
+.mv-movers{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.mv-col{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:11px 14px}
+.mv-col h3{margin:0 0 8px; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.5px; color:var(--muted)}
+.mv-row{display:flex; justify-content:space-between; align-items:center; padding:3px 0; font-size:13px}
+.mv-team{font-weight:600}
+.mv-delta{font-variant-numeric:tabular-nums; font-weight:700; font-size:12.5px}
+.mv-delta.up{color:var(--volt)}
+.mv-delta.down{color:#7a93c4}
+
+/* tale of the tape — the model's two inputs (Elo, squad value) as a split percentile bar */
+.tape{margin-top:9px; display:grid; gap:5px}
+.tape-row{display:grid; grid-template-columns:40px 24px 1fr 24px; align-items:center; gap:8px;
+  font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums}
+.tape-row .tlab{text-transform:uppercase; letter-spacing:.4px; font-size:10px}
+.tape-row .tnum{color:var(--white); font-weight:600; text-align:center}
+.tbar{height:6px; border-radius:4px; overflow:hidden; background:#2a3a55}
+.tbar i{display:block; height:100%; background:var(--volt)}
+
 /* track record — the receipts (resolved predictions vs results); no scorecard while n is tiny */
 .track-intro{color:var(--white); font-size:13.5px; max-width:64ch; margin:0 0 4px}
 .track-intro em{font-style:italic; color:var(--volt)}
@@ -99,6 +124,7 @@ a:hover{text-decoration:underline}
 @media (max-width:560px){
   .head h1{font-size:27px}
   main{padding:20px 13px 50px}
+  .mv-movers{grid-template-columns:1fr}
 }
 
 /* intro splash — a black "loading…" screen until the Trionda renders, then reveal the photo

@@ -59,6 +59,33 @@ def test_predictions_live_json_contract():
             assert isinstance(s.get("score"), str) and isinstance(s.get("p"), (int, float))
 
 
+def test_model_inputs_json_contract():
+    """renderFixtures/renderTrack tale-of-the-tape: fixtures[fid].{team1,team2,elo*,mkt*}."""
+    d = _load("model_inputs.json")
+    fx = d.get("fixtures")
+    assert isinstance(fx, dict) and fx, "fixtures must be a non-empty map"
+    for fid, r in fx.items():
+        assert isinstance(r.get("team1"), str) and isinstance(r.get("team2"), str)
+        for k in ("elo1", "elo2", "mkt1", "mkt2"):
+            assert k in r, f"{fid} missing {k}"
+            assert r[k] is None or (isinstance(r[k], (int, float)) and 0 <= r[k] <= 100)
+
+
+def test_movement_json_contract():
+    """renderMovement: newly_resolved[], title_movers[], advance_movers[]."""
+    d = _load("movement.json")
+    assert isinstance(d.get("newly_resolved"), list)
+    for c in d["newly_resolved"]:
+        assert isinstance(c.get("team1"), str) and isinstance(c.get("team2"), str)
+        assert isinstance(c.get("score"), str) and c.get("outcome") in (0, 1, 2)
+    for lst in ("title_movers", "advance_movers"):
+        assert isinstance(d.get(lst), list)
+        for m in d[lst]:
+            assert isinstance(m.get("country_code"), str)
+            for k in ("before", "after", "delta"):
+                assert isinstance(m.get(k), (int, float))
+
+
 def test_track_record_json_contract():
     """renderTrack: n_logged, n_resolved, resolved[].{teams, p_*, actual, outcome, called…}."""
     d = _load("track_record.json")

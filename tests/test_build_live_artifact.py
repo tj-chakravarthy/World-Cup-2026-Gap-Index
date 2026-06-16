@@ -6,7 +6,8 @@ import pytest
 pd = pytest.importorskip("pandas")
 pytest.importorskip("scipy")
 
-from src.pipeline.build_live_artifact import build_live, top_scorelines  # noqa: E402
+from src.pipeline.build_live_artifact import (build_live, model_inputs,  # noqa: E402
+                                              top_scorelines)
 
 
 def test_top_scorelines_orders_and_formats():
@@ -52,3 +53,26 @@ def test_stale_flags_only_the_fixtures_source():
     assert by["match_results"] is False        # static, not live-refreshed
     assert by["match_model"] is False          # the fixed pre-tournament bundle
     assert art["predictions"][0]["stale"] is True
+
+
+def test_model_inputs_percentiles_and_shape():
+    # the two live-model inputs per group fixture, as within-field percentiles
+    idx = pd.DataFrame({
+        "tournament": ["world_cup_2026"] * 4,
+        "country_code": ["ESP", "FRA", "CPV", "QAT"],
+        "ELO": [2.0, 1.0, -1.0, -2.0],
+        "MKT": [1.5, 2.0, -1.5, -2.0],
+    })
+    fixtures = pd.DataFrame([
+        {"fixture_id": "WC26-M100", "stage": "group", "home_code": "ESP", "away_code": "CPV"},
+        {"fixture_id": "WC26-M200", "stage": "knockout", "home_code": "ESP", "away_code": "FRA"},
+        {"fixture_id": "WC26-M300", "stage": "group", "home_code": "ESP", "away_code": "XXX"},
+    ])
+    mi = model_inputs(idx, fixtures)
+    assert mi["metric"] == "percentile_within_field" and mi["field"] == "world_cup_2026"
+    # only group fixtures with both codes in the field — knockout + unknown code dropped
+    assert set(mi["fixtures"]) == {"WC26-M100"}
+    row = mi["fixtures"]["WC26-M100"]
+    assert row["team1"] == "ESP" and row["team2"] == "CPV"
+    assert row["elo1"] > row["elo2"] and row["mkt1"] > row["mkt2"]
+    assert all(0 <= row[k] <= 100 for k in ("elo1", "elo2", "mkt1", "mkt2"))

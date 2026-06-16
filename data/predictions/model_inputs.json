@@ -1,0 +1,583 @@
+{
+  "generated_at": "2026-06-16T18:11:32Z",
+  "field": "world_cup_2026",
+  "metric": "percentile_within_field",
+  "fixtures": {
+    "WC26-M001": {
+      "team1": "MEX",
+      "team2": "RSA",
+      "elo1": 75,
+      "elo2": 12,
+      "mkt1": 46,
+      "mkt2": 10
+    },
+    "WC26-M002": {
+      "team1": "KOR",
+      "team2": "CZE",
+      "elo1": 46,
+      "elo2": 31,
+      "mkt1": 35,
+      "mkt2": 48
+    },
+    "WC26-M003": {
+      "team1": "CAN",
+      "team2": "BIH",
+      "elo1": 54,
+      "elo2": 8,
+      "mkt1": 44,
+      "mkt2": 33
+    },
+    "WC26-M004": {
+      "team1": "USA",
+      "team2": "PAR",
+      "elo1": 40,
+      "elo2": 60,
+      "mkt1": 73,
+      "mkt2": 40
+    },
+    "WC26-M008": {
+      "team1": "QAT",
+      "team2": "SUI",
+      "elo1": 2,
+      "elo2": 62,
+      "mkt1": 6,
+      "mkt2": 67
+    },
+    "WC26-M007": {
+      "team1": "BRA",
+      "team2": "MAR",
+      "elo1": 92,
+      "elo2": 77,
+      "mkt1": 92,
+      "mkt2": 56
+    },
+    "WC26-M005": {
+      "team1": "HAI",
+      "team2": "SCO",
+      "elo1": 17,
+      "elo2": 42,
+      "mkt1": 17,
+      "mkt2": 54
+    },
+    "WC26-M006": {
+      "team1": "AUS",
+      "team2": "TUR",
+      "elo1": 56,
+      "elo2": 68,
+      "mkt1": 19,
+      "mkt2": 79
+    },
+    "WC26-M010": {
+      "team1": "GER",
+      "team2": "CUW",
+      "elo1": 81,
+      "elo2": 4,
+      "mkt1": 90,
+      "mkt2": 23
+    },
+    "WC26-M011": {
+      "team1": "NED",
+      "team2": "JPN",
+      "elo1": 83,
+      "elo2": 79,
+      "mkt1": 85,
+      "mkt2": 58
+    },
+    "WC26-M009": {
+      "team1": "CIV",
+      "team2": "ECU",
+      "elo1": 35,
+      "elo2": 85,
+      "mkt1": 75,
+      "mkt2": 52
+    },
+    "WC26-M012": {
+      "team1": "SWE",
+      "team2": "TUN",
+      "elo1": 27,
+      "elo2": 23,
+      "mkt1": 62,
+      "mkt2": 29
+    },
+    "WC26-M014": {
+      "team1": "ESP",
+      "team2": "CPV",
+      "elo1": 100,
+      "elo2": 10,
+      "mkt1": 100,
+      "mkt2": 21
+    },
+    "WC26-M016": {
+      "team1": "BEL",
+      "team2": "EGY",
+      "elo1": 65,
+      "elo2": 33,
+      "mkt1": 83,
+      "mkt2": 31
+    },
+    "WC26-M013": {
+      "team1": "KSA",
+      "team2": "URU",
+      "elo1": 15,
+      "elo2": 73,
+      "mkt1": 12,
+      "mkt2": 81
+    },
+    "WC26-M015": {
+      "team1": "IRN",
+      "team2": "NZL",
+      "elo1": 52,
+      "elo2": 19,
+      "mkt1": 25,
+      "mkt2": 8
+    },
+    "WC26-M017": {
+      "team1": "FRA",
+      "team2": "SEN",
+      "elo1": 96,
+      "elo2": 58,
+      "mkt1": 98,
+      "mkt2": 71
+    },
+    "WC26-M018": {
+      "team1": "IRQ",
+      "team2": "NOR",
+      "elo1": 21,
+      "elo2": 71,
+      "mkt1": 4,
+      "mkt2": 77
+    },
+    "WC26-M019": {
+      "team1": "ARG",
+      "team2": "ALG",
+      "elo1": 98,
+      "elo2": 48,
+      "mkt1": 88,
+      "mkt2": 50
+    },
+    "WC26-M020": {
+      "team1": "AUT",
+      "team2": "JOR",
+      "elo1": 50,
+      "elo2": 29,
+      "mkt1": 60,
+      "mkt2": 2
+    },
+    "WC26-M023": {
+      "team1": "POR",
+      "team2": "COD",
+      "elo1": 88,
+      "elo2": 25,
+      "mkt1": 94,
+      "mkt2": 38
+    },
+    "WC26-M022": {
+      "team1": "ENG",
+      "team2": "CRO",
+      "elo1": 94,
+      "elo2": 68,
+      "mkt1": 96,
+      "mkt2": 69
+    },
+    "WC26-M021": {
+      "team1": "GHA",
+      "team2": "PAN",
+      "elo1": 6,
+      "elo2": 44,
+      "mkt1": 42,
+      "mkt2": 15
+    },
+    "WC26-M024": {
+      "team1": "UZB",
+      "team2": "COL",
+      "elo1": 38,
+      "elo2": 90,
+      "mkt1": 27,
+      "mkt2": 65
+    },
+    "WC26-M025": {
+      "team1": "CZE",
+      "team2": "RSA",
+      "elo1": 31,
+      "elo2": 12,
+      "mkt1": 48,
+      "mkt2": 10
+    },
+    "WC26-M026": {
+      "team1": "SUI",
+      "team2": "BIH",
+      "elo1": 62,
+      "elo2": 8,
+      "mkt1": 67,
+      "mkt2": 33
+    },
+    "WC26-M027": {
+      "team1": "CAN",
+      "team2": "QAT",
+      "elo1": 54,
+      "elo2": 2,
+      "mkt1": 44,
+      "mkt2": 6
+    },
+    "WC26-M028": {
+      "team1": "MEX",
+      "team2": "KOR",
+      "elo1": 75,
+      "elo2": 46,
+      "mkt1": 46,
+      "mkt2": 35
+    },
+    "WC26-M032": {
+      "team1": "USA",
+      "team2": "AUS",
+      "elo1": 40,
+      "elo2": 56,
+      "mkt1": 73,
+      "mkt2": 19
+    },
+    "WC26-M030": {
+      "team1": "SCO",
+      "team2": "MAR",
+      "elo1": 42,
+      "elo2": 77,
+      "mkt1": 54,
+      "mkt2": 56
+    },
+    "WC26-M029": {
+      "team1": "BRA",
+      "team2": "HAI",
+      "elo1": 92,
+      "elo2": 17,
+      "mkt1": 92,
+      "mkt2": 17
+    },
+    "WC26-M031": {
+      "team1": "TUR",
+      "team2": "PAR",
+      "elo1": 68,
+      "elo2": 60,
+      "mkt1": 79,
+      "mkt2": 40
+    },
+    "WC26-M035": {
+      "team1": "NED",
+      "team2": "SWE",
+      "elo1": 83,
+      "elo2": 27,
+      "mkt1": 85,
+      "mkt2": 62
+    },
+    "WC26-M033": {
+      "team1": "GER",
+      "team2": "CIV",
+      "elo1": 81,
+      "elo2": 35,
+      "mkt1": 90,
+      "mkt2": 75
+    },
+    "WC26-M034": {
+      "team1": "ECU",
+      "team2": "CUW",
+      "elo1": 85,
+      "elo2": 4,
+      "mkt1": 52,
+      "mkt2": 23
+    },
+    "WC26-M036": {
+      "team1": "TUN",
+      "team2": "JPN",
+      "elo1": 23,
+      "elo2": 79,
+      "mkt1": 29,
+      "mkt2": 58
+    },
+    "WC26-M038": {
+      "team1": "ESP",
+      "team2": "KSA",
+      "elo1": 100,
+      "elo2": 15,
+      "mkt1": 100,
+      "mkt2": 12
+    },
+    "WC26-M039": {
+      "team1": "BEL",
+      "team2": "IRN",
+      "elo1": 65,
+      "elo2": 52,
+      "mkt1": 83,
+      "mkt2": 25
+    },
+    "WC26-M037": {
+      "team1": "URU",
+      "team2": "CPV",
+      "elo1": 73,
+      "elo2": 10,
+      "mkt1": 81,
+      "mkt2": 21
+    },
+    "WC26-M040": {
+      "team1": "NZL",
+      "team2": "EGY",
+      "elo1": 19,
+      "elo2": 33,
+      "mkt1": 8,
+      "mkt2": 31
+    },
+    "WC26-M043": {
+      "team1": "ARG",
+      "team2": "AUT",
+      "elo1": 98,
+      "elo2": 50,
+      "mkt1": 88,
+      "mkt2": 60
+    },
+    "WC26-M042": {
+      "team1": "FRA",
+      "team2": "IRQ",
+      "elo1": 96,
+      "elo2": 21,
+      "mkt1": 98,
+      "mkt2": 4
+    },
+    "WC26-M041": {
+      "team1": "NOR",
+      "team2": "SEN",
+      "elo1": 71,
+      "elo2": 58,
+      "mkt1": 77,
+      "mkt2": 71
+    },
+    "WC26-M044": {
+      "team1": "JOR",
+      "team2": "ALG",
+      "elo1": 29,
+      "elo2": 48,
+      "mkt1": 2,
+      "mkt2": 50
+    },
+    "WC26-M047": {
+      "team1": "POR",
+      "team2": "UZB",
+      "elo1": 88,
+      "elo2": 38,
+      "mkt1": 94,
+      "mkt2": 27
+    },
+    "WC26-M045": {
+      "team1": "ENG",
+      "team2": "GHA",
+      "elo1": 94,
+      "elo2": 6,
+      "mkt1": 96,
+      "mkt2": 42
+    },
+    "WC26-M046": {
+      "team1": "PAN",
+      "team2": "CRO",
+      "elo1": 44,
+      "elo2": 68,
+      "mkt1": 15,
+      "mkt2": 69
+    },
+    "WC26-M048": {
+      "team1": "COL",
+      "team2": "COD",
+      "elo1": 90,
+      "elo2": 25,
+      "mkt1": 65,
+      "mkt2": 38
+    },
+    "WC26-M051": {
+      "team1": "SUI",
+      "team2": "CAN",
+      "elo1": 62,
+      "elo2": 54,
+      "mkt1": 67,
+      "mkt2": 44
+    },
+    "WC26-M052": {
+      "team1": "BIH",
+      "team2": "QAT",
+      "elo1": 8,
+      "elo2": 2,
+      "mkt1": 33,
+      "mkt2": 6
+    },
+    "WC26-M049": {
+      "team1": "SCO",
+      "team2": "BRA",
+      "elo1": 42,
+      "elo2": 92,
+      "mkt1": 54,
+      "mkt2": 92
+    },
+    "WC26-M050": {
+      "team1": "MAR",
+      "team2": "HAI",
+      "elo1": 77,
+      "elo2": 17,
+      "mkt1": 56,
+      "mkt2": 17
+    },
+    "WC26-M053": {
+      "team1": "CZE",
+      "team2": "MEX",
+      "elo1": 31,
+      "elo2": 75,
+      "mkt1": 48,
+      "mkt2": 46
+    },
+    "WC26-M054": {
+      "team1": "RSA",
+      "team2": "KOR",
+      "elo1": 12,
+      "elo2": 46,
+      "mkt1": 10,
+      "mkt2": 35
+    },
+    "WC26-M055": {
+      "team1": "CUW",
+      "team2": "CIV",
+      "elo1": 4,
+      "elo2": 35,
+      "mkt1": 23,
+      "mkt2": 75
+    },
+    "WC26-M056": {
+      "team1": "ECU",
+      "team2": "GER",
+      "elo1": 85,
+      "elo2": 81,
+      "mkt1": 52,
+      "mkt2": 90
+    },
+    "WC26-M057": {
+      "team1": "JPN",
+      "team2": "SWE",
+      "elo1": 79,
+      "elo2": 27,
+      "mkt1": 58,
+      "mkt2": 62
+    },
+    "WC26-M058": {
+      "team1": "TUN",
+      "team2": "NED",
+      "elo1": 23,
+      "elo2": 83,
+      "mkt1": 29,
+      "mkt2": 85
+    },
+    "WC26-M059": {
+      "team1": "TUR",
+      "team2": "USA",
+      "elo1": 68,
+      "elo2": 40,
+      "mkt1": 79,
+      "mkt2": 73
+    },
+    "WC26-M060": {
+      "team1": "PAR",
+      "team2": "AUS",
+      "elo1": 60,
+      "elo2": 56,
+      "mkt1": 40,
+      "mkt2": 19
+    },
+    "WC26-M061": {
+      "team1": "NOR",
+      "team2": "FRA",
+      "elo1": 71,
+      "elo2": 96,
+      "mkt1": 77,
+      "mkt2": 98
+    },
+    "WC26-M062": {
+      "team1": "SEN",
+      "team2": "IRQ",
+      "elo1": 58,
+      "elo2": 21,
+      "mkt1": 71,
+      "mkt2": 4
+    },
+    "WC26-M065": {
+      "team1": "CPV",
+      "team2": "KSA",
+      "elo1": 10,
+      "elo2": 15,
+      "mkt1": 21,
+      "mkt2": 12
+    },
+    "WC26-M066": {
+      "team1": "URU",
+      "team2": "ESP",
+      "elo1": 73,
+      "elo2": 100,
+      "mkt1": 81,
+      "mkt2": 100
+    },
+    "WC26-M063": {
+      "team1": "EGY",
+      "team2": "IRN",
+      "elo1": 33,
+      "elo2": 52,
+      "mkt1": 31,
+      "mkt2": 25
+    },
+    "WC26-M064": {
+      "team1": "NZL",
+      "team2": "BEL",
+      "elo1": 19,
+      "elo2": 65,
+      "mkt1": 8,
+      "mkt2": 83
+    },
+    "WC26-M067": {
+      "team1": "PAN",
+      "team2": "ENG",
+      "elo1": 44,
+      "elo2": 94,
+      "mkt1": 15,
+      "mkt2": 96
+    },
+    "WC26-M068": {
+      "team1": "CRO",
+      "team2": "GHA",
+      "elo1": 68,
+      "elo2": 6,
+      "mkt1": 69,
+      "mkt2": 42
+    },
+    "WC26-M071": {
+      "team1": "COL",
+      "team2": "POR",
+      "elo1": 90,
+      "elo2": 88,
+      "mkt1": 65,
+      "mkt2": 94
+    },
+    "WC26-M072": {
+      "team1": "COD",
+      "team2": "UZB",
+      "elo1": 25,
+      "elo2": 38,
+      "mkt1": 38,
+      "mkt2": 27
+    },
+    "WC26-M069": {
+      "team1": "ALG",
+      "team2": "AUT",
+      "elo1": 48,
+      "elo2": 50,
+      "mkt1": 50,
+      "mkt2": 60
+    },
+    "WC26-M070": {
+      "team1": "JOR",
+      "team2": "ARG",
+      "elo1": 29,
+      "elo2": 98,
+      "mkt1": 2,
+      "mkt2": 88
+    }
+  }
+}

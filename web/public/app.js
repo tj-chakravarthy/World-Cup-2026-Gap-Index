@@ -100,7 +100,52 @@ function renderForecast(sim) {
   };
 }
 
-function renderFixtures(live) {
+// "tale of the tape": the model's two inputs for a fixture (Elo + squad value), each as the
+// two teams' percentile in the 48-team field, drawn as a split bar. inp from model_inputs.json.
+function tapeHTML(inp) {
+  if (!inp) return "";
+  const row = (lab, a, b) => {
+    const av = a == null ? "—" : a, bv = b == null ? "—" : b;
+    const share = a != null && b != null && a + b > 0 ? (a / (a + b)) * 100 : 50;
+    return `<div class="tape-row"><span class="tlab">${lab}</span>` +
+      `<span class="tnum">${av}</span>` +
+      `<div class="tbar"><i style="width:${share}%"></i></div>` +
+      `<span class="tnum">${bv}</span></div>`;
+  };
+  return `<div class="tape" title="strength percentile in the field — the model's two inputs">` +
+    row("Elo", inp.elo1, inp.elo2) + row("Value", inp.mkt1, inp.mkt2) + `</div>`;
+}
+
+const fmtDelta = (x) => (x >= 0 ? "+" : "−") + Math.abs(x * 100).toFixed(1) + "pp";
+
+function renderMovement(mv) {
+  const sec = document.getElementById("movement");
+  const body = document.getElementById("movement-body");
+  if (!sec || !body) return;
+  if (!mv || !(mv.newly_resolved || []).length) { sec.hidden = true; return; }
+
+  // the results that caused the move — a terse one-line list. The per-match detail (predicted
+  // vs actual + the model's inputs) lives in the track-record cards below; no need to repeat it.
+  const n = mv.newly_resolved.length;
+  const since = mv.newly_resolved
+    .map((c) => `${name(c.team1)} <b>${c.score.replace("-", "–")}</b> ${name(c.team2)}`)
+    .join(" · ");
+
+  const rows = (arr) => arr.map((m) =>
+    `<div class="mv-row"><span class="mv-team">${name(m.country_code)}</span>` +
+    `<span class="mv-delta ${m.delta >= 0 ? "up" : "down"}">${fmtDelta(m.delta)}</span></div>`).join("");
+  const col = (title, arr) => arr.length ? `<div class="mv-col"><h3>${title}</h3>${rows(arr)}</div>` : "";
+
+  body.innerHTML =
+    `<p class="mv-since"><span class="mv-n">${n} result${n > 1 ? "s" : ""} in:</span> ${since}</p>` +
+    `<div class="mv-movers">` +
+    col("Biggest swing — reach knockouts", mv.advance_movers || []) +
+    col("Biggest swing — win it all", mv.title_movers || []) +
+    `</div>`;
+  sec.hidden = false;
+}
+
+function renderFixtures(live, inputs) {
   const now = Date.now();
   const up = (live.predictions || [])
     .filter((p) => new Date(p.kickoff_utc).getTime() >= now - 2 * 3600e3) // keep just-started too
@@ -133,11 +178,12 @@ function renderFixtures(live) {
         <span>${p.team2} <b>${Math.round(l * 100)}%</b></span>
       </div>
       ${top ? `<div class="top">Most likely score <b>${top.score}</b> (${Math.round(top.p * 100)}%)</div>` : ""}
+      ${tapeHTML((inputs || {})[p.fixture_id])}
     </div>`;
   }).join("");
 }
 
-function renderTrack(tr) {
+function renderTrack(tr, inputs) {
   const meta = document.getElementById("track-meta");
   const el = document.getElementById("track-list");
   if (meta) meta.textContent =
@@ -165,6 +211,7 @@ function renderTrack(tr) {
         <span>actual <b>${g.actual}</b> · ${result}</span>
         <span>${mark}${exact}</span>
       </div>
+      ${tapeHTML((inputs || {})[g.fixture_id])}
     </div>`;
   }).join("");
 }
@@ -172,15 +219,19 @@ function renderTrack(tr) {
 async function main() {
   document.getElementById("repo").href = REPO_URL;
   try {
-    const [sim, live, track] = await Promise.all([
+    const [sim, live, track, mi, mv] = await Promise.all([
       getJSON("data/simulation.json"),
       getJSON("data/predictions_live.json"),
       getJSON("data/track_record.json").catch(() => null),
+      getJSON("data/model_inputs.json").catch(() => null),
+      getJSON("data/movement.json").catch(() => null),
     ]);
+    const inputs = (mi && mi.fixtures) || {};
     renderMeta(sim, live);
     renderForecast(sim);
-    renderFixtures(live);
-    if (track) renderTrack(track);
+    renderMovement(mv);
+    renderFixtures(live, inputs);
+    if (track) renderTrack(track, inputs);
   } catch (e) {
     document.getElementById("meta").innerHTML =
       `<span class="err">Could not load the forecast (${e.message}).</span>`;

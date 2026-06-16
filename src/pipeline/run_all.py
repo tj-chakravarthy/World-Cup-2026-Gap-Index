@@ -74,6 +74,15 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         return
     print(f"new evidence: {len(played)} played (was {len(last)}); recomputing forecast")
 
+    import json
+    newly = played - last  # the fixtures that resolved this run — cause of the movement
+    before_sim = None      # snapshot the old odds before _sim overwrites simulation.json
+    if SIM.exists():
+        try:
+            before_sim = json.loads(SIM.read_text())
+        except Exception:  # noqa: BLE001 - a corrupt snapshot just means no movement panel
+            before_sim = None
+
     from src.models import monte_carlo
     from src.pipeline import build_live_artifact, write_predictions
     bundle = monte_carlo.load_or_build_bundle(rebuild=rebuild)  # cached pre-tournament model
@@ -97,6 +106,10 @@ def main(force: bool = False, rebuild: bool = False) -> None:
                                 fixture_universe=write_predictions.load_fixture_ids())
         WEB_LIVE.parent.mkdir(parents=True, exist_ok=True)
         WEB_LIVE.write_text(LIVE.read_text())
+        # the two live-model inputs per fixture (Elo + squad value), for the match cards
+        mi = json.dumps(build_live_artifact.model_inputs(bundle.indices, fixtures), indent=2)
+        for p in (PRED / "model_inputs.json", WEB_LIVE.parent / "model_inputs.json"):
+            p.write_text(mi)
         try:  # append-only log, best-effort so a log hiccup never fails the run
             from src.update import prediction_log
             print(f"prediction_log: +{prediction_log.log_predictions(artifact)} new rows")
@@ -114,6 +127,15 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         print(f"track_record: {art['n_resolved']} resolved / {art['n_logged']} logged")
     except Exception as e:  # noqa: BLE001
         print(f"warn: track_record skipped ({e})", file=sys.stderr)
+    try:  # 'what changed' panel — diff the new sim odds against the pre-result snapshot
+        from src.update import movement
+        mv = movement.build_movement(before_sim or {}, json.loads(SIM.read_text()), newly, fixtures)
+        for p in (PRED / "movement.json", WEB_LIVE.parent / "movement.json"):
+            p.write_text(json.dumps(mv, indent=2))
+        print(f"movement: {len(mv['newly_resolved'])} new result(s), "
+              f"{len(mv['title_movers'])} title / {len(mv['advance_movers'])} advance movers")
+    except Exception as e:  # noqa: BLE001
+        print(f"warn: movement skipped ({e})", file=sys.stderr)
     try:  # refresh the README's "top of the board" line + stamp; best-effort
         from src.update import readme_summary
         if readme_summary.update_readme():
