@@ -57,6 +57,9 @@ data/processed/**
 # §1 f) conduct input) is allowlisted too for when card data is loaded.
 !data/raw/fifa_rankings_2026.csv
 !data/raw/cards_2026.csv
+# Annex C third-place allocation: FIFA's exact 495-row table (fetch_annex_c), the
+# bracket.py R32 third assignment → tracked (replaces the constraint-solver approximation).
+!data/raw/annex_c_thirds.csv
 # data/predictions/ is the committed record (locked file's verifiable git timestamp,
 # append-only audit log, market benchmark) — no ignore rule, tracked normally.
 

@@ -48,10 +48,9 @@ The gap analysis still works as a description: talent explains about a third of 
 My model plays the whole tournament out in the 2026 format — 12 groups, 8 best third-placed
 teams, the full FIFA Article 13 group-tiebreaker order, the official knockout bracket. The order
 — head-to-head, then goal difference, goals, team conduct, and the real FIFA/Coca-Cola ranking —
-is implemented. Two inputs are softer than the letter of the rules: how the third-placed teams
-get slotted into the round of 32 (a constraint-respecting stand-in for FIFA's unpublished Annex C
-table), and the team-conduct score, which runs at zero until match-card data is loaded. It
-updates within half an hour of each full-time.
+is implemented, and the third-placed teams slot into the round of 32 by FIFA's exact Annex C
+table. The one input still softer than the letter of the rules is the team-conduct score, which
+runs at zero until match-card data is loaded. It updates within half an hour of each full-time.
 
 <!-- TOPBOARD:START -->
 Top of the board to win it: **Spain 12%, Argentina 10%, France 9%, England 8%.** _(updated 2026-06-16 11:26 UTC)_

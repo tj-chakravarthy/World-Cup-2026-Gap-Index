@@ -378,10 +378,12 @@ order (tiebreakers); knockout via bracket.py. Keyed by FIFA code throughout. Dev
   load_conduct sums card deductions from data/raw/cards_2026.csv (one row per fixture+team). No
   card feed runs here (no API key), so conduct is empty -> zero until that CSV is provided; it
   only separates teams already level on points/GD/GF.
-- **Third-place allocation is a constraint-matching approximation** (bracket.py): FIFA's
-  495-row Annex C wasn't obtainable; we assign each qualifying third to a slot whose
-  group-set contains it (bijective). The bracket TREE (R16->final) is verified exact
-  (Wikipedia/NBC); only which third meets which seed in R32 is approximate.
+- **Third-place allocation now exact (Annex C loaded).** Was a constraint-matching
+  approximation; FIFA's 495-row Annex C is now public on the knockout-stage article, so
+  fetch_annex_c commits the real table (data/raw/annex_c_thirds.csv) and bracket.py uses it
+  (constraint solver kept as fallback). The all-495 test cross-checks FIFA's table against
+  our R32 slot strings — every assigned third lands in a slot whose set allows it, so the
+  scrape and the bracket agree. The bracket TREE (R16->final) was already exact (Wikipedia/NBC).
 - **Knockout draws: 90' draw -> a near-50/50 nudge**, folding extra time into the penalty
   coin flip rather than PLAN §5.2's explicit reduced-rate ET goals then penalties. A
   simplification; the §5.3 capped-near-50/50 penalty spirit holds.

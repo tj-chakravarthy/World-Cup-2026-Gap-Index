@@ -18,6 +18,7 @@ from src.models.bracket import (
     THIRD_PLACE,
     allocate_thirds,
     bracket_tree,
+    load_annex_c,
     r32_matchups,
     resolve_r32,
 )
@@ -75,11 +76,30 @@ def test_allocate_thirds_deterministic():
 
 def test_allocate_thirds_all_495_feasible():
     # FIFA's slot group-sets are built so every 8-of-12 set has a valid assignment.
+    # With the real Annex C committed this also cross-checks that FIFA's table agrees
+    # with our R32 slot strings (each assigned third lands in a slot whose set allows it).
     from itertools import combinations
 
     for combo in combinations(GROUPS, 8):
         qual = list(combo)
         _is_valid_alloc(allocate_thirds(qual), qual)
+
+
+def test_annex_c_table_loaded_and_complete():
+    table = load_annex_c()
+    assert table is not None, "annex_c_thirds.csv must be committed"
+    assert len(table) == 495
+    # the published Annex C row for thirds from {E,F,G,H,I,J,K,L}
+    assert table[frozenset("EFGHIJKL")] == {
+        "A": "E", "B": "J", "D": "I", "E": "F", "G": "H", "I": "G", "K": "L", "L": "K"}
+
+
+def test_allocate_thirds_is_exact_annex_c():
+    # the exact FIFA assignment for {E,F,G,H,I,J,K,L} (knockout-stage article, Annex C) —
+    # proves the real table is wired, not just a constraint-valid bijection
+    expected = {"3ABCDF": "F", "3CDFGH": "G", "3CEFHI": "E", "3EHIJK": "K",
+                "3BEFIJ": "I", "3AEHIJ": "H", "3EFGIJ": "J", "3DEIJL": "L"}
+    assert allocate_thirds(list("EFGHIJKL")) == expected
 
 
 def test_allocate_thirds_raises_bad_input():

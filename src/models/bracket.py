@@ -18,14 +18,14 @@ knockout stage" and NBC Sports). Both agree exactly. Match numbers:
   R32 73-88, R16 89-96, QF 97-100, SF 101-102, third place 103, final 104.
 
 Third-place allocation: FIFA publishes a 495-row table (Annex C; one row per way to
-pick 8 of 12 thirds) mapping each qualifying third to one of the eight 3-slots. That
-table is NOT reproduced here — it could not be obtained verbatim from a public source.
-allocate_thirds() instead solves the *constraint* the slot strings encode directly:
-assign each qualifying group to a slot whose group-set contains it, one-to-one. This is
-a valid (constraint-respecting, bijective) stand-in, deterministic given the input, but
-NOT guaranteed to reproduce FIFA's exact Annex-C row in every case. It matters only for
-*which* third lands in which R32 match; the bracket tree above (every team's deep-run
-path) is exact. Swap in the real table here if a verbatim copy turns up. -- TODO/kolla.
+pick 8 of 12 thirds) mapping each qualifying third to one of the eight 3-slots. The real
+table is now committed (fetch_annex_c -> data/raw/annex_c_thirds.csv, from the public
+knockout-stage article that reproduces Annex C verbatim); allocate_thirds() uses it and is
+exact. If the file is absent it falls back to solving the *constraint* the slot strings
+encode directly — assign each qualifying group to a slot whose group-set contains it,
+one-to-one: a valid (constraint-respecting, bijective) stand-in, deterministic given the
+input, but not guaranteed to be FIFA's row. Either way the bracket tree above (every
+team's deep-run path) is exact; only which third lands in which R32 match was approximate.
 
 pandas only for the CSV read; the bracket logic is pure and testable.
 """
@@ -38,6 +38,7 @@ import pandas as pd
 
 REPO = Path(__file__).resolve().parents[2]
 FIXTURES = REPO / "data" / "raw" / "fixtures_2026.csv"
+ANNEX_C = REPO / "data" / "raw" / "annex_c_thirds.csv"
 
 GROUPS = list("ABCDEFGHIJKL")
 
@@ -93,6 +94,30 @@ def _third_slots() -> list[str]:
     return [s for _, a, b in r32_matchups() for s in (a, b) if s.startswith("3")]
 
 
+def _slot_winner() -> dict[str, str]:
+    """Each "3..." slot string -> the group letter of the "1X" winner it meets in R32.
+    Annex C is keyed by that winner, so this bridges its rows to our slot strings."""
+    out: dict[str, str] = {}
+    for _, a, b in r32_matchups():
+        if a.startswith("1") and b.startswith("3"):
+            out[b] = a[1]
+        elif b.startswith("1") and a.startswith("3"):
+            out[a] = b[1]
+    return out
+
+
+def load_annex_c(path: Path = ANNEX_C) -> dict[frozenset, dict[str, str]] | None:
+    """FIFA's exact third-place table (fetch_annex_c): {qualifying-group set -> {winner
+    group -> third group}}. None if the file is absent, so allocate_thirds falls back to
+    the constraint solver."""
+    if not path.exists():
+        return None
+    df = pd.read_csv(path)
+    winners = [c[2:] for c in df.columns if c.startswith("w_")]
+    return {frozenset(r.groups): {w: getattr(r, f"w_{w}") for w in winners}
+            for r in df.itertuples(index=False)}
+
+
 def allocate_thirds(qualified_third_groups: list[str]) -> dict[str, str]:
     """Map each third-slot string (e.g. "3ABCDF") to the single group letter that fills
     it. `qualified_third_groups` is the 8 group letters whose thirds qualified.
@@ -102,8 +127,9 @@ def allocate_thirds(qualified_third_groups: list[str]) -> dict[str, str]:
     first ordering (deterministic; 8 nodes, trivial). Raises ValueError on a bad input
     (wrong count, unknown/duplicate group) or if no valid assignment exists.
 
-    NB: a valid constraint-respecting bijection, NOT necessarily FIFA's exact Annex-C row
-    (see module docstring)."""
+    Uses FIFA's exact Annex C table (load_annex_c) when present; falls back to the
+    constraint solver below — a valid bijection, but not necessarily FIFA's row — when it
+    isn't."""
     qual = list(qualified_third_groups)
     if len(qual) != 8:
         raise ValueError(f"need exactly 8 qualifying third groups, got {len(qual)}: {qual}")
@@ -112,6 +138,19 @@ def allocate_thirds(qualified_third_groups: list[str]) -> dict[str, str]:
     bad = [g for g in qual if g not in GROUPS]
     if bad:
         raise ValueError(f"unknown group letters: {bad}")
+
+    exact = load_annex_c()
+    if exact is not None and (table := exact.get(frozenset(qual))) is not None:
+        sw = _slot_winner()
+        assignment = {}
+        for slot in _third_slots():
+            g = table.get(sw.get(slot))
+            if g is None or g not in slot[1:]:   # table disagrees with slot strings -> solver
+                assignment = None
+                break
+            assignment[slot] = g
+        if assignment is not None and sorted(assignment.values()) == sorted(qual):
+            return assignment
 
     slots = _third_slots()
     remaining = set(qual)
