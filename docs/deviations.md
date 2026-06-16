@@ -44,15 +44,11 @@ preference — distro-pinned reproducibility without lockfiles.
 
 ## Frontend / npm
 
-**npm parked pending stack decision.** PLAN §7 / "Full Stack" specifies Next.js 14
-+ Tailwind on Vercel. We keep the repo npm-free until the frontend stack is
-chosen (a pre-Stage-5 decision): the CI web job was removed
-(`.github/workflows/ci.yml`), and the docker-compose web service was removed
-(`docker-compose.yml`). `web/` remains a scaffold but is not built.
-
-This is an open plan-level fork, not just a deferral: Next.js fundamentally
-requires the npm ecosystem, so any stack choice that avoids npm means revisiting
-the §7 architecture, not just switching a flag.
+**npm dropped — went static instead (resolved).** PLAN §7 / "Full Stack" specified
+Next.js 14 + Tailwind on Vercel. I parked npm pending the stack call, then chose a plain
+static site (`web/public`, no npm, no lockfile) and shipped it to GitHub Pages — full
+rationale in the "Frontend stack (Stage 5)" entry below. The old Next scaffold under `web/`
+is removed; `web/public` is the live site.
 
 ---
 
@@ -368,10 +364,10 @@ balance) until the joint's implied W/D/L matches the calibrated marginals, then 
 The mandatory test_scoreline_coherence is now live (tilt hits target marginals incl
 lopsided; sampled scorelines reproduce them within MC error). Third mandatory suite green.
 
-**Monte Carlo (`src/models/monte_carlo.py`).** 20k draws (PLAN §5.2 says 100k; 20k keeps
-it tractable and the probabilities stable to ~0.3pp — raise for the final artifact). Group
-stage is exact (Art. 13 via tiebreakers); knockout via bracket.py. Keyed by FIFA code
-throughout. Deviations from PLAN §5:
+**Monte Carlo (`src/models/monte_carlo.py`).** 100k draws (PLAN §5.2's count; probabilities
+stable to ~0.1pp). I ran 20k live for a while to keep updates quick, then went back to the
+full 100k once the cached bundle made each run affordable. Group stage is exact (Art. 13 via
+tiebreakers); knockout via bracket.py. Keyed by FIFA code throughout. Deviations from PLAN §5:
 - **FIFA-ranking final tiebreaker proxied by Elo order.** Art. 13's last criterion is the
   FIFA ranking, a fixed pre-tournament input; we don't have it loaded, so the deterministic
   residual-tie break uses Elo order instead (unique ints, always resolves). Swap in the
@@ -409,9 +405,10 @@ production logistic, Dixon-Coles, and the bootstrap bags) are fixed for the whol
 tournament, so they're built once into a pickled `Bundle` and reused every update; only
 the played results change per matchday. Cuts a per-update recompute from ~8 min (rebuild)
 to the draws alone, and 25-member parameter uncertainty rides along (PLAN §5.2 — odds as
-distributions over model uncertainty). Draw count: the live cron uses 20k (~0.3pp MC
-noise, far below the between-match odds shift; ~6 min), while monte_carlo.main runs 100k
-for a one-off published snapshot (~30 min — too slow per-match, and invisibly better).
+distributions over model uncertainty). Draw count: the live cron now runs the full 100k
+(~0.1pp MC noise; ~30 min, but only on a new result, and I cache the Docker build so the apt
+layer doesn't repeat). I ran 20k for a while when each rebuild was slow — the cached bundle
+plus the cached build made 100k affordable live, so the site number matches PLAN §5.2.
 
 **Market benchmark (§4.6, `src/models/market_benchmark.py`) — done, real backtest.**
 football-data.co.uk is club-leagues-only (PLAN's worry confirmed). Usable free source:
