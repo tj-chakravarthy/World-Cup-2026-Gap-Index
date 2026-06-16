@@ -50,8 +50,13 @@ def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str, str]) -> dict:
-    """Assemble the live artifact dict from per-fixture W/D/L + tilted scorelines."""
+def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str, str],
+               *, stale: bool = False) -> dict:
+    """Assemble the live artifact dict from per-fixture W/D/L + tilted scorelines.
+
+    stale=True (the fixture refresh fell back to cached scores, run_all's fresh=False) flags
+    the live 'fixtures' source so the site's stale banner fires; the static match_results /
+    match_model sources aren't live-refreshed, so they stay fresh."""
     base = float(np.exp(dc.intercept))
     fx_meta = fixtures.set_index("fixture_id")
     predictions, covered, excluded = [], [], []
@@ -71,7 +76,7 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
             "kickoff_utc": str(fx_meta.loc[r.fixture_id, "kickoff_utc"]),
             "team1": r.home_code, "team2": r.away_code, "model_source": "live_full",
             "wdl": wdl, "scorelines": top_scorelines(m),
-            "members": {"full": wdl}, "conformal_set": None, "stale": False})
+            "members": {"full": wdl}, "conformal_set": None, "stale": stale})
         covered.append(r.fixture_id)
 
     all_ids = set(fixtures["fixture_id"])
@@ -83,7 +88,7 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         "coverage": {"covered_fixture_ids": covered,
                      "excluded_played_fixture_ids": excluded,
                      "pending_undetermined_fixture_ids": pending},
-        "sources": [{"name": n, "as_of": _now(), "stale": False}
+        "sources": [{"name": n, "as_of": _now(), "stale": stale and n == "fixtures"}
                     for n in ("fixtures", "match_results", "match_model")],
         "predictions": predictions,
     }

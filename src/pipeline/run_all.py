@@ -91,7 +91,8 @@ def main(force: bool = False, rebuild: bool = False) -> None:
     def _live():  # predictions_2026_wdl.csv -> predictions_live.json -> track-record log
         preds = monte_carlo.group_fixture_wdl(bundle, fixtures)
         preds.to_csv(PROC / "predictions_2026_wdl.csv", index=False)
-        artifact = build_live_artifact.build_live(preds, fixtures, bundle.dc, bundle.code2m)
+        artifact = build_live_artifact.build_live(preds, fixtures, bundle.dc, bundle.code2m,
+                                                  stale=not fresh)
         write_predictions.write(artifact, LIVE,
                                 fixture_universe=write_predictions.load_fixture_ids())
         WEB_LIVE.parent.mkdir(parents=True, exist_ok=True)
