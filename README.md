@@ -36,9 +36,12 @@ The gap analysis still works as a description: talent explains about a third of 
 My model plays the whole tournament out in the 2026 format — 12 groups, 8 best third-placed
 teams, exact FIFA Article 13 group tiebreakers, the official knockout bracket. Two parts are approximations, not the letter of the rules: how the third-placed teams get slotted into
 the round of 32 (a constraint-respecting stand-in for FIFA's unpublished Annex C table), and the
-knockout seeding and shootouts (an Elo-based rank proxy, ties broken roughly 50/50). Top of the
-board to win it: **Spain 13%, France 9%, Argentina 9%, England 8%.** It updates within
-half an hour of each full-time.
+knockout seeding and shootouts (an Elo-based rank proxy, ties broken roughly 50/50). It updates
+within half an hour of each full-time.
+
+<!-- TOPBOARD:START -->
+Top of the board to win it: **Spain 12%, Argentina 10%, France 9%, England 8%.** _(updated 2026-06-16 11:26 UTC)_
+<!-- TOPBOARD:END -->
 
 ## How it's built
 

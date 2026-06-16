@@ -104,6 +104,12 @@ def main(force: bool = False, rebuild: bool = False) -> None:
 
     _step("simulate", _sim)
     _step("live_artifact", _live)
+    try:  # refresh the README's "top of the board" line + stamp; best-effort
+        from src.update import readme_summary
+        if readme_summary.update_readme():
+            print("README top-board updated")
+    except Exception as e:  # noqa: BLE001
+        print(f"warn: README update skipped ({e})", file=sys.stderr)
     MARKER.write_text(" ".join(sorted(played)))
     print(f"update complete {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')} "
           f"({len(played)} results in, data {'fresh' if fresh else 'STALE (cached)'})")
