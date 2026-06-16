@@ -10,23 +10,24 @@
 <body>
   <main>
     <header class="head">
-      <h1>TJ's World Cup <span>2026</span> Forecast</h1>
+      <h1>TJ's WC<span>2026</span> Forecast</h1>
       <p class="meta" id="meta">loading…</p>
     </header>
 
     <section class="intro">
-      <p>A machine-learning forecast of the 2026 World Cup, built entirely from public data.
-      Each team gets a strength rating from three things — its national-team Elo, the market
-      value of its squad, and how well its players are playing for their clubs. A model turns
+      <p>My machine-learning forecast of the 2026 World Cup, built entirely from public data.
+      Each team gets a strength rating from its national-team Elo (computed from past
+      international results), the market value of its squad (Transfermarkt), and how well its
+      players are playing for their clubs (club stats from FBref and Understat). My model turns
       those into odds for every match, then plays the rest of the tournament out 100,000 times;
       the percentages below are how often each team reaches each stage.</p>
 
-      <p>It updates itself: after every match the new result feeds back in, the model re-runs,
+      <p>Model updates itself: after every match the new result feeds back in, the model re-runs,
       and this page refreshes — so the forecast always reflects what's happened so far.</p>
 
-      <p>Betting odds are never an input — the model never sees the market. They're used only as
-      a scorecard afterwards: lining the forecast up against the bookmakers' closing odds is how
-      we check it's any good.</p>
+      <p>Betting odds are never an input — the ML never uses them. In backtesting against past 
+        tournaments (Euro 2020, WC 2022, Euro 2024, Copa 2024) my model scores 0.589 vs Pinnacle's 
+        closing odds 0.573 (Brier)</p>
     </section>
 
     <section id="forecast">
@@ -34,6 +35,8 @@
       <div class="tablewrap">
         <table id="forecast-table"><thead></thead><tbody></tbody></table>
       </div>
+      <button id="forecast-toggle" class="toggle" type="button"
+              aria-controls="forecast-table" aria-expanded="false">Show all 48 teams ▾</button>
     </section>
 
     <section id="fixtures">

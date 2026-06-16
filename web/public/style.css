@@ -46,6 +46,15 @@ td.team .code{color:var(--muted); font-weight:500; font-size:12px; margin-left:6
 }
 tbody tr:hover td.team{color:var(--volt)}
 
+/* collapsed forecast: only the top 5 rows show until expanded */
+#forecast-table.collapsed tbody tr.extra{display:none}
+.toggle{
+  margin-top:12px; background:var(--surface); color:var(--volt);
+  border:1px solid var(--line); border-radius:8px; padding:8px 15px;
+  font-size:13px; font-weight:600; cursor:pointer;
+}
+.toggle:hover{border-color:var(--volt)}
+
 /* fixtures */
 #fixture-list{display:grid; gap:8px}
 .fx{

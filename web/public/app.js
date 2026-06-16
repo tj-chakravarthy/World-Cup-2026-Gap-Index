@@ -81,10 +81,23 @@ function renderForecast(sim) {
       const fg = p >= 0.62 ? "#0A0A0F" : "#f5f5f7";
       return `<td><span class="cell" style="background:${heat(p)};color:${fg}">${pct(p)}</span></td>`;
     }).join("");
-    return `<tr><td class="rk">${i + 1}</td>` +
+    return `<tr class="${i >= 5 ? "extra" : ""}"><td class="rk">${i + 1}</td>` +
       `<td class="team">${name(t.country_code)}<span class="code">${t.country_code}</span></td>` +
       cells + `</tr>`;
   }).join("");
+
+  // collapsed by default: top 5 shown, rest behind a toggle
+  const table = document.getElementById("forecast-table");
+  const btn = document.getElementById("forecast-toggle");
+  table.classList.add("collapsed");
+  const collapsedLabel = `Show all ${teams.length} teams ▾`;
+  btn.textContent = collapsedLabel;
+  btn.setAttribute("aria-expanded", "false");
+  btn.onclick = () => {
+    const collapsed = table.classList.toggle("collapsed");
+    btn.setAttribute("aria-expanded", String(!collapsed));
+    btn.textContent = collapsed ? collapsedLabel : "Show top 5 ▴";
+  };
 }
 
 function renderFixtures(live) {
