@@ -100,7 +100,7 @@ a:hover{text-decoration:underline}
 /* ball overlaid on the photo's ball (center 18.7%/17%, 31.2% of photo width). It spins via
    a pre-rendered sphere animation (ball-spin.webp) swapped in by JS; ball.png is the still
    default for reduced-motion / no-JS. */
-.splash-ball{ position:absolute; left:18.7%; top:17%; width:31.2%; transform:translate(-50%,-50%); }
+.splash-ball{ position:absolute; left:18.7%; top:17%; width:33%; transform:translate(-50%,-50%); }
 .splash-ball img{ width:100%; display:block; }
 @keyframes splash-out{ 0%,58%{ opacity:1; } 100%{ opacity:0; visibility:hidden; } }
 @media (prefers-reduced-motion: reduce){ #splash{ animation-duration:1.2s; } }
