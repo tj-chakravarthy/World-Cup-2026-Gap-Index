@@ -87,3 +87,22 @@ a:hover{text-decoration:underline}
   .head h1{font-size:27px}
   main{padding:20px 13px 50px}
 }
+
+/* intro splash — photo with a spinning ball, then fades out (CSS-driven, no JS needed) */
+#splash{
+  position:fixed; inset:0; z-index:1000; background:var(--black);
+  display:flex; align-items:center; justify-content:center;
+  animation: splash-out 1.9s ease-in forwards;
+}
+.splash-photo{ position:relative; }
+.splash-img{ max-height:min(82vh, 600px); max-width:92vw; width:auto; height:auto;
+  display:block; border-radius:14px; box-shadow:0 0 60px rgba(232,255,0,.06); }
+/* ball overlaid on the photo's ball (center 18.7%/17%, 31.2% of photo width) and spun */
+.splash-ball{ position:absolute; left:18.7%; top:17%; width:31.2%; transform:translate(-50%,-50%); }
+.splash-ball img{ width:100%; display:block; animation: ball-spin 1.05s linear infinite; }
+@keyframes ball-spin{ to{ transform:rotate(360deg); } }
+@keyframes splash-out{ 0%,58%{ opacity:1; } 100%{ opacity:0; visibility:hidden; } }
+@media (prefers-reduced-motion: reduce){
+  .splash-ball img{ animation:none; }
+  #splash{ animation-duration:1.2s; }
+}

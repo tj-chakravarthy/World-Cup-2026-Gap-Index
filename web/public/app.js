@@ -154,3 +154,7 @@ async function main() {
 }
 
 main();
+
+// splash is CSS-driven (auto-fades); this only removes it from the DOM afterwards, and is
+// a safety net so it can never stick if CSS animations are disabled.
+setTimeout(() => document.getElementById("splash")?.remove(), 2200);
