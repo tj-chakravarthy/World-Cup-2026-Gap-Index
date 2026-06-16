@@ -155,6 +155,6 @@ async function main() {
 
 main();
 
-// The spinning ball + fade are driven by splash3d.js (it waits for the 3D model). This is
-// only the ultimate safety net in case that module never loads, so the splash can't stick.
-setTimeout(() => document.getElementById("splash")?.remove(), 6000);
+// The loading screen, reveal and fade are driven by splash3d.js (it waits for the 3D model).
+// This is only the ultimate safety net in case that module never loads, so it can't stick.
+setTimeout(() => document.getElementById("splash")?.remove(), 10000);
