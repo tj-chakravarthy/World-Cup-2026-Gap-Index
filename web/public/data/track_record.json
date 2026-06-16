@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-16T14:26:31Z",
+  "generated_at": "2026-06-16T18:47:02Z",
   "n_logged": 60,
   "n_resolved": 4,
   "resolved": [
@@ -36,9 +36,9 @@
       "kickoff_utc": "2026-06-15T22:00:00Z",
       "team1": "KSA",
       "team2": "URU",
-      "p_team1": 0.135,
-      "p_draw": 0.2257,
-      "p_team2": 0.6394,
+      "p_team1": 0.1348,
+      "p_draw": 0.2256,
+      "p_team2": 0.6396,
       "actual": "1-1",
       "outcome": 1,
       "called": false,

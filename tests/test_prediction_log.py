@@ -5,6 +5,8 @@ the realised result and leaves unplayed fixtures null; track_record's called rat
 multiclass Brier match a hand-computed small set, excluding unresolved rows.
 """
 
+from datetime import datetime, timedelta, timezone
+
 import pytest
 
 pd = pytest.importorskip("pandas")
@@ -22,16 +24,53 @@ from src.update.prediction_log import (  # noqa: E402
 
 
 def test_latest_per_fixture_keeps_standing_prediction():
-    # same fixture logged under two model versions before kickoff -> keep the later one
+    # two pre-kickoff logs (different model versions) -> keep the later one (the standing call)
     log = pd.DataFrame({
         "logged_at": ["2026-06-14T10:00:00Z", "2026-06-14T12:00:00Z"],
+        "kickoff_utc": ["2026-06-14T19:00:00Z", "2026-06-14T19:00:00Z"],
         "model_source": ["live_full", "live_full"],
         "fixture_id": ["WC26-M050", "WC26-M050"],
         "model_version": ["live@aaa", "live@bbb"],
     })
     out = latest_per_fixture(log)
     assert len(out) == 1
-    assert out.iloc[0]["model_version"] == "live@bbb"  # the later-logged version stands
+    assert out.iloc[0]["model_version"] == "live@bbb"  # the later pre-kickoff version stands
+
+
+def test_latest_per_fixture_ignores_post_kickoff_rows():
+    # the bug: a lagging score feed re-logs a fixture AFTER kickoff. Score the latest row
+    # still strictly before kickoff, never the post-kickoff one (the WC26-M013 case).
+    log = pd.DataFrame({
+        "logged_at":    ["2026-06-15T15:33:23Z", "2026-06-15T23:15:47Z"],
+        "kickoff_utc":  ["2026-06-15T22:00:00Z", "2026-06-15T22:00:00Z"],
+        "model_source": ["live_full", "live_full"],
+        "fixture_id":   ["WC26-M013", "WC26-M013"],
+        "model_version": ["live@2f441c0", "live@nogit"],
+    })
+    out = latest_per_fixture(log)
+    assert len(out) == 1
+    assert out.iloc[0]["logged_at"] == "2026-06-15T15:33:23Z"   # the pre-kickoff row
+    assert out.iloc[0]["model_version"] == "live@2f441c0"
+    # the guarantee, as an invariant: nothing selected was logged at/after its kickoff
+    assert bool((out["logged_at"] < out["kickoff_utc"]).all())
+
+
+def test_latest_per_fixture_drops_fixture_with_only_post_kickoff_rows():
+    # no honest pre-kickoff prediction exists -> the fixture is excluded entirely, not scored
+    log = pd.DataFrame({
+        "logged_at":    ["2026-06-15T23:15:47Z"],
+        "kickoff_utc":  ["2026-06-15T22:00:00Z"],
+        "model_source": ["live_full"],
+        "fixture_id":   ["WC26-M013"],
+        "model_version": ["live@nogit"],
+    })
+    assert latest_per_fixture(log).empty
+
+
+def _future(days):
+    """Kickoff strictly after the wall-clock logged_at log_predictions stamps, so the
+    pre-kickoff selector keeps the row (a logged prediction is for a not-yet-played match)."""
+    return (datetime.now(timezone.utc) + timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _artifact(model_version="m@v1", preds=None):
@@ -40,7 +79,7 @@ def _artifact(model_version="m@v1", preds=None):
             {
                 "fixture_id": "WC26-M001",
                 "stage": "group",
-                "kickoff_utc": "2026-06-11T19:00:00Z",
+                "kickoff_utc": _future(1),
                 "team1": "MEX",
                 "team2": "RSA",
                 "model_source": "live_full",
@@ -50,7 +89,7 @@ def _artifact(model_version="m@v1", preds=None):
             {
                 "fixture_id": "WC26-M002",
                 "stage": "group",
-                "kickoff_utc": "2026-06-12T02:00:00Z",
+                "kickoff_utc": _future(2),
                 "team1": "KOR",
                 "team2": "CZE",
                 "model_source": "live_full",

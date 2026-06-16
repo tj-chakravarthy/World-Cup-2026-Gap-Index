@@ -156,12 +156,18 @@ def resolve(log: pd.DataFrame, fixtures: pd.DataFrame) -> pd.DataFrame:
 
 
 def latest_per_fixture(log: pd.DataFrame) -> pd.DataFrame:
-    """Keep only the most-recent logged prediction per (model_source, fixture_id) — the
-    one standing at kickoff. The append-only log keeps every model_version's row; scoring
-    uses the latest so a model-version bump can't double-count a fixture. PURE."""
+    """Keep the latest prediction *logged strictly before kickoff* per (model_source,
+    fixture_id) — the one genuinely standing when the ball rolled.
+
+    The append-only log can carry post-kickoff rows: a lagging score feed leaves a fixture
+    'unplayed', so build_live re-logs it after kickoff. Scoring those would break the
+    'committed before kickoff' guarantee the site makes, so they're dropped — and a fixture
+    with no pre-kickoff row at all is excluded entirely (no honest receipt exists). ISO-8601
+    Z timestamps are fixed-width UTC, so the string compare is chronological. PURE."""
     if log.empty:
         return log
-    return (log.sort_values("logged_at")
+    pre = log[log["logged_at"] < log["kickoff_utc"]]
+    return (pre.sort_values("logged_at")
                .drop_duplicates(["model_source", "fixture_id"], keep="last")
                .reset_index(drop=True))
 
