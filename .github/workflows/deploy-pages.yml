@@ -37,6 +37,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true   # self-enable Pages via the workflow token; falls back to the
+                              # manual Settings -> Pages -> Source = "GitHub Actions" if denied
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/public
