@@ -155,6 +155,6 @@ async function main() {
 
 main();
 
-// The spinning ball is a three.js WebGL sphere (splash3d.js); this is just the safety net
-// that removes the splash from the DOM afterwards so it can never stick.
-setTimeout(() => document.getElementById("splash")?.remove(), 2200);
+// The spinning ball + fade are driven by splash3d.js (it waits for the 3D model). This is
+// only the ultimate safety net in case that module never loads, so the splash can't stick.
+setTimeout(() => document.getElementById("splash")?.remove(), 6000);

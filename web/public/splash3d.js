@@ -1,24 +1,48 @@
-// True 3D splash ball. Renders a real-time three.js sphere lit by a fixed key light so the
-// gloss highlight stays put while it spins. If web/public/trionda.glb is present it loads and
-// spins that model instead (the real ball); otherwise it keeps the photo-textured sphere.
-// Falls back to the still ball.png on reduced-motion or any WebGL failure. Vendored three.js.
+// True 3D splash ball. Renders a real-time three.js sphere lit by a fixed key light (gloss
+// highlight stays put while it spins). If web/public/trionda.glb is present it loads + spins
+// that model (the real ball); otherwise it keeps the photo-textured sphere. Falls back to the
+// still ball.png on reduced-motion or WebGL failure. Vendored three.js (no CDN).
+//
+// Timing: JS controls the fade so we WAIT for the ball to be ready (the glb is large) before
+// dismissing — show it ~1s, then fade — capped so a slow/failed load never hangs. The CSS
+// `splash-out` animation stays as the no-JS fallback and is disabled here once JS takes over.
 import * as THREE from "three";
 import { GLTFLoader } from "./vendor/GLTFLoader.js";
 
+const splash = document.getElementById("splash");
 const canvas = document.getElementById("splash-ball-canvas");
 const still = document.querySelector(".splash-ball img");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const HOLD = 1000;   // show the ready ball this long before fading
+const CAP = 3600;    // never wait longer than this for the model
+let dismissed = false, readyFired = false;
+
+if (splash) splash.style.animation = "none";   // take over timing from the CSS fallback
+
+function dismiss() {
+  if (dismissed || !splash) return;
+  dismissed = true;
+  splash.style.transition = "opacity .6s ease";
+  splash.style.opacity = "0";
+  setTimeout(() => splash.remove(), 650);
+}
+function ready() { if (!readyFired) { readyFired = true; setTimeout(dismiss, HOLD); } }
+setTimeout(dismiss, CAP);   // hard cap
+
 if (canvas && !reduce) {
   try {
-    run();
-    if (still) still.style.display = "none";   // the 3D ball replaces the static one
+    run(ready);
+    if (still) still.style.display = "none";
   } catch (e) {
-    if (canvas) canvas.style.display = "none"; // keep the static ball.png
+    if (canvas) canvas.style.display = "none";   // keep the static ball.png
+    ready();
   }
+} else {
+  ready();   // reduced-motion / no canvas -> still ball.png, then dismiss
 }
 
-function run() {
+function run(onReady) {
   const RES = 512;
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -34,7 +58,6 @@ function run() {
   scene.add(key, fill, new THREE.AmbientLight(0xffffff, 0.5),
             new THREE.HemisphereLight(0xffffff, 0x3a3a44, 0.35));
 
-  // default: a sphere textured from the photo ball
   const tex = new THREE.TextureLoader().load("ball-equirect.jpg");
   tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
   const sphere = new THREE.Mesh(
@@ -45,8 +68,6 @@ function run() {
   scene.add(sphere);
   let spin = sphere;
 
-  // upgrade to the real Adidas Trionda model if web/public/trionda.glb is present; centered
-  // and scaled to fit, spun about its own centre. Missing/failed load just keeps the sphere.
   new GLTFLoader().load("trionda.glb", (gltf) => {
     const m = gltf.scene;
     const box = new THREE.Box3().setFromObject(m);
@@ -55,7 +76,8 @@ function run() {
     m.scale.setScalar(1.9 / (Math.max(s.x, s.y, s.z) || 1));
     const pivot = new THREE.Group(); pivot.add(m); pivot.rotation.z = 0.14;
     scene.remove(sphere); scene.add(pivot); spin = pivot;
-  }, undefined, () => { /* no trionda.glb -> keep the textured sphere */ });
+    onReady();
+  }, undefined, () => onReady());   // no/failed trionda.glb -> keep the sphere
 
   let raf;
   (function loop() {
@@ -63,5 +85,5 @@ function run() {
     renderer.render(scene, camera);
     raf = requestAnimationFrame(loop);
   })();
-  setTimeout(() => cancelAnimationFrame(raf), 2400);   // splash is gone by then
+  setTimeout(() => cancelAnimationFrame(raf), 5000);   // stop after the splash is gone
 }
