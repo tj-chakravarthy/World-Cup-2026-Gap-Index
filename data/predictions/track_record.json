@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-06-16T14:26:31Z",
+  "n_logged": 60,
+  "n_resolved": 4,
+  "resolved": [
+    {
+      "fixture_id": "WC26-M014",
+      "kickoff_utc": "2026-06-15T16:00:00Z",
+      "team1": "ESP",
+      "team2": "CPV",
+      "p_team1": 0.7665,
+      "p_draw": 0.1698,
+      "p_team2": 0.0637,
+      "actual": "0-0",
+      "outcome": 1,
+      "called": false,
+      "top_score": "2-0",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M016",
+      "kickoff_utc": "2026-06-15T19:00:00Z",
+      "team1": "BEL",
+      "team2": "EGY",
+      "p_team1": 0.5418,
+      "p_draw": 0.255,
+      "p_team2": 0.2033,
+      "actual": "1-1",
+      "outcome": 1,
+      "called": false,
+      "top_score": "1-1",
+      "exact_hit": true
+    },
+    {
+      "fixture_id": "WC26-M013",
+      "kickoff_utc": "2026-06-15T22:00:00Z",
+      "team1": "KSA",
+      "team2": "URU",
+      "p_team1": 0.135,
+      "p_draw": 0.2257,
+      "p_team2": 0.6394,
+      "actual": "1-1",
+      "outcome": 1,
+      "called": false,
+      "top_score": "0-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M015",
+      "kickoff_utc": "2026-06-16T01:00:00Z",
+      "team1": "IRN",
+      "team2": "NZL",
+      "p_team1": 0.4673,
+      "p_draw": 0.2695,
+      "p_team2": 0.2633,
+      "actual": "2-2",
+      "outcome": 1,
+      "called": false,
+      "top_score": "1-1",
+      "exact_hit": false
+    }
+  ]
+}

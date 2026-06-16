@@ -222,3 +222,39 @@ def track_record(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
         )
     out["overall"] = _summary(resolved_all, resolved_all[is_resolved])
     return out
+
+
+def track_record_artifact(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
+    """The receipts for the site: every RESOLVED prediction — what was called before kickoff
+    vs the actual result — plus the committed/resolved counts. The scored aggregates (Brier,
+    called rate) are deliberately NOT included while the live sample is tiny; the model's test
+    is the §4.5 backtest, surfaced as context in the site copy. PURE.
+    """
+    log = latest_per_fixture(log)
+    if log.empty:
+        return {"generated_at": _now_iso(), "n_logged": 0, "n_resolved": 0, "resolved": []}
+    resolved = resolve(log, fixtures)
+    res = resolved[resolved["actual_outcome"].notna()].sort_values("kickoff_utc")
+    rows = [
+        {
+            "fixture_id": r.fixture_id,
+            "kickoff_utc": r.kickoff_utc,
+            "team1": r.team1,
+            "team2": r.team2,
+            "p_team1": round(float(r.p_team1), 4),
+            "p_draw": round(float(r.p_draw), 4),
+            "p_team2": round(float(r.p_team2), 4),
+            "actual": f"{int(r.actual_home)}-{int(r.actual_away)}",
+            "outcome": int(r.actual_outcome),   # 0 team1 win / 1 draw / 2 team2 win
+            "called": bool(r.called),
+            "top_score": r.top_score,
+            "exact_hit": bool(r.exact_score_hit) if pd.notna(r.exact_score_hit) else False,
+        }
+        for r in res.itertuples(index=False)
+    ]
+    return {
+        "generated_at": _now_iso(),
+        "n_logged": int(len(log)),
+        "n_resolved": int(len(res)),
+        "resolved": rows,
+    }

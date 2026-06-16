@@ -17,6 +17,7 @@ from src.update.prediction_log import (  # noqa: E402
     log_predictions,
     resolve,
     track_record,
+    track_record_artifact,
 )
 
 
@@ -185,3 +186,24 @@ def test_track_record_excludes_unresolved(tmp_path):
     assert ov["called"]["rate"] == pytest.approx(1.0)
     # Brier over the single resolved row: .245
     assert ov["brier"] == pytest.approx(0.245)
+
+
+def test_track_record_artifact_is_receipts_only(tmp_path):
+    log_path = tmp_path / "log.parquet"
+    log_predictions(_artifact(), log_path)
+    log = load_log(log_path)
+    fixtures = _fixtures(
+        [
+            ("WC26-M001", "MEX", "RSA", 2, 0, True),          # played: team1 win, called, exact 2-0
+            ("WC26-M002", "KOR", "CZE", None, None, False),   # unplayed -> not a receipt
+        ]
+    )
+    art = track_record_artifact(log, fixtures)
+    assert art["n_logged"] == 2 and art["n_resolved"] == 1
+    # no scored aggregate is exposed while the sample is tiny (receipts only)
+    assert "brier" not in art and "called" not in art
+    g = art["resolved"][0]
+    assert g["fixture_id"] == "WC26-M001"
+    assert g["actual"] == "2-0" and g["outcome"] == 0
+    assert g["called"] is True and g["exact_hit"] is True
+    assert (g["p_team1"], g["p_draw"], g["p_team2"]) == (0.6, 0.25, 0.15)

@@ -77,6 +77,19 @@ tbody tr:hover td.team{color:var(--volt)}
 .fx .top{color:var(--muted); font-size:11px; margin-top:6px}
 .fx .top b{color:var(--white)}
 
+/* track record — the receipts (resolved predictions vs results); no scorecard while n is tiny */
+.track-intro{color:var(--white); font-size:13.5px; max-width:64ch; margin:0 0 4px}
+.track-intro em{font-style:italic; color:var(--volt)}
+#track-list{display:grid; gap:8px; margin-top:10px}
+.tr{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 13px}
+.tr-teams{font-weight:600}
+.tr-line{display:flex; flex-wrap:wrap; gap:6px 14px; justify-content:space-between;
+  color:var(--muted); font-size:11.5px; margin-top:6px; font-variant-numeric:tabular-nums}
+.tr-line b{color:var(--white); font-weight:600}
+.tr-line .ok{color:var(--volt)}
+.tr-line .no{color:#8b8b9e}
+.tr-line .exact{color:var(--volt)}
+
 footer{margin-top:46px; border-top:1px solid var(--line); padding-top:18px}
 .fine{color:var(--muted); font-size:12.5px}
 a{color:var(--volt); text-decoration:none}

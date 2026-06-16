@@ -104,6 +104,15 @@ def main(force: bool = False, rebuild: bool = False) -> None:
 
     _step("simulate", _sim)
     _step("live_artifact", _live)
+    try:  # publish the public track-record receipts (resolved predictions vs results)
+        import json
+        from src.update import prediction_log
+        art = prediction_log.track_record_artifact(prediction_log.load_log(), fixtures)
+        for p in (PRED / "track_record.json", WEB_LIVE.parent / "track_record.json"):
+            p.write_text(json.dumps(art, indent=2))
+        print(f"track_record: {art['n_resolved']} resolved / {art['n_logged']} logged")
+    except Exception as e:  # noqa: BLE001
+        print(f"warn: track_record skipped ({e})", file=sys.stderr)
     try:  # refresh the README's "top of the board" line + stamp; best-effort
         from src.update import readme_summary
         if readme_summary.update_readme():

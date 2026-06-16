@@ -137,16 +137,50 @@ function renderFixtures(live) {
   }).join("");
 }
 
+function renderTrack(tr) {
+  const meta = document.getElementById("track-meta");
+  const el = document.getElementById("track-list");
+  if (meta) meta.textContent =
+    `${tr.n_logged} predictions committed before kickoff · ${tr.n_resolved} resolved so far`;
+  if (!el) return;
+  if (!tr.resolved || !tr.resolved.length) {
+    el.innerHTML = `<p class="meta">No games resolved yet.</p>`;
+    return;
+  }
+  el.innerHTML = tr.resolved.map((g) => {
+    const w = g.p_team1, d = g.p_draw, l = g.p_team2;
+    const result = g.outcome === 0 ? `${name(g.team1)} won`
+                 : g.outcome === 2 ? `${name(g.team2)} won` : "draw";
+    const mark = g.called ? `<span class="ok">✓ called</span>` : `<span class="no">missed</span>`;
+    const exact = g.exact_hit ? ` · <span class="exact">🎯 exact score</span>` : "";
+    return `<div class="tr">
+      <div class="tr-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}</div>
+      <div class="bar">
+        <i class="w" style="width:${w * 100}%"></i>
+        <i class="d" style="width:${d * 100}%"></i>
+        <i class="l" style="width:${l * 100}%"></i>
+      </div>
+      <div class="tr-line">
+        <span>predicted <b>${Math.round(w * 100)}/${Math.round(d * 100)}/${Math.round(l * 100)}</b></span>
+        <span>actual <b>${g.actual}</b> · ${result}</span>
+        <span>${mark}${exact}</span>
+      </div>
+    </div>`;
+  }).join("");
+}
+
 async function main() {
   document.getElementById("repo").href = REPO_URL;
   try {
-    const [sim, live] = await Promise.all([
+    const [sim, live, track] = await Promise.all([
       getJSON("data/simulation.json"),
       getJSON("data/predictions_live.json"),
+      getJSON("data/track_record.json").catch(() => null),
     ]);
     renderMeta(sim, live);
     renderForecast(sim);
     renderFixtures(live);
+    if (track) renderTrack(track);
   } catch (e) {
     document.getElementById("meta").innerHTML =
       `<span class="err">Could not load the forecast (${e.message}).</span>`;

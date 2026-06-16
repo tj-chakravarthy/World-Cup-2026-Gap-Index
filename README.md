@@ -13,7 +13,7 @@ Two things pre-registered:
 **1. A calibrated model — met.** On held-out tournaments the expected calibration error is 0.054: when it says 60%, it happens about 60% of the time.
 
 **2. Does translated club talent beat the obvious baselines? — no.** That was the
-hypothesis, and it is refuted. A leakage-guarded backtest (five recent tournaments,
+hypothesis, and it is not supported. A leakage-guarded backtest (five recent tournaments,
 the whole rating pipeline refit inside each fold) shows the player-talent indices add
 nothing over Elo + market value:
 
@@ -36,7 +36,7 @@ The gap analysis still works as a description: talent explains about a third of 
 My model plays the whole tournament out in the 2026 format — 12 groups, 8 best third-placed
 teams, exact FIFA Article 13 group tiebreakers, the official knockout bracket. Two parts are approximations, not the letter of the rules: how the third-placed teams get slotted into
 the round of 32 (a constraint-respecting stand-in for FIFA's unpublished Annex C table), and the
-knockout seeding and shootouts (an Elo-based rank proxy, ties broken roughly 50/50). It updates
+last-resort group ranking (an Elo-based rank proxy, ties broken roughly 50/50). It updates
 within half an hour of each full-time.
 
 <!-- TOPBOARD:START -->
@@ -65,7 +65,8 @@ The integrity:
 | Stage | State |
 |---|---|
 | Data pipeline · player ratings · match model + validation · tournament simulation | done |
-| Live daily updates + public track record | done |
+| Live updates · every prediction committed to git before kickoff | done |
+| Public track record | live (the receipts); scored once the sample is meaningful |
 | Website | [live](https://tj-chakravarthy.github.io/World-Cup-2026-Gap-Index/) |
 
 Python. Static output, committed as plain files.

@@ -57,3 +57,18 @@ def test_predictions_live_json_contract():
         assert all(isinstance(wdl[k], (int, float)) for k in ("team1", "draw", "team2"))
         for s in p.get("scorelines", []):  # optional, but if present: {score, p}
             assert isinstance(s.get("score"), str) and isinstance(s.get("p"), (int, float))
+
+
+def test_track_record_json_contract():
+    """renderTrack: n_logged, n_resolved, resolved[].{teams, p_*, actual, outcome, called…}."""
+    d = _load("track_record.json")
+    assert isinstance(d.get("n_logged"), int) and isinstance(d.get("n_resolved"), int)
+    resolved = d.get("resolved")
+    assert isinstance(resolved, list)
+    for g in resolved:
+        for k in ("team1", "team2", "actual"):
+            assert isinstance(g.get(k), str)
+        for k in ("p_team1", "p_draw", "p_team2"):
+            assert isinstance(g.get(k), (int, float))
+        assert g.get("outcome") in (0, 1, 2)
+        assert isinstance(g.get("called"), bool) and isinstance(g.get("exact_hit"), bool)
