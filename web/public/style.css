@@ -97,12 +97,10 @@ a:hover{text-decoration:underline}
 .splash-photo{ position:relative; }
 .splash-img{ max-height:min(82vh, 600px); max-width:92vw; width:auto; height:auto;
   display:block; border-radius:14px; box-shadow:0 0 60px rgba(232,255,0,.06); }
-/* ball overlaid on the photo's ball (center 18.7%/17%, 31.2% of photo width) and spun */
+/* ball overlaid on the photo's ball (center 18.7%/17%, 31.2% of photo width). It spins via
+   a pre-rendered sphere animation (ball-spin.webp) swapped in by JS; ball.png is the still
+   default for reduced-motion / no-JS. */
 .splash-ball{ position:absolute; left:18.7%; top:17%; width:31.2%; transform:translate(-50%,-50%); }
-.splash-ball img{ width:100%; display:block; animation: ball-spin 1.05s linear infinite; }
-@keyframes ball-spin{ to{ transform:rotate(360deg); } }
+.splash-ball img{ width:100%; display:block; }
 @keyframes splash-out{ 0%,58%{ opacity:1; } 100%{ opacity:0; visibility:hidden; } }
-@media (prefers-reduced-motion: reduce){
-  .splash-ball img{ animation:none; }
-  #splash{ animation-duration:1.2s; }
-}
+@media (prefers-reduced-motion: reduce){ #splash{ animation-duration:1.2s; } }

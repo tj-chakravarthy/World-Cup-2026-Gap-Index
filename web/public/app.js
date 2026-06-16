@@ -155,6 +155,12 @@ async function main() {
 
 main();
 
+// Splash ball: upgrade the still ball.png to the spinning sphere render unless the user
+// prefers reduced motion (then the still stays). ball.png is also the no-JS fallback.
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const ball = document.querySelector(".splash-ball img");
+  if (ball) ball.src = "ball-spin.webp";
+}
 // splash is CSS-driven (auto-fades); this only removes it from the DOM afterwards, and is
 // a safety net so it can never stick if CSS animations are disabled.
 setTimeout(() => document.getElementById("splash")?.remove(), 2200);
