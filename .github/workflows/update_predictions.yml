@@ -10,6 +10,13 @@ name: Update Predictions (live)
 # main. Make the repo public so Actions minutes are free.
 on:
   workflow_dispatch:
+  # PRIMARY trigger: an external cron service (cron-job.org) POSTs the repository_dispatch
+  # API every ~15 min in the match window. GitHub's own `schedule:` below is unreliable —
+  # it gets throttled/dropped under load and often fires hours apart, so a finished match
+  # can sit unscored for hours. Setup (PAT + service config): docs/external_pinger.md.
+  repository_dispatch:
+    types: [poll-results]
+  # BACKSTOP only — kept because it's free and fires occasionally when the pinger is down.
   schedule:
     - cron: "*/15 0-7,17-23 * * *"   # every 15 min, 00:00-07:59 & 17:00-23:59 UTC
 
