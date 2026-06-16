@@ -7,6 +7,8 @@ zero (conduct) when the data isn't present — these guard that contract.
 import pytest
 
 pd = pytest.importorskip("pandas")
+pytest.importorskip("scipy")
+pytest.importorskip("sklearn")  # monte_carlo's import chain pulls in sklearn (CI dev subset lacks it)
 
 from src.models.monte_carlo import load_conduct, load_fifa_rankings  # noqa: E402
 
