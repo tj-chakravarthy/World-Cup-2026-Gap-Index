@@ -366,12 +366,18 @@ lopsided; sampled scorelines reproduce them within MC error). Third mandatory su
 
 **Monte Carlo (`src/models/monte_carlo.py`).** 100k draws (PLAN §5.2's count; probabilities
 stable to ~0.1pp). I ran 20k live for a while to keep updates quick, then went back to the
-full 100k once the cached bundle made each run affordable. Group stage is exact (Art. 13 via
-tiebreakers); knockout via bracket.py. Keyed by FIFA code throughout. Deviations from PLAN §5:
-- **FIFA-ranking final tiebreaker proxied by Elo order.** Art. 13's last criterion is the
-  FIFA ranking, a fixed pre-tournament input; we don't have it loaded, so the deterministic
-  residual-tie break uses Elo order instead (unique ints, always resolves). Swap in the
-  real ranking when loaded — it only matters for exact ties through every prior criterion.
+full 100k once the cached bundle made each run affordable. Group stage runs the full Art. 13
+order (tiebreakers); knockout via bracket.py. Keyed by FIFA code throughout. Deviations from PLAN §5:
+- **Art. 13 final tiebreaker: real FIFA ranking now loaded, Elo proxy as fallback.** §1 g) is
+  the most recent FIFA/Coca-Cola ranking. fetch_fifa_rankings pulls it from inside.fifa.com and
+  load_fifa_rankings feeds it to the simulator at run time (not baked into the cached bundle).
+  The public overview API only serves up to the 2025-09-18 edition — newer ones use an id scheme
+  it won't return — so that edition is committed and the fetcher auto-upgrades when FIFA exposes
+  newer ones. Falls back to Elo order (unique ints) only if the file is absent/incomplete.
+- **Team conduct (§1 f) wired, zero until cards load.** group_table takes a conduct dict;
+  load_conduct sums card deductions from data/raw/cards_2026.csv (one row per fixture+team). No
+  card feed runs here (no API key), so conduct is empty -> zero until that CSV is provided; it
+  only separates teams already level on points/GD/GF.
 - **Third-place allocation is a constraint-matching approximation** (bracket.py): FIFA's
   495-row Annex C wasn't obtainable; we assign each qualifying third to a slot whose
   group-set contains it (bijective). The bracket TREE (R16->final) is verified exact

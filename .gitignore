@@ -52,6 +52,11 @@ data/processed/**
 # CC-BY-4.0) and could vanish, so committed for a reproducible benchmark, with attribution.
 !data/raw/market_odds/
 !data/raw/market_odds/*.csv
+# FIFA ranking: the Art. 13 final group tiebreaker, fetched from inside.fifa.com
+# (fetch_fifa_rankings) → tracked, real edition (not the Elo proxy). cards_2026.csv (the
+# §1 f) conduct input) is allowlisted too for when card data is loaded.
+!data/raw/fifa_rankings_2026.csv
+!data/raw/cards_2026.csv
 # data/predictions/ is the committed record (locked file's verifiable git timestamp,
 # append-only audit log, market benchmark) — no ignore rule, tracked normally.
 

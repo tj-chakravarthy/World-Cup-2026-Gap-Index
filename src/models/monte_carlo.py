@@ -14,11 +14,12 @@ bundle once (~5 min); every cron update after is just the draws.
 Per draw: pick a bootstrap member (parameter uncertainty — PLAN §5.2: odds are
 distributions over model uncertainty, not point estimates), sample scorelines for the
 unplayed group fixtures (Dixon-Coles tilted to that member's calibrated W/D/L marginals,
-§5.2 coherence), apply played results as fixed evidence, rank each group by exact Art. 13
-(tiebreakers), top-2 + 8 best thirds, fill the R32 via bracket.py, play out the knockout
-(90' draw -> near-50/50 nudge). Aggregate -> P(win group / reach R32/R16/QF/SF/Final/Win).
-The final tiebreaker is a fixed pre-tournament ranking (Elo-proxy, documented) so residual
-ties break deterministically, not by a random draw (§5.1). pandas + scipy.
+§5.2 coherence), apply played results as fixed evidence, rank each group by Art. 13
+(tiebreakers, with real group-stage conduct when loaded), top-2 + 8 best thirds, fill the
+R32 via bracket.py, play out the knockout (90' draw -> near-50/50 nudge). Aggregate ->
+P(win group / reach R32/R16/QF/SF/Final/Win). The final group tiebreaker is the real FIFA
+ranking (load_fifa_rankings; Elo-order proxy as fallback), so residual ties break
+deterministically, not by a random draw (§5.1). pandas + scipy.
 """
 
 from __future__ import annotations
@@ -40,7 +41,8 @@ from src.models.dixon_coles import fit as dc_fit
 from src.models.match_dataset import build_match_dataset
 from src.models.match_model import PRODUCTION_COLS, predict_wdl, train_production
 from src.models.scoreline import sample_scorelines, tilted_matrix
-from src.models.tiebreakers import Match, group_table, rank_third_placed
+from src.models.tiebreakers import (CARD_POINTS, Match, conduct_score, group_table,
+                                     rank_third_placed)
 
 REPO = Path(__file__).resolve().parents[2]
 RAW = REPO / "data" / "raw"
@@ -80,10 +82,42 @@ def code_to_martj42() -> dict[str, str]:
 
 def elo_rank_by_code(indices: pd.DataFrame) -> dict[str, int]:
     """Elo-proxy for the official FIFA ranking (the Art. 13 final tiebreaker): the 2026
-    teams ranked by their ELO index, 1 = best. Unique ints, so ties always resolve."""
+    teams ranked by their ELO index, 1 = best. Unique ints, so ties always resolve. The
+    documented fallback used only when the real FIFA ranking (below) isn't loaded."""
     wc = indices[indices["tournament"] == "world_cup_2026"].sort_values("ELO",
                                                                         ascending=False)
     return {c: i + 1 for i, c in enumerate(wc["country_code"])}
+
+
+RANKINGS_PATH = RAW / "fifa_rankings_2026.csv"
+CARDS_PATH = RAW / "cards_2026.csv"
+
+
+def load_fifa_rankings(codes, path: Path = RANKINGS_PATH) -> dict[str, int] | None:
+    """Real FIFA/Coca-Cola ranking (1 = best) for `codes` — Art. 13 §1 g), from
+    fetch_fifa_rankings. Returns None if the file is absent or doesn't cover every code, so
+    the caller falls back to the Elo-order proxy rather than a partial real ranking."""
+    if not path.exists():
+        return None
+    df = pd.read_csv(path)
+    rank = dict(zip(df["fifa_code"], df["rank"].astype(int)))
+    have = {c: rank[c] for c in codes if c in rank}
+    return have if len(have) == len(set(codes)) else None
+
+
+def load_conduct(path: Path = CARDS_PATH) -> dict[str, int]:
+    """Team conduct score (Art. 13 §1 f) from group-stage cards. cards_2026.csv carries one
+    row per (fixture_id, team_code) with CARD_POINTS-keyed counts; sum the deductions per
+    team. Empty (all zero) when no card data is loaded — the documented fallback."""
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path)
+    kinds = [k for k in CARD_POINTS if k in df.columns]
+    out: dict[str, int] = {}
+    for r in df.itertuples(index=False):
+        cards = {k: int(getattr(r, k) or 0) for k in kinds}
+        out[r.team_code] = out.get(r.team_code, 0) + conduct_score(cards)
+    return out
 
 
 def pairwise_wdl(clf, indices: pd.DataFrame, codes: list[str],
@@ -181,9 +215,10 @@ def _make_tilted(bundle: Bundle, param_uncertainty: bool):
     return get
 
 
-def simulate_groups(group_fix, sampled, fifa_rank, n_sims):
+def simulate_groups(group_fix, sampled, fifa_rank, n_sims, conduct=None):
     """Per sim, rank each group by Art. 13 and pull standings (1st/2nd counts, the 12
-    third Standings for best-8 selection, and the full per-sim group order)."""
+    third Standings for best-8 selection, and the full per-sim group order). `conduct` (team
+    conduct scores from real group-stage cards) is the §1 f) tiebreaker; None -> all zero."""
     place = defaultdict(lambda: np.zeros(4, dtype=int))
     sim_first, sim_second, sim_thirds, sim_rank = [], [], [], []
     for s in range(n_sims):
@@ -196,7 +231,7 @@ def simulate_groups(group_fix, sampled, fifa_rank, n_sims):
                 else:
                     hg, ag = sampled[fx["fixture_id"]][0][s], sampled[fx["fixture_id"]][1][s]
                 matches.append(Match(fx["home_code"], fx["away_code"], int(hg), int(ag)))
-            standings = group_table(matches, fifa_rank)
+            standings = group_table(matches, fifa_rank, conduct)
             for pos, st in enumerate(standings):
                 place[st.team][pos] += 1
             firsts[g], seconds[g] = standings[0].team, standings[1].team
@@ -278,8 +313,12 @@ def simulate(bundle: Bundle, fixtures: pd.DataFrame, n_sims: int = N_SIMS,
                 hg[idx], ag[idx] = h, a
             sampled[fx.fixture_id] = (hg, ag)
 
+    # real FIFA ranking + group-stage conduct for the Art. 13 tiebreakers (loaded at run
+    # time, not baked into the cached bundle); fall back to the Elo-order proxy if absent.
+    fifa_rank = load_fifa_rankings(bundle.codes) or bundle.fifa_rank
+    conduct = load_conduct()
     place, sim_first, sim_second, sim_thirds, sim_rank = simulate_groups(
-        group_fix, sampled, bundle.fifa_rank, n_sims)
+        group_fix, sampled, fifa_rank, n_sims, conduct)
 
     from src.models import bracket
     reach = defaultdict(lambda: defaultdict(int))
