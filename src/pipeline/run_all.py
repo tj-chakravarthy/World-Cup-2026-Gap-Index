@@ -32,7 +32,7 @@ MARKER = PRED / ".last_played"
 LIVE = PRED / "predictions_live.json"
 SIM = PRED / "simulation.json"
 WEB_LIVE = REPO / "web" / "public" / "data" / "predictions_live.json"
-LIVE_SIMS = 20_000   # cron draw count (fast live updates); 100k is the manual snapshot
+LIVE_SIMS = 100_000   # full draw count — the published site number; ~5x slower per update
 
 
 def played_fixture_ids(fixtures: pd.DataFrame) -> set[str]:
@@ -79,10 +79,10 @@ def main(force: bool = False, rebuild: bool = False) -> None:
     bundle = monte_carlo.load_or_build_bundle(rebuild=rebuild)  # cached pre-tournament model
 
     def _sim():  # tournament_sim.csv + simulation.json (+ web mirror)
-        # live updates use a lighter draw count than monte_carlo's 100k default: at 20k
-        # the MC noise is ~0.3pp, far below how much the odds move between matches, and a
-        # 100k param-uncertainty run is ~30 min — too slow for a per-match cron. Run
-        # monte_carlo.main directly for a one-off 100k published snapshot.
+        # live updates run the full 100k draws so the public site number matches the model's
+        # nominal precision (MC noise ~0.1pp). ~5x heavier than the old 20k, but the cron only
+        # recomputes on a new result and the job's 6h budget covers it; clustered results just
+        # queue (cancel-in-progress:false) and catch up.
         df = monte_carlo.simulate(bundle, fixtures, n_sims=LIVE_SIMS)
         PROC.mkdir(parents=True, exist_ok=True)
         df.to_csv(PROC / "tournament_sim.csv", index=False)
