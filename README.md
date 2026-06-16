@@ -61,7 +61,7 @@ All public data: 150 years of international results, national and club Elo, the 
 (Wikipedia), club stats (FBref) and expected goals (Understat), past-tournament event data
 for player VAEP (StatsBomb), 2026 fixtures, venues and heat. Betting odds I use only to score the model, never as an input; the
 last-resort group tiebreaker leans on an Elo-based ranking as a FIFA-rank proxy, not a model
-input either.
+input either. Full source + license breakdown (committed vs regenerated): [DATA_SOURCES.md](DATA_SOURCES.md).
 
 The integrity:
 
