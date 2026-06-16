@@ -52,15 +52,31 @@ jobs:
 
       # faithful env (apt trixie base + pip gap, see Dockerfile) — ubuntu-latest isn't
       # trixie, so a bare `pip install -r requirements.txt` would build on the wrong base.
+      # Buildx + GHA layer cache: the heavy apt layer keys only on apt-packages.txt +
+      # requirements-runtime.txt, so it's restored from cache (~30s) instead of reinstalled
+      # (~5 min) every run; only the cheap final COPY re-runs on a code change.
+      - name: Set up Buildx
+        if: steps.check.outputs.changed == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (cached)
+        if: steps.check.outputs.changed == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: gapindex:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Recompute forecast + simulation
         if: steps.check.outputs.changed == 'true'
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}   # optional; pipeline is keyless today
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: |
-          docker build -t gapindex .
           docker run --rm -v "$PWD:/app" -w /app -e API_FOOTBALL_KEY -e ODDS_API_KEY \
-            gapindex python3 -m src.pipeline.run_all --force
+            gapindex:latest python3 -m src.pipeline.run_all --force
 
       - name: Commit refreshed artifacts
         if: steps.check.outputs.changed == 'true'
