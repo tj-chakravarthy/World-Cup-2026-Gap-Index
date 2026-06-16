@@ -90,13 +90,21 @@ a:hover{text-decoration:underline}
 
 /* intro splash — photo with a spinning ball, then fades out (CSS-driven, no JS needed) */
 #splash{
-  position:fixed; inset:0; z-index:1000; background:var(--black);
+  position:fixed; inset:0; z-index:1000; background:var(--black); overflow:hidden;
   display:flex; align-items:center; justify-content:center;
   animation: splash-out 1.9s ease-in forwards;
 }
-.splash-photo{ position:relative; }
-.splash-img{ max-height:min(82vh, 600px); max-width:92vw; width:auto; height:auto;
-  display:block; border-radius:14px; box-shadow:0 0 60px rgba(232,255,0,.06); }
+/* the portrait photo is always CONTAINED (never cropped — the ball/laptop stay in frame); the
+   leftover space (top/bottom on mobile, sides on widescreen) is filled by a blurred, dimmed
+   copy of the same photo so there are no dead black bars on any aspect ratio. */
+#splash::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background:url("splash.jpg") center/cover no-repeat;
+  filter:blur(40px) brightness(.45) saturate(1.15); transform:scale(1.15);
+}
+.splash-photo{ position:relative; z-index:1; }
+.splash-img{ max-height:94vh; max-width:94vw; width:auto; height:auto;
+  display:block; border-radius:14px; box-shadow:0 12px 50px rgba(0,0,0,.55); }
 /* ball overlaid on the photo's ball (center 18.7%/17%, 31.2% of photo width). It spins via
    a pre-rendered sphere animation (ball-spin.webp) swapped in by JS; ball.png is the still
    default for reduced-motion / no-JS. */
