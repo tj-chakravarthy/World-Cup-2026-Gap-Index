@@ -15,8 +15,8 @@ impact. Date: 2026-06-15.
   then Molina / Mac Allister / Enzo. The spine is exactly right.
 - **GER — pass.** Musiala 99, Kimmich 96, Wirtz 90, Sané, Schlotterbeck. Right.
 - **BRA — pass on those rated.** Bruno Guimarães 96, Raphinha 96, Vinícius Jr 93,
-  Martinelli, Paquetá, Endrick, Alisson. But **coverage hole — only 15/26 rated**
-  (see below).
+  Martinelli, Paquetá, Endrick, Alisson. **Coverage: 19/26 carry a market value**, the
+  7 without are absent from the scrape (see below).
 - **FRA — pass.** Mbappé 99 top (was unrated until the captain-name fix), then Théo
   Hernández, Olise, Dembélé, Doué, Koundé, Upamecano.
 - **ENG — pass.** Saka 92, Rashford 92, Reece James 90, Kane 87, Bellingham 84, Rice
@@ -30,13 +30,18 @@ fan expects them *within their position*.
 
 ## Issues logged (not blockers, but real)
 
-1. **Coverage gaps from name mismatches — worst for non-European squads.** Brazil:
-   Neymar (Saudi league, no club feed), Gabriel Magalhães, Bremer, Danilo, Éderson and
-   ~6 others are unrated — market value didn't name-join and they have no club-stat /
-   recent-tournament row. 156 of 1248 players are market-value-unmatched overall
-   (`name_unmatched_squad_transfermarkt.csv`). **Top follow-up: a name-overrides pass
-   (PLAN's 3h task), Brazil and the African squads first** — an unrated Magalhães
-   understates Brazil's DEF index.
+1. **Coverage gaps are data-absence, not name mismatches — investigated 2026-06-16.**
+   With the name-overrides already in place (Gabriel Magalhães, Éderson, Danilo Luiz, …),
+   135 of 1248 players carry no market value (`name_unmatched_squad_transfermarkt.csv`);
+   Brazil is 19/26. The remainder are genuinely absent from Transfermarkt's national-team
+   page snapshot — fringe/uncapped or minor-league call-ups, plus stars in non-scraped
+   leagues (Neymar, Bremer, Roger Ibañez). A second name-overrides pass recovers ~0: the
+   residual candidates are coincidental common-name collisions (`Gessime Yassine` ≠
+   `Yassine Bounou`; `Issa Diop` ≠ `Sofiane Diop`; the squad's two distinct `Danilo`s —
+   Luiz the DF is mapped, Santos the MF isn't in the scrape), and mapping them would inject
+   a wrong value, worse than a missing one. Recovery needs per-player TM profile scrapes,
+   not overrides. Not forecast-relevant either — the live model is Elo + market only and the
+   player indices don't feed it.
 
 2. **Cross-position "top player" lists over-surface keepers.** Because the score is
    position-normalised, a squad's best-in-a-thin-GK-pool keeper can outscore a good-
@@ -55,7 +60,9 @@ fan expects them *within their position*.
 
 ## Actions
 
-- [ ] Name-overrides pass for the 156 market-value unmatched, BRA + African squads
-      first (highest index impact).
+- [x] Investigated the 135 market-value unmatched (BRA + African squads, 2026-06-16):
+      data-absence from the TM national-team scrape, not name mismatches — a safe overrides
+      pass recovers ~0 (issue 1). Per-player TM profile scrapes are the only recovery; not
+      forecast-relevant, so deferred.
 - [ ] Consider per-position display ranking and dropping the GK predicted term.
 - These are refinements; the ratings are good enough to proceed to §3 indices.
