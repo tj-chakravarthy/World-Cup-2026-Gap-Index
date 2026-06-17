@@ -19,22 +19,8 @@
   <meta name="twitter:image" content="https://tj-chakravarthy.github.io/World-Cup-2026-Gap-Index/og.png">
 
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" href="trionda.glb" as="fetch" crossorigin="anonymous">
-  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 </head>
 <body>
-  <!-- intro splash: black "loading…" until the Trionda renders, then the photo with the ball
-       spinning over it, then a fade to the site. -->
-  <div id="splash" aria-hidden="true">
-    <div class="splash-loading">loading&hellip;</div>
-    <div class="splash-stage">
-      <div class="splash-photo">
-        <img class="splash-img" src="splash.jpg" alt="">
-        <span class="splash-ball"><canvas id="splash-ball-canvas"></canvas></span>
-      </div>
-    </div>
-  </div>
-
   <main>
     <header class="head">
       <h1>TJ's WC<span>2026</span> Forecast</h1>
@@ -93,6 +79,5 @@
     </footer>
   </main>
   <script src="app.js" defer></script>
-  <script type="module" src="splash3d.js"></script>
 </body>
 </html>

@@ -241,7 +241,3 @@ async function main() {
 }
 
 main();
-
-// The loading screen, reveal and fade are driven by splash3d.js (it waits for the 3D model).
-// This is only the ultimate safety net in case that module never loads, so it can't stick.
-setTimeout(() => document.getElementById("splash")?.remove(), 10000);

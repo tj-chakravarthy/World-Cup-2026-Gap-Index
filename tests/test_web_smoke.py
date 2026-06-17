@@ -1,8 +1,8 @@
 """Playwright smoke test for the public site (web/public/index.html).
 
-Catches page behaviour the JSON-shape contract (test_web_data_contract.py) can't: a stuck
-splash overlay, the forecast table not rendering, missing images/assets, JS console errors,
-and horizontal overflow on mobile. Serves web/public over a throwaway HTTP server (the page
+Catches page behaviour the JSON-shape contract (test_web_data_contract.py) can't: the forecast
+table not rendering, missing images/assets, JS console errors, and horizontal overflow on
+mobile. Serves web/public over a throwaway HTTP server (the page
 fetches data/*.json by relative path, so file:// won't do) and drives a headless browser.
 
 Locally it skips cleanly when Playwright or a browser isn't installed (an optional heavy dep).
@@ -61,10 +61,8 @@ def _page(url, viewport=None):
             browser.close()
 
 
-def test_splash_dismisses_and_content_renders(base_url):
+def test_content_renders(base_url):
     with _page(base_url) as (page, errors, failed):
-        # the intro splash must auto-dismiss — never a stuck full-screen overlay
-        page.wait_for_selector("#splash", state="detached", timeout=13000)
         # the forecast table renders its rows (top teams)
         page.wait_for_selector("#forecast-table tbody tr", timeout=8000)
         assert page.locator("#forecast-table tbody tr").count() >= 5
@@ -79,8 +77,7 @@ def test_splash_dismisses_and_content_renders(base_url):
 
 def test_key_assets_load(base_url):
     with _page(base_url) as (page, _errors, _failed):
-        for asset in ("splash.jpg", "og.png", "favicon.svg", "trionda.glb",
-                      "vendor/three.module.min.js", "data/simulation.json",
+        for asset in ("og.png", "favicon.svg", "data/simulation.json",
                       "data/predictions_live.json", "data/track_record.json",
                       "data/model_inputs.json", "data/movement.json"):
             resp = page.request.get(base_url + asset)
@@ -89,7 +86,7 @@ def test_key_assets_load(base_url):
 
 def test_mobile_has_no_horizontal_overflow(base_url):
     with _page(base_url, viewport={"width": 390, "height": 844}) as (page, _e, _f):
-        page.wait_for_selector("#splash", state="detached", timeout=13000)
+        page.wait_for_selector("#forecast-table tbody tr", timeout=8000)
         overflow = page.evaluate(
             "() => document.documentElement.scrollWidth - document.documentElement.clientWidth")
         assert overflow <= 2, f"horizontal overflow on a 390px viewport: {overflow}px"
