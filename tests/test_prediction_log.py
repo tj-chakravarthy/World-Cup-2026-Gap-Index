@@ -5,7 +5,9 @@ the realised result and leaves unplayed fixtures null; track_record's called rat
 multiclass Brier match a hand-computed small set, excluding unresolved rows.
 """
 
+import json
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 
@@ -21,6 +23,8 @@ from src.update.prediction_log import (  # noqa: E402
     track_record,
     track_record_artifact,
 )
+
+_REPO = Path(__file__).resolve().parents[1]
 
 
 def test_latest_per_fixture_keeps_standing_prediction():
@@ -260,3 +264,25 @@ def test_track_record_artifact_is_receipts_only(tmp_path):
     assert g["actual"] == "2-0" and g["outcome"] == 0
     assert g["called"] is True and g["exact_hit"] is True
     assert (g["p_team1"], g["p_draw"], g["p_team2"]) == (0.6, 0.25, 0.15)
+
+
+def test_committed_live_artifact_is_logged_under_its_own_model_version():
+    """The 'nothing goes live un-logged' guarantee as committed data, not just schema: every
+    prediction in predictions_live.json must have a pre-kickoff receipt under the artifact's OWN
+    model_version. Catches identity drift the schema check can't — an artifact re-pinned to a
+    version with zero log rows still validates (the numbers may match an older version's
+    receipts), but its identity no longer ties to the audit trail."""
+    art_path = _REPO / "data" / "predictions" / "predictions_live.json"
+    log_path = _REPO / "data" / "predictions" / "prediction_log.parquet"
+    assert art_path.exists() and log_path.exists(), "committed live artifact + log expected"
+
+    art = json.loads(art_path.read_text())
+    mv = art["model_version"]
+    log = load_log(log_path)
+    pre = log[(log["model_version"] == mv) & (log["logged_at"] < log["kickoff_utc"])]
+    logged = set(pre["fixture_id"])
+    missing = sorted(p["fixture_id"] for p in art["predictions"] if p["fixture_id"] not in logged)
+    assert not missing, (
+        f"{len(missing)} live prediction(s) have no pre-kickoff log row under the artifact's "
+        f"model_version {mv!r} — identity has drifted off the audit trail: {missing[:10]}"
+    )
