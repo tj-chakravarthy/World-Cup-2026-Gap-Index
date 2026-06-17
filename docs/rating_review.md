@@ -40,8 +40,14 @@ fan expects them *within their position*.
    `Yassine Bounou`; `Issa Diop` ≠ `Sofiane Diop`; the squad's two distinct `Danilo`s —
    Luiz the DF is mapped, Santos the MF isn't in the scrape), and mapping them would inject
    a wrong value, worse than a missing one. Recovery needs per-player TM profile scrapes,
-   not overrides. Not forecast-relevant either — the live model is Elo + market only and the
-   player indices don't feed it.
+   not overrides. Effect on the live model is bounded, not nil — worth stating precisely, since
+   the live model IS Elo + market. MKT is the mean log market value of a squad's **top 15 by
+   value**, z-scored within the field, so a missing fringe/uncapped player (outside the top 15)
+   doesn't move it. The real caveat is a heavily-gapped squad: Brazil at 19/26 has MKT estimated
+   from only its few scraped (mostly Europe-based) values, so a missing top-bracket name would
+   distort it — bounded by the within-field z-score, but not zero. The predicted-VAEP player
+   indices, which these gaps would hit hardest, are NOT in the live model — that part is genuinely
+   not forecast-relevant; the market term is, with the top-15 cushion above.
 
 2. **Cross-position "top player" lists over-surface keepers.** Because the score is
    position-normalised, a squad's best-in-a-thin-GK-pool keeper can outscore a good-
