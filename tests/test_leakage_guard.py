@@ -7,10 +7,19 @@ headline number. src/models/evaluate.py now exists, so this guard is live: it
 asserts the per-fold predicted-VAEP training table excludes the held-out tournament.
 """
 
+import os
+
 import pytest
 
-pd = pytest.importorskip("pandas")
-pytest.importorskip("sklearn")
+# MANDATORY test (pyproject markers: "skipped == not enforced"). In CI a missing dep is a
+# hard failure, never a silent skip — otherwise "leakage guard enforced in CI" is false;
+# locally it skips for devs without the modelling stack.
+if os.environ.get("CI"):
+    import pandas as pd
+    import sklearn  # noqa: F401  (evaluate.py imports it; ImportError here fails CI loudly)
+else:
+    pd = pytest.importorskip("pandas")
+    pytest.importorskip("sklearn")
 
 from src.models.evaluate import FOLDS, fold_training_table  # noqa: E402
 

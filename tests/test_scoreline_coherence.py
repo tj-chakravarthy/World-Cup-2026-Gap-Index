@@ -7,10 +7,17 @@ never by ad-hoc reweighting of scoreline cells. scoreline.py is the mechanism; t
 its guard (live, not a tripwire).
 """
 
+import os
+
 import numpy as np
 import pytest
 
-pytest.importorskip("scipy")
+# MANDATORY test (pyproject markers: "skipped == not enforced"). In CI a missing scipy is a
+# hard failure, never a silent skip; locally it skips for devs without scipy.
+if os.environ.get("CI"):
+    import scipy  # noqa: F401
+else:
+    pytest.importorskip("scipy")
 
 from src.models.scoreline import (  # noqa: E402
     matrix_wdl, sample_scorelines, score_matrix, tilt_rates, tilted_matrix)
