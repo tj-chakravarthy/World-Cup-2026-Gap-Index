@@ -37,9 +37,11 @@ def test_build_manifest_fields(tmp_path):
     assert m["model"]["feature_columns"] == ["ELO", "MKT"]          # the live model's inputs
     assert m["model"]["n_teams"] == 3 and m["model"]["teams"] == ["BRA", "ESP", "FRA"]
 
-    # tournaments come from the bundle (always present); the match corpus is recorded only when
-    # the gitignored scrape is present, else null — the field is always there either way
-    assert m["training"]["tournaments"] == ["euro_2024", "world_cup_2026"]
+    # the indexed field (world_cup_2026) is split out from the training targets, so it can't be
+    # misread as something the model trained on (a leakage signal)
+    assert m["tournaments"]["training_target"] == ["euro_2024"]
+    assert m["tournaments"]["prediction_index"] == ["world_cup_2026"]
+    # the match corpus is recorded only when the gitignored scrape is present, else null
     assert "n_historical_matches" in m["training"]
     nh = m["training"]["n_historical_matches"]
     assert nh is None or nh > 0
@@ -57,5 +59,5 @@ def test_build_manifest_without_scrape(tmp_path, monkeypatch):
     pkl.write_bytes(b"x")
     m = bundle_manifest.build_manifest(_StubBundle(), pkl)
     assert m["training"]["n_historical_matches"] is None
-    assert m["sources"]["match_results_through"] is None
+    assert m["sources"]["match_results_scored_through"] is None
     assert m["bundle"]["sha256"]  # still produced

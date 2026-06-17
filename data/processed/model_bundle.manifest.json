@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-17T17:13:36Z",
-  "code_sha": "cdd5859",
+  "generated_at": "2026-06-17T17:45:01Z",
+  "code_sha": "9ff1263",
   "bundle": {
     "file": "model_bundle.pkl",
     "version": 1,
@@ -65,20 +65,24 @@
       "UZB"
     ]
   },
-  "training": {
-    "tournaments": [
+  "tournaments": {
+    "training_target": [
       "copa_america_2024",
       "euro_2020",
       "euro_2024",
       "world_cup_2018",
-      "world_cup_2022",
-      "world_cup_2026"
+      "world_cup_2022"
     ],
+    "prediction_index": [
+      "world_cup_2026"
+    ]
+  },
+  "training": {
     "n_historical_matches": 49405,
-    "matches_through": "2026-06-10"
+    "scored_through": "2026-06-10"
   },
   "sources": {
     "fifa_ranking_edition": "2026-06-11",
-    "match_results_through": "2026-06-27"
+    "match_results_scored_through": "2026-06-12"
   }
 }

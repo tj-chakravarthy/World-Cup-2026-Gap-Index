@@ -24,6 +24,7 @@ REPO = Path(__file__).resolve().parents[2]
 RAW = REPO / "data" / "raw"
 BUNDLE_PKL = REPO / "data" / "processed" / "model_bundle.pkl"
 WC_START = "2026-06-11"
+PRED_FIELD = "world_cup_2026"   # the tournament the bundle predicts — NOT a training target
 
 
 def _git_sha() -> str:
@@ -46,13 +47,15 @@ def build_manifest(bundle, pkl_path: Path) -> dict:
     mr = RAW / "match_results.csv"
     if mr.exists():
         results = pd.read_csv(mr)
-        pre = results[results["date"].astype(str) < WC_START].dropna(
-            subset=["home_score", "away_score"])
+        scored = results.dropna(subset=["home_score", "away_score"])  # played only, not fixtures
+        pre = scored[scored["date"].astype(str) < WC_START]           # the training corpus
         n_historical = int(len(pre))
-        matches_through = str(pre["date"].max()) if len(pre) else None
-        results_through = str(results["date"].max()) if len(results) else None
+        train_through = str(pre["date"].max()) if len(pre) else None
+        # latest PLAYED result, not the max date in the file: match_results.csv also carries
+        # unplayed future 2026 fixtures, so the raw max would overstate how current the data is.
+        scored_through = str(scored["date"].max()) if len(scored) else None
     else:
-        n_historical = matches_through = results_through = None
+        n_historical = train_through = scored_through = None
 
     fifa_edition = None
     fifa_csv = RAW / "fifa_rankings_2026.csv"
@@ -62,6 +65,7 @@ def build_manifest(bundle, pkl_path: Path) -> dict:
             fifa_edition = str(fifa["edition_date"].iloc[0])
 
     codes = sorted(bundle.codes)
+    all_tournaments = sorted(bundle.indices["tournament"].unique().tolist())
     return {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "code_sha": _git_sha(),   # the repo commit attesting this bundle (set at build time)
@@ -77,14 +81,18 @@ def build_manifest(bundle, pkl_path: Path) -> dict:
             "n_teams": len(codes),
             "teams": codes,
         },
+        # split so the indexed prediction field can't be misread as a training target (leakage):
+        "tournaments": {
+            "training_target": [t for t in all_tournaments if t != PRED_FIELD],  # learned from
+            "prediction_index": [t for t in all_tournaments if t == PRED_FIELD],  # predicted only
+        },
         "training": {
-            "tournaments": sorted(bundle.indices["tournament"].unique().tolist()),
-            "n_historical_matches": n_historical,
-            "matches_through": matches_through,
+            "n_historical_matches": n_historical,   # scored matches before the tournament
+            "scored_through": train_through,         # latest training match (pre-tournament)
         },
         "sources": {
             "fifa_ranking_edition": fifa_edition,
-            "match_results_through": results_through,
+            "match_results_scored_through": scored_through,   # latest PLAYED result in the file
         },
     }
 
