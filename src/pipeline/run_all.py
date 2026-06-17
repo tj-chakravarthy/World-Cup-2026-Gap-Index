@@ -65,16 +65,18 @@ def _step(name: str, fn) -> None:
         sys.exit(1)
 
 
-def _should_recompute(*, force: bool, rebuild: bool, artifacts_exist: bool,
-                      played: set, last: set, fresh: bool, was_stale: bool) -> bool:
+def _should_recompute(*, force: bool, rebuild: bool, artifacts_exist: bool, played: set, last: set,
+                      fresh: bool, was_stale: bool, live_covers_kicked_off: bool) -> bool:
     """Whether main() must rebuild the live artifacts. Beyond a new result this also catches the
-    stale-banner transitions, so they don't silently no-op when the caller didn't pass --force:
-    publish the banner on a fresh feed failure (was_stale False, would-be-stale True), and clear
-    it on recovery (was_stale True, would-be-stale False). Mirrors check()'s recompute signal so
-    the cron's check->recompute handoff can't drop a stale transition. Pure."""
+    stale-banner transitions and a covered fixture passing kickoff, so they don't silently no-op
+    when the caller didn't pass --force: publish the banner on a fresh feed failure, clear it on
+    recovery (was_stale != would-be-stale), and drop a now-kicked-off match from the forecast.
+    Mirrors check()'s recompute signal so the cron's check->recompute handoff can't drop one. Pure."""
     if force or rebuild or not artifacts_exist:
         return True
     if played != last:
+        return True
+    if live_covers_kicked_off:
         return True
     return was_stale != (not fresh)   # the published stale flag would flip -> republish to reflect it
 
@@ -84,11 +86,13 @@ def main(force: bool = False, rebuild: bool = False) -> None:
     fixtures = pd.read_csv(FIXTURES)
     played = played_fixture_ids(fixtures)
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     if not _should_recompute(force=force, rebuild=rebuild,
                              artifacts_exist=LIVE.exists() and SIM.exists(),
                              played=played, last=last, fresh=fresh,
-                             was_stale=_committed_live_is_stale()):
-        print(f"no new results ({len(played)} played) and no stale-state change; nothing to update")
+                             was_stale=_committed_live_is_stale(),
+                             live_covers_kicked_off=_live_covers_kicked_off(now)):
+        print(f"no new results ({len(played)} played) and no stale/kickoff change; nothing to update")
         return
     print(f"new evidence: {len(played)} played (was {len(last)}); recomputing forecast")
 
@@ -196,6 +200,22 @@ def _committed_live_is_stale() -> bool:
         return False
 
 
+def _live_covers_kicked_off(now: str) -> bool:
+    """True if the committed live artifact still PREDICTS a fixture whose kickoff has passed.
+    build_live drops post-kickoff fixtures when it runs, but the cheap gate must notice kickoff
+    on its own — it's deterministic (no feed needed), whereas the result landing lags. Otherwise a
+    pre-match forecast for an in-progress or finished match keeps showing until the slow feed
+    catches up. ISO-8601 Z is fixed-width UTC, so the string compare is chronological."""
+    if not LIVE.exists():
+        return False
+    try:
+        import json
+        art = json.loads(LIVE.read_text())
+        return any(str(p.get("kickoff_utc", "")) <= now for p in art.get("predictions", []))
+    except Exception:  # noqa: BLE001 - a missing/garbled file just means "nothing to drop"
+        return False
+
+
 def check() -> int:
     """Cheap pre-step the cron runs every poll. Exit code: 10 = recompute, 0 = idle, 1 = fail.
 
@@ -212,12 +232,16 @@ def check() -> int:
         return 1
     played = played_fixture_ids(pd.read_csv(FIXTURES))
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    kicked_off = _live_covers_kicked_off(now)
     # recompute on: a new result, missing artifacts, a fresh feed failure (publish the stale
-    # heartbeat), or recovery from a stale state (republish fresh to clear the banner).
+    # heartbeat), recovery from a stale state (clear the banner), OR a covered fixture whose
+    # kickoff has passed (drop the now-in-progress/finished match from the live forecast even
+    # before its result lands in the lagging feed).
     changed = (played != last or not (LIVE.exists() and SIM.exists())
-               or not fresh or (fresh and was_stale))
+               or not fresh or (fresh and was_stale) or kicked_off)
     print(f"played={len(played)} marker={len(last)} fresh={fresh} was_stale={was_stale} "
-          f"-> {'recompute' if changed else 'idle'}")
+          f"kicked_off={kicked_off} -> {'recompute' if changed else 'idle'}")
     return 10 if changed else 0
 
 

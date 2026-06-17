@@ -70,21 +70,47 @@ def test_recovery_from_stale_recomputes_to_clear_flag(tmp_path, monkeypatch):
     assert run_all.check() == 10
 
 
-@pytest.mark.parametrize("kw,expected", [
-    # (force, rebuild, artifacts_exist, played, last, fresh, was_stale) -> recompute?
-    (dict(force=True,  rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=False), True),   # --force
-    (dict(force=False, rebuild=True,  artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=False), True),   # --rebuild
-    (dict(force=False, rebuild=False, artifacts_exist=False, played={"a"},      last={"a"}, fresh=True,  was_stale=False), True),   # artifacts missing
-    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a", "b"}, last={"a"}, fresh=True,  was_stale=False), True),   # new result
-    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=False, was_stale=False), True),   # feed failure -> publish stale heartbeat
-    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=True),  True),   # recovery -> clear stale banner
-    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=False), False),  # idle: nothing changed
-    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=False, was_stale=True),  False),  # still down + already stale (check escalates)
+_BASE = dict(force=False, rebuild=False, artifacts_exist=True, played={"a"}, last={"a"},
+             fresh=True, was_stale=False, live_covers_kicked_off=False)
+
+
+@pytest.mark.parametrize("over,expected", [
+    ({"force": True}, True),                          # --force
+    ({"rebuild": True}, True),                         # --rebuild
+    ({"artifacts_exist": False}, True),                # artifacts missing
+    ({"played": {"a", "b"}}, True),                    # new result
+    ({"fresh": False}, True),                          # feed failure -> publish stale heartbeat
+    ({"was_stale": True}, True),                       # recovery -> clear stale banner
+    ({"live_covers_kicked_off": True}, True),          # a covered fixture passed kickoff -> drop it
+    ({}, False),                                       # idle: nothing changed
+    ({"fresh": False, "was_stale": True}, False),      # still down + already stale (check escalates)
 ])
-def test_should_recompute_covers_stale_transitions(kw, expected):
-    # the follow-through check() signals: main() must recompute on a stale flip even without
-    # --force, so the publish-stale / clear-stale paths can't no-op
-    assert run_all._should_recompute(**kw) is expected
+def test_should_recompute_covers_all_signals(over, expected):
+    # the follow-through to check()'s signals: main() must recompute on a stale flip OR a covered
+    # fixture passing kickoff, even without --force, so those paths can't no-op
+    assert run_all._should_recompute(**{**_BASE, **over}) is expected
+
+
+def test_recompute_when_live_still_covers_a_kicked_off_fixture(tmp_path, monkeypatch):
+    # no new result, feed fine — but the published artifact still predicts a match past kickoff,
+    # so the gate must recompute to drop it (deterministic, doesn't wait on the lagging result)
+    _prep(tmp_path, monkeypatch, played_ids=["WC26-M001"], marker_ids=["WC26-M001"])
+    (tmp_path / "live.json").write_text(json.dumps(
+        {"predictions": [{"fixture_id": "WC26-M023", "kickoff_utc": "2020-01-01T00:00:00Z"}]}))
+    _stub(monkeypatch, fresh=True, was_stale=False)
+    assert run_all.check() == 10
+
+
+def test_live_covers_kicked_off(tmp_path, monkeypatch):
+    live = tmp_path / "live.json"
+    monkeypatch.setattr(run_all, "LIVE", live)
+    now = "2026-06-17T19:00:00Z"
+    live.write_text(json.dumps({"predictions": [{"fixture_id": "X", "kickoff_utc": "2026-06-17T17:00:00Z"}]}))
+    assert run_all._live_covers_kicked_off(now) is True            # 17:00 < 19:00
+    live.write_text(json.dumps({"predictions": [{"fixture_id": "X", "kickoff_utc": "2026-06-18T17:00:00Z"}]}))
+    assert run_all._live_covers_kicked_off(now) is False           # all future
+    monkeypatch.setattr(run_all, "LIVE", tmp_path / "absent.json")
+    assert run_all._live_covers_kicked_off(now) is False
 
 
 def test_committed_live_is_stale_reads_sources(tmp_path, monkeypatch):
