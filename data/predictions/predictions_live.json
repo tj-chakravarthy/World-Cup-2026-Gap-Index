@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@fe4eaeb",
-  "generated_at": "2026-06-16T11:26:38Z",
+  "model_version": "live-elo-mkt@nogit",
+  "generated_at": "2026-06-17T00:35:36Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M017",
       "WC26-M018",
       "WC26-M019",
       "WC26-M020",
@@ -80,7 +79,8 @@
       "WC26-M014",
       "WC26-M016",
       "WC26-M013",
-      "WC26-M015"
+      "WC26-M015",
+      "WC26-M017"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,65 +120,21 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-16T11:26:38Z",
+      "as_of": "2026-06-17T00:35:36Z",
       "stale": false
     },
     {
       "name": "match_results",
-      "as_of": "2026-06-16T11:26:38Z",
+      "as_of": "2026-06-17T00:35:36Z",
       "stale": false
     },
     {
       "name": "match_model",
-      "as_of": "2026-06-16T11:26:38Z",
+      "as_of": "2026-06-17T00:35:36Z",
       "stale": false
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M017",
-      "stage": "group",
-      "kickoff_utc": "2026-06-16T19:00:00Z",
-      "team1": "FRA",
-      "team2": "SEN",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.5315655125734701,
-        "draw": 0.25734841756779225,
-        "team2": 0.21108606985873762
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1226
-        },
-        {
-          "score": "1-0",
-          "p": 0.1143
-        },
-        {
-          "score": "2-0",
-          "p": 0.1004
-        },
-        {
-          "score": "2-1",
-          "p": 0.0963
-        },
-        {
-          "score": "0-0",
-          "p": 0.0795
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.5315655125734701,
-          "draw": 0.25734841756779225,
-          "team2": 0.21108606985873762
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M018",
       "stage": "group",

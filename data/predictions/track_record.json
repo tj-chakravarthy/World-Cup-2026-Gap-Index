@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-16T18:47:02Z",
+  "generated_at": "2026-06-17T00:35:36Z",
   "n_logged": 60,
-  "n_resolved": 4,
+  "n_resolved": 5,
   "resolved": [
     {
       "fixture_id": "WC26-M014",
@@ -56,6 +56,20 @@
       "actual": "2-2",
       "outcome": 1,
       "called": false,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M017",
+      "kickoff_utc": "2026-06-16T19:00:00Z",
+      "team1": "FRA",
+      "team2": "SEN",
+      "p_team1": 0.5316,
+      "p_draw": 0.2573,
+      "p_team2": 0.2111,
+      "actual": "3-1",
+      "outcome": 0,
+      "called": true,
       "top_score": "1-1",
       "exact_hit": false
     }
