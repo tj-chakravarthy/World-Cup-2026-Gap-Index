@@ -59,17 +59,25 @@ def main() -> None:
     schedule_id, edition_date = latest_schedule()
     df = pd.DataFrame(fetch_ranking(schedule_id)).sort_values("rank").reset_index(drop=True)
     df["edition_date"] = edition_date
+
+    # coverage gate BEFORE writing: a partial canonical file silently downgrades the Art. 13
+    # final tiebreaker to the Elo-order proxy at sim time (load_fifa_rankings returns None unless
+    # every field team is present). Refuse to write an incomplete ranking — fail loud here rather
+    # than let a half-real ranking pass as canonical.
+    field = set(pd.read_csv(RAW / "team_codes.csv")["fifa_code"])
+    missing = sorted(field - set(df["fifa_code"]))
+    if missing:
+        raise SystemExit(
+            f"FIFA ranking edition {edition_date} covers {len(field) - len(missing)}/{len(field)} "
+            f"of the WC2026 field — refusing to write a partial {OUT.name} (check code mapping). "
+            f"Missing: {missing}"
+        )
+
     RAW.mkdir(parents=True, exist_ok=True)
     df.to_csv(OUT, index=False)
-
-    field = set(pd.read_csv(RAW / "team_codes.csv")["fifa_code"])
-    covered = field & set(df["fifa_code"])
     print(f"FIFA ranking edition {edition_date} ({schedule_id}): {len(df)} teams "
           f"-> {OUT.relative_to(REPO)}")
-    print(f"WC2026 field covered: {len(covered)}/{len(field)}")
-    missing = sorted(field - covered)
-    if missing:
-        print(f"  MISSING (check code mapping): {missing}")
+    print(f"WC2026 field covered: {len(field)}/{len(field)}")
     print(df[df["fifa_code"].isin(field)].head(8).to_string(index=False))
 
 
