@@ -16,6 +16,7 @@ pytest.importorskip("pyarrow")
 
 from src.update.prediction_log import (  # noqa: E402
     LOG_COLUMNS,
+    import_locked_receipts,
     latest_per_fixture,
     load_log,
     log_predictions,
@@ -282,6 +283,70 @@ def test_track_record_artifact_is_receipts_only(tmp_path):
     assert g["actual"] == "2-0" and g["outcome"] == 0
     assert g["called"] is True and g["exact_hit"] is True
     assert (g["p_team1"], g["p_draw"], g["p_team2"]) == (0.6, 0.25, 0.15)
+
+
+def test_log_predictions_honors_explicit_logged_at(tmp_path):
+    # the locked backfill: a match already played NOW but locked before its kickoff is a valid
+    # pre-kickoff receipt only when logged at the lock instant, not now
+    log_path = tmp_path / "log.parquet"
+    art = {"model_version": "locked@v1", "predictions": [{
+        "fixture_id": "WC26-M005", "stage": "group", "kickoff_utc": "2026-06-14T19:00:00Z",
+        "team1": "MEX", "team2": "RSA", "model_source": "locked_minimal",
+        "wdl": {"team1": 0.5, "draw": 0.3, "team2": 0.2}, "scorelines": [{"score": "1-0", "p": 0.2}]}]}
+    assert log_predictions(art, log_path) == 0  # logged_at=now (post-kickoff) -> dropped
+    assert log_predictions(art, log_path, logged_at="2026-06-13T15:12:11Z") == 1  # at lock -> kept
+    row = load_log(log_path).iloc[0]
+    assert row["logged_at"] == "2026-06-13T15:12:11Z" and row["model_source"] == "locked_minimal"
+
+
+def test_import_locked_receipts_backfills_at_lock_time(tmp_path):
+    locked = {
+        "schema_version": "1.0", "kind": "locked", "model_version": "stage0@abc",
+        "locked_at_utc": "2026-06-13T15:12:11Z",
+        "predictions": [
+            {"fixture_id": "WC26-M005", "stage": "group", "kickoff_utc": "2026-06-14T19:00:00Z",
+             "team1": "MEX", "team2": "RSA", "model_source": "locked_minimal",
+             "wdl": {"team1": 0.5, "draw": 0.3, "team2": 0.2}, "scorelines": [{"score": "1-0", "p": 0.2}]},
+            {"fixture_id": "WC26-M006", "stage": "group", "kickoff_utc": "2026-06-14T22:00:00Z",
+             "team1": "KOR", "team2": "CZE", "model_source": "locked_minimal",
+             "wdl": {"team1": 0.3, "draw": 0.3, "team2": 0.4}, "scorelines": [{"score": "0-1", "p": 0.18}]},
+        ]}
+    (tmp_path / "predictions_locked_20260613.json").write_text(json.dumps(locked))
+    log_path = tmp_path / "log.parquet"
+
+    assert import_locked_receipts(log_path, tmp_path) == 2     # both locked pre-kickoff
+    assert import_locked_receipts(log_path, tmp_path) == 0     # idempotent
+    log = load_log(log_path)
+    assert bool((log["logged_at"] == "2026-06-13T15:12:11Z").all())
+    assert set(log["model_source"]) == {"locked_minimal"}
+
+
+def test_track_record_prefers_live_and_attributes_locked():
+    # M005: locked only. M013: locked + live -> the live call wins, the locked one is hidden.
+    log = pd.DataFrame([
+        {"logged_at": "2026-06-13T15:00:00Z", "kickoff_utc": "2026-06-14T19:00:00Z",
+         "model_source": "locked_minimal", "model_version": "lk", "fixture_id": "WC26-M005",
+         "team1": "MEX", "team2": "RSA", "p_team1": 0.5, "p_draw": 0.3, "p_team2": 0.2,
+         "top_score": "1-0", "top_score_p": 0.2},
+        {"logged_at": "2026-06-13T15:00:00Z", "kickoff_utc": "2026-06-15T19:00:00Z",
+         "model_source": "locked_minimal", "model_version": "lk", "fixture_id": "WC26-M013",
+         "team1": "KOR", "team2": "CZE", "p_team1": 0.4, "p_draw": 0.3, "p_team2": 0.3,
+         "top_score": "1-1", "top_score_p": 0.15},
+        {"logged_at": "2026-06-15T10:00:00Z", "kickoff_utc": "2026-06-15T19:00:00Z",
+         "model_source": "live_full", "model_version": "lv", "fixture_id": "WC26-M013",
+         "team1": "KOR", "team2": "CZE", "p_team1": 0.45, "p_draw": 0.3, "p_team2": 0.25,
+         "top_score": "2-1", "top_score_p": 0.12},
+    ])
+    fixtures = _fixtures([
+        ("WC26-M005", "MEX", "RSA", 0, 1, True),
+        ("WC26-M013", "KOR", "CZE", 1, 1, True),
+    ])
+    art = track_record_artifact(log, fixtures)
+    by = {r["fixture_id"]: r for r in art["resolved"]}
+    assert art["n_resolved"] == 2                                  # one receipt per match
+    assert by["WC26-M005"]["model"] == "pre-tournament (locked)"
+    assert by["WC26-M013"]["model"] == "live"                      # live preferred when both exist
+    assert by["WC26-M013"]["p_team1"] == 0.45                      # the live call's probs, not locked
 
 
 def test_committed_live_artifact_is_logged_under_its_own_model_version():

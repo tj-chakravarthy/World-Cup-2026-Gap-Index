@@ -109,6 +109,8 @@ tbody tr:hover td.team{color:var(--volt)}
 #track-list{display:grid; gap:8px; margin-top:10px}
 .tr{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 13px}
 .tr-teams{font-weight:600}
+.tr-model{margin-left:8px; padding:1px 7px; border:1px solid var(--line); border-radius:999px;
+  font-size:11px; font-weight:500; color:var(--muted); vertical-align:middle}
 .tr-line{display:flex; flex-wrap:wrap; gap:6px 14px; justify-content:space-between;
   color:var(--muted); font-size:11.5px; margin-top:6px; font-variant-numeric:tabular-nums}
 .tr-line b{color:var(--white); font-weight:600}

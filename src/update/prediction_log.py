@@ -50,6 +50,11 @@ LOG_COLUMNS = [
 # idempotency key — one logged prediction per model identity per fixture
 KEY = ["model_version", "fixture_id"]
 
+# receipt attribution: the live match model vs the immutable pre-tournament lock (a thin stage-0
+# model). The committed locked artifact(s) carry pre-registered, pre-kickoff calls.
+_MODEL_LABEL = {"live_full": "live", "locked_minimal": "pre-tournament (locked)"}
+LOCKED_GLOB = "predictions_locked_*.json"
+
 
 def _now_iso() -> str:
     """UTC now, ISO-8601 with trailing Z (matches the artifact's generated_at)."""
@@ -64,10 +69,14 @@ def _top_score(scorelines: list[dict]) -> tuple[str | None, float | None]:
     return best["score"], float(best["p"])
 
 
-def _artifact_rows(artifact: dict) -> pd.DataFrame:
-    """Flatten an artifact's predictions[] to log rows (model_version from top level)."""
+def _artifact_rows(artifact: dict, logged_at: str | None = None) -> pd.DataFrame:
+    """Flatten an artifact's predictions[] to log rows (model_version from top level).
+
+    logged_at defaults to now (a live append); pass the artifact's lock instant to backfill the
+    locked pre-tournament file, so its rows carry the time they were actually committed (before
+    those kickoffs) rather than now (after them)."""
     model_version = artifact["model_version"]
-    logged_at = _now_iso()
+    logged_at = logged_at or _now_iso()
     rows = []
     for p in artifact["predictions"]:
         wdl = p["wdl"]
@@ -99,14 +108,15 @@ def load_log(log_path: Path = LOG_PATH) -> pd.DataFrame:
     return pd.read_parquet(log_path)
 
 
-def log_predictions(artifact: dict, log_path: Path = LOG_PATH) -> int:
+def log_predictions(artifact: dict, log_path: Path = LOG_PATH, logged_at: str | None = None) -> int:
     """Append one row per prediction not already logged on (model_version, fixture_id).
 
     Idempotent: re-running the same artifact appends nothing; a new model_version logs
-    fresh even for the same fixtures. Returns the number of rows appended.
+    fresh even for the same fixtures. Returns the number of rows appended. logged_at overrides
+    the stamp (lock instant for the locked backfill); the pre-kickoff drop is relative to it.
     """
     log_path = Path(log_path)
-    new = _artifact_rows(artifact)
+    new = _artifact_rows(artifact, logged_at)
     # pre-kickoff only (audit-trail integrity): drop any row whose kickoff already passed — a
     # lagging feed can leave a kicked-off fixture marked unplayed, and its genuine pre-kickoff
     # prediction is already logged. ISO-8601 Z is fixed-width UTC, so the string compare holds.
@@ -125,6 +135,23 @@ def log_predictions(artifact: dict, log_path: Path = LOG_PATH) -> int:
     log_path.parent.mkdir(parents=True, exist_ok=True)
     out.to_parquet(log_path, index=False)
     return len(new)
+
+
+def import_locked_receipts(log_path: Path = LOG_PATH, pred_dir: Path | None = None) -> int:
+    """Backfill the committed locked artifact(s) into the log as pre-registered receipts.
+
+    The locked file is the immutable pre-tournament prediction (model_source 'locked_minimal');
+    its calls were committed at locked_at_utc — before those kickoffs — but never lived in the
+    append-only live log, so the public track record omitted matches played before the live model
+    came online. Log them at their lock instant (not now), so they count as the honest pre-kickoff
+    receipts they are. Idempotent on (model_version, fixture_id). Returns rows added."""
+    import json
+    pred_dir = Path(pred_dir) if pred_dir else LOG_PATH.parent
+    added = 0
+    for p in sorted(pred_dir.glob(LOCKED_GLOB)):
+        art = json.loads(p.read_text())
+        added += log_predictions(art, log_path, logged_at=art["locked_at_utc"])
+    return added
 
 
 def resolve(log: pd.DataFrame, fixtures: pd.DataFrame) -> pd.DataFrame:
@@ -251,10 +278,15 @@ def track_record_artifact(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
     called rate) are deliberately NOT included while the live sample is tiny; the model's test
     is the §4.5 backtest, surfaced as context in the site copy. PURE.
     """
-    log = latest_per_fixture(log)
-    if log.empty:
+    standing = latest_per_fixture(log)
+    if standing.empty:
         return {"generated_at": _now_iso(), "n_logged": 0, "n_resolved": 0, "resolved": []}
-    resolved = resolve(log, fixtures)
+    # one receipt per match: prefer the live model's call, else the pre-registered locked one
+    # (so matches played before the live model went online still show, attributed to the lock).
+    pref = standing["model_source"].map(lambda s: 0 if s == "live_full" else 1)
+    one = (standing.assign(_pref=pref).sort_values("_pref")
+                   .drop_duplicates("fixture_id", keep="first").drop(columns="_pref"))
+    resolved = resolve(one, fixtures)
     res = resolved[resolved["actual_outcome"].notna()].sort_values("kickoff_utc")
     rows = [
         {
@@ -262,6 +294,7 @@ def track_record_artifact(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
             "kickoff_utc": r.kickoff_utc,
             "team1": r.team1,
             "team2": r.team2,
+            "model": _MODEL_LABEL.get(r.model_source, r.model_source),
             "p_team1": round(float(r.p_team1), 4),
             "p_draw": round(float(r.p_draw), 4),
             "p_team2": round(float(r.p_team2), 4),
@@ -275,7 +308,7 @@ def track_record_artifact(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
     ]
     return {
         "generated_at": _now_iso(),
-        "n_logged": int(len(log)),
+        "n_logged": int(len(one)),
         "n_resolved": int(len(res)),
         "resolved": rows,
     }

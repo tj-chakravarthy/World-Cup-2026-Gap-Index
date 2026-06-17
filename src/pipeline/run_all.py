@@ -135,6 +135,9 @@ def main(force: bool = False, rebuild: bool = False) -> None:
     def _track():  # public track-record receipts (resolved predictions vs results), from the log
         import json
         from src.update import prediction_log
+        # backfill the immutable locked pre-tournament calls (idempotent) so the receipts also
+        # cover matches played before the live model came online, attributed to the lock.
+        prediction_log.import_locked_receipts()
         art = prediction_log.track_record_artifact(prediction_log.load_log(), fixtures)
         for p in (PRED / "track_record.json", WEB_LIVE.parent / "track_record.json"):
             p.write_text(json.dumps(art, indent=2))

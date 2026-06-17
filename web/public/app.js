@@ -219,8 +219,9 @@ function renderTrack(tr, inputs, live) {
                  : g.outcome === 2 ? `${name(g.team2)} won` : "draw";
     const mark = g.called ? `<span class="ok">✓ called</span>` : `<span class="no">missed</span>`;
     const exact = g.exact_hit ? ` · <span class="exact">🎯 exact score</span>` : "";
+    const model = g.model && g.model !== "live" ? `<span class="tr-model">${g.model}</span>` : "";
     return `<div class="tr">
-      <div class="tr-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}</div>
+      <div class="tr-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}${model}</div>
       <div class="bar">
         <i class="w" style="width:${w * 100}%"></i>
         <i class="d" style="width:${d * 100}%"></i>
