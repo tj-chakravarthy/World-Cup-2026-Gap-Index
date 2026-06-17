@@ -65,13 +65,30 @@ def _step(name: str, fn) -> None:
         sys.exit(1)
 
 
+def _should_recompute(*, force: bool, rebuild: bool, artifacts_exist: bool,
+                      played: set, last: set, fresh: bool, was_stale: bool) -> bool:
+    """Whether main() must rebuild the live artifacts. Beyond a new result this also catches the
+    stale-banner transitions, so they don't silently no-op when the caller didn't pass --force:
+    publish the banner on a fresh feed failure (was_stale False, would-be-stale True), and clear
+    it on recovery (was_stale True, would-be-stale False). Mirrors check()'s recompute signal so
+    the cron's check->recompute handoff can't drop a stale transition. Pure."""
+    if force or rebuild or not artifacts_exist:
+        return True
+    if played != last:
+        return True
+    return was_stale != (not fresh)   # the published stale flag would flip -> republish to reflect it
+
+
 def main(force: bool = False, rebuild: bool = False) -> None:
     fresh = _refresh_fixtures()
     fixtures = pd.read_csv(FIXTURES)
     played = played_fixture_ids(fixtures)
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
-    if not force and not rebuild and LIVE.exists() and SIM.exists() and played == last:
-        print(f"no new results ({len(played)} played); nothing to update")
+    if not _should_recompute(force=force, rebuild=rebuild,
+                             artifacts_exist=LIVE.exists() and SIM.exists(),
+                             played=played, last=last, fresh=fresh,
+                             was_stale=_committed_live_is_stale()):
+        print(f"no new results ({len(played)} played) and no stale-state change; nothing to update")
         return
     print(f"new evidence: {len(played)} played (was {len(last)}); recomputing forecast")
 

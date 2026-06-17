@@ -70,6 +70,23 @@ def test_recovery_from_stale_recomputes_to_clear_flag(tmp_path, monkeypatch):
     assert run_all.check() == 10
 
 
+@pytest.mark.parametrize("kw,expected", [
+    # (force, rebuild, artifacts_exist, played, last, fresh, was_stale) -> recompute?
+    (dict(force=True,  rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=False), True),   # --force
+    (dict(force=False, rebuild=True,  artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=False), True),   # --rebuild
+    (dict(force=False, rebuild=False, artifacts_exist=False, played={"a"},      last={"a"}, fresh=True,  was_stale=False), True),   # artifacts missing
+    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a", "b"}, last={"a"}, fresh=True,  was_stale=False), True),   # new result
+    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=False, was_stale=False), True),   # feed failure -> publish stale heartbeat
+    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=True),  True),   # recovery -> clear stale banner
+    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=True,  was_stale=False), False),  # idle: nothing changed
+    (dict(force=False, rebuild=False, artifacts_exist=True,  played={"a"},      last={"a"}, fresh=False, was_stale=True),  False),  # still down + already stale (check escalates)
+])
+def test_should_recompute_covers_stale_transitions(kw, expected):
+    # the follow-through check() signals: main() must recompute on a stale flip even without
+    # --force, so the publish-stale / clear-stale paths can't no-op
+    assert run_all._should_recompute(**kw) is expected
+
+
 def test_committed_live_is_stale_reads_sources(tmp_path, monkeypatch):
     live = tmp_path / "live.json"
     monkeypatch.setattr(run_all, "LIVE", live)
