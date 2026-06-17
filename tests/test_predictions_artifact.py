@@ -6,10 +6,13 @@ modelling stack — so it runs in plain CI alongside the tiebreaker suite.
 """
 
 import json
+from pathlib import Path
 
 import pytest
 
-from src.pipeline.write_predictions import SchemaError, validate, write
+from src.pipeline.write_predictions import SchemaError, load_fixture_ids, validate, write
+
+_REPO = Path(__file__).resolve().parents[1]
 
 
 def _locked() -> dict:
@@ -174,3 +177,22 @@ def test_unpinned_model_version_rejected():
     a["model_version"] = "live-elo-mkt@nogit"
     with pytest.raises(SchemaError, match="unpinned"):
         validate(a)
+
+
+def _committed_prediction_artifacts() -> list[Path]:
+    """Every prediction artifact actually checked into the repo: the locked file, the live
+    file, and the web mirror the site serves."""
+    pred = sorted((_REPO / "data" / "predictions").glob("predictions_*.json"))
+    web = _REPO / "web" / "public" / "data" / "predictions_live.json"
+    return [p for p in [*pred, web] if p.exists()]
+
+
+def test_committed_artifacts_pass_the_validator():
+    # the synthetic cases above prove the rules fire; this proves the files we actually ship
+    # obey them. Without it a hand-edited or stale-sha artifact (e.g. an '@nogit' live file)
+    # slips through — test_web_data_contract only checks frontend field shape, not the schema.
+    universe = load_fixture_ids()
+    arts = _committed_prediction_artifacts()
+    assert arts, "no committed prediction artifacts found to validate"
+    for p in arts:
+        validate(json.loads(p.read_text()), universe)
