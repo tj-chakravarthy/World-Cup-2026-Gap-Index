@@ -12,8 +12,9 @@ Two files share one shape, distinguished by `kind`:
   timestamp, not peak accuracy (Stage-0 minimal model A+C on a thin feature set).
 - `predictions_live.json` — rewritten by the daily cron (PLAN.md §6).
 
-Audit trail (`prediction_log.parquet`) is append-only and tabular; its columns
-mirror the per-prediction fields below plus `outcome` (null until played).
+Audit trail (`prediction_log.parquet`) is append-only and tabular; it stores **only the
+immutable receipt fields** (the per-prediction fields below). Outcomes are **not** stored —
+`resolve()` joins them from the played fixtures when building `track_record.json`.
 
 ## Top level
 

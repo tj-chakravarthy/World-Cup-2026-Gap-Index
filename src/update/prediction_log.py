@@ -14,8 +14,9 @@ kickoff. It is kept as honest history rather than edited out: scoring ignores it
 logged_at + kickoff_utc, so any reader can verify each prediction's before/after-kickoff
 status directly from the raw file.
 
-Columns mirror the per-prediction artifact fields (docs/artifact_schema.md) flattened
-to one row, plus the outcome columns filled in by resolve() once a fixture is played.
+Columns are the immutable receipt fields only — the per-prediction artifact fields
+(docs/artifact_schema.md) flattened to one row. Outcomes are NOT stored; resolve() joins them
+from the played fixtures (in memory) when building the track record.
 pandas + pyarrow (parquet).
 """
 
