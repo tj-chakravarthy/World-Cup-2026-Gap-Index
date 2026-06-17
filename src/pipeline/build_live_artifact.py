@@ -83,11 +83,17 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
     stale=True (the fixture refresh fell back to cached scores, run_all's fresh=False) flags
     the live 'fixtures' source so the site's stale banner fires; the static match_results /
     match_model sources aren't live-refreshed, so they stay fresh."""
+    now = _now()
     base = float(np.exp(dc.intercept))
     fx_meta = fixtures.set_index("fixture_id")
     predictions, covered, excluded = [], [], []
     for r in preds.itertuples():
-        if bool(r.played):
+        kickoff = str(fx_meta.loc[r.fixture_id, "kickoff_utc"])
+        # exclude played fixtures AND any already kicked off — a lagging score feed can leave a
+        # kicked-off match played=False; never publish a post-kickoff prediction (it isn't
+        # "upcoming", and its real pre-kickoff prediction was committed in an earlier run). Keeps
+        # the published set == the logged set (both pre-kickoff); write_predictions re-checks it.
+        if bool(r.played) or kickoff <= now:
             excluded.append(r.fixture_id)
             continue
         na, nb = code2m.get(r.home_code), code2m.get(r.away_code)
@@ -99,7 +105,7 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         wdl = {"team1": float(r.p_home), "draw": float(r.p_draw), "team2": float(r.p_away)}
         predictions.append({
             "fixture_id": r.fixture_id, "stage": "group",
-            "kickoff_utc": str(fx_meta.loc[r.fixture_id, "kickoff_utc"]),
+            "kickoff_utc": kickoff,
             "team1": r.home_code, "team2": r.away_code, "model_source": "live_full",
             "wdl": wdl, "scorelines": top_scorelines(m),
             "members": {"full": wdl}, "conformal_set": None, "stale": stale})
@@ -109,12 +115,12 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
     pending = sorted(all_ids - set(covered) - set(excluded))  # knockout slots, teams TBD
     return {
         "schema_version": SCHEMA_VERSION, "kind": "live",
-        "model_version": f"live-elo-mkt@{_git_sha()}", "generated_at": _now(),
+        "model_version": f"live-elo-mkt@{_git_sha()}", "generated_at": now,
         "locked_at_utc": None, "tournament": "FIFA World Cup 26",
         "coverage": {"covered_fixture_ids": covered,
                      "excluded_played_fixture_ids": excluded,
                      "pending_undetermined_fixture_ids": pending},
-        "sources": [{"name": n, "as_of": _now(), "stale": stale and n == "fixtures"}
+        "sources": [{"name": n, "as_of": now, "stale": stale and n == "fixtures"}
                     for n in ("fixtures", "match_results", "match_model")],
         "predictions": predictions,
     }

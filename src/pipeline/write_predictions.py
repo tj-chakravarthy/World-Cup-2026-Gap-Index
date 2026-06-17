@@ -140,11 +140,16 @@ def validate(artifact: dict, fixture_universe: set[str] | None = None) -> None:
         for sc in p["scorelines"]:
             if not 0.0 <= sc["p"] <= 1.0:
                 raise SchemaError(f"{fx}: scoreline p out of [0,1]: {sc}")
-        # core lock invariant: nothing already kicked off is predicted here
-        if locked_at is not None and _utc(p["kickoff_utc"], f"{fx}.kickoff_utc") <= locked_at:
+        # core invariant: nothing already kicked off may be predicted. Locked files check
+        # against locked_at_utc; LIVE files against generated_at (build time) — so a live
+        # artifact can never publish a post-kickoff prediction even if a lagging feed left the
+        # fixture marked unplayed. It belongs in excluded, and is logged pre-kickoff or not at all.
+        cutoff = locked_at if locked_at is not None else generated_at
+        ref = "locked_at_utc" if locked_at is not None else "generated_at"
+        if _utc(p["kickoff_utc"], f"{fx}.kickoff_utc") <= cutoff:
             raise SchemaError(
-                f"{fx}: kickoff_utc <= locked_at_utc — already played, must be "
-                "in excluded_played_fixture_ids, not predicted (invariant 1)"
+                f"{fx}: kickoff_utc <= {ref} — already kicked off, must be in "
+                "excluded_played_fixture_ids, not predicted (invariant 1)"
             )
 
 

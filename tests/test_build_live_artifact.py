@@ -1,5 +1,7 @@
 """Live artifact assembly (PLAN.md §6). Pure pieces + schema validity."""
 
+from datetime import datetime, timedelta, timezone
+
 import numpy as np
 import pytest
 
@@ -29,11 +31,13 @@ class _DummyDC:
 
 
 def _inputs():
+    # kickoff in the future so build_live treats it as upcoming (it excludes post-kickoff)
+    future = (datetime.now(timezone.utc) + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
     preds = pd.DataFrame([{
         "fixture_id": "WC26-M100", "played": False, "home_code": "ESP", "away_code": "FRA",
         "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25,
     }])
-    fixtures = pd.DataFrame([{"fixture_id": "WC26-M100", "kickoff_utc": "2026-06-20T19:00:00Z"}])
+    fixtures = pd.DataFrame([{"fixture_id": "WC26-M100", "kickoff_utc": future}])
     return preds, fixtures
 
 
@@ -53,6 +57,20 @@ def test_stale_flags_only_the_fixtures_source():
     assert by["match_results"] is False        # static, not live-refreshed
     assert by["match_model"] is False          # the fixed pre-tournament bundle
     assert art["predictions"][0]["stale"] is True
+
+
+def test_build_live_excludes_post_kickoff_fixture():
+    # a kicked-off match the feed still marks unplayed (lagging) must NOT be published — it goes
+    # to excluded, so the published set stays == the logged set (both pre-kickoff)
+    preds = pd.DataFrame([{
+        "fixture_id": "WC26-M013", "played": False, "home_code": "KSA", "away_code": "URU",
+        "p_home": 0.13, "p_draw": 0.23, "p_away": 0.64,
+    }])
+    fixtures = pd.DataFrame([{"fixture_id": "WC26-M013", "kickoff_utc": "2020-01-01T00:00:00Z"}])
+    art = build_live(preds, fixtures, _DummyDC(), {})
+    assert art["predictions"] == []
+    assert "WC26-M013" in art["coverage"]["excluded_played_fixture_ids"]
+    assert "WC26-M013" not in art["coverage"]["covered_fixture_ids"]
 
 
 def test_model_inputs_percentiles_and_shape():

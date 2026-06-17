@@ -33,7 +33,7 @@ mirror the per-prediction fields below plus `outcome` (null until played).
 
 | field | type | notes |
 |---|---|---|
-| `covered_fixture_ids` | string[] | fixtures this file predicts (both teams known and kickoff `> locked_at_utc`) |
+| `covered_fixture_ids` | string[] | fixtures this file predicts (both teams known and kickoff after the cutoff — `> locked_at_utc` locked, `> generated_at` live) |
 | `excluded_played_fixture_ids` | string[] | fixtures already kicked off at `locked_at_utc`/`generated_at` — **never predicted here**, used only as in-tournament evidence |
 | `pending_undetermined_fixture_ids` | string[] | future fixtures that exist as bracket *slots* but whose participants aren't decided yet (R32+ knockout slots like "Winner Group A vs 3rd B/E/F"). Unplayed but **not predictable** at lock time, so **never predicted here**. May be `[]` once all teams are known. |
 | `lock_basis` | string | locked only, e.g. `"unplayed and both teams known at locked_at_utc"` |
@@ -69,8 +69,10 @@ upstream the file depends on (`fixtures`, `match_results`, `match_model`). The
 
 ## Invariants (assert in the writer)
 
-1. Locked file: `kind=="locked"`, `locked_at_utc` set, `locked_at_utc <=
-   generated_at`, and every `covered_fixture_ids` kickoff `> locked_at_utc`.
+1. Nothing already kicked off is predicted: every `covered_fixture_ids` kickoff is after the
+   cutoff — `locked_at_utc` for a locked file (which must be set and `<= generated_at`),
+   `generated_at` for a live file. A lagging feed can't push a post-kickoff fixture into
+   `predictions[]`; it must sit in `excluded_played_fixture_ids`.
 2. Locked file is content-addressed in git history and never rewritten.
 3. `model_source` is per-prediction; a fixture predicted by both the locked and
    live files appears once in each, never merged.

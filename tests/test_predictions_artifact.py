@@ -105,7 +105,19 @@ def test_locked_at_after_generated_rejected():
 def test_predicting_already_played_fixture_rejected():
     a = _locked()
     a["predictions"][0]["kickoff_utc"] = "2026-06-13T07:00:00Z"  # before lock
-    with pytest.raises(SchemaError, match="already played"):
+    with pytest.raises(SchemaError, match="already kicked off"):
+        validate(a)
+
+
+def test_live_predicting_post_kickoff_rejected():
+    # the live publish gate: a prediction whose kickoff has passed (vs generated_at) is rejected,
+    # so a lagging feed can never push a post-kickoff prediction into the live artifact
+    a = _locked()
+    a["kind"] = "live"
+    a["locked_at_utc"] = None
+    a["predictions"][0]["model_source"] = "live_full"
+    a["predictions"][0]["kickoff_utc"] = "2026-06-13T07:00:00Z"  # before generated_at (08:00)
+    with pytest.raises(SchemaError, match="already kicked off"):
         validate(a)
 
 
