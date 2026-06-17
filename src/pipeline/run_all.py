@@ -124,19 +124,23 @@ def main(force: bool = False, rebuild: bool = False) -> None:
 
     _step("simulate", _sim)
     _step("live_artifact", _live)
-    # track_record / movement / README below are best-effort BY DESIGN: regenerable VIEWS derived
-    # from the already-committed log + sim, not the guarantee itself. A hiccup degrades the display
-    # for one cycle (self-heals next run) and must not block a forecast whose predictions are
-    # logged. The guarantee lives in the log written above (hard), not in these.
-    try:  # the public track-record receipts (resolved predictions vs results), derived from the log
+    # track_record is a HARD gate: it's the public accountability receipt, and the cron commit is
+    # atomic (the commit step's `if:` implies success(), so a failed run commits nothing). Publish
+    # the whole consistent set — forecast, sim, receipts — or nothing; never a fresh forecast beside
+    # stale receipts (worse than a red cron once the site is public). It's pure derivation from the
+    # log written above (also hard), so it rarely fails; when it does, a red run is the right signal
+    # and the next run regenerates it (the log is idempotent). movement + README below stay
+    # best-effort: a cosmetic panel / stamp that lags one cycle is not an accountability claim and
+    # must not block the forecast.
+    def _track():  # public track-record receipts (resolved predictions vs results), from the log
         import json
         from src.update import prediction_log
         art = prediction_log.track_record_artifact(prediction_log.load_log(), fixtures)
         for p in (PRED / "track_record.json", WEB_LIVE.parent / "track_record.json"):
             p.write_text(json.dumps(art, indent=2))
         print(f"track_record: {art['n_resolved']} resolved / {art['n_logged']} logged")
-    except Exception as e:  # noqa: BLE001
-        print(f"warn: track_record skipped ({e})", file=sys.stderr)
+
+    _step("track_record", _track)
     try:  # 'what changed' panel — diff the new sim odds against the pre-result snapshot
         from src.update import movement
         mv = movement.build_movement(before_sim or {}, json.loads(SIM.read_text()), newly, fixtures)
