@@ -21,6 +21,7 @@ import pandas as pd
 
 from src.models.dixon_coles import fit as dc_fit
 from src.models.scoreline import tilted_matrix
+from src.played import is_played
 from src.pipeline.write_predictions import SCHEMA_VERSION, load_fixture_ids, validate, write
 
 REPO = Path(__file__).resolve().parents[2]
@@ -101,7 +102,7 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         # kicked-off match played=False; never publish a post-kickoff prediction (it isn't
         # "upcoming", and its real pre-kickoff prediction was committed in an earlier run). Keeps
         # the published set == the logged set (both pre-kickoff); write_predictions re-checks it.
-        if bool(r.played) or kickoff <= now:
+        if is_played(r.played) or kickoff <= now:
             excluded.append(r.fixture_id)
             continue
         na, nb = code2m.get(r.home_code), code2m.get(r.away_code)

@@ -74,6 +74,20 @@ def test_build_live_excludes_post_kickoff_fixture():
     assert "WC26-M013" not in art["coverage"]["covered_fixture_ids"]
 
 
+def test_build_live_includes_future_fixture_with_string_played_false():
+    # the coercion bug: played read back as the string 'False' must not be treated as played
+    # (bool('False') is truthy) and wrongly excluded — a future fixture stays in the live set
+    future = (datetime.now(timezone.utc) + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    preds = pd.DataFrame([{
+        "fixture_id": "WC26-M100", "played": "False", "home_code": "ESP", "away_code": "FRA",
+        "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25,
+    }])
+    fixtures = pd.DataFrame([{"fixture_id": "WC26-M100", "stage": "group", "kickoff_utc": future}])
+    art = build_live(preds, fixtures, _DummyDC(), {})
+    assert "WC26-M100" in art["coverage"]["covered_fixture_ids"]
+    assert [p["fixture_id"] for p in art["predictions"]] == ["WC26-M100"]
+
+
 def test_build_live_rejects_silently_dropped_group_fixture():
     # a group fixture present in fixtures but missing from preds (group_fixture_wdl dropped a pair
     # it couldn't score) must fail loudly, not vanish into pending_undetermined and still validate
