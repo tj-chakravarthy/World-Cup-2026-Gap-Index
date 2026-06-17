@@ -147,6 +147,12 @@ def main() -> None:
                 ref_date=WC_START)
 
     artifact = build_live(preds, fixtures, dc, code2m)
+    # log before publish, same hard-gate ordering as run_all._live: a standalone regeneration
+    # must not ship a committed artifact whose model_version has no receipts (the
+    # 'nothing goes live un-logged' guarantee). Idempotent on (model_version, fixture_id), so
+    # re-running adds nothing; a new commit's sha logs fresh. Drops post-kickoff rows itself.
+    from src.update import prediction_log
+    print(f"prediction_log: +{prediction_log.log_predictions(artifact)} new rows")
     write(artifact, OUT, fixture_universe=load_fixture_ids())
     WEB_MIRROR.parent.mkdir(parents=True, exist_ok=True)
     WEB_MIRROR.write_text(OUT.read_text())
