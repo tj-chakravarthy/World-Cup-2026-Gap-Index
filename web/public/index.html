@@ -51,11 +51,18 @@
       </div>
       <button id="forecast-toggle" class="toggle" type="button"
               aria-controls="forecast-table" aria-expanded="false">Show all 48 teams ▾</button>
+      <p class="meta">Group ties follow FIFA Article 13; fair-play conduct isn't loaded yet, so it
+      currently breaks no ties (FIFA ranking does).</p>
     </section>
 
     <section id="movement" hidden>
       <h2>What changed after the last result</h2>
       <div id="movement-body"></div>
+    </section>
+
+    <section id="live" hidden>
+      <h2>Live now</h2>
+      <div id="live-list"></div>
     </section>
 
     <section id="fixtures">
@@ -74,6 +81,8 @@
       <p class="meta" id="track-meta"></p>
       <p class="track-stale" id="track-stale" hidden></p>
       <div id="track-list"></div>
+      <p class="fine">Audit note: the raw log keeps one early row (WC26-M013) re-logged just after
+      kickoff — kept as honest history, excluded from scoring.</p>
     </section>
 
     <footer>

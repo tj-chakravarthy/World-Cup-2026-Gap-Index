@@ -145,10 +145,30 @@ function renderMovement(mv) {
   sec.hidden = false;
 }
 
+function renderLive(live) {
+  // matches that have kicked off but aren't resolved yet — shown with a blinking LIVE badge, no
+  // odds (the pre-kickoff forecast already moved to the track record). Bounded client-side to
+  // ~2.5h after kickoff so a finished-but-feed-lagging match drops off on its own.
+  const sec = document.getElementById("live");
+  const el = document.getElementById("live-list");
+  if (!sec || !el) return;
+  const now = Date.now();
+  const games = (live.live_now || []).filter((g) => {
+    const ko = new Date(g.kickoff_utc).getTime();
+    return ko <= now && now - ko < 2.5 * 3600e3;
+  });
+  if (!games.length) { sec.hidden = true; return; }
+  el.innerHTML = games.map((g) =>
+    `<div class="live-row"><span class="live-badge">● LIVE</span>` +
+    `<span class="live-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}</span></div>`
+  ).join("");
+  sec.hidden = false;
+}
+
 function renderFixtures(live, inputs) {
   const now = Date.now();
   const up = (live.predictions || [])
-    .filter((p) => new Date(p.kickoff_utc).getTime() >= now - 2 * 3600e3) // keep just-started too
+    .filter((p) => new Date(p.kickoff_utc).getTime() > now) // strictly upcoming — kicked-off matches move to the LIVE strip
     .sort((a, b) => new Date(a.kickoff_utc) - new Date(b.kickoff_utc))
     .slice(0, 14);
 
@@ -251,6 +271,7 @@ async function main() {
     renderMeta(sim, live);
     renderForecast(sim);
     renderMovement(mv);
+    renderLive(live);
     renderFixtures(live, inputs);
     if (track) renderTrack(track, inputs, live);
   } catch (e) {

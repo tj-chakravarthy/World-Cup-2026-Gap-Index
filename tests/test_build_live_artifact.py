@@ -88,6 +88,35 @@ def test_build_live_includes_future_fixture_with_string_played_false():
     assert [p["fixture_id"] for p in art["predictions"]] == ["WC26-M100"]
 
 
+def test_build_live_surfaces_in_progress_as_live_now():
+    # kicked-off-but-unresolved matches go to live_now (LIVE badge, no odds); a future match stays
+    # a forecast; a long-finished one (past the live window) is just excluded
+    nowdt = datetime.now(timezone.utc)
+    recent = (nowdt - timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")   # in progress
+    old = (nowdt - timedelta(hours=5)).strftime("%Y-%m-%dT%H:%M:%SZ")       # finished, feed lagging
+    future = (nowdt + timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    preds = pd.DataFrame([
+        {"fixture_id": "WC26-M100", "played": False, "home_code": "ESP", "away_code": "FRA",
+         "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25},
+        {"fixture_id": "WC26-M101", "played": False, "home_code": "BRA", "away_code": "ARG",
+         "p_home": 0.40, "p_draw": 0.30, "p_away": 0.30},
+        {"fixture_id": "WC26-M102", "played": False, "home_code": "ENG", "away_code": "GER",
+         "p_home": 0.40, "p_draw": 0.30, "p_away": 0.30},
+    ])
+    fixtures = pd.DataFrame([
+        {"fixture_id": "WC26-M100", "stage": "group", "kickoff_utc": future},
+        {"fixture_id": "WC26-M101", "stage": "group", "kickoff_utc": recent},
+        {"fixture_id": "WC26-M102", "stage": "group", "kickoff_utc": old},
+    ])
+    art = build_live(preds, fixtures, _DummyDC(), {})
+    assert {g["fixture_id"] for g in art["live_now"]} == {"WC26-M101"}          # only the in-progress one
+    assert "WC26-M100" in art["coverage"]["covered_fixture_ids"]               # future -> forecast
+    assert "WC26-M101" in art["coverage"]["excluded_played_fixture_ids"]       # in progress -> not a forecast
+    assert "WC26-M102" in art["coverage"]["excluded_played_fixture_ids"]
+    g = art["live_now"][0]
+    assert g["team1"] == "BRA" and g["team2"] == "ARG" and "wdl" not in g      # no odds, just the match
+
+
 def test_build_live_rejects_silently_dropped_group_fixture():
     # a group fixture present in fixtures but missing from preds (group_fixture_wdl dropped a pair
     # it couldn't score) must fail loudly, not vanish into pending_undetermined and still validate

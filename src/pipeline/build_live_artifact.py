@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import os
 import subprocess
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -93,9 +93,13 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
     the live 'fixtures' source so the site's stale banner fires; the static match_results /
     match_model sources aren't live-refreshed, so they stay fresh."""
     now = _now()
+    # a fixture is "live now" if it kicked off recently and the feed hasn't resolved it yet — for
+    # the site's LIVE badge. Bounded to a generous match span so a finished-but-feed-lagging match
+    # stops showing as live (the frontend also time-bounds it on the client clock).
+    live_floor = (datetime.now(timezone.utc) - timedelta(hours=3.5)).strftime("%Y-%m-%dT%H:%M:%SZ")
     base = float(np.exp(dc.intercept))
     fx_meta = fixtures.set_index("fixture_id")
-    predictions, covered, excluded = [], [], []
+    predictions, covered, excluded, live_now = [], [], [], []
     for r in preds.itertuples():
         kickoff = str(fx_meta.loc[r.fixture_id, "kickoff_utc"])
         # exclude played fixtures AND any already kicked off — a lagging score feed can leave a
@@ -104,6 +108,9 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         # the published set == the logged set (both pre-kickoff); write_predictions re-checks it.
         if is_played(r.played) or kickoff <= now:
             excluded.append(r.fixture_id)
+            if not is_played(r.played) and live_floor < kickoff <= now:   # kicked off, unresolved
+                live_now.append({"fixture_id": r.fixture_id, "team1": r.home_code,
+                                 "team2": r.away_code, "kickoff_utc": kickoff})
             continue
         na, nb = code2m.get(r.home_code), code2m.get(r.away_code)
         if na in dc.attack and nb in dc.attack:
@@ -142,6 +149,7 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         "sources": [{"name": n, "as_of": now, "stale": stale and n == "fixtures"}
                     for n in ("fixtures", "match_results", "match_model")],
         "predictions": predictions,
+        "live_now": live_now,   # kicked off, unresolved — surfaced as a LIVE badge, no odds
     }
 
 
