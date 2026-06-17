@@ -16,7 +16,7 @@ terms; the pipeline **regenerates** restrictive sources rather than republishing
 | `fixtures_2026.csv` | fixturedownload.com (free JSON feed) | Free to use; factual schedule + live scores | The live-score spine (this snapshot committed; refreshed each run) |
 | `team_codes.csv`, `transfermarkt_team_ids.csv`, `name_overrides.csv` | Hand-built crosswalks (this project) | MIT — factual id/name maps | FIFA-code ↔ source-name / Transfermarkt verein-id maps |
 | `market_odds/*.csv` | [`eatpizzanot/soccer-dataset`](https://github.com/eatpizzanot/soccer-dataset) — Pinnacle closing 1X2 via API-Football | **CC-BY-4.0 — attribution required** | Basis of the §4.6 market benchmark; committed (112 KB) for reproducibility, with attribution |
-| `fifa_rankings_2026.csv` | FIFA/Coca-Cola Men's World Ranking ([inside.fifa.com](https://inside.fifa.com/fifa-world-ranking/men), `fetch_fifa_rankings`) | FIFA factual ranking; published reference, attributed | Art. 13 §1 g) final group tiebreaker — the real ranking, not the Elo proxy. Latest edition the public API serves (2025-09-18); fetcher auto-upgrades |
+| `fifa_rankings_2026.csv` | FIFA/Coca-Cola Men's World Ranking (FIFA Data Connect API, api.fifa.com/api/v3, via `fetch_fifa_rankings`) | FIFA factual ranking; published reference, attributed | Art. 13 §1 g) final group tiebreaker — the real ranking, not the Elo proxy. Current pre-tournament edition (2026-06-11); fetcher takes the newest published edition |
 
 ## Committed web assets (`web/public/`)
 
