@@ -10,6 +10,15 @@ name: Update Predictions (live)
 # main. Make the repo public so Actions minutes are free.
 on:
   workflow_dispatch:
+    inputs:
+      force:
+        # the --check gate (below) skips recompute when no NEW result has landed, so a plain
+        # dispatch can't repair a bad/stale committed artifact (e.g. one pinned '@nogit'). This
+        # bypasses the gate and recomputes regardless: run_all --force re-fetches and regenerates,
+        # and the runner passes a real GIT_SHA so the rebuilt artifact is properly pinned.
+        description: "Recompute even if no new result landed (repair a bad/stale committed artifact)"
+        type: boolean
+        default: false
   # PRIMARY trigger: an external cron service (cron-job.org) POSTs the repository_dispatch
   # API every ~15 min in the match window. GitHub's own `schedule:` below is unreliable —
   # it gets throttled/dropped under load and often fires hours apart, so a finished match
@@ -39,6 +48,11 @@ jobs:
       - id: check
         name: New result?
         run: |
+          # manual force dispatch -> skip the gate and recompute (run_all --force re-fetches
+          # itself, so no new result need have landed). Repairs a bad/stale committed artifact.
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            echo "force dispatch -> recompute"; echo "changed=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           pip install -q pandas requests beautifulsoup4 lxml
           set +e
           python -m src.pipeline.run_all --check
