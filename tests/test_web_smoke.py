@@ -5,10 +5,10 @@ table not rendering, missing images/assets, JS console errors, and horizontal ov
 mobile. Serves web/public over a throwaway HTTP server (the page
 fetches data/*.json by relative path, so file:// won't do) and drives a headless browser.
 
-Locally it skips cleanly when Playwright or a browser isn't installed (an optional heavy dep).
-In CI (env CI=true, set by GitHub Actions) a missing Playwright/browser is a HARD FAILURE
-instead — otherwise the smoke coverage could silently vanish behind a green check. Set
-PW_CHROMIUM=/path/to/chromium to use a system browser instead of Playwright's download.
+Browser resolution: PW_CHROMIUM if set, else an auto-detected system chromium/chrome (so a plain
+`pytest` runs locally instead of skipping), else Playwright's own download. It skips cleanly only
+when NONE of those is available; in CI (env CI=true) a missing browser is instead a HARD FAILURE,
+so the smoke coverage can't silently vanish behind a green check.
 """
 
 import contextlib
@@ -39,10 +39,21 @@ def base_url():
     httpd.shutdown()
 
 
+def _system_chromium():
+    """A system chromium/chrome if one is installed, so a plain `pytest` runs the smoke test
+    instead of skipping when Playwright's own browser wasn't downloaded (the common local case).
+    PW_CHROMIUM overrides; in CI, Playwright installs its own browser and this returns None."""
+    for path in ("/usr/bin/chromium", "/usr/bin/chromium-browser",
+                 "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable"):
+        if os.path.exists(path):
+            return path
+    return None
+
+
 @contextlib.contextmanager
 def _page(url, viewport=None):
     with sync_playwright() as p:
-        exe = os.environ.get("PW_CHROMIUM")
+        exe = os.environ.get("PW_CHROMIUM") or _system_chromium()
         try:
             browser = p.chromium.launch(executable_path=exe) if exe else p.chromium.launch()
         except Exception as e:  # noqa: BLE001
