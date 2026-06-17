@@ -5,7 +5,9 @@ splash overlay, the forecast table not rendering, missing images/assets, JS cons
 and horizontal overflow on mobile. Serves web/public over a throwaway HTTP server (the page
 fetches data/*.json by relative path, so file:// won't do) and drives a headless browser.
 
-Skips cleanly when Playwright or a browser isn't installed, so plain CI still runs. Set
+Locally it skips cleanly when Playwright or a browser isn't installed (an optional heavy dep).
+In CI (env CI=true, set by GitHub Actions) a missing Playwright/browser is a HARD FAILURE
+instead — otherwise the smoke coverage could silently vanish behind a green check. Set
 PW_CHROMIUM=/path/to/chromium to use a system browser instead of Playwright's download.
 """
 
@@ -18,8 +20,12 @@ from pathlib import Path
 
 import pytest
 
-pytest.importorskip("playwright.sync_api")
-from playwright.sync_api import sync_playwright  # noqa: E402
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    if os.environ.get("CI"):
+        raise  # in CI Playwright must be installed — never let the smoke test silently skip
+    pytest.skip("playwright not installed", allow_module_level=True)
 
 WEB = Path(__file__).resolve().parents[1] / "web" / "public"
 
@@ -39,7 +45,9 @@ def _page(url, viewport=None):
         exe = os.environ.get("PW_CHROMIUM")
         try:
             browser = p.chromium.launch(executable_path=exe) if exe else p.chromium.launch()
-        except Exception as e:  # noqa: BLE001 - browser not installed -> skip, don't fail
+        except Exception as e:  # noqa: BLE001
+            if os.environ.get("CI"):
+                raise  # in CI a missing/broken browser must fail, not silently skip
             pytest.skip(f"no Playwright browser available: {e}")
         page = browser.new_page(viewport=viewport) if viewport else browser.new_page()
         errors, failed = [], []
