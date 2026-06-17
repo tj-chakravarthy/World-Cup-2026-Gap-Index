@@ -1,6 +1,5 @@
-# Local dev parity: python pipeline container (PLAN.md Phase 7.4). The node/npm
-# web dev server är parkerad tills frontend-stacken är vald (PLAN §7) — ingen npm
-# tills dess. Lägg tillbaka en web-service när stacken är bestämd (Stage 5).
+# Local dev parity: the Python pipeline container (PLAN.md §7.4). The web side is a static
+# site (web/public, no npm or build step) served by GitHub Pages, so there's no web service here.
 services:
   pipeline:
     build: .
@@ -9,7 +8,3 @@ services:
     command: sleep infinity
     volumes:
       - ./:/app
-    # don't blow up a fresh checkout that hasn't copied .env.example over yet
-    env_file:
-      - path: .env
-        required: false
