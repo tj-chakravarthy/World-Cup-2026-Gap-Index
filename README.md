@@ -68,7 +68,9 @@ regenerated): [DATA_SOURCES.md](DATA_SOURCES.md).
 
 The integrity:
 
-- Predictions are committed to git, timestamped, before kickoff. The history is the record.
+- Predictions are committed to git and timestamped; scored predictions are all pre-kickoff. The
+  append-only log keeps one historical post-kickoff row (WC26-M013, a lagging-feed re-log),
+  excluded from scoring. The history is the record.
 - Nested cross-validation: the rating pipeline is refit inside every backtest fold, so a
   held-out tournament never trains its own prediction.
 - Three correctness tests are enforced in CI: the Article 13 tiebreaker order, the
@@ -80,7 +82,7 @@ The integrity:
 | Stage | State |
 |---|---|
 | Data pipeline · player ratings · match model + validation · tournament simulation | done |
-| Live updates · every prediction committed to git before kickoff | done |
+| Live updates · scored predictions committed to git before kickoff | done |
 | Public track record | live (the receipts); scored once the sample is meaningful |
 | Website | [live](https://tj-chakravarthy.github.io/World-Cup-2026-Gap-Index/) |
 

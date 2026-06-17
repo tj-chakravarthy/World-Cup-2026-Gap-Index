@@ -187,7 +187,7 @@ function renderTrack(tr, inputs) {
   const meta = document.getElementById("track-meta");
   const el = document.getElementById("track-list");
   if (meta) meta.textContent =
-    `${tr.n_logged} predictions committed before kickoff · ${tr.n_resolved} resolved so far`;
+    `${tr.n_logged} pre-kickoff predictions logged · ${tr.n_resolved} resolved so far`;
   if (!el) return;
   if (!tr.resolved || !tr.resolved.length) {
     el.innerHTML = `<p class="meta">No games resolved yet.</p>`;
