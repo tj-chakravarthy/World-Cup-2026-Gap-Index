@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-17T03:20:30Z",
+  "generated_at": "2026-06-17T07:30:59Z",
   "n_logged": 60,
-  "n_resolved": 6,
+  "n_resolved": 7,
   "resolved": [
     {
       "fixture_id": "WC26-M014",
@@ -85,6 +85,20 @@
       "outcome": 2,
       "called": true,
       "top_score": "0-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M019",
+      "kickoff_utc": "2026-06-17T01:00:00Z",
+      "team1": "ARG",
+      "team2": "ALG",
+      "p_team1": 0.5758,
+      "p_draw": 0.2461,
+      "p_team2": 0.1781,
+      "actual": "3-0",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-0",
       "exact_hit": false
     }
   ]
