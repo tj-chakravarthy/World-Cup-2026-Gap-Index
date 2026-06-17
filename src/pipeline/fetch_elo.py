@@ -8,10 +8,9 @@ is the CURRENT snapshot only, which is exactly what the Elo-sigmoid baseline
 World.tsv has no header; columns used: 0 = rank, 2 = eloratings code, 3 =
 current Elo. en.teams.tsv is `code <tab> name [<tab> aliases...]`.
 
-TODO (Stage 3 / backtest): World.tsv ger bara dagens värden. Nested-CV-folden
-behöver year-end-snapshots före varje turnering (2017, 2020, 2021, 2023).
-eloratings historiska filer ligger inte på en gissningsbar URL — kolla deras
-JS-app eller ta en Kaggle-Elo-dump med historik. Inte blockande för locket.
+The backtest folds' pre-tournament Elo for past years isn't fetched here — eloratings has no
+stable historical-file URL, so elo_history.py computes it from match results instead
+(docs/deviations.md).
 
 Names are eloratings' English spellings; the crosswalk eloratings-code ->
 FIFA-trigram (to join the 2026 fixtures) is the name_matcher step, not this fetch.

@@ -403,8 +403,8 @@ NEW played result recompute forecast+sim, rewrite the JSON artifacts, append the
 append-only track-record log, stamp freshness; loud non-zero exit on any step. The cron
 polls every 15 min in the NA full-time window (00-07 & 17-23 UTC) with a cheap `--check`
 gate, heavy Docker recompute + commit only on a new result. Validated end-to-end on live
-data (the feed advanced to 12 played; the pipeline moved them to evidence, logged 60
-predictions, refreshed the odds). Goes live on merge to main.
+data: each new result moves to evidence, its predictions were logged before kickoff, and the
+forecast + sim refresh within the SLA. Running live on main.
 
 **Model bundle caching (`monte_carlo.py`).** The pre-tournament pieces (indices, the
 production logistic, Dixon-Coles, and the bootstrap bags) are fixed for the whole

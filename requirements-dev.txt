@@ -1,7 +1,7 @@
-# What the CI test job needs. scikit-learn is here so the MANDATORY leakage guard (and the
-# other sklearn-backed unit tests) actually run in CI — they use synthetic data, no scrape.
-# The genuinely heavy stack (pymc, socceraction, xgboost) stays in requirements.txt / the
-# Docker image; the tests that need it skip in CI.
+# What the CI test job needs. scikit-learn is included so the mandatory leakage guard (and the
+# other sklearn-backed unit tests, all synthetic-data) run in CI — the mandatory suites hard-fail
+# rather than skip if a dep is missing. The genuinely heavy stack (pymc, socceraction, xgboost)
+# stays in requirements.txt / the Docker image; only the tests needing it (e.g. test_vaep) skip in CI.
 pytest>=8.0.0
 numpy>=1.26.0,<2.0
 scipy>=1.12.0
