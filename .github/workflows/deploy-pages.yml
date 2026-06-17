@@ -21,10 +21,13 @@ permissions:
   pages: write
   id-token: write
 
-# latest published state wins; collapse rapid redeploys (frequent cron data commits)
+# one deploy at a time. Don't cancel an in-progress deploy — cancelling it mid-publish is what
+# raced the cron's rapid redeploys into a failed deploy-pages step. Let it finish; queued runs
+# collapse to the latest, so the newest data still wins, it just waits its turn (GitHub's own
+# Pages template uses cancel-in-progress: false for exactly this reason).
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
