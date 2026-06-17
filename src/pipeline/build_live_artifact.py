@@ -121,6 +121,16 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
 
     all_ids = set(fixtures["fixture_id"])
     pending = sorted(all_ids - set(covered) - set(excluded))  # knockout slots, teams TBD
+    # every known (group) fixture must be predicted or explicitly excluded — never silently
+    # pending. group_fixture_wdl drops a fixture whose (home,away) pair the bundle can't score
+    # (a code-mapping/model-coverage miss); without this it would vanish into pending yet still
+    # pass schema validation. Knockout slots legitimately stay pending (teams TBD).
+    dropped = sorted(set(fixtures.loc[fixtures["stage"] == "group", "fixture_id"]) & set(pending))
+    if dropped:
+        raise ValueError(
+            f"{len(dropped)} known group fixture(s) neither predicted nor excluded — would "
+            f"publish as pending_undetermined (model/code-mapping coverage miss): {dropped}"
+        )
     return {
         "schema_version": SCHEMA_VERSION, "kind": "live",
         "model_version": f"live-elo-mkt@{_git_sha()}", "generated_at": now,
