@@ -25,9 +25,10 @@ Two things pre-registered:
 **1. A calibrated model — met.** On held-out tournaments the expected calibration error is 0.054: when it says 60%, it happens about 60% of the time.
 
 **2. Does translated club talent beat the obvious baselines? — no.** That was the
-hypothesis, and it is not supported. A leakage-guarded backtest (five recent tournaments,
-the whole rating pipeline refit inside each fold) shows the player-talent indices add
-nothing over Elo + market value:
+hypothesis, and it is not supported. A leakage-guarded backtest (four held-out
+tournaments, 2020–2024; the whole rating pipeline refit inside each forward-chaining fold,
+WC 2018 only ever training) shows the player-talent indices add nothing over Elo + market
+value:
 
 | features | held-out Brier (lower is better) |
 |---|---|
