@@ -46,8 +46,9 @@ def test_build_manifest_fields(tmp_path):
     nh = m["training"]["n_historical_matches"]
     assert nh is None or nh > 0
 
-    assert m["code_sha"]                # a sha or 'nogit', never empty
-    json.dumps(m)                       # must be JSON-serialisable
+    assert m["source_sha_at_generation"]   # a sha or 'nogit', never empty (and may lag HEAD)
+    assert m["manifest_schema_version"] == "1"
+    json.dumps(m)                          # must be JSON-serialisable
 
 
 def test_build_manifest_without_scrape(tmp_path, monkeypatch):

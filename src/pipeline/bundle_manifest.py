@@ -25,6 +25,7 @@ RAW = REPO / "data" / "raw"
 BUNDLE_PKL = REPO / "data" / "processed" / "model_bundle.pkl"
 WC_START = "2026-06-11"
 PRED_FIELD = "world_cup_2026"   # the tournament the bundle predicts — NOT a training target
+MANIFEST_SCHEMA_VERSION = "1"   # bump when the manifest's shape changes
 
 
 def _git_sha() -> str:
@@ -67,8 +68,12 @@ def build_manifest(bundle, pkl_path: Path) -> dict:
     codes = sorted(bundle.codes)
     all_tournaments = sorted(bundle.indices["tournament"].unique().tolist())
     return {
+        "manifest_schema_version": MANIFEST_SCHEMA_VERSION,
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "code_sha": _git_sha(),   # the repo commit attesting this bundle (set at build time)
+        # repo HEAD when this manifest was written. It can LAG the current HEAD — the manifest is
+        # regenerated only when the bundle is rebuilt, not on every commit. The bundle's identity
+        # is bundle.sha256; this just records the source state at generation.
+        "source_sha_at_generation": _git_sha(),
         "bundle": {
             "file": pkl_path.name,
             "version": int(bundle.version),
