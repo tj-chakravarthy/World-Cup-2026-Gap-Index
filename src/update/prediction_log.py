@@ -278,9 +278,13 @@ def track_record_artifact(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
     called rate) are deliberately NOT included while the live sample is tiny; the model's test
     is the §4.5 backtest, surfaced as context in the site copy. PURE.
     """
+    # n_audit_rows: the full append-only log (re-logs across model versions). n_receipts below:
+    # the standing pre-kickoff receipts actually shown (one per match). The two differ, so name them.
+    n_audit_rows = int(len(log))
     standing = latest_per_fixture(log)
     if standing.empty:
-        return {"generated_at": _now_iso(), "n_logged": 0, "n_resolved": 0, "resolved": []}
+        return {"generated_at": _now_iso(), "n_receipts": 0, "n_audit_rows": n_audit_rows,
+                "n_resolved": 0, "resolved": []}
     # one receipt per match: prefer the live model's call, else the pre-registered locked one
     # (so matches played before the live model went online still show, attributed to the lock).
     pref = standing["model_source"].map(lambda s: 0 if s == "live_full" else 1)
@@ -308,7 +312,8 @@ def track_record_artifact(log: pd.DataFrame, fixtures: pd.DataFrame) -> dict:
     ]
     return {
         "generated_at": _now_iso(),
-        "n_logged": int(len(one)),
+        "n_receipts": int(len(one)),       # standing pre-kickoff receipts (one per match)
+        "n_audit_rows": n_audit_rows,      # total append-only log rows (larger)
         "n_resolved": int(len(res)),
         "resolved": rows,
     }

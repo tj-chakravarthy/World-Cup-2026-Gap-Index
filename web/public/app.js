@@ -198,8 +198,8 @@ function renderTrack(tr, inputs, live) {
   const asOf = isNaN(recAt) ? tr.generated_at : recAt.toLocaleString();
 
   if (meta) meta.innerHTML =
-    `${tr.n_logged} pre-kickoff predictions logged · ${tr.n_resolved} resolved so far · ` +
-    `receipts as of ${asOf}` +
+    `${tr.n_receipts} standing pre-kickoff receipts (from ${tr.n_audit_rows} audit-log rows) · ` +
+    `${tr.n_resolved} resolved so far · receipts as of ${asOf}` +
     (stale ? ` · <span class="stale">lagging the forecast</span>` : "");
   if (banner) {
     banner.hidden = !stale;

@@ -87,13 +87,14 @@ def test_movement_json_contract():
 
 
 def test_track_record_json_contract():
-    """renderTrack: n_logged, n_resolved, resolved[].{teams, p_*, actual, outcome, called…}."""
+    """renderTrack: n_receipts, n_audit_rows, n_resolved, resolved[].{teams, p_*, actual, model…}."""
     d = _load("track_record.json")
-    assert isinstance(d.get("n_logged"), int) and isinstance(d.get("n_resolved"), int)
+    for k in ("n_receipts", "n_audit_rows", "n_resolved"):
+        assert isinstance(d.get(k), int), k
     resolved = d.get("resolved")
     assert isinstance(resolved, list)
     for g in resolved:
-        for k in ("team1", "team2", "actual"):
+        for k in ("team1", "team2", "actual", "model"):
             assert isinstance(g.get(k), str)
         for k in ("p_team1", "p_draw", "p_team2"):
             assert isinstance(g.get(k), (int, float))

@@ -275,7 +275,8 @@ def test_track_record_artifact_is_receipts_only(tmp_path):
         ]
     )
     art = track_record_artifact(log, fixtures)
-    assert art["n_logged"] == 2 and art["n_resolved"] == 1
+    assert art["n_receipts"] == 2 and art["n_resolved"] == 1   # standing receipts, one per match
+    assert art["n_audit_rows"] == 2                            # full log rows (both logged once)
     # no scored aggregate is exposed while the sample is tiny (receipts only)
     assert "brier" not in art and "called" not in art
     g = art["resolved"][0]

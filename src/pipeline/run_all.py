@@ -141,7 +141,8 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         art = prediction_log.track_record_artifact(prediction_log.load_log(), fixtures)
         for p in (PRED / "track_record.json", WEB_LIVE.parent / "track_record.json"):
             p.write_text(json.dumps(art, indent=2))
-        print(f"track_record: {art['n_resolved']} resolved / {art['n_logged']} logged")
+        print(f"track_record: {art['n_resolved']} resolved / {art['n_receipts']} receipts "
+              f"({art['n_audit_rows']} audit rows)")
 
     _step("track_record", _track)
     try:  # 'what changed' panel — diff the new sim odds against the pre-result snapshot
