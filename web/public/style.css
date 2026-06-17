@@ -102,6 +102,8 @@ tbody tr:hover td.team{color:var(--volt)}
 .tbar i{display:block; height:100%; background:var(--volt)}
 
 /* track record — the receipts (resolved predictions vs results); no scorecard while n is tiny */
+.track-stale{margin:8px 0 0; padding:8px 10px; border:1px solid #ff6b6b; border-radius:8px;
+  color:#ff6b6b; background:rgba(255,107,107,.08); font-size:12.5px}
 .track-intro{color:var(--white); font-size:13.5px; max-width:64ch; margin:0 0 4px}
 .track-intro em{font-style:italic; color:var(--volt)}
 #track-list{display:grid; gap:8px; margin-top:10px}

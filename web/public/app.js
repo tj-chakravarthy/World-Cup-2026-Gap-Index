@@ -183,11 +183,29 @@ function renderFixtures(live, inputs) {
   }).join("");
 }
 
-function renderTrack(tr, inputs) {
+function renderTrack(tr, inputs, live) {
   const meta = document.getElementById("track-meta");
+  const banner = document.getElementById("track-stale");
   const el = document.getElementById("track-list");
-  if (meta) meta.textContent =
-    `${tr.n_logged} pre-kickoff predictions logged · ${tr.n_resolved} resolved so far`;
+
+  // receipts freshness: track_record is regenerated in the same hard-gated run as the forecast,
+  // so its timestamp should track predictions_live's. If it falls meaningfully behind (a stale
+  // deploy, an older committed file), say so rather than pass off lagging receipts as current.
+  const recAt = new Date(tr.generated_at);
+  const fcAt = live ? new Date(live.generated_at) : new Date(NaN);
+  const lagMin = !isNaN(recAt) && !isNaN(fcAt) ? (fcAt - recAt) / 60000 : 0;
+  const stale = lagMin > 30;  // > ~30 min behind the forecast = missed at least one update cycle
+  const asOf = isNaN(recAt) ? tr.generated_at : recAt.toLocaleString();
+
+  if (meta) meta.innerHTML =
+    `${tr.n_logged} pre-kickoff predictions logged · ${tr.n_resolved} resolved so far · ` +
+    `receipts as of ${asOf}` +
+    (stale ? ` · <span class="stale">lagging the forecast</span>` : "");
+  if (banner) {
+    banner.hidden = !stale;
+    if (stale) banner.textContent =
+      `These receipts are from ${asOf}, behind the current forecast — they’ll catch up on the next update.`;
+  }
   if (!el) return;
   if (!tr.resolved || !tr.resolved.length) {
     el.innerHTML = `<p class="meta">No games resolved yet.</p>`;
@@ -233,7 +251,7 @@ async function main() {
     renderForecast(sim);
     renderMovement(mv);
     renderFixtures(live, inputs);
-    if (track) renderTrack(track, inputs);
+    if (track) renderTrack(track, inputs, live);
   } catch (e) {
     document.getElementById("meta").innerHTML =
       `<span class="err">Could not load the forecast (${e.message}).</span>`;
