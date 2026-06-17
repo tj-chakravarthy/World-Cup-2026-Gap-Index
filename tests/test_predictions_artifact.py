@@ -165,3 +165,12 @@ def test_live_must_null_locked_at_and_use_live_source():
         validate(a)
     a["locked_at_utc"] = None
     validate(a)  # now a valid live file
+
+
+def test_unpinned_model_version_rejected():
+    # the build couldn't resolve the git sha (e.g. git absent in the Docker image) -> '@nogit';
+    # the writer must refuse it so an unidentifiable artifact never gets committed
+    a = _locked()
+    a["model_version"] = "live-elo-mkt@nogit"
+    with pytest.raises(SchemaError, match="unpinned"):
+        validate(a)

@@ -67,6 +67,14 @@ def validate(artifact: dict, fixture_universe: set[str] | None = None) -> None:
     if kind not in _MODEL_SOURCE:
         raise SchemaError(f"kind must be 'locked' or 'live', got {kind!r}")
 
+    # model_version must be pinned to a real commit — an unresolved git sha ('@nogit') makes the
+    # audit log unidentifiable (and, since the log dedupes on model_version, can drop re-logs).
+    if str(artifact["model_version"]).endswith("@nogit"):
+        raise SchemaError(
+            f"model_version is unpinned ({artifact['model_version']!r}) — the build couldn't "
+            "resolve the git sha; refusing to publish an unidentifiable artifact"
+        )
+
     generated_at = _utc(artifact["generated_at"], "generated_at")
 
     cov = artifact["coverage"]

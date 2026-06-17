@@ -81,7 +81,8 @@ jobs:
       - name: Recompute forecast + simulation
         if: steps.check.outputs.changed == 'true'
         run: |
-          docker run --rm -v "$PWD:/app" -w /app \
+          # pin the model_version to the running commit — the runner has git, the image doesn't
+          docker run --rm -v "$PWD:/app" -w /app -e GIT_SHA="$(git rev-parse --short HEAD)" \
             gapindex:latest python3 -m src.pipeline.run_all --force
 
       - name: Commit refreshed artifacts

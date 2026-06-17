@@ -11,6 +11,7 @@ rebuild. Mirrors to web/public/data/ for the (future) static site. pandas + scip
 
 from __future__ import annotations
 
+import os
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,6 +32,13 @@ WC_START = "2026-06-11"
 
 
 def _git_sha() -> str:
+    """Pin the live model_version to the running commit. The cron passes GIT_SHA (the runner
+    has git; the Docker image doesn't), so it never falls back to 'nogit' in production; git
+    works for local runs. If it ever does fall back, write_predictions rejects an unpinned
+    live model_version, so '@nogit' can't reach a committed artifact."""
+    env_sha = os.environ.get("GIT_SHA")
+    if env_sha:
+        return env_sha.strip()[:12]
     try:
         return subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=REPO,
                               capture_output=True, text=True).stdout.strip() or "nogit"
