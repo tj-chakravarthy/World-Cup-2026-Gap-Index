@@ -97,20 +97,23 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         df.to_csv(PROC / "tournament_sim.csv", index=False)
         monte_carlo.write_simulation_json(df, LIVE_SIMS)
 
-    def _live():  # log predictions, THEN publish — nothing goes live un-logged (the §6 guarantee)
+    def _live():  # validate, log, THEN publish — nothing goes live un-logged (the §6 guarantee)
         preds = monte_carlo.group_fixture_wdl(bundle, fixtures)
         preds.to_csv(PROC / "predictions_2026_wdl.csv", index=False)
         artifact = build_live_artifact.build_live(preds, fixtures, bundle.dc, bundle.code2m,
                                                   stale=not fresh)
         # The append-only log backs "every prediction committed before kickoff", so it is a HARD
-        # gate, not best-effort: log first, and if it fails let the whole run fail. The cron then
-        # skips its commit (its `if:` implies success()), so an un-logged forecast never ships —
-        # better a red run you can see than a silent publish. log_predictions is idempotent on
-        # (model_version, fixture_id), so a retry after a failure adds nothing.
+        # gate, not best-effort: if logging fails the run fails, the cron skips its commit (its
+        # `if:` implies success()), and an un-logged forecast never ships — better a red run you
+        # can see than a silent publish. But the log is never edited, so validate FIRST: a schema
+        # failure (e.g. an unpinned '@nogit' model_version) must not leave orphan rows for a
+        # version the writer then rejects. So validate -> log -> write (write re-checks).
+        # log_predictions is idempotent on (model_version, fixture_id), so a retry adds nothing.
         from src.update import prediction_log
+        universe = write_predictions.load_fixture_ids()
+        write_predictions.validate(artifact, universe)
         print(f"prediction_log: +{prediction_log.log_predictions(artifact)} new rows")
-        write_predictions.write(artifact, LIVE,
-                                fixture_universe=write_predictions.load_fixture_ids())
+        write_predictions.write(artifact, LIVE, fixture_universe=universe)
         WEB_LIVE.parent.mkdir(parents=True, exist_ok=True)
         WEB_LIVE.write_text(LIVE.read_text())
         # the two live-model inputs per fixture (Elo + squad value), for the match cards

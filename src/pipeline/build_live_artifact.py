@@ -21,7 +21,7 @@ import pandas as pd
 
 from src.models.dixon_coles import fit as dc_fit
 from src.models.scoreline import tilted_matrix
-from src.pipeline.write_predictions import SCHEMA_VERSION, load_fixture_ids, write
+from src.pipeline.write_predictions import SCHEMA_VERSION, load_fixture_ids, validate, write
 
 REPO = Path(__file__).resolve().parents[2]
 RAW = REPO / "data" / "raw"
@@ -147,13 +147,16 @@ def main() -> None:
                 ref_date=WC_START)
 
     artifact = build_live(preds, fixtures, dc, code2m)
-    # log before publish, same hard-gate ordering as run_all._live: a standalone regeneration
-    # must not ship a committed artifact whose model_version has no receipts (the
-    # 'nothing goes live un-logged' guarantee). Idempotent on (model_version, fixture_id), so
-    # re-running adds nothing; a new commit's sha logs fresh. Drops post-kickoff rows itself.
+    # validate -> log -> write. Logging backs "nothing goes live un-logged" and is the hard gate
+    # (idempotent on (model_version, fixture_id), so re-running adds nothing). But the log is
+    # append-only and never edited, so validate FIRST: a schema failure (e.g. an unpinned
+    # '@nogit' model_version) must not leave orphan rows for a version the writer then rejects.
+    # write re-checks. Same ordering as run_all._live.
     from src.update import prediction_log
+    universe = load_fixture_ids()
+    validate(artifact, universe)
     print(f"prediction_log: +{prediction_log.log_predictions(artifact)} new rows")
-    write(artifact, OUT, fixture_universe=load_fixture_ids())
+    write(artifact, OUT, fixture_universe=universe)
     WEB_MIRROR.parent.mkdir(parents=True, exist_ok=True)
     WEB_MIRROR.write_text(OUT.read_text())
     cov = artifact["coverage"]
