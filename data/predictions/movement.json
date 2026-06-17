@@ -1,77 +1,77 @@
 {
-  "generated_at": "2026-06-17T07:30:58Z",
-  "since": "2026-06-17T03:20:29Z",
+  "generated_at": "2026-06-17T08:55:19Z",
+  "since": "2026-06-17T07:30:58Z",
   "newly_resolved": [
     {
-      "fixture_id": "WC26-M019",
-      "team1": "ARG",
-      "team2": "ALG",
-      "score": "3-0",
+      "fixture_id": "WC26-M020",
+      "team1": "AUT",
+      "team2": "JOR",
+      "score": "3-1",
       "outcome": 0
     }
   ],
   "title_movers": [
     {
-      "country_code": "ARG",
-      "before": 0.0959,
-      "after": 0.10144,
-      "delta": 0.00554
-    },
-    {
-      "country_code": "ALG",
-      "before": 0.0097,
-      "after": 0.00696,
-      "delta": -0.00274
-    },
-    {
-      "country_code": "ENG",
-      "before": 0.08167,
-      "after": 0.08001,
-      "delta": -0.00166
+      "country_code": "AUT",
+      "before": 0.01216,
+      "after": 0.01544,
+      "delta": 0.00328
     },
     {
       "country_code": "POR",
-      "before": 0.06324,
-      "after": 0.06481,
-      "delta": 0.00157
+      "before": 0.06481,
+      "after": 0.06217,
+      "delta": -0.00264
     },
     {
-      "country_code": "MEX",
-      "before": 0.01887,
-      "after": 0.02022,
-      "delta": 0.00135
+      "country_code": "BRA",
+      "before": 0.06129,
+      "after": 0.05914,
+      "delta": -0.00215
+    },
+    {
+      "country_code": "ARG",
+      "before": 0.10144,
+      "after": 0.10334,
+      "delta": 0.0019
+    },
+    {
+      "country_code": "FRA",
+      "before": 0.09836,
+      "after": 0.09684,
+      "delta": -0.00152
     }
   ],
   "advance_movers": [
     {
-      "country_code": "ALG",
-      "before": 0.70094,
-      "after": 0.55134,
-      "delta": -0.1496
-    },
-    {
-      "country_code": "ARG",
-      "before": 0.94383,
-      "after": 0.99307,
-      "delta": 0.04924
-    },
-    {
-      "country_code": "COD",
-      "before": 0.49795,
-      "after": 0.50532,
-      "delta": 0.00737
-    },
-    {
-      "country_code": "SEN",
-      "before": 0.61034,
-      "after": 0.6177,
-      "delta": 0.00736
+      "country_code": "AUT",
+      "before": 0.74222,
+      "after": 0.926,
+      "delta": 0.18378
     },
     {
       "country_code": "JOR",
-      "before": 0.25071,
-      "after": 0.2576,
-      "delta": 0.00689
+      "before": 0.2576,
+      "after": 0.11647,
+      "delta": -0.14113
+    },
+    {
+      "country_code": "QAT",
+      "before": 0.39391,
+      "after": 0.38945,
+      "delta": -0.00446
+    },
+    {
+      "country_code": "SCO",
+      "before": 0.86871,
+      "after": 0.86451,
+      "delta": -0.0042
+    },
+    {
+      "country_code": "TUR",
+      "before": 0.52078,
+      "after": 0.51667,
+      "delta": -0.00411
     }
   ]
 }

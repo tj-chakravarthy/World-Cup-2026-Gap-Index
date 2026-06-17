@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-17T07:30:59Z",
+  "generated_at": "2026-06-17T08:55:20Z",
   "n_logged": 60,
-  "n_resolved": 7,
+  "n_resolved": 8,
   "resolved": [
     {
       "fixture_id": "WC26-M014",
@@ -96,6 +96,20 @@
       "p_draw": 0.2461,
       "p_team2": 0.1781,
       "actual": "3-0",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-0",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M020",
+      "kickoff_utc": "2026-06-17T04:00:00Z",
+      "team1": "AUT",
+      "team2": "JOR",
+      "p_team1": 0.5853,
+      "p_draw": 0.2433,
+      "p_team2": 0.1714,
+      "actual": "3-1",
       "outcome": 0,
       "called": true,
       "top_score": "1-0",
