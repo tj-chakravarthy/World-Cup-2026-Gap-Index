@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-17T21:38:45Z",
+  "generated_at": "2026-06-17T22:57:07Z",
   "n_receipts": 68,
-  "n_audit_rows": 344,
-  "n_resolved": 17,
+  "n_audit_rows": 394,
+  "n_resolved": 18,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -257,6 +257,21 @@
       "outcome": 1,
       "called": false,
       "top_score": "1-0",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M022",
+      "kickoff_utc": "2026-06-17T20:00:00Z",
+      "team1": "ENG",
+      "team2": "CRO",
+      "model": "live",
+      "p_team1": 0.491,
+      "p_draw": 0.2656,
+      "p_team2": 0.2434,
+      "actual": "4-2",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-1",
       "exact_hit": false
     }
   ]
