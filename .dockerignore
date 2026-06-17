@@ -1,0 +1,38 @@
+# Docker ignores .gitignore, so `COPY . .` would otherwise pull the ~773M of gitignored scrapes
+# under data/raw (statsbomb-open-data etc.) into the build context and image, plus any .env. The
+# cron mounts the working tree at runtime (-v "$PWD:/app"), so the image only needs the code, the
+# runtime deps, and the committed canonical inputs + the model bundle.
+
+# vcs / local / secrets
+.git
+.gitignore
+.dockerignore
+.env
+.env.*
+.claude
+*.log
+
+# python + tooling caches
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.ipynb
+
+# heavy regenerable data — keep only the small committed CSVs (top-level + market_odds) and the
+# bundle; the multi-hundred-MB scrapes live in subdirs and stay excluded by data/raw/**
+data/raw/**
+!data/raw/*.csv
+!data/raw/market_odds/*.csv
+!data/raw/**/.gitkeep
+data/processed/**
+!data/processed/model_bundle.pkl
+!data/processed/model_bundle.manifest.json
+
+# not needed in the cron's runtime image
+tests/
+docs/
+.github/
+node_modules/
