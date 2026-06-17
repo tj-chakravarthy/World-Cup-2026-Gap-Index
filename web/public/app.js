@@ -193,7 +193,9 @@ function renderTrack(tr, inputs) {
     el.innerHTML = `<p class="meta">No games resolved yet.</p>`;
     return;
   }
-  el.innerHTML = tr.resolved.map((g) => {
+  const games = [...tr.resolved].sort(
+    (a, b) => new Date(b.kickoff_utc) - new Date(a.kickoff_utc));  // most recent game first
+  el.innerHTML = games.map((g) => {
     const w = g.p_team1, d = g.p_draw, l = g.p_team2;
     const result = g.outcome === 0 ? `${name(g.team1)} won`
                  : g.outcome === 2 ? `${name(g.team2)} won` : "draw";
