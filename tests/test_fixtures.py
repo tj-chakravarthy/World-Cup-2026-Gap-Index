@@ -1,9 +1,8 @@
-"""Fixtures + venues spine invariants (PLAN.md §1.5).
+"""Fixtures spine invariants (PLAN.md §1.5).
 
-Guards the committed data/raw/fixtures_2026.csv + venues_2026.csv: the lock is
-built against this spine, so a silent feed-schema drift (wrong count, an
-unmapped venue/team, a duplicate id) must fail CI. Pure stdlib — reads the
-committed CSVs, no network, no modelling stack.
+Guards the committed data/raw/fixtures_2026.csv: the lock is built against this
+spine, so a silent feed-schema drift (wrong count, an unmapped team, a duplicate
+id) must fail CI. Pure stdlib — reads the committed CSV, no network, no modelling stack.
 """
 
 import csv
@@ -15,7 +14,6 @@ from src.pipeline.fetch_fixtures_venues import _iso, _stage
 
 REPO = Path(__file__).resolve().parents[1]
 FIXTURES = REPO / "data" / "raw" / "fixtures_2026.csv"
-VENUES = REPO / "data" / "raw" / "venues_2026.csv"
 
 _STAGE_COUNTS = {"group": 72, "R32": 16, "R16": 8, "QF": 4, "SF": 2,
                  "third_place": 1, "final": 1}
@@ -23,10 +21,6 @@ _STAGE_COUNTS = {"group": 72, "R32": 16, "R16": 8, "QF": 4, "SF": 2,
 
 def _fixtures():
     return list(csv.DictReader(FIXTURES.open()))
-
-
-def _venues():
-    return list(csv.DictReader(VENUES.open()))
 
 
 def test_104_fixtures_unique_ids():
@@ -47,12 +41,9 @@ def test_stage_counts():
     assert counts == _STAGE_COUNTS
 
 
-def test_every_fixture_venue_is_known_and_all_16_used():
+def test_all_16_host_venues_used():
     fx = _fixtures()
-    venue_keys = {v["venue_key"] for v in _venues()}
-    assert len(venue_keys) == 16
-    used = {r["venue_key"] for r in fx}
-    assert used == venue_keys  # every fixture mapped, every venue used
+    assert len({r["venue_key"] for r in fx}) == 16  # every fixture maps to one of 16 venues
 
 
 def test_48_group_teams_coded_knockout_blank():

@@ -1,13 +1,11 @@
-"""Fixtures + venues for WC 2026 — the lock's spine (PLAN.md §1.5).
+"""Fixtures for WC 2026 — the lock's spine (PLAN.md §1.5).
 
-Writes two committed reference CSVs:
+Writes the committed reference CSV:
 
   data/raw/fixtures_2026.csv  — all 104 fixtures: official match number, stage,
     group, kickoff (UTC), venue, both teams (FIFA code where known), and the
     score for matches already played. The schedule is fixed; results refresh on
     re-run, so the daily cron can call this for update_actuals too.
-  data/raw/venues_2026.csv    — the 16 host venues with lat/lon, altitude, IANA
-    timezone, a roof flag, and approximate June/July climate normals.
 
 Fixture-id scheme: WC26-M{match_number:03d}, keyed on FIFA's official match
 number (1..104) — stable and unique for group and knockout fixtures alike.
@@ -17,10 +15,6 @@ Source: fixturedownload.com's structured WC2026 feed (the Dec-2025 draw for the
 knockout slots whose teams aren't decided yet). Authoritative enough for the
 schedule + draw spine; the group draw and any in-tournament results still want a
 cross-check against FIFA/Wikipedia before they back a committed lock.
-
-Venue lat/lon are stadium-approximate (well within the inter-city distances the
-haversine travel feature cares about). Climate normals and the roof flag are
-hand-entered approximations — heat_mismatch is exploratory per PLAN.md §1.5.
 
 Stdlib only by design (urllib + csv), like the rest of the Stage-0 pipeline:
 runs in plain CI without the modelling stack, and the output is a flat feed ->
@@ -39,38 +33,11 @@ FEED_URL = "https://fixturedownload.com/feed/json/fifa-world-cup-2026"
 
 REPO = Path(__file__).resolve().parents[2]
 FIXTURES_CSV = REPO / "data" / "raw" / "fixtures_2026.csv"
-VENUES_CSV = REPO / "data" / "raw" / "venues_2026.csv"
 
 # fixturedownload RoundNumber -> stage. Round 8 holds both the third-place match
 # (lower match number) and the final, so it is split by match number below.
 _STAGE_BY_ROUND = {1: "group", 2: "group", 3: "group",
                    4: "R32", 5: "R16", 6: "QF", 7: "SF"}
-
-# 16 host venues, keyed by the feed's generic Location string (FIFA uses these
-# unbranded names during the tournament). lat/lon stadium-approximate; altitude
-# in metres; tz is the IANA zone (for local-kickoff + timezone-shift features);
-# roofed = fixed/retractable roof that neutralises heat; climate_high_c /
-# climate_rh_pct are rough June-July daily-high normals (exploratory).
-_VENUES = [
-    # venue_key,                       stadium,                  city,             ctry, lat,     lon,       alt,  tz,                      roof, high, rh
-    ("Mexico City Stadium",            "Estadio Azteca",         "Mexico City",    "MEX", 19.303, -99.150,  2240, "America/Mexico_City",   0, 23, 55),
-    ("Guadalajara Stadium",            "Estadio Akron",          "Guadalajara",    "MEX", 20.682, -103.462, 1551, "America/Mexico_City",   0, 27, 55),
-    ("Monterrey Stadium",              "Estadio BBVA",           "Monterrey",      "MEX", 25.669, -100.244,  500, "America/Monterrey",     0, 34, 50),
-    ("Toronto Stadium",                "BMO Field",              "Toronto",        "CAN", 43.633, -79.418,   76, "America/Toronto",       0, 26, 60),
-    ("BC Place Vancouver",             "BC Place",               "Vancouver",      "CAN", 49.277, -123.112,   0, "America/Vancouver",     1, 22, 65),
-    ("Atlanta Stadium",                "Mercedes-Benz Stadium",  "Atlanta",        "USA", 33.755, -84.401,   320, "America/New_York",      1, 31, 65),
-    ("Boston Stadium",                 "Gillette Stadium",       "Foxborough",     "USA", 42.091, -71.264,    90, "America/New_York",      0, 27, 65),
-    ("Dallas Stadium",                 "AT&T Stadium",           "Arlington",      "USA", 32.748, -97.093,   160, "America/Chicago",       1, 35, 55),
-    ("Houston Stadium",                "NRG Stadium",            "Houston",        "USA", 29.685, -95.411,    15, "America/Chicago",       1, 34, 70),
-    ("Kansas City Stadium",            "Arrowhead Stadium",      "Kansas City",    "USA", 39.049, -94.484,   270, "America/Chicago",       0, 31, 60),
-    ("Los Angeles Stadium",            "SoFi Stadium",           "Inglewood",      "USA", 33.953, -118.339,   30, "America/Los_Angeles",   1, 27, 65),
-    ("Miami Stadium",                  "Hard Rock Stadium",      "Miami Gardens",  "USA", 25.958, -80.239,     3, "America/New_York",      0, 32, 70),
-    ("New York/New Jersey Stadium",    "MetLife Stadium",        "East Rutherford","USA", 40.814, -74.074,     5, "America/New_York",      0, 29, 60),
-    ("Philadelphia Stadium",           "Lincoln Financial Field","Philadelphia",   "USA", 39.901, -75.168,    12, "America/New_York",      0, 30, 60),
-    ("San Francisco Bay Area Stadium", "Levi's Stadium",         "Santa Clara",    "USA", 37.403, -121.970,    4, "America/Los_Angeles",   0, 27, 70),
-    ("Seattle Stadium",                "Lumen Field",            "Seattle",        "USA", 47.595, -122.332,    5, "America/Los_Angeles",   0, 23, 65),
-]
-_VENUE_KEYS = {v[0] for v in _VENUES}
 
 # Feed country name -> FIFA trigram, for the 48 teams of the 2026 draw. Knockout
 # slots carry bracket-placeholder tokens ("1A", "3ABCDF", "To be announced"),
@@ -147,12 +114,9 @@ def validate(rows: list[dict]) -> None:
     ids = [r["fixture_id"] for r in rows]
     if len(set(ids)) != len(ids):
         raise ValueError("duplicate fixture_id")
-    bad_venue = sorted({r["venue_key"] for r in rows} - _VENUE_KEYS)
-    if bad_venue:
-        raise ValueError(f"fixtures reference unknown venues: {bad_venue}")
-    used_venues = {r["venue_key"] for r in rows}
-    if used_venues != _VENUE_KEYS:
-        raise ValueError(f"venue table/fixtures mismatch: {_VENUE_KEYS ^ used_venues}")
+    n_venues = len({r["venue_key"] for r in rows})
+    if n_venues != 16:
+        raise ValueError(f"expected 16 host venues, got {n_venues}")
     # every decided (group) team must map to a FIFA code
     unmapped = sorted({r["home_team"] for r in rows if r["stage"] == "group"
                        and not r["home_code"]}
@@ -166,19 +130,13 @@ def validate(rows: list[dict]) -> None:
         raise ValueError(f"expected 48 distinct group-stage teams, got {len(codes)}")
 
 
-def _write_csv(path: Path, fieldnames: list[str], rows: list[dict | tuple]) -> None:
+def _write_csv(path: Path, fieldnames: list[str], rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="") as f:
         w = csv.writer(f)
         w.writerow(fieldnames)
         for r in rows:
-            w.writerow([r[k] for k in fieldnames] if isinstance(r, dict) else r)
-
-
-def write_venues(path: Path = VENUES_CSV) -> None:
-    fields = ["venue_key", "stadium", "city", "country", "lat", "lon",
-              "altitude_m", "tz", "roofed", "climate_high_c", "climate_rh_pct"]
-    _write_csv(path, fields, _VENUES)
+            w.writerow([r[k] for k in fieldnames])
 
 
 def write_fixtures(rows: list[dict], path: Path = FIXTURES_CSV) -> None:
@@ -192,11 +150,9 @@ def main() -> None:
     feed = fetch_feed()
     rows = build_fixtures(feed)
     validate(rows)
-    write_venues()
     write_fixtures(rows)
     played = sum(r["played"] for r in rows)
     print(f"wrote {len(rows)} fixtures ({played} played) -> {FIXTURES_CSV}")
-    print(f"wrote {len(_VENUES)} venues -> {VENUES_CSV}")
 
 
 if __name__ == "__main__":

@@ -13,7 +13,6 @@ terms; the pipeline **regenerates** restrictive sources rather than republishing
 | Dataset | Source | License / terms | Why committed |
 |---|---|---|---|
 | `squads_2026.csv`, `squads_2018.csv`, `squads_2022.csv` | Wikipedia squad articles | Factual rosters; Wikipedia text CC-BY-SA 4.0 | Small canonical 26-man lists, hand-cleaned |
-| `venues_2026.csv` | Wikipedia + manual | Factual, hand-curated | Host stadiums + lat/long/altitude (reference; not a model input) |
 | `fixtures_2026.csv` | fixturedownload.com (free JSON feed) | Free to use; factual schedule + live scores | The live-score spine (this snapshot committed; refreshed each run) |
 | `team_codes.csv`, `transfermarkt_team_ids.csv`, `name_overrides.csv` | Hand-built crosswalks (this project) | MIT — factual id/name maps | FIFA-code ↔ source-name / Transfermarkt verein-id maps |
 | `market_odds/*.csv` | [`eatpizzanot/soccer-dataset`](https://github.com/eatpizzanot/soccer-dataset) — Pinnacle closing 1X2 via API-Football | **CC-BY-4.0 — attribution required** | Basis of the §4.6 market benchmark; committed (112 KB) for reproducibility, with attribution |
