@@ -37,9 +37,25 @@ def test_build_manifest_fields(tmp_path):
     assert m["model"]["feature_columns"] == ["ELO", "MKT"]          # the live model's inputs
     assert m["model"]["n_teams"] == 3 and m["model"]["teams"] == ["BRA", "ESP", "FRA"]
 
-    # training corpus derived from the committed match_results.csv (no raw scrapes)
-    assert m["training"]["n_historical_matches"] > 0
+    # tournaments come from the bundle (always present); the match corpus is recorded only when
+    # the gitignored scrape is present, else null — the field is always there either way
     assert m["training"]["tournaments"] == ["euro_2024", "world_cup_2026"]
+    assert "n_historical_matches" in m["training"]
+    nh = m["training"]["n_historical_matches"]
+    assert nh is None or nh > 0
 
     assert m["code_sha"]                # a sha or 'nogit', never empty
     json.dumps(m)                       # must be JSON-serialisable
+
+
+def test_build_manifest_without_scrape(tmp_path, monkeypatch):
+    # a scrape-free checkout (CI, a reviewer's clone): match_results.csv absent -> corpus null,
+    # never a crash. fifa_rankings_2026.csv is committed, so RAW must still point at the real dir
+    from src.pipeline import bundle_manifest
+    monkeypatch.setattr(bundle_manifest, "RAW", tmp_path)  # empty dir: no match_results, no fifa
+    pkl = tmp_path / "model_bundle.pkl"
+    pkl.write_bytes(b"x")
+    m = bundle_manifest.build_manifest(_StubBundle(), pkl)
+    assert m["training"]["n_historical_matches"] is None
+    assert m["sources"]["match_results_through"] is None
+    assert m["bundle"]["sha256"]  # still produced

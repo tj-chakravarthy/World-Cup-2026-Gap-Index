@@ -40,9 +40,19 @@ def _git_sha() -> str:
 def build_manifest(bundle, pkl_path: Path) -> dict:
     """The manifest dict for `bundle` (the just-built/loaded Bundle) + its pickle at pkl_path."""
     pkl_path = Path(pkl_path)
-    results = pd.read_csv(RAW / "match_results.csv")
-    pre = results[results["date"].astype(str) < WC_START].dropna(
-        subset=["home_score", "away_score"])
+    # match_results.csv is a gitignored scrape: present at build time (the bundle needs it), but
+    # absent in a scrape-free checkout (CI, a reviewer's clone). Record the corpus when it's here,
+    # null when it isn't — don't make the manifest depend on the raw data it exists to avoid.
+    mr = RAW / "match_results.csv"
+    if mr.exists():
+        results = pd.read_csv(mr)
+        pre = results[results["date"].astype(str) < WC_START].dropna(
+            subset=["home_score", "away_score"])
+        n_historical = int(len(pre))
+        matches_through = str(pre["date"].max()) if len(pre) else None
+        results_through = str(results["date"].max()) if len(results) else None
+    else:
+        n_historical = matches_through = results_through = None
 
     fifa_edition = None
     fifa_csv = RAW / "fifa_rankings_2026.csv"
@@ -69,12 +79,12 @@ def build_manifest(bundle, pkl_path: Path) -> dict:
         },
         "training": {
             "tournaments": sorted(bundle.indices["tournament"].unique().tolist()),
-            "n_historical_matches": int(len(pre)),
-            "matches_through": str(pre["date"].max()) if len(pre) else None,
+            "n_historical_matches": n_historical,
+            "matches_through": matches_through,
         },
         "sources": {
             "fifa_ranking_edition": fifa_edition,
-            "match_results_through": str(results["date"].max()) if len(results) else None,
+            "match_results_through": results_through,
         },
     }
 
