@@ -49,7 +49,7 @@ amended to add them.
 ### `sources` (freshness — PLAN.md §6)
 
 Array of `{ "name": string, "as_of": UTC ISO-8601, "stale": bool }` — one row per
-upstream the file depends on (fixtures, results, injuries, odds, …). The
+upstream the file depends on (`fixtures`, `match_results`, `match_model`). The
 `freshness_check` cron step and the on-site "last updated" banner read this.
 
 ## `predictions[]`
@@ -101,7 +101,8 @@ upstream the file depends on (fixtures, results, injuries, odds, …). The
   },
   "sources": [
     {"name": "fixtures", "as_of": "2026-06-12T20:00:00Z", "stale": false},
-    {"name": "injuries", "as_of": "2026-06-13T06:00:00Z", "stale": false}
+    {"name": "match_results", "as_of": "2026-06-12T20:00:00Z", "stale": false},
+    {"name": "match_model", "as_of": "2026-06-12T20:00:00Z", "stale": false}
   ],
   "predictions": [
     {

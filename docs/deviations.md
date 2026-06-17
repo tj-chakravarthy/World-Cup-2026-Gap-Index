@@ -73,7 +73,7 @@ on the CI runner would install against an incompatible base. The Docker image
 lists "minimal indices (ELO, EXP, AGE + raw squad ratings via market value)" and
 task 4 lists "train minimal A+C." We lock a THIN model instead — Elo-sigmoid
 (member E) and a goals-only Dixon-Coles (member C) — dropping squad rosters
-(task 1), minimal index construction (task 3), and rest/travel/injuries-as-features
+(task 1), minimal index construction (task 3), and context features
 from the critical path of the lock. The locked file is the PLAN §"Honesty
 framing" minimal artifact: a verifiable timestamp, not peak accuracy. Squad
 indices and context features are inputs to the full model (Stages 2–3), not to

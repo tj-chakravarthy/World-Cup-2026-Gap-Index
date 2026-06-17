@@ -23,8 +23,9 @@ jobs:
       # dev subset only; the heavy stack runs in the image, not in CI
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
-      # Playwright + Chromium so the web smoke test (tests/test_web_smoke.py) runs here;
-      # without a browser it skips, so the rest of CI still works without this step.
+      # Playwright + Chromium so the web smoke test (tests/test_web_smoke.py) runs here. In CI
+      # the smoke test hard-fails if the browser is missing (it only skips locally), so this
+      # step is required.
       - name: Playwright browser (web smoke test)
         run: |
           pip install playwright
