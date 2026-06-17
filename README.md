@@ -53,7 +53,7 @@ table. The one input still softer than the letter of the rules is the team-condu
 runs at zero until match-card data is loaded. It updates within half an hour of each full-time.
 
 <!-- TOPBOARD:START -->
-Top of the board to win it: **Spain 12%, France 10%, Argentina 10%, England 8%.** _(updated 2026-06-17 00:35 UTC)_
+Top of the board to win it: **Spain 12%, France 10%, Argentina 10%, England 8%.** _(updated 2026-06-17 03:20 UTC)_
 <!-- TOPBOARD:END -->
 
 ## How it's built
