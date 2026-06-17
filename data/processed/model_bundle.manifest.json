@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-06-17T17:13:36Z",
+  "code_sha": "cdd5859",
+  "bundle": {
+    "file": "model_bundle.pkl",
+    "version": 1,
+    "sha256": "caf60a693b624d111e03f8e561201a34decc07c23908eec3315b3fe69a778854",
+    "bytes": 3929052,
+    "n_boot": 25
+  },
+  "model": {
+    "feature_columns": [
+      "ELO",
+      "MKT"
+    ],
+    "n_teams": 48,
+    "teams": [
+      "ALG",
+      "ARG",
+      "AUS",
+      "AUT",
+      "BEL",
+      "BIH",
+      "BRA",
+      "CAN",
+      "CIV",
+      "COD",
+      "COL",
+      "CPV",
+      "CRO",
+      "CUW",
+      "CZE",
+      "ECU",
+      "EGY",
+      "ENG",
+      "ESP",
+      "FRA",
+      "GER",
+      "GHA",
+      "HAI",
+      "IRN",
+      "IRQ",
+      "JOR",
+      "JPN",
+      "KOR",
+      "KSA",
+      "MAR",
+      "MEX",
+      "NED",
+      "NOR",
+      "NZL",
+      "PAN",
+      "PAR",
+      "POR",
+      "QAT",
+      "RSA",
+      "SCO",
+      "SEN",
+      "SUI",
+      "SWE",
+      "TUN",
+      "TUR",
+      "URU",
+      "USA",
+      "UZB"
+    ]
+  },
+  "training": {
+    "tournaments": [
+      "copa_america_2024",
+      "euro_2020",
+      "euro_2024",
+      "world_cup_2018",
+      "world_cup_2022",
+      "world_cup_2026"
+    ],
+    "n_historical_matches": 49405,
+    "matches_through": "2026-06-10"
+  },
+  "sources": {
+    "fifa_ranking_edition": "2026-06-11",
+    "match_results_through": "2026-06-27"
+  }
+}

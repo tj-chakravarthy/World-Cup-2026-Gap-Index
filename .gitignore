@@ -28,6 +28,8 @@ data/processed/**
 # (3.9M) and loaded as-is on every run. Rebuild + recommit when the model code changes
 # (BUNDLE_VERSION bump): a stale-version load would try to rebuild and fail in CI (no raw data).
 !data/processed/model_bundle.pkl
+# provenance manifest beside the bundle (code sha, version, features, training corpus, sha256)
+!data/processed/model_bundle.manifest.json
 # fixtures are a small canonical input (the lock's spine, a structured fixture feed),
 # not bulk scrape → tracked, not ignored.
 !data/raw/fixtures_2026.csv

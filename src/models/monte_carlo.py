@@ -174,6 +174,10 @@ def save_bundle(bundle: Bundle, path: Path = BUNDLE_PATH) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "wb") as f:
         pickle.dump(bundle, f)
+    # provenance manifest beside the binary, so the committed pickle is reviewable without the
+    # raw scrapes. Local import: bundle_manifest reads match_model, not monte_carlo (no cycle).
+    from src.pipeline import bundle_manifest
+    bundle_manifest.write(bundle, path)
 
 
 def load_or_build_bundle(path: Path = BUNDLE_PATH, rebuild: bool = False) -> Bundle:
