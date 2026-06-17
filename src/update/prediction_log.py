@@ -5,6 +5,15 @@ those predictions against the realised result. Append-only: a logged (model_vers
 fixture_id) pair is never rewritten or deleted, so the track record can't be tuned
 after the fact. Re-runs are idempotent on that key.
 
+Pre-kickoff by construction: log_predictions drops any row whose kickoff has already passed
+(a lagging score feed can leave a kicked-off fixture marked unplayed and re-included), so new
+appends are guaranteed before-kickoff. Because the log is never rewritten, one earlier
+post-kickoff re-log predates that guard — WC26-M013 logged 2026-06-15T23:15Z for a 22:00Z
+kickoff. It is kept as honest history rather than edited out: scoring ignores it
+(latest_per_fixture keeps only the latest PRE-kickoff row per fixture), and every row carries
+logged_at + kickoff_utc, so any reader can verify each prediction's before/after-kickoff
+status directly from the raw file.
+
 Columns mirror the per-prediction artifact fields (docs/artifact_schema.md) flattened
 to one row, plus the outcome columns filled in by resolve() once a fixture is played.
 pandas + pyarrow (parquet).
@@ -96,6 +105,10 @@ def log_predictions(artifact: dict, log_path: Path = LOG_PATH) -> int:
     """
     log_path = Path(log_path)
     new = _artifact_rows(artifact)
+    # pre-kickoff only (audit-trail integrity): drop any row whose kickoff already passed — a
+    # lagging feed can leave a kicked-off fixture marked unplayed, and its genuine pre-kickoff
+    # prediction is already logged. ISO-8601 Z is fixed-width UTC, so the string compare holds.
+    new = new[new["kickoff_utc"] > new["logged_at"]]
     existing = load_log(log_path)
 
     if not existing.empty:

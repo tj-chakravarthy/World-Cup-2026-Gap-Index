@@ -123,6 +123,20 @@ def test_log_predictions_idempotent(tmp_path):
     assert len(load_log(log_path)) == 4
 
 
+def test_log_predictions_skips_post_kickoff(tmp_path):
+    # a lagging feed can re-include a kicked-off fixture; its post-kickoff row must NOT be logged
+    log_path = tmp_path / "log.parquet"
+    past = _artifact(preds=[{
+        "fixture_id": "WC26-M013", "stage": "group", "kickoff_utc": "2020-01-01T00:00:00Z",
+        "team1": "KSA", "team2": "URU", "model_source": "live_full",
+        "wdl": {"team1": 0.2, "draw": 0.3, "team2": 0.5},
+        "scorelines": [{"score": "0-1", "p": 0.12}]}])
+    assert log_predictions(past, log_path) == 0
+    assert load_log(log_path).empty
+    # a genuinely upcoming fixture (future kickoff) is logged
+    assert log_predictions(_artifact(), log_path) == 2
+
+
 def test_load_log_missing(tmp_path):
     df = load_log(tmp_path / "nope.parquet")
     assert df.empty
