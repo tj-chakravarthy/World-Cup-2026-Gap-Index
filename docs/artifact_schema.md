@@ -129,3 +129,26 @@ upstream the file depends on (`fixtures`, `match_results`, `match_model`). The
   ]
 }
 ```
+
+## Provenance & reproducibility (why the shas/timestamps don't all match HEAD)
+
+A continuously-running live cron produces these, so one `git` HEAD won't equal every embedded
+sha at a glance. That's expected, not drift:
+
+- **`predictions_live.json` `model_version` (`live-elo-mkt@<sha>`)** pins the commit whose *code*
+  produced the forecast (set from `GIT_SHA` at recompute time). The cron then commits the
+  regenerated artifact in a *separate* `gapindex-bot` "data: live update" commit, so the pinned
+  sha is normally a commit or two behind HEAD (the bot's own commit, plus any docs/tests pushed
+  since). The forecast is reproducible from the pinned commit's code + the data committed with it;
+  HEAD being ahead doesn't change that.
+- **`model_bundle.manifest.json` `source_sha_at_generation`** is the commit when the bundle was
+  last *rebuilt* (between tournaments / on a `BUNDLE_VERSION` bump), not HEAD — the bundle is fixed
+  for the tournament, so it legitimately lags. The bundle's identity is its `bundle.sha256`, not
+  the sha.
+- **`track_record.json` `generated_at`** is a few seconds *after* `simulation.json` /
+  `predictions_live.json`: `run_all` builds the sim and the live artifact first, then the receipts
+  last, all in one run. Same snapshot, sequential stamps — not a stale view.
+
+In short: each live artifact records the source commit that produced it, and the `sha256` /
+`model_version` fields are the identity anchors; HEAD sits a little ahead because the system keeps
+committing.
