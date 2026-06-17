@@ -164,20 +164,46 @@ def main(force: bool = False, rebuild: bool = False) -> None:
           f"({len(played)} results in, data {'fresh' if fresh else 'STALE (cached)'})")
 
 
-def check() -> bool:
-    """Refresh fixtures and report whether a new result landed (or artifacts are
-    missing) — the cheap pre-step the cron runs every poll before paying for the heavy
-    recompute. True => recompute needed."""
-    _refresh_fixtures()
+def _committed_live_is_stale() -> bool:
+    """Did the last published run flag its fixture feed stale? Read from the committed
+    predictions_live.json — its own stale bit is the cross-run state (CI runners are
+    ephemeral, so no separate counter file would survive between polls)."""
+    if not LIVE.exists():
+        return False
+    try:
+        import json
+        art = json.loads(LIVE.read_text())
+        return any(s.get("stale") for s in art.get("sources", []))
+    except Exception:  # noqa: BLE001 - a missing/garbled file just means "not known stale"
+        return False
+
+
+def check() -> int:
+    """Cheap pre-step the cron runs every poll. Exit code: 10 = recompute, 0 = idle, 1 = fail.
+
+    A fixture-refresh failure is never silent (PLAN §6): the first one recomputes so the run
+    republishes with stale=True and the site's banner fires (a stale heartbeat); a SECOND
+    consecutive failure (the committed artifact is already stale) fails the cron so the outage
+    is visible to me, not just the public. On recovery, a still-stale artifact is recomputed to
+    clear the flag."""
+    fresh = _refresh_fixtures()
+    was_stale = _committed_live_is_stale()
+    if not fresh and was_stale:
+        print("fixture feed down across consecutive polls — failing the run (stale already "
+              "published; this escalates it)", file=sys.stderr)
+        return 1
     played = played_fixture_ids(pd.read_csv(FIXTURES))
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
-    changed = played != last or not (LIVE.exists() and SIM.exists())
-    print(f"played={len(played)} marker={len(last)} artifacts={LIVE.exists() and SIM.exists()} "
-          f"-> changed={changed}")
-    return changed
+    # recompute on: a new result, missing artifacts, a fresh feed failure (publish the stale
+    # heartbeat), or recovery from a stale state (republish fresh to clear the banner).
+    changed = (played != last or not (LIVE.exists() and SIM.exists())
+               or not fresh or (fresh and was_stale))
+    print(f"played={len(played)} marker={len(last)} fresh={fresh} was_stale={was_stale} "
+          f"-> {'recompute' if changed else 'idle'}")
+    return 10 if changed else 0
 
 
 if __name__ == "__main__":
     if "--check" in sys.argv:
-        sys.exit(10 if check() else 0)  # exit 10 = new results, recompute needed
+        sys.exit(check())  # 10 = recompute, 0 = idle, 1 = fail (sustained feed outage)
     main(force="--force" in sys.argv, rebuild="--rebuild" in sys.argv)
