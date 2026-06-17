@@ -97,11 +97,18 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         df.to_csv(PROC / "tournament_sim.csv", index=False)
         monte_carlo.write_simulation_json(df, LIVE_SIMS)
 
-    def _live():  # predictions_2026_wdl.csv -> predictions_live.json -> track-record log
+    def _live():  # log predictions, THEN publish — nothing goes live un-logged (the §6 guarantee)
         preds = monte_carlo.group_fixture_wdl(bundle, fixtures)
         preds.to_csv(PROC / "predictions_2026_wdl.csv", index=False)
         artifact = build_live_artifact.build_live(preds, fixtures, bundle.dc, bundle.code2m,
                                                   stale=not fresh)
+        # The append-only log backs "every prediction committed before kickoff", so it is a HARD
+        # gate, not best-effort: log first, and if it fails let the whole run fail. The cron then
+        # skips its commit (its `if:` implies success()), so an un-logged forecast never ships —
+        # better a red run you can see than a silent publish. log_predictions is idempotent on
+        # (model_version, fixture_id), so a retry after a failure adds nothing.
+        from src.update import prediction_log
+        print(f"prediction_log: +{prediction_log.log_predictions(artifact)} new rows")
         write_predictions.write(artifact, LIVE,
                                 fixture_universe=write_predictions.load_fixture_ids())
         WEB_LIVE.parent.mkdir(parents=True, exist_ok=True)
@@ -110,15 +117,14 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         mi = json.dumps(build_live_artifact.model_inputs(bundle.indices, fixtures), indent=2)
         for p in (PRED / "model_inputs.json", WEB_LIVE.parent / "model_inputs.json"):
             p.write_text(mi)
-        try:  # append-only log, best-effort so a log hiccup never fails the run
-            from src.update import prediction_log
-            print(f"prediction_log: +{prediction_log.log_predictions(artifact)} new rows")
-        except Exception as e:  # noqa: BLE001
-            print(f"warn: prediction_log skipped ({e})", file=sys.stderr)
 
     _step("simulate", _sim)
     _step("live_artifact", _live)
-    try:  # publish the public track-record receipts (resolved predictions vs results)
+    # track_record / movement / README below are best-effort BY DESIGN: regenerable VIEWS derived
+    # from the already-committed log + sim, not the guarantee itself. A hiccup degrades the display
+    # for one cycle (self-heals next run) and must not block a forecast whose predictions are
+    # logged. The guarantee lives in the log written above (hard), not in these.
+    try:  # the public track-record receipts (resolved predictions vs results), derived from the log
         import json
         from src.update import prediction_log
         art = prediction_log.track_record_artifact(prediction_log.load_log(), fixtures)
