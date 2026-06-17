@@ -60,9 +60,11 @@ Top of the board to win it: **Spain 12%, Argentina 10%, France 10%, England 8%.*
 
 All public data: 150 years of international results, national and club Elo, the 48 squads
 (Wikipedia), club stats (FBref) and expected goals (Understat), past-tournament event data
-for player VAEP (StatsBomb), 2026 fixtures, venues and heat. Betting odds I use only to score the model, never as an input; the
-last-resort group tiebreaker leans on an Elo-based ranking as a FIFA-rank proxy, not a model
-input either. Full source + license breakdown (committed vs regenerated): [DATA_SOURCES.md](DATA_SOURCES.md).
+for player VAEP (StatsBomb), 2026 fixtures, venues and heat, plus the FIFA/Coca-Cola world
+ranking for the Article 13 final group tiebreaker. Betting odds I use only to score the model,
+never as an input; the FIFA ranking enters only that tiebreaker (an Elo-based rank as fallback
+when it isn't loaded), not the model either. Full source + license breakdown (committed vs
+regenerated): [DATA_SOURCES.md](DATA_SOURCES.md).
 
 The integrity:
 

@@ -101,14 +101,15 @@ as the headline.
 
 ## Tests
 
-**Two of three mandatory suites are tripwires.** PLAN §"Known Challenges" /
-Handoff requires three mandatory test suites. `tests/test_tiebreakers.py` is
-implemented and green. `tests/test_leakage_guard.py` and
-`tests/test_scoreline_coherence.py` are self-activating tripwires: they skip
-while the guarded module is absent (`src/models/evaluate.py` and
-`src/models/monte_carlo.py` respectively) and fail loudly the moment the module
-lands, forcing the guard to be written then. The guarded modules don't exist yet
-(Stages 3/5); a tripwire keeps the mandatory contract honest without a false green.
+**All three mandatory suites are live and green.** PLAN §"Known Challenges" /
+Handoff requires three mandatory test suites. `tests/test_tiebreakers.py` was
+always green. `tests/test_leakage_guard.py` and `tests/test_scoreline_coherence.py`
+started as self-activating tripwires: they skipped while the guarded module was
+absent (`src/models/evaluate.py` and `src/models/monte_carlo.py` respectively) and
+would fail the moment it landed. Both modules now exist (Stages 3/5 done), so the
+tripwires have fired into real guards — the leakage guard checks every nested-CV
+fold holds out its own tournament, and scoreline coherence checks the sampled
+scorelines reproduce the model's W/D/L.
 
 ---
 
