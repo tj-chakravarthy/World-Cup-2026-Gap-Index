@@ -23,6 +23,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.played import played_mask
+
 REPO = Path(__file__).resolve().parents[2]
 RAW = REPO / "data" / "raw"
 PRED = REPO / "data" / "predictions"
@@ -37,8 +39,7 @@ LIVE_SIMS = 100_000   # full draw count — the published site number; ~5x slowe
 
 def played_fixture_ids(fixtures: pd.DataFrame) -> set[str]:
     """The set of fixture_ids marked played, robust to bool/str encodings. Pure."""
-    flag = fixtures["played"].astype(str).str.strip().str.lower().isin(["true", "1"])
-    return set(fixtures.loc[flag, "fixture_id"])
+    return set(fixtures.loc[played_mask(fixtures["played"]), "fixture_id"])
 
 
 def _refresh_fixtures() -> bool:

@@ -41,6 +41,7 @@ from src.models.dixon_coles import fit as dc_fit
 from src.models.match_dataset import build_match_dataset
 from src.models.match_model import PRODUCTION_COLS, predict_wdl, train_production
 from src.models.scoreline import sample_scorelines, tilted_matrix
+from src.played import is_played
 from src.models.tiebreakers import (CARD_POINTS, Match, conduct_score, group_table,
                                      rank_third_placed)
 
@@ -300,7 +301,7 @@ def simulate(bundle: Bundle, fixtures: pd.DataFrame, n_sims: int = N_SIMS,
     sampled = {}
     for _, fx in grp.iterrows():
         rec = {"fixture_id": fx.fixture_id, "home_code": fx.home_code,
-               "away_code": fx.away_code, "played": bool(fx.played),
+               "away_code": fx.away_code, "played": is_played(fx.played),
                "home_score": fx.home_score, "away_score": fx.away_score}
         group_fix[fx.group].append(rec)
         if not rec["played"]:
@@ -357,7 +358,7 @@ def group_fixture_wdl(bundle: Bundle, fixtures: pd.DataFrame) -> pd.DataFrame:
         rows.append({"fixture_id": fx.fixture_id, "group": fx.group,
                      "home_team": fx.home_team, "away_team": fx.away_team,
                      "home_code": fx.home_code, "away_code": fx.away_code,
-                     "played": bool(fx.played), "home_score": fx.home_score,
+                     "played": is_played(fx.played), "home_score": fx.home_score,
                      "away_score": fx.away_score, "p_home": float(p[0]),
                      "p_draw": float(p[1]), "p_away": float(p[2])})
     return pd.DataFrame(rows)

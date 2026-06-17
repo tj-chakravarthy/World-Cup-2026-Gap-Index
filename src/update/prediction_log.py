@@ -26,6 +26,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.played import played_mask
+
 REPO = Path(__file__).resolve().parents[2]
 LOG_PATH = REPO / "data" / "predictions" / "prediction_log.parquet"
 
@@ -135,7 +137,7 @@ def resolve(log: pd.DataFrame, fixtures: pd.DataFrame) -> pd.DataFrame:
     """
     out = log.copy()
 
-    played = fixtures[fixtures["played"] == True]  # noqa: E712 — pandas mask, not `is`
+    played = fixtures[played_mask(fixtures["played"])]
     res = played.set_index("fixture_id")[["home_score", "away_score"]]
     mapping = {fid: (h, a) for fid, (h, a) in res.iterrows()}
 

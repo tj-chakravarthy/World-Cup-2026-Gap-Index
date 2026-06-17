@@ -171,6 +171,24 @@ def test_resolve_played_and_unplayed(tmp_path):
     assert pd.isna(r.loc["WC26-M002", "exact_score_hit"])
 
 
+def test_resolve_handles_string_played_flag(tmp_path):
+    # the brittleness: a fixtures feed (or CSV round-trip) encoding played as 'True'/'False'
+    # strings. resolve() used `== True`, which silently missed string-encoded played matches;
+    # now it goes through played_mask, so a string 'True' still resolves and 'False' stays null
+    log_path = tmp_path / "log.parquet"
+    log_predictions(_artifact(), log_path)
+    log = load_log(log_path)
+
+    fixtures = _fixtures([
+        ("WC26-M001", "MEX", "RSA", 2, 0, "True"),     # played (string) -> must resolve
+        ("WC26-M002", "KOR", "CZE", "", "", "False"),  # not played (string) -> stays null
+    ])
+    r = resolve(log, fixtures).set_index("fixture_id")
+
+    assert r.loc["WC26-M001", "actual_outcome"] == 0      # picked up despite the string flag
+    assert pd.isna(r.loc["WC26-M002", "actual_outcome"])  # 'False' not treated as played
+
+
 def test_resolve_exact_score_miss_and_outcomes(tmp_path):
     log_path = tmp_path / "log.parquet"
     log_predictions(_artifact(), log_path)
