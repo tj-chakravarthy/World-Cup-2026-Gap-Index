@@ -165,9 +165,6 @@ numpy/scipy/pytest), and has no API keys, so Stage 1 was split by what runs here
 - `name_matcher.py` + `name_overrides.csv` — fuzzy match with difflib fallback
   (rapidfuzz when present).
 
-**Built but not run (key-gated, no keys here):** `fetch_injuries.py` (API-Football),
-`fetch_odds.py` (The Odds API). Cron-ready; loud exit without the key.
-
 **FBref Tier-1 club stats — resolved via headless Chromium (`fetch_club_stats.py`).**
 The Stage-1 spine and predicted-VAEP input. FBref sits behind a Cloudflare JS
 challenge that no plain HTTP client clears (curl / requests / soccerdata 403
@@ -227,11 +224,9 @@ pre-tournament squad year (2018->2017, 2022->2021, 2026->2025), so backtest squa
 get their own season's values, not today's.
 
 **Deferred — bulk downloads to Stage 2:** StatsBomb full event JSON (VAEP
-training) and Wyscout Figshare events. Only the StatsBomb index is fetched now.
+training); only the StatsBomb index is fetched now.
 
-**Built since:** Open-Meteo heat-forecast wiring (`fetch_weather.py`, keyless) —
-the live half of the heat feature on top of the climate normals already in
-`venues_2026.csv`. Transfermarkt market values and the 2018/2022 squads are now done
+**Built since:** Transfermarkt market values and the 2018/2022 squads are now done
 (above / commit history). Still open: the non-European FBref leagues (basic
 box-score only there too, so lower priority).
 
@@ -427,8 +422,7 @@ odds and is never a test fold, so no gap). Pooled held-out multiclass Brier: **m
 market 0.573, Elo 0.594** — the model is ~0.017 behind the market (expected; the closing
 line prices lineup news + money the model excludes by the odds-never-an-input rule) and
 ahead of Elo. The honest "within a hair of the market, beats Elo" stat. Odds are never a
-model feature — benchmark only. Live WC2026 benchmark runs via `fetch_odds.py` once an
-odds key + snapshot exist. Odds slices committed (112K) with attribution for reproducibility.
+model feature — benchmark only. Odds slices committed (112K) with attribution for reproducibility.
 
 **Model bundle committed (`data/processed/model_bundle.pkl`).** PLAN/gitignore treats
 `data/processed/**` as regenerable cache, not committed. The bundle is the exception: it's

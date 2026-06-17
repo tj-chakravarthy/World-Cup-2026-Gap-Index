@@ -13,7 +13,7 @@ terms; the pipeline **regenerates** restrictive sources rather than republishing
 | Dataset | Source | License / terms | Why committed |
 |---|---|---|---|
 | `squads_2026.csv`, `squads_2018.csv`, `squads_2022.csv` | Wikipedia squad articles | Factual rosters; Wikipedia text CC-BY-SA 4.0 | Small canonical 26-man lists, hand-cleaned |
-| `venues_2026.csv` | Wikipedia + manual | Factual, hand-curated | Stadiums + lat/long for heat/travel |
+| `venues_2026.csv` | Wikipedia + manual | Factual, hand-curated | Host stadiums + lat/long/altitude (reference; not a model input) |
 | `fixtures_2026.csv` | fixturedownload.com (free JSON feed) | Free to use; factual schedule + live scores | The live-score spine (this snapshot committed; refreshed each run) |
 | `team_codes.csv`, `transfermarkt_team_ids.csv`, `name_overrides.csv` | Hand-built crosswalks (this project) | MIT — factual id/name maps | FIFA-code ↔ source-name / Transfermarkt verein-id maps |
 | `market_odds/*.csv` | [`eatpizzanot/soccer-dataset`](https://github.com/eatpizzanot/soccer-dataset) — Pinnacle closing 1X2 via API-Football | **CC-BY-4.0 — attribution required** | Basis of the §4.6 market benchmark; committed (112 KB) for reproducibility, with attribution |
@@ -41,8 +41,6 @@ Bulk data the pipeline fetches on the dev boxes and writes under `data/raw/` (ig
 | [`martj42/international_results`](https://github.com/martj42/international_results) | ~150 years of international results | Public community dataset; fetched, not vendored |
 | eloratings.net | National-team Elo (reference) | Public reference; the project **computes its own Elo from results**, using eloratings only as a sanity check |
 | clubelo.com (API) | Club Elo | Free API; attribution requested |
-| [Open-Meteo](https://open-meteo.com) | Match-day weather | Weather data **CC-BY-4.0** |
-| The Odds API / API-Football (keyed) | Live odds / injuries | Vendor APIs (keys optional), used per their terms — **odds only ever score the model, never an input** |
 | Match cards (yellow/red) | Group-stage team conduct (Art. 13 §1 f) | No card feed wired here (no key) → conduct runs at zero until `data/raw/cards_2026.csv` (one row per fixture+team) is provided; `load_conduct` then feeds it to the simulator |
 
 ## Notes

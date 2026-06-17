@@ -231,39 +231,6 @@ def compare(matched: pd.DataFrame, extra: dict[str, str] | None = None) -> pd.Da
     return pd.DataFrame(rows)
 
 
-# --- live-benchmark scaffold (runs once an odds key is configured) ---------------
-
-def load_live_odds(snap_dir: Path = RAW / "odds_snapshots") -> pd.DataFrame:
-    """Most recent captured live 1X2 snapshot (src/pipeline/fetch_odds.py, key-gated)
-    de-vigged to [date, home, away, p_home, p_draw, p_away]. Empty frame if no snapshot
-    is present (no ODDS_API_KEY configured / capture never run). The live path scores
-    WC2026 fixtures against the market as the tournament unfolds — not part of the
-    backtest, which is odds-covered only from 2020 on."""
-    import json
-    cols = ["date", "home", "away", "p_home", "p_draw", "p_away"]
-    if not snap_dir.exists():
-        return pd.DataFrame(columns=cols)
-    snaps = sorted(snap_dir.glob("*.json"))
-    if not snaps:
-        return pd.DataFrame(columns=cols)
-    data = json.loads(snaps[-1].read_text())
-    rows = []
-    for fx in data.get("raw", []):
-        prices = {}
-        for bk in fx.get("bookmakers", []):
-            for mk in bk.get("markets", []):
-                if mk.get("key") == "h2h":
-                    for oc in mk.get("outcomes", []):
-                        prices[oc["name"]] = oc["price"]
-        h, a = fx.get("home_team"), fx.get("away_team")
-        if h in prices and a in prices and "Draw" in prices:
-            ph, pd_, pa = devig(prices[h], prices["Draw"], prices[a])
-            rows.append({"date": str(fx.get("commence_time", ""))[:10],
-                         "home": h, "away": a,
-                         "p_home": ph, "p_draw": pd_, "p_away": pa})
-    return pd.DataFrame(rows, columns=cols)
-
-
 # --- main ------------------------------------------------------------------------
 
 def _model_predictions() -> pd.DataFrame:
@@ -297,8 +264,6 @@ def main() -> None:
     if odds.empty:
         print("no cached backtest odds (data/raw/market_odds/ absent) — backtest market "
               "comparison unavailable; only Elo is the free backtest baseline.")
-        print("live market benchmark runs once ODDS_API_KEY + a snapshot exist "
-              "(src/pipeline/fetch_odds.py).")
         h, d, a = devig(2.0, 3.4, 4.0)
         print(f"devig demo: 2.0/3.4/4.0 -> H={h:.3f} D={d:.3f} A={a:.3f} (sum={h+d+a:.3f})")
         return
