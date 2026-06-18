@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-18T21:22:07Z",
+  "generated_at": "2026-06-18T21:55:17Z",
   "n_receipts": 68,
-  "n_audit_rows": 1012,
-  "n_resolved": 21,
+  "n_audit_rows": 1059,
+  "n_resolved": 22,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -318,6 +318,21 @@
       "called": false,
       "top_score": "1-1",
       "exact_hit": true
+    },
+    {
+      "fixture_id": "WC26-M026",
+      "kickoff_utc": "2026-06-18T19:00:00Z",
+      "team1": "SUI",
+      "team2": "BIH",
+      "model": "live",
+      "p_team1": 0.5613,
+      "p_draw": 0.25,
+      "p_team2": 0.1887,
+      "actual": "4-1",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
     }
   ]
 }

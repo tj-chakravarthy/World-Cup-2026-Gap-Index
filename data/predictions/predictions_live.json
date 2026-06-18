@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@59ba306",
-  "generated_at": "2026-06-18T21:22:07Z",
+  "model_version": "live-elo-mkt@0e72663",
+  "generated_at": "2026-06-18T21:55:17Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-18T21:22:07Z",
+      "as_of": "2026-06-18T21:55:17Z",
       "stale": false
     },
     {
@@ -2160,17 +2160,5 @@
       "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M026",
-      "team1": "SUI",
-      "team2": "BIH",
-      "kickoff_utc": "2026-06-18T19:00:00Z",
-      "wdl": {
-        "team1": 0.5613411735946573,
-        "draw": 0.25000876730298305,
-        "team2": 0.1886500591023597
-      }
-    }
-  ]
+  "live_now": []
 }
