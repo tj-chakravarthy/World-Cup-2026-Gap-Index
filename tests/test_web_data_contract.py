@@ -93,6 +93,37 @@ def test_movement_json_contract():
                 assert isinstance(m.get(k), (int, float))
 
 
+def test_analysis_json_contract():
+    """renderGap/renderPlayers/renderCalibration/renderAblation: the bottom analysis tabs."""
+    d = _load("analysis.json")
+    g = d.get("gap")
+    assert isinstance(g, dict) and isinstance(g.get("teams"), list) and g["teams"], "gap teams"
+    assert isinstance(g.get("r2"), (int, float))
+    for t in g["teams"]:
+        for k in ("code", "team", "t"):
+            assert isinstance(t.get(k), str), f"gap row missing/!str {k}"
+        for k in ("gap", "lo", "hi", "talent"):
+            assert isinstance(t.get(k), (int, float)), f"gap row {k}"
+    players = d.get("players")
+    assert isinstance(players, list) and players, "players list"
+    for p in players:
+        assert isinstance(p.get("name"), str) and isinstance(p.get("code"), str)
+        assert isinstance(p.get("score"), (int, float))
+        assert p.get("mv") is None or isinstance(p["mv"], (int, float))
+    ab = d.get("ablation")
+    assert isinstance(ab, dict) and isinstance(ab.get("rows"), list) and ab["rows"]
+    assert any(r.get("set") == "+ market value" for r in ab["rows"]), "the live-model row (badge)"
+    for r in ab["rows"]:
+        for k in ("brier", "lo", "hi"):
+            assert isinstance(r.get(k), (int, float)), f"ablation {k}"
+    cal = d.get("calibration")
+    assert isinstance(cal, list) and cal, "calibration points"
+    for c in cal:
+        assert isinstance(c.get("outcome"), str)
+        for k in ("pred", "obs"):
+            assert isinstance(c.get(k), (int, float)) and 0 <= c[k] <= 1, f"calibration {k}"
+
+
 def test_track_record_json_contract():
     """renderTrack: n_receipts, n_audit_rows, n_resolved, resolved[].{teams, p_*, actual, model…}."""
     d = _load("track_record.json")

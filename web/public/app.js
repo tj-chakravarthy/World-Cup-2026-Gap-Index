@@ -296,6 +296,129 @@ function renderTrack(tr, inputs, live) {
   setupCollapse(el, toggle, 3, games.length);
 }
 
+const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+// reveal a bottom section + its (hidden-by-default) nav pill once its data has loaded
+function showSection(id) {
+  const sec = document.getElementById(id);
+  const nav = document.getElementById("nav-" + id);
+  if (sec) sec.hidden = false;
+  if (nav) nav.hidden = false;
+}
+
+// Gap Index: talent-vs-result residual per team, a diverging bar (over right / under left). The
+// headline is the 6 biggest over- and under-performers; the middle unfolds behind the toggle.
+function renderGap(gap) {
+  const el = document.getElementById("gap-list");
+  if (!el || !gap || !(gap.teams || []).length) return;
+  const r2 = document.getElementById("gap-r2");
+  if (r2 && gap.r2 != null) r2.textContent = gap.r2.toFixed(2);
+  const teams = gap.teams;                                  // sorted gap desc (over -> under)
+  const maxAbs = Math.max(...teams.map((t) => Math.abs(t.gap))) || 1;
+  const headline = new Set([...teams.slice(0, 6), ...teams.slice(-6)]);
+  el.innerHTML = teams.map((t) => {
+    const over = t.gap >= 0;
+    const w = Math.min(50, (Math.abs(t.gap) / maxAbs) * 50);
+    const fill = over ? `left:50%;width:${w}%` : `right:50%;width:${w}%`;
+    return `<div class="gap-row${headline.has(t) ? "" : " extra"}">
+      <div class="gap-team">${name(t.code)}<span class="gap-t">${esc(t.t)}</span></div>
+      <div class="gap-track"><i class="gap-fill ${over ? "over" : "under"}" style="${fill}"></i></div>
+      <div class="gap-num ${over ? "over" : "under"}">${t.gap >= 0 ? "+" : "−"}${Math.abs(t.gap).toFixed(2)}
+        <span class="gap-band">[${t.lo.toFixed(1)}, ${t.hi.toFixed(1)}]</span></div>
+    </div>`;
+  }).join("");
+  const btn = document.getElementById("gap-toggle");
+  if (btn && teams.length > headline.size) {
+    el.classList.add("collapsed");
+    btn.hidden = false;
+    const more = `Show all ${teams.length} ▾`;
+    btn.textContent = more;
+    btn.onclick = () => {
+      const c = el.classList.toggle("collapsed");
+      btn.setAttribute("aria-expanded", String(!c));
+      btn.textContent = c ? more : "Show fewer ▴";
+    };
+  }
+  showSection("gap");
+}
+
+// Player ratings: top club-stats scores (0-100), the score chip on the same heat ramp as the board.
+function renderPlayers(players) {
+  const el = document.getElementById("players-list");
+  if (!el || !(players || []).length) return;
+  el.innerHTML = players.map((p, i) => {
+    const fg = p.score / 100 >= 62 ? "#0A0A0F" : "#f5f5f7";
+    const mv = p.mv != null ? `€${p.mv}m` : "—";
+    return `<div class="pl-row${i >= 12 ? " extra" : ""}">
+      <span class="pl-rk">${i + 1}</span>
+      <span class="pl-name">${esc(p.name)}<span class="code">${esc(p.code)}</span></span>
+      <span class="pl-pos">${esc(p.pos)}</span>
+      <span class="pl-mv">${mv}</span>
+      <span class="pl-score" style="background:${heat(p.score / 100)};color:${fg}">${p.score.toFixed(1)}</span>
+    </div>`;
+  }).join("");
+  setupCollapse(el, document.getElementById("players-toggle"), 12, players.length);
+  showSection("players");
+}
+
+// Calibration: a reliability diagram (predicted vs observed per outcome) drawn as a small SVG.
+const CAL_COLORS = { "team1 win": "#E8FF00", draw: "#8b8b9e", "team2 win": "#7a93c4" };
+function renderCalibration(cal) {
+  const el = document.getElementById("calibration-chart");
+  if (!el || !(cal || []).length) return;
+  const W = 300, H = 300, m = 34, pad = 14;
+  const sx = (v) => m + v * (W - pad - m);
+  const sy = (v) => (H - m) - v * (H - m - pad);
+  const grid = [0, 0.5, 1];
+  const axes =
+    grid.map((v) => `<line x1="${sx(v)}" y1="${sy(0)}" x2="${sx(v)}" y2="${sy(1)}" class="cal-grid"/>` +
+                    `<line x1="${sx(0)}" y1="${sy(v)}" x2="${sx(1)}" y2="${sy(v)}" class="cal-grid"/>`).join("") +
+    `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(1)}" y2="${sy(1)}" class="cal-diag"/>` +
+    grid.map((v) => `<text x="${sx(v)}" y="${H - m + 16}" class="cal-tick" text-anchor="middle">${v}</text>` +
+                    `<text x="${m - 8}" y="${sy(v) + 4}" class="cal-tick" text-anchor="end">${v}</text>`).join("");
+  const dots = cal.map((p) => {
+    const r = Math.min(12, 3 + Math.sqrt(p.n) * 0.7);
+    return `<circle cx="${sx(p.pred)}" cy="${sy(p.obs)}" r="${r}" fill="${CAL_COLORS[p.outcome] || "#fff"}"
+            fill-opacity="0.78"><title>${p.outcome}: predicted ${Math.round(p.pred * 100)}%, observed ${Math.round(p.obs * 100)}% (${p.n} games)</title></circle>`;
+  }).join("");
+  el.innerHTML =
+    `<svg viewBox="0 0 ${W} ${H}" class="cal-svg" role="img" aria-label="reliability diagram">` +
+    axes + dots +
+    `<text x="${sx(0.5)}" y="${H - 4}" class="cal-axis" text-anchor="middle">predicted probability</text>` +
+    `<text x="12" y="${sy(0.5)}" class="cal-axis" text-anchor="middle" transform="rotate(-90 12 ${sy(0.5)})">observed frequency</text>` +
+    `</svg>`;
+  const legend = document.getElementById("calibration-legend");
+  if (legend) legend.innerHTML = Object.entries(CAL_COLORS).map(([k, c]) =>
+    `<span class="cal-key"><i style="background:${c}"></i>${k}</span>`).join("");
+  showSection("calibration");
+}
+
+// Ablation: Brier per feature set, lower = better. The bar is the 95% CI mapped across a zoomed
+// domain (the scores are close), the dot the point estimate; the live model's row is flagged.
+function renderAblation(model) {
+  const el = document.getElementById("model-list");
+  if (!el || !model || !(model.rows || []).length) return;
+  const rows = model.rows;
+  const lo = Math.min(...rows.map((r) => r.lo)) - 0.002;
+  const hi = Math.max(...rows.map((r) => r.hi)) + 0.002;
+  const pos = (v) => ((v - lo) / (hi - lo)) * 100;
+  el.innerHTML = rows.map((r) => {
+    const live = r.set === "+ market value";
+    const badge = live ? `<span class="ab-badge">live model</span>` : "";
+    return `<div class="ab-row${live ? " live" : ""}">
+      <div class="ab-set">${esc(r.set)}${badge}</div>
+      <div class="ab-track">
+        <i class="ab-ci" style="left:${pos(r.lo)}%;width:${pos(r.hi) - pos(r.lo)}%"></i>
+        <i class="ab-pt" style="left:${pos(r.brier)}%"></i>
+      </div>
+      <div class="ab-num">${r.brier.toFixed(3)}</div>
+    </div>`;
+  }).join("");
+  el.insertAdjacentHTML("beforeend",
+    `<div class="ab-foot"><span>← better</span><span>${model.n}-game backtest · Brier</span></div>`);
+  showSection("model");
+}
+
 async function main() {
   document.getElementById("repo").href = REPO_URL;
 
@@ -310,12 +433,13 @@ async function main() {
   };
 
   try {
-    const [sim, live, track, mi, mv] = await Promise.all([
+    const [sim, live, track, mi, mv, analysis] = await Promise.all([
       getJSON("data/simulation.json"),
       getJSON("data/predictions_live.json"),
       getJSON("data/track_record.json").catch(() => null),
       getJSON("data/model_inputs.json").catch(() => null),
       getJSON("data/movement.json").catch(() => null),
+      getJSON("data/analysis.json").catch(() => null),
     ]);
     const inputs = (mi && mi.fixtures) || {};
     renderMeta(sim, live);
@@ -324,6 +448,12 @@ async function main() {
     renderLive(live);
     renderFixtures(live, inputs);
     if (track) renderTrack(track, inputs, live);
+    if (analysis) {
+      renderGap(analysis.gap);
+      renderPlayers(analysis.players);
+      renderCalibration(analysis.calibration);
+      renderAblation(analysis.ablation);
+    }
     setupSectionNav();
   } catch (e) {
     document.getElementById("meta").innerHTML =

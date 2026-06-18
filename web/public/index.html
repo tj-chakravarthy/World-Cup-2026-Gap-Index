@@ -51,6 +51,10 @@
       <a href="#live" id="nav-live" hidden>Live</a>
       <a href="#fixtures">Next</a>
       <a href="#track">Track</a>
+      <a href="#gap" id="nav-gap" hidden>Gap Index</a>
+      <a href="#players" id="nav-players" hidden>Players</a>
+      <a href="#calibration" id="nav-calibration" hidden>Calibration</a>
+      <a href="#model" id="nav-model" hidden>Model</a>
     </nav>
 
     <section id="forecast">
@@ -96,6 +100,47 @@
               aria-controls="track-list" aria-expanded="false" hidden>Show more ▾</button>
       <p class="fine">Audit note: the raw log keeps one early row (WC26-M013) re-logged just after
       kickoff — kept as honest history, excluded from scoring.</p>
+    </section>
+
+    <section id="gap" hidden>
+      <h2>Gap Index — talent vs result</h2>
+      <p class="sec-intro">The project's namesake. Each squad gets a <b>talent</b> rating from its
+      market value and club form; that predicts expected points per game. The <b>gap</b> is the
+      residual — what a team did <em>beyond</em> its talent — and the residual is the story. Across
+      five completed tournaments talent explains about a third of results (R²≈<span id="gap-r2">·</span>);
+      the bands are wide because three group games is a tiny sample. Over to the right, under to the left.</p>
+      <div id="gap-list"></div>
+      <button id="gap-toggle" class="toggle" type="button"
+              aria-controls="gap-list" aria-expanded="false" hidden>Show all ▾</button>
+    </section>
+
+    <section id="players" hidden>
+      <h2>Player ratings</h2>
+      <p class="sec-intro">I rate every player in the 48 squads from club stats — FBref minutes and
+      Understat expected goals turned into a per-90 VAEP estimate, blended with market value into a
+      0–100 score. It didn't move the match forecast (see Model), so the live model leaves it out —
+      but the ratings stand on their own. Top of the field:</p>
+      <div id="players-list"></div>
+      <button id="players-toggle" class="toggle" type="button"
+              aria-controls="players-list" aria-expanded="false" hidden>Show all ▾</button>
+    </section>
+
+    <section id="calibration" hidden>
+      <h2>Calibration</h2>
+      <p class="sec-intro">Do the probabilities mean what they say? Each point bins the 198 backtest
+      predictions by confidence; a well-calibrated model sits on the diagonal — when it says 60%, it
+      happens about 60% of the time. Dot size is the number of games in the bin.</p>
+      <div id="calibration-chart"></div>
+      <div id="calibration-legend" class="cal-legend"></div>
+    </section>
+
+    <section id="model" hidden>
+      <h2>What's in the model (and what isn't)</h2>
+      <p class="sec-intro">Feature ablation on the 198-game backtest (Brier score, <b>lower is
+      better</b>; the bar is the 95% interval, the dot the point estimate). Market value on top of
+      Elo helps a hair; adding player VAEP and squad structure doesn't — so the live model is Elo +
+      market value only. An honest negative result, kept.</p>
+      <div id="model-list"></div>
     </section>
 
     <footer>

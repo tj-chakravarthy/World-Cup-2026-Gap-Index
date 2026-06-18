@@ -146,6 +146,64 @@ html{scroll-behavior:smooth}
 .tr-line .no{color:#8b8b9e}
 .tr-line .exact{color:var(--volt)}
 
+/* bottom analysis tabs (Gap Index, Players, Calibration, Model) — the work behind the forecast */
+.sec-intro{color:var(--white); font-size:13.5px; line-height:1.6; max-width:64ch; margin:0 0 14px}
+.sec-intro em{color:var(--volt); font-style:normal}
+.sec-intro b{color:var(--volt); font-weight:600}
+
+/* Gap Index — diverging residual bar, over (volt) right of centre, under (blue) left */
+#gap-list{display:grid; gap:7px}
+.gap-row{display:grid; grid-template-columns:minmax(118px,1.1fr) 1.5fr auto; align-items:center;
+  gap:12px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:9px 13px}
+.gap-team{font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.gap-t{color:var(--muted); font-weight:500; font-size:11px; margin-left:7px}
+.gap-track{position:relative; height:9px; border-radius:5px; background:var(--line)}
+.gap-track::before{content:""; position:absolute; left:50%; top:-2px; bottom:-2px; width:1px; background:#3a3a48}
+.gap-fill{position:absolute; top:0; bottom:0; border-radius:5px}
+.gap-fill.over{background:var(--volt)}
+.gap-fill.under{background:#7a93c4}
+.gap-num{font-variant-numeric:tabular-nums; font-weight:700; font-size:12.5px; text-align:right; white-space:nowrap}
+.gap-num.over{color:var(--volt)}
+.gap-num.under{color:#7a93c4}
+.gap-band{display:block; color:var(--muted); font-weight:500; font-size:10.5px}
+
+/* Player ratings — ranked rows, score chip on the heat ramp */
+#players-list{display:grid; gap:5px}
+.pl-row{display:grid; grid-template-columns:26px 1fr auto auto auto; align-items:center; gap:10px;
+  background:var(--surface); border:1px solid var(--line); border-radius:9px; padding:7px 12px; font-size:13px}
+.pl-rk{color:var(--muted); font-variant-numeric:tabular-nums; text-align:right}
+.pl-name{font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pl-name .code{color:var(--muted); font-weight:500; font-size:11px; margin-left:6px}
+.pl-pos{color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.4px; width:30px; text-align:center}
+.pl-mv{color:var(--muted); font-variant-numeric:tabular-nums; font-size:12px; min-width:52px; text-align:right}
+.pl-score{display:inline-block; min-width:42px; text-align:center; border-radius:5px; padding:3px 0;
+  font-weight:700; font-variant-numeric:tabular-nums; font-size:12.5px}
+
+/* Calibration — reliability diagram (SVG) */
+#calibration-chart{display:flex; justify-content:center}
+.cal-svg{width:100%; max-width:340px; height:auto}
+.cal-grid{stroke:var(--line); stroke-width:1}
+.cal-diag{stroke:#3a3a48; stroke-width:1; stroke-dasharray:4 4}
+.cal-tick{fill:var(--muted); font-size:11px}
+.cal-axis{fill:var(--muted); font-size:11px; letter-spacing:.3px}
+.cal-legend{display:flex; gap:16px; justify-content:center; margin-top:10px; flex-wrap:wrap}
+.cal-key{display:flex; align-items:center; gap:6px; color:var(--muted); font-size:12px}
+.cal-key i{width:11px; height:11px; border-radius:50%; display:inline-block}
+
+/* Model ablation — Brier per feature set on a zoomed domain, CI bar + point */
+#model-list{display:grid; gap:8px}
+.ab-row{display:grid; grid-template-columns:minmax(118px,1fr) 1.6fr auto; align-items:center; gap:12px;
+  background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 13px}
+.ab-row.live{border-color:var(--volt)}
+.ab-set{font-weight:600; font-size:12.5px}
+.ab-badge{margin-left:8px; padding:1px 7px; border:1px solid var(--volt); border-radius:999px;
+  color:var(--volt); font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.4px}
+.ab-track{position:relative; height:10px; border-radius:5px; background:var(--line)}
+.ab-ci{position:absolute; top:0; bottom:0; background:#2a3a55; border-radius:5px}
+.ab-pt{position:absolute; top:-2px; width:3px; height:14px; border-radius:2px; background:var(--volt); transform:translateX(-50%)}
+.ab-num{font-variant-numeric:tabular-nums; font-weight:700; font-size:12.5px; color:var(--white)}
+.ab-foot{display:flex; justify-content:space-between; color:var(--muted); font-size:11px; margin-top:2px}
+
 footer{margin-top:46px; border-top:1px solid var(--line); padding-top:18px}
 .fine{color:var(--muted); font-size:12.5px}
 a{color:var(--volt); text-decoration:none}
@@ -156,4 +214,9 @@ a:hover{text-decoration:underline}
   .head h1{font-size:27px}
   main{padding:20px 13px 50px}
   .mv-movers{grid-template-columns:1fr}
+  .gap-row{grid-template-columns:minmax(92px,1fr) 1.3fr auto; gap:8px; padding:8px 10px}
+  .gap-t{display:block; margin-left:0}
+  .pl-row{gap:8px; padding:7px 10px}
+  .pl-mv{display:none}            /* drop market value on narrow screens; name+pos+score stay */
+  .ab-row{grid-template-columns:1fr 1.2fr auto; gap:9px}
 }

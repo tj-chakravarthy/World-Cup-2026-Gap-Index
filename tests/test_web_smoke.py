@@ -82,8 +82,13 @@ def test_content_renders(base_url):
         assert page.locator("#track-list .tr").count() >= 1
         # the model-input bars (tale of the tape) render on the match cards
         assert page.locator(".tape").count() >= 1
-        # sticky section nav renders its pills (Forecast / Next / Track at minimum)
-        assert page.locator(".sectnav a").count() >= 3
+        # sticky section nav renders its pills (Forecast / Next / Track + the 4 analysis tabs)
+        assert page.locator(".sectnav a:visible").count() >= 7
+        # the bottom analysis tabs render from analysis.json
+        assert page.locator("#gap-list .gap-row").count() >= 1
+        assert page.locator("#players-list .pl-row").count() >= 1
+        assert page.locator("#calibration-chart svg").count() == 1
+        assert page.locator("#model-list .ab-row").count() >= 1
         # collapse: with >3 receipts, only the top 3 show until the toggle is clicked
         n_track = page.locator("#track-list .tr").count()
         if n_track > 3:
@@ -99,7 +104,7 @@ def test_key_assets_load(base_url):
     with _page(base_url) as (page, _errors, _failed):
         for asset in ("og.png", "favicon.svg", "data/simulation.json",
                       "data/predictions_live.json", "data/track_record.json",
-                      "data/model_inputs.json", "data/movement.json"):
+                      "data/model_inputs.json", "data/movement.json", "data/analysis.json"):
             resp = page.request.get(base_url + asset)
             assert resp.ok, f"{asset} -> HTTP {resp.status}"
 

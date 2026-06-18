@@ -1,0 +1,1662 @@
+{
+  "generated_at": "2026-06-18T08:54:53Z",
+  "gap": {
+    "r2": 0.3,
+    "n_teams": 128,
+    "teams": [
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "VEN",
+        "team": "Venezuela",
+        "gap": 1.93,
+        "lo": 0.54,
+        "hi": 2.03,
+        "talent": -0.73,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "URU",
+        "team": "Uruguay",
+        "gap": 1.4,
+        "lo": 0.26,
+        "hi": 1.48,
+        "talent": 0.52,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "CRO",
+        "team": "Croatia",
+        "gap": 1.36,
+        "lo": 0.52,
+        "hi": 1.45,
+        "talent": 0.6,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "NED",
+        "team": "Netherlands",
+        "gap": 1.35,
+        "lo": 0.37,
+        "hi": 1.45,
+        "talent": 0.62,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "URU",
+        "team": "Uruguay",
+        "gap": 1.19,
+        "lo": 0.29,
+        "hi": 1.3,
+        "talent": 0.99,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "MAR",
+        "team": "Morocco",
+        "gap": 1.19,
+        "lo": -0.14,
+        "hi": 1.9,
+        "talent": -0.54,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "BEL",
+        "team": "Belgium",
+        "gap": 1.18,
+        "lo": -0.02,
+        "hi": 1.29,
+        "talent": 1.02,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "AUS",
+        "team": "Australia",
+        "gap": 1.16,
+        "lo": -0.43,
+        "hi": 2.19,
+        "talent": -1.26,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "ITA",
+        "team": "Italy",
+        "gap": 1.13,
+        "lo": 0.23,
+        "hi": 1.24,
+        "talent": 1.14,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "SWE",
+        "team": "Sweden",
+        "gap": 1.1,
+        "lo": -0.17,
+        "hi": 1.82,
+        "talent": -0.35,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "ESP",
+        "team": "Spain",
+        "gap": 1.1,
+        "lo": 0.12,
+        "hi": 1.21,
+        "talent": 1.21,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "BEL",
+        "team": "Belgium",
+        "gap": 0.98,
+        "lo": -0.0,
+        "hi": 1.11,
+        "talent": 1.49,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "PAN",
+        "team": "Panama",
+        "gap": 0.89,
+        "lo": -0.76,
+        "hi": 1.92,
+        "talent": -0.63,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "RUS",
+        "team": "Russia",
+        "gap": 0.85,
+        "lo": -0.93,
+        "hi": 1.89,
+        "talent": -0.53,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "SWE",
+        "team": "Sweden",
+        "gap": 0.83,
+        "lo": -0.07,
+        "hi": 1.79,
+        "talent": -0.48,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "JPN",
+        "team": "Japan",
+        "gap": 0.81,
+        "lo": -0.49,
+        "hi": 1.83,
+        "talent": -0.45,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "TUR",
+        "team": "Turkey",
+        "gap": 0.8,
+        "lo": -0.19,
+        "hi": 1.71,
+        "talent": -0.41,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "SEN",
+        "team": "Senegal",
+        "gap": 0.79,
+        "lo": -0.21,
+        "hi": 1.69,
+        "talent": -0.38,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "AUT",
+        "team": "Austria",
+        "gap": 0.76,
+        "lo": -0.18,
+        "hi": 1.69,
+        "talent": -0.32,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "ARG",
+        "team": "Argentina",
+        "gap": 0.74,
+        "lo": -0.1,
+        "hi": 0.9,
+        "talent": 2.04,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "CRC",
+        "team": "Costa Rica",
+        "gap": 0.61,
+        "lo": -0.7,
+        "hi": 2.03,
+        "talent": -1.52,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "GEO",
+        "team": "Georgia",
+        "gap": 0.6,
+        "lo": -0.77,
+        "hi": 2.25,
+        "talent": -1.51,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "AUT",
+        "team": "Austria",
+        "gap": 0.6,
+        "lo": -0.32,
+        "hi": 1.47,
+        "talent": 0.05,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "ROU",
+        "team": "Romania",
+        "gap": 0.59,
+        "lo": -0.78,
+        "hi": 2.25,
+        "talent": -1.48,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "COL",
+        "team": "Colombia",
+        "gap": 0.52,
+        "lo": -0.62,
+        "hi": 1.23,
+        "talent": 1.02,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "MEX",
+        "team": "Mexico",
+        "gap": 0.5,
+        "lo": -0.76,
+        "hi": 1.49,
+        "talent": 0.28,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "NED",
+        "team": "Netherlands",
+        "gap": 0.49,
+        "lo": -0.44,
+        "hi": 1.19,
+        "talent": 1.07,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "ENG",
+        "team": "England",
+        "gap": 0.49,
+        "lo": -0.39,
+        "hi": 1.17,
+        "talent": 1.07,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "SVK",
+        "team": "Slovakia",
+        "gap": 0.47,
+        "lo": -0.83,
+        "hi": 1.86,
+        "talent": -1.21,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "CMR",
+        "team": "Cameroon",
+        "gap": 0.46,
+        "lo": -0.74,
+        "hi": 1.7,
+        "talent": -1.18,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "SUI",
+        "team": "Switzerland",
+        "gap": 0.44,
+        "lo": -0.38,
+        "hi": 1.33,
+        "talent": 0.41,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "GER",
+        "team": "Germany",
+        "gap": 0.43,
+        "lo": -0.44,
+        "hi": 1.13,
+        "talent": 1.21,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "TUN",
+        "team": "Tunisia",
+        "gap": 0.43,
+        "lo": -0.92,
+        "hi": 2.0,
+        "talent": -1.11,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "SUI",
+        "team": "Switzerland",
+        "gap": 0.42,
+        "lo": -0.61,
+        "hi": 1.47,
+        "talent": -0.31,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "COL",
+        "team": "Colombia",
+        "gap": 0.41,
+        "lo": -0.83,
+        "hi": 1.42,
+        "talent": 0.49,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "FRA",
+        "team": "France",
+        "gap": 0.39,
+        "lo": -0.44,
+        "hi": 1.09,
+        "talent": 1.31,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "USA",
+        "team": "United States",
+        "gap": 0.39,
+        "lo": -0.91,
+        "hi": 1.63,
+        "talent": -0.23,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "ENG",
+        "team": "England",
+        "gap": 0.38,
+        "lo": -0.64,
+        "hi": 1.09,
+        "talent": 1.33,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "FIN",
+        "team": "Finland",
+        "gap": 0.34,
+        "lo": -0.72,
+        "hi": 1.99,
+        "talent": -1.67,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "KSA",
+        "team": "Saudi Arabia",
+        "gap": 0.31,
+        "lo": -0.75,
+        "hi": 2.13,
+        "talent": -1.61,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "ENG",
+        "team": "England",
+        "gap": 0.28,
+        "lo": -1.37,
+        "hi": 1.31,
+        "talent": 0.79,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "DEN",
+        "team": "Denmark",
+        "gap": 0.27,
+        "lo": -0.55,
+        "hi": 1.09,
+        "talent": 0.03,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "KOR",
+        "team": "South Korea",
+        "gap": 0.25,
+        "lo": -1.07,
+        "hi": 1.85,
+        "talent": -0.69,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "GHA",
+        "team": "Ghana",
+        "gap": 0.24,
+        "lo": -0.74,
+        "hi": 1.37,
+        "talent": -1.43,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "CRC",
+        "team": "Costa Rica",
+        "gap": 0.22,
+        "lo": -0.83,
+        "hi": 1.97,
+        "talent": -1.4,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "SVK",
+        "team": "Slovakia",
+        "gap": 0.21,
+        "lo": -0.8,
+        "hi": 1.44,
+        "talent": -1.38,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "JPN",
+        "team": "Japan",
+        "gap": 0.2,
+        "lo": -1.07,
+        "hi": 1.51,
+        "talent": -0.57,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "KSA",
+        "team": "Saudi Arabia",
+        "gap": 0.2,
+        "lo": -0.88,
+        "hi": 2.11,
+        "talent": -1.35,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "IRN",
+        "team": "Iran",
+        "gap": 0.2,
+        "lo": -1.11,
+        "hi": 1.71,
+        "talent": -0.57,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "SUI",
+        "team": "Switzerland",
+        "gap": 0.2,
+        "lo": -0.64,
+        "hi": 1.03,
+        "talent": 0.2,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "ECU",
+        "team": "Ecuador",
+        "gap": 0.19,
+        "lo": -1.13,
+        "hi": 1.75,
+        "talent": -0.56,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "TUN",
+        "team": "Tunisia",
+        "gap": 0.19,
+        "lo": -0.85,
+        "hi": 1.66,
+        "talent": -1.33,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "CZE",
+        "team": "Czech Republic",
+        "gap": 0.18,
+        "lo": -0.77,
+        "hi": 1.16,
+        "talent": -0.53,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "SVN",
+        "team": "Slovenia",
+        "gap": 0.13,
+        "lo": -0.92,
+        "hi": 1.68,
+        "talent": -1.18,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "NGA",
+        "team": "Nigeria",
+        "gap": 0.12,
+        "lo": -0.9,
+        "hi": 1.38,
+        "talent": -1.16,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "POR",
+        "team": "Portugal",
+        "gap": 0.11,
+        "lo": -0.73,
+        "hi": 0.98,
+        "talent": 1.17,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "BRA",
+        "team": "Brazil",
+        "gap": 0.09,
+        "lo": -0.97,
+        "hi": 0.83,
+        "talent": 2.0,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "FRA",
+        "team": "France",
+        "gap": 0.08,
+        "lo": -0.76,
+        "hi": 0.94,
+        "talent": 1.26,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "KOR",
+        "team": "South Korea",
+        "gap": 0.08,
+        "lo": -0.98,
+        "hi": 1.81,
+        "talent": -1.06,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "UKR",
+        "team": "Ukraine",
+        "gap": 0.05,
+        "lo": -1.29,
+        "hi": 1.69,
+        "talent": -0.23,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "WAL",
+        "team": "Wales",
+        "gap": 0.05,
+        "lo": -0.88,
+        "hi": 1.0,
+        "talent": -0.23,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "POL",
+        "team": "Poland",
+        "gap": 0.04,
+        "lo": -0.89,
+        "hi": 0.93,
+        "talent": -0.21,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "CRO",
+        "team": "Croatia",
+        "gap": 0.04,
+        "lo": -0.83,
+        "hi": 0.91,
+        "talent": 0.58,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "MEX",
+        "team": "Mexico",
+        "gap": 0.04,
+        "lo": -1.27,
+        "hi": 1.47,
+        "talent": -0.19,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "POR",
+        "team": "Portugal",
+        "gap": 0.02,
+        "lo": -1.01,
+        "hi": 0.95,
+        "talent": 1.39,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "CAN",
+        "team": "Canada",
+        "gap": 0.01,
+        "lo": -1.25,
+        "hi": 1.21,
+        "talent": -0.12,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "SEN",
+        "team": "Senegal",
+        "gap": -0.04,
+        "lo": -0.9,
+        "hi": 0.82,
+        "talent": -0.02,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "MEX",
+        "team": "Mexico",
+        "gap": -0.05,
+        "lo": -1.24,
+        "hi": 1.1,
+        "talent": 0.0,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "RUS",
+        "team": "Russia",
+        "gap": -0.06,
+        "lo": -1.11,
+        "hi": 1.88,
+        "talent": -0.74,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "IRN",
+        "team": "Iran",
+        "gap": -0.09,
+        "lo": -1.12,
+        "hi": 1.3,
+        "talent": -0.68,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "HUN",
+        "team": "Hungary",
+        "gap": -0.1,
+        "lo": -1.14,
+        "hi": 1.83,
+        "talent": -0.66,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "ARG",
+        "team": "Argentina",
+        "gap": -0.1,
+        "lo": -1.14,
+        "hi": 0.84,
+        "talent": 1.68,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "ECU",
+        "team": "Ecuador",
+        "gap": -0.11,
+        "lo": -1.29,
+        "hi": 1.04,
+        "talent": 0.15,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "CRO",
+        "team": "Croatia",
+        "gap": -0.12,
+        "lo": -1.13,
+        "hi": 0.89,
+        "talent": 0.17,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "SUI",
+        "team": "Switzerland",
+        "gap": -0.14,
+        "lo": -1.15,
+        "hi": 0.88,
+        "talent": 0.22,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "HUN",
+        "team": "Hungary",
+        "gap": -0.14,
+        "lo": -0.9,
+        "hi": 1.64,
+        "talent": -1.33,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "UKR",
+        "team": "Ukraine",
+        "gap": -0.21,
+        "lo": -1.25,
+        "hi": 1.74,
+        "talent": -0.41,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "POR",
+        "team": "Portugal",
+        "gap": -0.21,
+        "lo": -1.06,
+        "hi": 0.63,
+        "talent": 1.15,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "URU",
+        "team": "Uruguay",
+        "gap": -0.21,
+        "lo": -1.33,
+        "hi": 0.98,
+        "talent": 0.38,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "BRA",
+        "team": "Brazil",
+        "gap": -0.24,
+        "lo": -1.2,
+        "hi": 0.67,
+        "talent": 2.0,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "PER",
+        "team": "Peru",
+        "gap": -0.25,
+        "lo": -1.27,
+        "hi": 1.39,
+        "talent": -0.31,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "ESP",
+        "team": "Spain",
+        "gap": -0.25,
+        "lo": -1.39,
+        "hi": 0.82,
+        "talent": 1.25,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "SRB",
+        "team": "Serbia",
+        "gap": -0.3,
+        "lo": -1.23,
+        "hi": 0.63,
+        "talent": -0.18,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "ENG",
+        "team": "England",
+        "gap": -0.31,
+        "lo": -1.24,
+        "hi": 0.6,
+        "talent": 1.38,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "ALB",
+        "team": "Albania",
+        "gap": -0.32,
+        "lo": -0.77,
+        "hi": 1.09,
+        "talent": -1.69,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "FRA",
+        "team": "France",
+        "gap": -0.37,
+        "lo": -1.28,
+        "hi": 0.57,
+        "talent": 1.52,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "DEN",
+        "team": "Denmark",
+        "gap": -0.39,
+        "lo": -1.35,
+        "hi": 0.69,
+        "talent": 0.03,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "FRA",
+        "team": "France",
+        "gap": -0.4,
+        "lo": -1.33,
+        "hi": 0.56,
+        "talent": 1.6,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "POL",
+        "team": "Poland",
+        "gap": -0.4,
+        "lo": -1.23,
+        "hi": 0.43,
+        "talent": 0.05,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "ITA",
+        "team": "Italy",
+        "gap": -0.42,
+        "lo": -1.33,
+        "hi": 0.47,
+        "talent": 0.87,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "NED",
+        "team": "Netherlands",
+        "gap": -0.43,
+        "lo": -1.49,
+        "hi": 0.66,
+        "talent": 0.89,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "BEL",
+        "team": "Belgium",
+        "gap": -0.45,
+        "lo": -1.35,
+        "hi": 0.41,
+        "talent": 0.94,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "BRA",
+        "team": "Brazil",
+        "gap": -0.46,
+        "lo": -1.33,
+        "hi": 0.39,
+        "talent": 1.74,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "ESP",
+        "team": "Spain",
+        "gap": -0.49,
+        "lo": -1.45,
+        "hi": 0.44,
+        "talent": 1.81,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "GER",
+        "team": "Germany",
+        "gap": -0.5,
+        "lo": -1.41,
+        "hi": 0.39,
+        "talent": 1.06,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "POR",
+        "team": "Portugal",
+        "gap": -0.51,
+        "lo": -1.43,
+        "hi": 0.44,
+        "talent": 1.08,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "BEL",
+        "team": "Belgium",
+        "gap": -0.53,
+        "lo": -1.43,
+        "hi": 0.38,
+        "talent": 1.12,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "GER",
+        "team": "Germany",
+        "gap": -0.54,
+        "lo": -1.43,
+        "hi": 0.34,
+        "talent": 1.15,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "DEN",
+        "team": "Denmark",
+        "gap": -0.55,
+        "lo": -1.47,
+        "hi": 0.44,
+        "talent": 0.39,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "CHI",
+        "team": "Chile",
+        "gap": -0.58,
+        "lo": -1.3,
+        "hi": 0.87,
+        "talent": -0.31,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "USA",
+        "team": "United States",
+        "gap": -0.6,
+        "lo": -1.47,
+        "hi": 0.24,
+        "talent": 0.5,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "AUS",
+        "team": "Australia",
+        "gap": -0.61,
+        "lo": -1.02,
+        "hi": 0.5,
+        "talent": -1.02,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "MKD",
+        "team": "North Macedonia",
+        "gap": -0.62,
+        "lo": -0.77,
+        "hi": 1.16,
+        "talent": -1.77,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "ESP",
+        "team": "Spain",
+        "gap": -0.62,
+        "lo": -1.43,
+        "hi": 0.27,
+        "talent": 1.34,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "SCO",
+        "team": "Scotland",
+        "gap": -0.66,
+        "lo": -1.07,
+        "hi": 0.31,
+        "talent": -0.9,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "ARG",
+        "team": "Argentina",
+        "gap": -0.66,
+        "lo": -1.77,
+        "hi": 0.49,
+        "talent": 1.43,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "SRB",
+        "team": "Serbia",
+        "gap": -0.68,
+        "lo": -1.38,
+        "hi": 0.5,
+        "talent": -0.08,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "ISL",
+        "team": "Iceland",
+        "gap": -0.7,
+        "lo": -1.11,
+        "hi": 0.55,
+        "talent": -0.81,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "CRC",
+        "team": "Costa Rica",
+        "gap": -0.73,
+        "lo": -1.14,
+        "hi": 0.68,
+        "talent": -0.73,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "PER",
+        "team": "Peru",
+        "gap": -0.75,
+        "lo": -1.16,
+        "hi": 0.87,
+        "talent": -0.7,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "PAN",
+        "team": "Panama",
+        "gap": -0.76,
+        "lo": -0.9,
+        "hi": 1.07,
+        "talent": -1.44,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "QAT",
+        "team": "Qatar",
+        "gap": -0.78,
+        "lo": -0.9,
+        "hi": 1.25,
+        "talent": -1.4,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "CZE",
+        "team": "Czech Republic",
+        "gap": -0.78,
+        "lo": -1.18,
+        "hi": 0.11,
+        "talent": -0.62,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "BOL",
+        "team": "Bolivia",
+        "gap": -0.79,
+        "lo": -0.91,
+        "hi": 0.9,
+        "talent": -1.38,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "MAR",
+        "team": "Morocco",
+        "gap": -0.8,
+        "lo": -1.2,
+        "hi": 0.04,
+        "talent": -0.56,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "POL",
+        "team": "Poland",
+        "gap": -0.83,
+        "lo": -1.22,
+        "hi": 0.19,
+        "talent": -0.51,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "POL",
+        "team": "Poland",
+        "gap": -0.84,
+        "lo": -1.25,
+        "hi": 0.36,
+        "talent": -0.47,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "SCO",
+        "team": "Scotland",
+        "gap": -0.87,
+        "lo": -1.27,
+        "hi": 0.19,
+        "talent": -0.41,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "WAL",
+        "team": "Wales",
+        "gap": -0.88,
+        "lo": -1.27,
+        "hi": -0.0,
+        "talent": -0.39,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "EGY",
+        "team": "Egypt",
+        "gap": -0.93,
+        "lo": -1.04,
+        "hi": 0.76,
+        "talent": -1.06,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "JAM",
+        "team": "Jamaica",
+        "gap": -1.01,
+        "lo": -1.12,
+        "hi": 0.09,
+        "talent": -0.86,
+        "n": 3
+      },
+      {
+        "t": "Euro 2024",
+        "code": "CRO",
+        "team": "Croatia",
+        "gap": -1.03,
+        "lo": -1.74,
+        "hi": -0.01,
+        "talent": 0.73,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "CAN",
+        "team": "Canada",
+        "gap": -1.13,
+        "lo": -1.21,
+        "hi": 0.28,
+        "talent": -0.59,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2018",
+        "code": "GER",
+        "team": "Germany",
+        "gap": -1.14,
+        "lo": -2.01,
+        "hi": -0.27,
+        "talent": 1.77,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "SRB",
+        "team": "Serbia",
+        "gap": -1.18,
+        "lo": -1.58,
+        "hi": -0.21,
+        "talent": 0.32,
+        "n": 3
+      },
+      {
+        "t": "World Cup 2022",
+        "code": "DEN",
+        "team": "Denmark",
+        "gap": -1.25,
+        "lo": -1.64,
+        "hi": -0.33,
+        "talent": 0.47,
+        "n": 3
+      },
+      {
+        "t": "Euro 2020",
+        "code": "TUR",
+        "team": "Turkey",
+        "gap": -1.29,
+        "lo": -1.38,
+        "hi": -0.28,
+        "talent": -0.2,
+        "n": 3
+      },
+      {
+        "t": "Copa Am\u00e9rica 2024",
+        "code": "PAR",
+        "team": "Paraguay",
+        "gap": -1.3,
+        "lo": -1.38,
+        "hi": 0.29,
+        "talent": -0.19,
+        "n": 3
+      }
+    ]
+  },
+  "players": [
+    {
+      "name": "Jamal Musiala",
+      "code": "GER",
+      "pos": "MF",
+      "score": 99.4,
+      "mv": 140.0
+    },
+    {
+      "name": "Federico Valverde",
+      "code": "URU",
+      "pos": "MF",
+      "score": 98.9,
+      "mv": 130.0
+    },
+    {
+      "name": "Lamine Yamal",
+      "code": "ESP",
+      "pos": "FW",
+      "score": 98.5,
+      "mv": 180.0
+    },
+    {
+      "name": "Pedri",
+      "code": "ESP",
+      "pos": "MF",
+      "score": 98.0,
+      "mv": 100.0
+    },
+    {
+      "name": "Luis D\u00edaz",
+      "code": "COL",
+      "pos": "FW",
+      "score": 97.9,
+      "mv": 85.0
+    },
+    {
+      "name": "Achraf Hakimi",
+      "code": "MAR",
+      "pos": "DF",
+      "score": 97.9,
+      "mv": 60.0
+    },
+    {
+      "name": "Lautaro Mart\u00ednez",
+      "code": "ARG",
+      "pos": "FW",
+      "score": 97.7,
+      "mv": 100.0
+    },
+    {
+      "name": "Cristian Romero",
+      "code": "ARG",
+      "pos": "DF",
+      "score": 97.1,
+      "mv": 65.0
+    },
+    {
+      "name": "Ederson Moraes",
+      "code": "BRA",
+      "pos": "GK",
+      "score": 96.9,
+      "mv": 30.0
+    },
+    {
+      "name": "David Raya",
+      "code": "ESP",
+      "pos": "GK",
+      "score": 96.6,
+      "mv": 40.0
+    },
+    {
+      "name": "Th\u00e9o Hernandez",
+      "code": "FRA",
+      "pos": "DF",
+      "score": 96.5,
+      "mv": 50.0
+    },
+    {
+      "name": "Joshua Kimmich",
+      "code": "GER",
+      "pos": "DF",
+      "score": 96.4,
+      "mv": 50.0
+    },
+    {
+      "name": "Bruno Guimar\u00e3es",
+      "code": "BRA",
+      "pos": "MF",
+      "score": 96.2,
+      "mv": 80.0
+    },
+    {
+      "name": "Gabriel Magalh\u00e3es",
+      "code": "BRA",
+      "pos": "DF",
+      "score": 96.1,
+      "mv": 75.0
+    },
+    {
+      "name": "Martin \u00d8degaard",
+      "code": "NOR",
+      "pos": "MF",
+      "score": 96.0,
+      "mv": 110.0
+    },
+    {
+      "name": "Raphinha",
+      "code": "BRA",
+      "pos": "FW",
+      "score": 95.7,
+      "mv": 80.0
+    },
+    {
+      "name": "Rodri",
+      "code": "ESP",
+      "pos": "MF",
+      "score": 95.2,
+      "mv": 130.0
+    },
+    {
+      "name": "Emiliano Mart\u00ednez",
+      "code": "ARG",
+      "pos": "GK",
+      "score": 95.2,
+      "mv": 25.0
+    },
+    {
+      "name": "Bruno Fernandes",
+      "code": "POR",
+      "pos": "MF",
+      "score": 95.0,
+      "mv": 55.0
+    },
+    {
+      "name": "Warren Za\u00efre-Emery",
+      "code": "FRA",
+      "pos": "MF",
+      "score": 94.9,
+      "mv": 60.0
+    },
+    {
+      "name": "Michael Olise",
+      "code": "FRA",
+      "pos": "FW",
+      "score": 94.3,
+      "mv": 65.0
+    },
+    {
+      "name": "\u00c1lex Grimaldo",
+      "code": "ESP",
+      "pos": "DF",
+      "score": 94.3,
+      "mv": 40.0
+    },
+    {
+      "name": "Bernardo Silva",
+      "code": "POR",
+      "pos": "MF",
+      "score": 94.1,
+      "mv": 60.0
+    },
+    {
+      "name": "Darwin N\u00fa\u00f1ez",
+      "code": "URU",
+      "pos": "FW",
+      "score": 94.0,
+      "mv": 65.0
+    },
+    {
+      "name": "Juli\u00e1n Alvarez",
+      "code": "ARG",
+      "pos": "FW",
+      "score": 93.7,
+      "mv": 80.0
+    },
+    {
+      "name": "Dani Olmo",
+      "code": "ESP",
+      "pos": "FW",
+      "score": 93.5,
+      "mv": 60.0
+    },
+    {
+      "name": "R\u00faben Dias",
+      "code": "POR",
+      "pos": "DF",
+      "score": 93.3,
+      "mv": 75.0
+    },
+    {
+      "name": "Vin\u00edcius J\u00fanior",
+      "code": "BRA",
+      "pos": "FW",
+      "score": 93.3,
+      "mv": 200.0
+    },
+    {
+      "name": "Jo\u0161ko Gvardiol",
+      "code": "CRO",
+      "pos": "DF",
+      "score": 93.2,
+      "mv": 75.0
+    },
+    {
+      "name": "Erling Haaland",
+      "code": "NOR",
+      "pos": "FW",
+      "score": 92.6,
+      "mv": 200.0
+    },
+    {
+      "name": "Rayan A\u00eft-Nouri",
+      "code": "ALG",
+      "pos": "DF",
+      "score": 92.6,
+      "mv": 35.0
+    },
+    {
+      "name": "Omar Marmoush",
+      "code": "EGY",
+      "pos": "FW",
+      "score": 92.5,
+      "mv": 60.0
+    },
+    {
+      "name": "Bukayo Saka",
+      "code": "ENG",
+      "pos": "FW",
+      "score": 92.3,
+      "mv": 150.0
+    },
+    {
+      "name": "\u00c9derson Silva",
+      "code": "BRA",
+      "pos": "MF",
+      "score": 92.3,
+      "mv": 50.0
+    },
+    {
+      "name": "Unai Sim\u00f3n",
+      "code": "ESP",
+      "pos": "GK",
+      "score": 92.3,
+      "mv": 28.0
+    },
+    {
+      "name": "Diogo Dalot",
+      "code": "POR",
+      "pos": "DF",
+      "score": 92.0,
+      "mv": 40.0
+    },
+    {
+      "name": "Marcus Rashford",
+      "code": "ENG",
+      "pos": "FW",
+      "score": 91.7,
+      "mv": 55.0
+    },
+    {
+      "name": "Malo Gusto",
+      "code": "FRA",
+      "pos": "DF",
+      "score": 91.6,
+      "mv": 35.0
+    },
+    {
+      "name": "Pedro Porro",
+      "code": "ESP",
+      "pos": "DF",
+      "score": 91.1,
+      "mv": 45.0
+    },
+    {
+      "name": "Mohamed Salah",
+      "code": "EGY",
+      "pos": "FW",
+      "score": 91.0,
+      "mv": 55.0
+    }
+  ],
+  "ablation": {
+    "n": 198,
+    "rows": [
+      {
+        "set": "Elo only",
+        "brier": 0.594,
+        "lo": 0.562,
+        "hi": 0.6172
+      },
+      {
+        "set": "+ market value",
+        "brier": 0.5893,
+        "lo": 0.5591,
+        "hi": 0.611
+      },
+      {
+        "set": "+ predicted-VAEP",
+        "brier": 0.596,
+        "lo": 0.5636,
+        "hi": 0.6216
+      },
+      {
+        "set": "full (+ structure)",
+        "brier": 0.599,
+        "lo": 0.5616,
+        "hi": 0.6233
+      }
+    ]
+  },
+  "calibration": [
+    {
+      "outcome": "team1 win",
+      "pred": 0.148,
+      "obs": 0.28,
+      "n": 25
+    },
+    {
+      "outcome": "team1 win",
+      "pred": 0.303,
+      "obs": 0.125,
+      "n": 64
+    },
+    {
+      "outcome": "team1 win",
+      "pred": 0.503,
+      "obs": 0.574,
+      "n": 68
+    },
+    {
+      "outcome": "team1 win",
+      "pred": 0.667,
+      "obs": 0.659,
+      "n": 41
+    },
+    {
+      "outcome": "draw",
+      "pred": 0.18,
+      "obs": 0.214,
+      "n": 42
+    },
+    {
+      "outcome": "draw",
+      "pred": 0.223,
+      "obs": 0.282,
+      "n": 156
+    },
+    {
+      "outcome": "team2 win",
+      "pred": 0.148,
+      "obs": 0.13,
+      "n": 46
+    },
+    {
+      "outcome": "team2 win",
+      "pred": 0.296,
+      "obs": 0.23,
+      "n": 74
+    },
+    {
+      "outcome": "team2 win",
+      "pred": 0.491,
+      "obs": 0.518,
+      "n": 56
+    },
+    {
+      "outcome": "team2 win",
+      "pred": 0.67,
+      "obs": 0.545,
+      "n": 22
+    }
+  ]
+}
