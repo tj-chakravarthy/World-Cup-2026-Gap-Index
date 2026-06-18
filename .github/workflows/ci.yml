@@ -14,6 +14,10 @@ concurrency:
 jobs:
   python:
     runs-on: ubuntu-latest
+    # the suite (incl. the Playwright browser install + smoke test) runs in ~10 min; cap it so a
+    # wedged runner fails fast instead of hanging to the 6h default (happened once — a stuck
+    # chromium/install step sat ~45 min with no progress).
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
