@@ -16,7 +16,7 @@ const TEAM = {
   SUI:"Switzerland", SWE:"Sweden", TUN:"Tunisia", TUR:"Türkiye", URU:"Uruguay",
   USA:"USA", UZB:"Uzbekistan",
 };
-const name = (c) => TEAM[c] || c;
+const name = (c) => esc(TEAM[c] || c);   // all name() output goes into innerHTML -> escape at the source
 
 const COLS = [
   ["p_R32", "Advance"], ["p_R16", "Last 16"], ["p_QF", "Quarters"],
@@ -29,7 +29,7 @@ const STOPS = [
   [0.62, [95, 122, 0]], [0.82, [169, 196, 0]], [1.00, [232, 255, 0]],
 ];
 function heat(p) {
-  p = Math.max(0, Math.min(1, p));
+  p = Number.isFinite(p) ? Math.max(0, Math.min(1, p)) : 0;   // NaN/undefined -> dark, not bright-yellow
   for (let i = 1; i < STOPS.length; i++) {
     const [p1, c1] = STOPS[i - 1], [p2, c2] = STOPS[i];
     if (p <= p2) {
