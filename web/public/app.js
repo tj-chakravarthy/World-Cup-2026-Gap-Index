@@ -350,7 +350,7 @@ function renderPlayers(players) {
   const el = document.getElementById("players-list");
   if (!el || !(players || []).length) return;
   el.innerHTML = players.map((p, i) => {
-    const fg = p.score / 100 >= 62 ? "#0A0A0F" : "#f5f5f7";
+    const fg = p.score / 100 >= 0.62 ? "#0A0A0F" : "#f5f5f7";   // dark text once the heat goes bright (matches the forecast cells)
     const mv = p.mv != null ? `€${p.mv}m` : "—";
     return `<div class="pl-row${i >= 12 ? " extra" : ""}">
       <span class="pl-rk">${i + 1}</span>
