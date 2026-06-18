@@ -42,11 +42,18 @@ def test_simulation_json_contract():
 
 
 def test_predictions_live_json_contract():
-    """renderMeta + renderFixtures: generated_at, sources[].stale, predictions[].*."""
+    """renderMeta + renderFixtures + renderLive: generated_at, sources[].stale, predictions[].*,
+    live_now[].{team1,team2,kickoff_utc}."""
     d = _load("predictions_live.json")
     assert isinstance(d.get("generated_at"), str) and d["generated_at"]
     assert isinstance(d.get("sources"), list)
     assert all("stale" in s for s in d["sources"]), "every source needs a 'stale' flag"
+    # renderLive: a list (usually empty); each entry is an in-progress match with no odds
+    live_now = d.get("live_now")
+    assert isinstance(live_now, list), "live_now must be present (a list, possibly empty)"
+    for g in live_now:
+        for k in ("team1", "team2", "kickoff_utc"):
+            assert isinstance(g.get(k), str), f"live_now entry missing/!str {k}"
     preds = d.get("predictions")
     assert isinstance(preds, list) and preds, "predictions must be a non-empty list"
     for p in preds:
