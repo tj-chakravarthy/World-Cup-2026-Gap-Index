@@ -98,7 +98,7 @@ def main() -> None:
     kinds = [k for k in CARD_COLS if k in df.columns]
     by_team = {}
     for r in df.itertuples(index=False):
-        cards = {k: int(getattr(r, k) or 0) for k in kinds}
+        cards = {k: int(v) if pd.notna(v := getattr(r, k)) else 0 for k in kinds}  # blank = 0, no NaN crash
         by_team[r.team_code] = by_team.get(r.team_code, 0) + conduct_score(cards)
     print(f"cards OK: {len(df)} row(s), {len(by_team)} team(s); conduct {by_team or '(none)'}")
 
