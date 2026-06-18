@@ -44,6 +44,18 @@ def test_non_integer_count_rejected():
         validate_cards(_df([("WC26-M001", "ESP", 1.5, 0, 0, 0)]), FIELD)
 
 
+def test_blank_cell_counts_as_zero():
+    # a blank card cell = zero of that type (matches load_conduct); must validate, not reject
+    validate_cards(_df([("WC26-M001", "ESP", 2, None, 1, None),
+                        ("WC26-M001", "CRO", None, None, None, None)]), FIELD)
+
+
+def test_non_numeric_card_value_rejected():
+    # a non-blank, non-numeric cell is a real typo -> still rejected (only blanks are zero)
+    with pytest.raises(ValueError, match="non-negative integers"):
+        validate_cards(_df([("WC26-M001", "ESP", "x", 0, 0, 0)]), FIELD)
+
+
 def test_missing_required_column_rejected():
     with pytest.raises(ValueError, match="missing required column"):
         validate_cards(pd.DataFrame({"team_code": ["ESP"], "yellow": [1]}), FIELD)

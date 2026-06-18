@@ -50,3 +50,15 @@ def test_load_conduct_sums_card_deductions(tmp_path):
 
 def test_load_conduct_missing_file_is_empty(tmp_path):
     assert load_conduct(tmp_path / "nope.csv") == {}
+
+
+def test_load_conduct_blank_cell_is_zero(tmp_path):
+    # a blank card cell means zero of that type — must NOT crash int(NaN) (the old `int(x or 0)`
+    # didn't guard it: NaN is truthy, so int(NaN) raised in the live sim path)
+    p = tmp_path / "cards.csv"
+    pd.DataFrame([
+        {"fixture_id": "WC26-M001", "team_code": "ESP", "yellow": 2,
+         "indirect_red": None, "direct_red": 1, "yellow_and_direct_red": None},
+    ]).to_csv(p, index=False)
+    out = load_conduct(p)
+    assert out["ESP"] == -6   # 2 yellow (-2) + 1 direct red (-4); the two blank columns count as 0

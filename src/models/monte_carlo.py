@@ -116,7 +116,9 @@ def load_conduct(path: Path = CARDS_PATH) -> dict[str, int]:
     kinds = [k for k in CARD_POINTS if k in df.columns]
     out: dict[str, int] = {}
     for r in df.itertuples(index=False):
-        cards = {k: int(getattr(r, k) or 0) for k in kinds}
+        # a blank cell means zero of that card type; int(NaN) would crash (NaN is truthy, so the
+        # old `int(x or 0)` didn't guard it). validate_cards rejects genuine non-numeric garbage upstream.
+        cards = {k: int(v) if pd.notna(v := getattr(r, k)) else 0 for k in kinds}
         out[r.team_code] = out.get(r.team_code, 0) + conduct_score(cards)
     return out
 

@@ -47,9 +47,13 @@ def validate_cards(df: pd.DataFrame, field_codes: set[str], fixtures: pd.DataFra
     if unknown:
         raise ValueError(f"cards: unknown team_code(s) (not in the 48-team field): {unknown}")
     for c in card_cols:
-        col = pd.to_numeric(df[c], errors="coerce")
-        if col.isna().any() or (col < 0).any() or (col % 1 != 0).any():
-            raise ValueError(f"cards: column {c!r} must be non-negative integers")
+        num = pd.to_numeric(df[c], errors="coerce")
+        # a blank cell = zero of that card type (matches load_conduct); only a non-blank,
+        # non-numeric value (a real typo) is rejected. Then enforce non-negative integers.
+        garbage = num.isna() & df[c].notna() & (df[c].astype(str).str.strip() != "")
+        num = num.fillna(0)
+        if garbage.any() or (num < 0).any() or (num % 1 != 0).any():
+            raise ValueError(f"cards: column {c!r} must be non-negative integers (blank = zero)")
     # one row per (fixture_id, team_code): conduct sums by team, so a duplicate double-counts
     dups = df[df.duplicated(subset=["fixture_id", "team_code"], keep=False)]
     if len(dups):
