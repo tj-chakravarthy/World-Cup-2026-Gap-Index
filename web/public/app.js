@@ -165,6 +165,23 @@ function renderLive(live) {
   sec.hidden = false;
 }
 
+// collapse a list to its first `topN` items behind a Show more / Show fewer toggle. Items beyond
+// topN must carry class "extra" (CSS hides them while the container has class "collapsed").
+function setupCollapse(listEl, btn, topN, total) {
+  if (!listEl || !btn) return;
+  if (total <= topN) { btn.hidden = true; listEl.classList.remove("collapsed"); return; }
+  btn.hidden = false;
+  listEl.classList.add("collapsed");
+  const more = `Show all ${total} ▾`, less = "Show fewer ▴";
+  btn.textContent = more;
+  btn.setAttribute("aria-expanded", "false");
+  btn.onclick = () => {
+    const collapsed = listEl.classList.toggle("collapsed");
+    btn.setAttribute("aria-expanded", String(!collapsed));
+    btn.textContent = collapsed ? more : less;
+  };
+}
+
 function renderFixtures(live, inputs) {
   const now = Date.now();
   const up = (live.predictions || [])
@@ -175,12 +192,13 @@ function renderFixtures(live, inputs) {
   const el = document.getElementById("fixture-list");
   if (!up.length) {
     el.innerHTML = `<p class="meta">No upcoming fixtures in the forecast right now.</p>`;
+    document.getElementById("fixtures-toggle").hidden = true;
     return;
   }
-  el.innerHTML = up.map((p) => {
+  el.innerHTML = up.map((p, i) => {
     const w = p.wdl.team1, d = p.wdl.draw, l = p.wdl.team2;
     const top = (p.scorelines || []).slice().sort((a, b) => b.p - a.p)[0];
-    return `<div class="fx">
+    return `<div class="fx${i >= 3 ? " extra" : ""}">
       <div class="when"><span>${whenLabel(p.kickoff_utc)}</span><span class="stage">${p.stage}</span></div>
       <div class="teams">
         <span class="t">${name(p.team1)}</span>
@@ -201,6 +219,7 @@ function renderFixtures(live, inputs) {
       ${tapeHTML((inputs || {})[p.fixture_id])}
     </div>`;
   }).join("");
+  setupCollapse(el, document.getElementById("fixtures-toggle"), 3, up.length);
 }
 
 function renderTrack(tr, inputs, live) {
@@ -226,21 +245,23 @@ function renderTrack(tr, inputs, live) {
     if (stale) banner.textContent =
       `These receipts are from ${asOf}, behind the current forecast — they’ll catch up on the next update.`;
   }
+  const toggle = document.getElementById("track-toggle");
   if (!el) return;
   if (!tr.resolved || !tr.resolved.length) {
     el.innerHTML = `<p class="meta">No games resolved yet.</p>`;
+    if (toggle) toggle.hidden = true;
     return;
   }
   const games = [...tr.resolved].sort(
     (a, b) => new Date(b.kickoff_utc) - new Date(a.kickoff_utc));  // most recent game first
-  el.innerHTML = games.map((g) => {
+  el.innerHTML = games.map((g, i) => {
     const w = g.p_team1, d = g.p_draw, l = g.p_team2;
     const result = g.outcome === 0 ? `${name(g.team1)} won`
                  : g.outcome === 2 ? `${name(g.team2)} won` : "draw";
     const mark = g.called ? `<span class="ok">✓ called</span>` : `<span class="no">missed</span>`;
     const exact = g.exact_hit ? ` · <span class="exact">🎯 exact score</span>` : "";
     const model = g.model && g.model !== "live" ? `<span class="tr-model">${g.model}</span>` : "";
-    return `<div class="tr">
+    return `<div class="tr${i >= 3 ? " extra" : ""}">
       <div class="tr-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}${model}</div>
       <div class="bar">
         <i class="w" style="width:${w * 100}%"></i>
@@ -255,10 +276,22 @@ function renderTrack(tr, inputs, live) {
       ${tapeHTML((inputs || {})[g.fixture_id])}
     </div>`;
   }).join("");
+  setupCollapse(el, toggle, 3, games.length);
 }
 
 async function main() {
   document.getElementById("repo").href = REPO_URL;
+
+  // intro: show the lead line; the rest unfolds on "more"
+  const introBtn = document.getElementById("intro-toggle");
+  const introMore = document.getElementById("intro-more");
+  if (introBtn && introMore) introBtn.onclick = () => {
+    const open = !introMore.hidden;
+    introMore.hidden = open;
+    introBtn.setAttribute("aria-expanded", String(!open));
+    introBtn.textContent = open ? "more ▾" : "less ▴";
+  };
+
   try {
     const [sim, live, track, mi, mv] = await Promise.all([
       getJSON("data/simulation.json"),

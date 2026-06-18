@@ -82,6 +82,13 @@ def test_content_renders(base_url):
         assert page.locator("#track-list .tr").count() >= 1
         # the model-input bars (tale of the tape) render on the match cards
         assert page.locator(".tape").count() >= 1
+        # collapse: with >3 receipts, only the top 3 show until the toggle is clicked
+        n_track = page.locator("#track-list .tr").count()
+        if n_track > 3:
+            assert page.locator("#track-list .tr:visible").count() == 3
+            assert page.locator("#track-toggle").is_visible()
+            page.locator("#track-toggle").click()
+            assert page.locator("#track-list .tr:visible").count() == n_track
         assert not errors, f"console/page errors: {errors[:5]}"
         assert not failed, f"failed asset requests: {failed[:5]}"
 

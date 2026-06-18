@@ -28,20 +28,22 @@
     </header>
 
     <section class="intro">
-      <p>My machine-learning forecast of the 2026 World Cup, built entirely from public data (<a id="repo" href="#">Code &amp; method on GitHub</a>).
-      Each team gets a strength rating from its national-team Elo (computed from past
-      international results) and the market value of its squad (Transfermarkt). My model turns
-      those into odds for every match, then plays the rest of the tournament out 100&nbsp;000 times;
-      the percentages below are how often each team reaches each stage. (I also rate players from
-      club stats — FBref and Understat — but it didn't improve the forecast, so the live model
-      leaves it out.)</p>
+      <p>My machine-learning forecast of the 2026 World Cup, built from public data (<a id="repo" href="#">Code &amp; method on GitHub</a>). <button id="intro-toggle" class="more" type="button" aria-controls="intro-more" aria-expanded="false">more ▾</button></p>
+      <div id="intro-more" hidden>
+        <p>Each team gets a strength rating from its national-team Elo (computed from past
+        international results) and the market value of its squad (Transfermarkt). My model turns
+        those into odds for every match, then plays the rest of the tournament out 100&nbsp;000 times;
+        the percentages below are how often each team reaches each stage. (I also rate players from
+        club stats — FBref and Understat — but it didn't improve the forecast, so the live model
+        leaves it out.)</p>
 
-      <p>Model updates itself: after every match the new result feeds back in, the model re-runs,
-      and this page refreshes — so the forecast always reflects what's happened so far.</p>
+        <p>Model updates itself: after every match the new result feeds back in, the model re-runs,
+        and this page refreshes — so the forecast always reflects what's happened so far.</p>
 
-      <p>Betting odds are never an input — the ML never uses them. On the four held-out backtest
-        tournaments (Euro 2020, WC 2022, Euro 2024, Copa 2024) my model scores 0.589 Brier, just
-        behind Pinnacle's closing odds at 0.573 — measured on the same matches.</p>
+        <p>Betting odds are never an input — the ML never uses them. On the four held-out backtest
+          tournaments (Euro 2020, WC 2022, Euro 2024, Copa 2024) my model scores 0.589 Brier, just
+          behind Pinnacle's closing odds at 0.573 — measured on the same matches.</p>
+      </div>
     </section>
 
     <section id="forecast">
@@ -68,6 +70,8 @@
     <section id="fixtures">
       <h2>Next matches</h2>
       <div id="fixture-list"></div>
+      <button id="fixtures-toggle" class="toggle" type="button"
+              aria-controls="fixture-list" aria-expanded="false" hidden>Show more ▾</button>
     </section>
 
     <section id="track">
@@ -81,6 +85,8 @@
       <p class="meta" id="track-meta"></p>
       <p class="track-stale" id="track-stale" hidden></p>
       <div id="track-list"></div>
+      <button id="track-toggle" class="toggle" type="button"
+              aria-controls="track-list" aria-expanded="false" hidden>Show more ▾</button>
       <p class="fine">Audit note: the raw log keeps one early row (WC26-M013) re-logged just after
       kickoff — kept as honest history, excluded from scoring.</p>
     </section>
