@@ -11,6 +11,7 @@ rebuild. Mirrors to web/public/data/ for the (future) static site. pandas + scip
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 from datetime import datetime, timedelta, timezone
@@ -29,6 +30,7 @@ RAW = REPO / "data" / "raw"
 PROC = REPO / "data" / "processed"
 OUT = REPO / "data" / "predictions" / "predictions_live.json"
 WEB_MIRROR = REPO / "web" / "public" / "data" / "predictions_live.json"
+MANIFEST = PROC / "model_bundle.manifest.json"
 WC_START = "2026-06-11"
 
 
@@ -57,6 +59,19 @@ def top_scorelines(matrix: np.ndarray, n: int = 5) -> list[dict]:
 
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _frozen_as_of() -> tuple[str | None, str | None]:
+    """(match_model, match_results) as-of dates from the committed bundle manifest. The bundle and
+    its pre-tournament training corpus are frozen for the whole tournament, so these two sources
+    carry their real frozen dates — the model's build time and the training-data cutoff — not the
+    live generation time, which would falsely imply the model is current. None (caller falls back
+    to now) if the manifest is absent. Reads committed JSON only."""
+    try:
+        m = json.loads(MANIFEST.read_text())
+    except (OSError, ValueError):
+        return None, None
+    return m.get("generated_at"), (m.get("training") or {}).get("scored_through")
 
 
 def model_inputs(indices: pd.DataFrame, fixtures: pd.DataFrame,
@@ -146,6 +161,14 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
             f"{len(dropped)} decided fixture(s) (both teams known) neither predicted nor excluded "
             f"— would publish as pending_undetermined (model/code-mapping coverage miss): {dropped}"
         )
+    model_as_of, results_as_of = _frozen_as_of()
+    sources = [
+        {"name": "fixtures", "as_of": now, "stale": stale},
+        # frozen: the bundle + its pre-tournament training corpus don't refresh, so they carry
+        # their real frozen dates (from model_bundle.manifest.json), never the live `now`.
+        {"name": "match_results", "as_of": results_as_of or now, "stale": False},
+        {"name": "match_model", "as_of": model_as_of or now, "stale": False},
+    ]
     return {
         "schema_version": SCHEMA_VERSION, "kind": "live",
         "model_version": f"live-elo-mkt@{_git_sha()}", "generated_at": now,
@@ -153,8 +176,7 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         "coverage": {"covered_fixture_ids": covered,
                      "excluded_played_fixture_ids": excluded,
                      "pending_undetermined_fixture_ids": pending},
-        "sources": [{"name": n, "as_of": now, "stale": stale and n == "fixtures"}
-                    for n in ("fixtures", "match_results", "match_model")],
+        "sources": sources,
         "predictions": predictions,
         "live_now": live_now,   # kicked off, unresolved — surfaced as a LIVE badge, no odds
     }

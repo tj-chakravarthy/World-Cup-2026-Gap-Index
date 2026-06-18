@@ -25,7 +25,8 @@ RAW = REPO / "data" / "raw"
 BUNDLE_PKL = REPO / "data" / "processed" / "model_bundle.pkl"
 WC_START = "2026-06-11"
 PRED_FIELD = "world_cup_2026"   # the tournament the bundle predicts — NOT a training target
-MANIFEST_SCHEMA_VERSION = "1"   # bump when the manifest's shape changes
+MANIFEST_SCHEMA_VERSION = "2"   # bump when the manifest's shape changes (2: + model_code_sha256)
+MODEL_CODE_GLOBS = ("src/models/**/*.py", "src/features/**/*.py")  # same set as the CI cache key
 
 
 def _git_sha() -> str:
@@ -37,6 +38,20 @@ def _git_sha() -> str:
                               capture_output=True, text=True).stdout.strip() or "nogit"
     except Exception:  # noqa: BLE001
         return "nogit"
+
+
+def _model_code_sha256() -> str:
+    """Content fingerprint of the source that defines the frozen model — src/models + src/features
+    (the same file set the workflow keys its bundle cache on). Recorded so CI can detect this code
+    changing without the committed bundle being rebuilt + recommitted: the runtime loader checks
+    only BUNDLE_VERSION, so it can't catch a silent edit. Path-sorted + content-based, so it's
+    identical across machines and checkouts."""
+    h = hashlib.sha256()
+    for p in sorted(q for g in MODEL_CODE_GLOBS for q in REPO.glob(g)):
+        h.update(p.relative_to(REPO).as_posix().encode())
+        h.update(b"\0")
+        h.update(p.read_bytes())
+    return h.hexdigest()
 
 
 def build_manifest(bundle, pkl_path: Path) -> dict:
@@ -83,6 +98,7 @@ def build_manifest(bundle, pkl_path: Path) -> dict:
         },
         "model": {
             "feature_columns": list(PRODUCTION_COLS),   # the live model's inputs (ELO + MKT)
+            "model_code_sha256": _model_code_sha256(),   # CI re-cert gate (see _model_code_sha256)
             "n_teams": len(codes),
             "teams": codes,
         },

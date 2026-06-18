@@ -1,5 +1,5 @@
 {
-  "manifest_schema_version": "1",
+  "manifest_schema_version": "2",
   "generated_at": "2026-06-17T19:45:14Z",
   "source_sha_at_generation": "65990e2",
   "bundle": {
@@ -14,6 +14,7 @@
       "ELO",
       "MKT"
     ],
+    "model_code_sha256": "80e1f745624ef520b9552eade1b628c3f529b268dbe7bbbc73f4994af8c44d55",
     "n_teams": 48,
     "teams": [
       "ALG",

@@ -59,6 +59,22 @@ def test_stale_flags_only_the_fixtures_source():
     assert art["predictions"][0]["stale"] is True
 
 
+def test_frozen_sources_carry_manifest_dates_not_now():
+    # the bundle + its training corpus are frozen, so match_model/match_results must NOT be stamped
+    # with the live generation time (which falsely implies the model is current) — they carry the
+    # frozen dates from the committed bundle manifest. fixtures is the only live source.
+    import json
+
+    from src.pipeline.build_live_artifact import MANIFEST
+    man = json.loads(MANIFEST.read_text())
+    preds, fixtures = _inputs()
+    art = build_live(preds, fixtures, _DummyDC(), {})
+    src = {s["name"]: s["as_of"] for s in art["sources"]}
+    assert src["match_model"] == man["generated_at"]                 # bundle build time
+    assert src["match_results"] == man["training"]["scored_through"]  # training-data cutoff
+    assert src["fixtures"] == art["generated_at"]                    # the only live source
+
+
 def test_build_live_excludes_post_kickoff_fixture():
     # a kicked-off match the feed still marks unplayed (lagging) must NOT be published — it goes
     # to excluded, so the published set stays == the logged set (both pre-kickoff)

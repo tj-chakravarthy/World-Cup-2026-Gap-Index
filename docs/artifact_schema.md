@@ -53,6 +53,12 @@ Array of `{ "name": string, "as_of": UTC ISO-8601, "stale": bool }` — one row 
 upstream the file depends on (`fixtures`, `match_results`, `match_model`). The
 `freshness_check` cron step and the on-site "last updated" banner read this.
 
+Only `fixtures` is live-refreshed, so only it carries the generation time and can be
+`stale`. `match_model` (the frozen pre-tournament bundle) and `match_results` (its
+pre-tournament training corpus) carry their real **frozen** dates from
+`model_bundle.manifest.json` — the bundle's build time and the training-data cutoff — not
+the live `now`, which would imply the model is current. They are never `stale`.
+
 ## `predictions[]`
 
 | field | type | notes |
@@ -103,9 +109,9 @@ upstream the file depends on (`fixtures`, `match_results`, `match_model`). The
     "lock_basis": "unplayed and both teams known at locked_at_utc"
   },
   "sources": [
-    {"name": "fixtures", "as_of": "2026-06-12T20:00:00Z", "stale": false},
-    {"name": "match_results", "as_of": "2026-06-12T20:00:00Z", "stale": false},
-    {"name": "match_model", "as_of": "2026-06-12T20:00:00Z", "stale": false}
+    {"name": "fixtures", "as_of": "2026-06-20T18:05:00Z", "stale": false},
+    {"name": "match_results", "as_of": "2026-06-10", "stale": false},
+    {"name": "match_model", "as_of": "2026-06-09T14:00:00Z", "stale": false}
   ],
   "predictions": [
     {
@@ -145,6 +151,11 @@ sha at a glance. That's expected, not drift:
   last *rebuilt* (between tournaments / on a `BUNDLE_VERSION` bump), not HEAD — the bundle is fixed
   for the tournament, so it legitimately lags. The bundle's identity is its `bundle.sha256`, not
   the sha.
+- **`model_bundle.manifest.json` `model_code_sha256`** fingerprints the source that defines the
+  model (`src/models` + `src/features`). The committed pickle is the frozen source of truth and the
+  runtime loader checks only `BUNDLE_VERSION`, so this is the anti-staleness anchor: `test_bundle_manifest`
+  fails CI if that code changes without the bundle being rebuilt + recommitted (or the manifest
+  re-blessed for a change that doesn't touch the trained model).
 - **`track_record.json` `generated_at`** is a few seconds *after* `simulation.json` /
   `predictions_live.json`: `run_all` builds the sim and the live artifact first, then the receipts
   last, all in one run. Same snapshot, sequential stamps — not a stale view.
