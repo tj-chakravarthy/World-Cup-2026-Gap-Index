@@ -71,6 +71,8 @@ def test_model_inputs_json_contract():
     d = _load("model_inputs.json")
     fx = d.get("fixtures")
     assert isinstance(fx, dict) and fx, "fixtures must be a non-empty map"
+    # app.js looks these up by fixture_id (inputs[p.fixture_id]); a re-key would silently drop the tape
+    assert all(k.startswith("WC26-M") for k in fx), "fixtures must be keyed by fixture_id"
     for fid, r in fx.items():
         assert isinstance(r.get("team1"), str) and isinstance(r.get("team2"), str)
         for k in ("elo1", "elo2", "mkt1", "mkt2"):
@@ -115,6 +117,7 @@ def test_analysis_json_contract():
     assert isinstance(ab, dict) and isinstance(ab.get("rows"), list) and ab["rows"]
     assert any(r.get("set") == "+ market value" for r in ab["rows"]), "the live-model row (badge)"
     for r in ab["rows"]:
+        assert isinstance(r.get("set"), str), "ablation row 'set' (app.js renders + branches on it)"
         for k in ("brier", "lo", "hi"):
             assert isinstance(r.get(k), (int, float)), f"ablation {k}"
     cal = d.get("calibration")
@@ -133,7 +136,8 @@ def test_track_record_json_contract():
     resolved = d.get("resolved")
     assert isinstance(resolved, list)
     for g in resolved:
-        for k in ("team1", "team2", "actual", "model"):
+        # app.js sorts the whole track list by kickoff_utc; if it's missing the sort silently breaks
+        for k in ("team1", "team2", "actual", "model", "kickoff_utc"):
             assert isinstance(g.get(k), str)
         for k in ("p_team1", "p_draw", "p_team2"):
             assert isinstance(g.get(k), (int, float))
