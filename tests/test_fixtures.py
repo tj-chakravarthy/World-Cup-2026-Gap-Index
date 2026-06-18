@@ -10,7 +10,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 
-from src.pipeline.fetch_fixtures_venues import _iso, _stage
+from src.pipeline.fetch_fixtures_venues import _iso, _stage, build_fixtures
 
 REPO = Path(__file__).resolve().parents[1]
 FIXTURES = REPO / "data" / "raw" / "fixtures_2026.csv"
@@ -73,6 +73,41 @@ def test_played_flag_matches_scores():
 def test_kickoff_utc_parses():
     for r in _fixtures():
         datetime.fromisoformat(r["kickoff_utc"].replace("Z", "+00:00"))
+
+
+def test_winner_code_consistent_with_result():
+    # the sim pins knockout winners off winner_code, so it has to be one of the two participants on
+    # a played match, and agree with the score on a decisive result (a level score may still name a
+    # shootout winner — that's allowed, so only the decisive case is checked against the score)
+    for r in _fixtures():
+        wc = r["winner_code"]
+        if not wc:
+            continue
+        assert r["played"] == "True", f"{r['fixture_id']} winner_code on unplayed"
+        assert wc in (r["home_code"], r["away_code"]), f"{r['fixture_id']} winner_code not a participant"
+        hs, as_ = r["home_score"], r["away_score"]
+        if hs and as_ and int(hs) != int(as_):
+            decisive = r["home_code"] if int(hs) > int(as_) else r["away_code"]
+            assert wc == decisive, f"{r['fixture_id']} winner_code disagrees with the score"
+
+
+def test_build_fixtures_maps_winner_code():
+    # the feed's Winner -> winner_code: a named side maps to its FIFA code, "Draw"/"" stay blank
+    feed = [
+        {"MatchNumber": 1, "RoundNumber": 1, "Group": "Group A", "DateUtc": "2026-06-11 19:00:00Z",
+         "Location": "X", "HomeTeam": "Mexico", "AwayTeam": "South Africa",
+         "HomeTeamScore": 2, "AwayTeamScore": 0, "Winner": "Mexico"},
+        {"MatchNumber": 3, "RoundNumber": 1, "Group": "Group A", "DateUtc": "2026-06-12 19:00:00Z",
+         "Location": "X", "HomeTeam": "Canada", "AwayTeam": "Bosnia and Herzegovina",
+         "HomeTeamScore": 1, "AwayTeamScore": 1, "Winner": "Draw"},
+        {"MatchNumber": 73, "RoundNumber": 4, "Group": None, "DateUtc": "2026-06-28 19:00:00Z",
+         "Location": "X", "HomeTeam": "2A", "AwayTeam": "2B",
+         "HomeTeamScore": None, "AwayTeamScore": None, "Winner": ""},
+    ]
+    rows = {r["fixture_id"]: r for r in build_fixtures(feed)}
+    assert rows["WC26-M001"]["winner_code"] == "MEX"
+    assert rows["WC26-M003"]["winner_code"] == ""    # a draw names no winner
+    assert rows["WC26-M073"]["winner_code"] == ""    # undecided slot
 
 
 def test_stage_mapping_unit():

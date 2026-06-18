@@ -104,6 +104,10 @@ def build_fixtures(feed: list[dict]) -> list[dict]:
             "away_code": _FIFA_CODE[away] if is_group else _FIFA_CODE.get(away, ""),
             "home_score": m["HomeTeamScore"] if m["HomeTeamScore"] is not None else "",
             "away_score": m["AwayTeamScore"] if m["AwayTeamScore"] is not None else "",
+            # the feed's decisive winner — names the team even on a shootout-decided draw, "Draw"
+            # for a level group result, "" while undecided. Map to a code; the sim pins a knockout
+            # winner off this directly (so a shootout, incl. the final, doesn't need the next round).
+            "winner_code": _FIFA_CODE.get(m.get("Winner") or "", ""),
             "played": m["HomeTeamScore"] is not None,
         })
     return rows
@@ -130,6 +134,12 @@ def validate(rows: list[dict]) -> None:
             {r["away_code"] for r in rows if r["away_code"]}
     if len(codes) != 48:
         raise ValueError(f"expected 48 distinct group-stage teams, got {len(codes)}")
+    # a named winner must be one of the two participants and the match must be played — the sim
+    # pins knockout results off this, so a stray winner_code can't silently advance a non-participant
+    for r in rows:
+        wc = r["winner_code"]
+        if wc and (wc not in (r["home_code"], r["away_code"]) or not r["played"]):
+            raise ValueError(f"{r['fixture_id']}: winner_code {wc!r} not a played participant")
 
 
 def _write_csv(path: Path, fieldnames: list[str], rows: list[dict]) -> None:
@@ -144,7 +154,7 @@ def _write_csv(path: Path, fieldnames: list[str], rows: list[dict]) -> None:
 def write_fixtures(rows: list[dict], path: Path = FIXTURES_CSV) -> None:
     fields = ["fixture_id", "match_number", "stage", "group", "matchday",
               "kickoff_utc", "venue_key", "home_team", "away_team",
-              "home_code", "away_code", "home_score", "away_score", "played"]
+              "home_code", "away_code", "home_score", "away_score", "winner_code", "played"]
     _write_csv(path, fields, rows)
 
 

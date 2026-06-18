@@ -303,9 +303,11 @@ def _code(v) -> str:
 
 def knockout_results(fixtures: pd.DataFrame) -> dict[str, str]:
     """{fixture_id: winner code} for played knockout matches whose teams are coded — used to pin
-    real results in the sim instead of re-drawing them. The score gives the winner of a decided
-    match; a draw means penalties (winner not in the score), so that winner is read off whichever
-    of the two teams the feed has advanced into the next fixture. Pure."""
+    real results in the sim instead of re-drawing them. The feed's per-match winner (winner_code)
+    is authoritative: it names the decisive side even on a shootout-decided draw, so it pins right
+    away and works for the final too (no next round to read from). Falls back to the score for a
+    clean win, then — only if the winner still isn't named — to whichever of the two teams the feed
+    has advanced into the next fixture. Pure."""
     ko = fixtures[fixtures["stage"] != "group"]
     out: dict[str, str] = {}
     drawn = []
@@ -314,6 +316,10 @@ def knockout_results(fixtures: pd.DataFrame) -> dict[str, str]:
             continue
         hc, ac = _code(fx.home_code), _code(fx.away_code)
         if not hc or not ac:
+            continue
+        wc = _code(getattr(fx, "winner_code", ""))
+        if wc in (hc, ac):
+            out[fx.fixture_id] = wc          # feed winner (shootout incl.) — pins directly
             continue
         try:
             hs, as_ = int(float(fx.home_score)), int(float(fx.away_score))
@@ -324,7 +330,7 @@ def knockout_results(fixtures: pd.DataFrame) -> dict[str, str]:
         elif as_ > hs:
             out[fx.fixture_id] = ac
         else:
-            drawn.append((fx.fixture_id, hc, ac))   # penalties -> resolve from the next round
+            drawn.append((fx.fixture_id, hc, ac))   # winner unnamed + level -> infer from next round
     if drawn:
         from src.models import bracket
         by_id = fixtures.set_index("fixture_id")

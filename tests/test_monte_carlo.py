@@ -29,8 +29,8 @@ def test_knockout_results_from_score():
 
 
 def test_knockout_results_penalties_read_from_next_round():
-    # a drawn R32 (penalties) — winner isn't in the score, so it's read off the R16 fixture it
-    # feeds (M073 + M075 -> M090). The bracket has ESP in M090, so ESP won the shootout.
+    # fallback path (no winner_code): a drawn R32 (penalties) — winner isn't in the score, so it's
+    # read off the R16 fixture it feeds (M073 + M075 -> M090). The bracket has ESP in M090.
     fx = _ko_fx([
         ("WC26-M073", "R32", "ESP", "URU", 1, 1, True),     # draw -> penalties
         ("WC26-M075", "R32", "ENG", "SCO", 2, 0, True),     # ENG win
@@ -38,6 +38,33 @@ def test_knockout_results_penalties_read_from_next_round():
     ])
     r = knockout_results(fx)
     assert r["WC26-M073"] == "ESP" and r["WC26-M075"] == "ENG"
+
+
+def _ko_fx_w(rows):
+    cols = ["fixture_id", "stage", "home_code", "away_code",
+            "home_score", "away_score", "played", "winner_code"]
+    return pd.DataFrame(rows, columns=cols)
+
+
+def test_knockout_results_pins_shootout_from_winner_code():
+    # a drawn knockout (1-1) the feed resolved by shootout: winner_code pins URU directly, with no
+    # downstream fixture populated — the old path had to wait for the next round to fill in
+    fx = _ko_fx_w([("WC26-M073", "R32", "ESP", "URU", 1, 1, True, "URU")])
+    assert knockout_results(fx) == {"WC26-M073": "URU"}
+
+
+def test_knockout_results_pins_final_from_winner_code():
+    # the final has no next round, so a shootout-decided final could never be inferred — winner_code
+    # pins the champion directly, so the published title probability resolves once it's played
+    fx = _ko_fx_w([("WC26-M104", "final", "ARG", "FRA", 3, 3, True, "ARG")])
+    assert knockout_results(fx) == {"WC26-M104": "ARG"}
+
+
+def test_winner_code_overrides_a_disagreeing_score():
+    # winner_code is authoritative: even if the score looks decisive, the named winner wins (guards
+    # a corrected feed; the participant check in fetch keeps winner_code one of the two teams)
+    fx = _ko_fx_w([("WC26-M073", "R32", "ESP", "URU", 2, 1, True, "URU")])
+    assert knockout_results(fx) == {"WC26-M073": "URU"}
 
 
 def test_walk_knockout_pins_played_result():
