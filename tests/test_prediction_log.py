@@ -345,7 +345,7 @@ def test_track_record_prefers_live_and_attributes_locked():
     art = track_record_artifact(log, fixtures)
     by = {r["fixture_id"]: r for r in art["resolved"]}
     assert art["n_resolved"] == 2                                  # one receipt per match
-    assert by["WC26-M005"]["model"] == "pre-tournament (locked)"
+    assert by["WC26-M005"]["model"] == "pre-kickoff (locked)"
     assert by["WC26-M013"]["model"] == "live"                      # live preferred when both exist
     assert by["WC26-M013"]["p_team1"] == 0.45                      # the live call's probs, not locked
 

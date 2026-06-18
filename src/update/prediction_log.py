@@ -51,9 +51,9 @@ LOG_COLUMNS = [
 # idempotency key — one logged prediction per model identity per fixture
 KEY = ["model_version", "fixture_id"]
 
-# receipt attribution: the live match model vs the immutable pre-tournament lock (a thin stage-0
+# receipt attribution: the live match model vs the immutable pre-kickoff lock (a thin stage-0
 # model). The committed locked artifact(s) carry pre-registered, pre-kickoff calls.
-_MODEL_LABEL = {"live_full": "live", "locked_minimal": "pre-tournament (locked)"}
+_MODEL_LABEL = {"live_full": "live", "locked_minimal": "pre-kickoff (locked)"}
 LOCKED_GLOB = "predictions_locked_*.json"
 
 
@@ -74,7 +74,7 @@ def _artifact_rows(artifact: dict, logged_at: str | None = None) -> pd.DataFrame
     """Flatten an artifact's predictions[] to log rows (model_version from top level).
 
     logged_at defaults to now (a live append); pass the artifact's lock instant to backfill the
-    locked pre-tournament file, so its rows carry the time they were actually committed (before
+    locked pre-kickoff file, so its rows carry the time they were actually committed (before
     those kickoffs) rather than now (after them)."""
     model_version = artifact["model_version"]
     logged_at = logged_at or _now_iso()
@@ -141,7 +141,7 @@ def log_predictions(artifact: dict, log_path: Path = LOG_PATH, logged_at: str | 
 def import_locked_receipts(log_path: Path = LOG_PATH, pred_dir: Path | None = None) -> int:
     """Backfill the committed locked artifact(s) into the log as pre-registered receipts.
 
-    The locked file is the immutable pre-tournament prediction (model_source 'locked_minimal');
+    The locked file is the immutable pre-kickoff prediction (model_source 'locked_minimal');
     its calls were committed at locked_at_utc — before those kickoffs — but never lived in the
     append-only live log, so the public track record omitted matches played before the live model
     came online. Log them at their lock instant (not now), so they count as the honest pre-kickoff
