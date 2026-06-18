@@ -58,7 +58,7 @@ def _players(top: int = 40) -> dict:
 
 
 def _ablation() -> dict:
-    """Feature ablation on the backtest (Brier, lower better; ci_lo/ci_hi the 95% interval)."""
+    """Feature ablation on the backtest (Brier, lower better; ci_lo/ci_hi the 90% interval)."""
     a = pd.read_csv(PROC / "ablation.csv")
     rows = [{"set": r.feature_set, "brier": round(r.brier, 4),
              "lo": round(r.ci_lo, 4), "hi": round(r.ci_hi, 4)} for r in a.itertuples()]

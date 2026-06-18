@@ -104,9 +104,10 @@
 
     <section id="gap" hidden>
       <h2>Gap Index — talent vs result</h2>
-      <p class="sec-intro">The project's namesake. Each squad gets a <b>talent</b> rating from its
-      market value and club form; that predicts expected points per game. The <b>gap</b> is the
-      residual — what a team did <em>beyond</em> its talent — and the residual is the story. Across
+      <p class="sec-intro">The project's namesake. Each squad gets a <b>talent</b> rating — 40%
+      national Elo (from results), 40% squad market value, 20% club form (player VAEP) — that
+      predicts expected points per game. The <b>gap</b> is the residual — what a team did
+      <em>beyond</em> its talent — and the residual is the story. Across
       five completed tournaments talent explains about a third of results (R²≈<span id="gap-r2">·</span>);
       the bands are wide because three group games is a tiny sample. Over to the right, under to the left.</p>
       <div id="gap-list"></div>
@@ -139,7 +140,7 @@
     <section id="model" hidden>
       <h2>What's in the model (and what isn't)</h2>
       <p class="sec-intro">Feature ablation on the 198-game backtest (Brier score, <b>lower is
-      better</b>; the bar is the 95% interval, the dot the point estimate). Market value on top of
+      better</b>; the bar is the 90% interval, the dot the point estimate). Market value on top of
       Elo helps a hair; adding player VAEP and squad structure doesn't — so the live model is Elo +
       market value only. An honest negative result, kept.</p>
       <div id="model-list"></div>

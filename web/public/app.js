@@ -400,7 +400,7 @@ function renderCalibration(cal) {
   showSection("calibration");
 }
 
-// Ablation: Brier per feature set, lower = better. The bar is the 95% CI mapped across a zoomed
+// Ablation: Brier per feature set, lower = better. The bar is the 90% CI mapped across a zoomed
 // domain (the scores are close), the dot the point estimate; the live model's row is flagged.
 function renderAblation(model) {
   const el = document.getElementById("model-list");
