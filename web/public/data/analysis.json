@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T08:54:53Z",
+  "generated_at": "2026-06-18T09:17:46Z",
   "gap": {
     "r2": 0.3,
     "n_teams": 128,
@@ -1568,6 +1568,7 @@
       "mv": 55.0
     }
   ],
+  "players_rated": 1106,
   "ablation": {
     "n": 198,
     "rows": [

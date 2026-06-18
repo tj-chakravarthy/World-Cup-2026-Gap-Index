@@ -106,6 +106,7 @@ def test_analysis_json_contract():
             assert isinstance(t.get(k), (int, float)), f"gap row {k}"
     players = d.get("players")
     assert isinstance(players, list) and players, "players list"
+    assert isinstance(d.get("players_rated"), int) and d["players_rated"] >= len(players), "rated pool"
     for p in players:
         assert isinstance(p.get("name"), str) and isinstance(p.get("code"), str)
         assert isinstance(p.get("score"), (int, float))

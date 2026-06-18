@@ -43,13 +43,18 @@ def _gap() -> dict:
     return {"r2": r2, "n_teams": len(teams), "teams": teams}
 
 
-def _players(top: int = 40) -> list[dict]:
-    """The top club-stats player ratings (player_score, 0-100 from VAEP + market value)."""
-    p = pd.read_csv(PROC / "player_scores.csv").sort_values("player_score", ascending=False).head(top)
-    return [{"name": r.player_name, "code": r.country_code, "pos": r.pos_group,
-             "score": round(r.player_score, 1),
-             "mv": round(r.market_value_eur / 1e6, 1) if pd.notna(r.market_value_eur) else None}
-            for r in p.itertuples()]
+def _players(top: int = 40) -> dict:
+    """The top club-stats player ratings (player_score, 0-100 from VAEP + market value) plus the
+    size of the rated pool, so the site can show '40 of N'. Players with neither market value nor
+    observed VAEP are left unrated (no score) and don't count toward the pool."""
+    p = pd.read_csv(PROC / "player_scores.csv")
+    rated = p.dropna(subset=["player_score"])
+    top_rows = rated.sort_values("player_score", ascending=False).head(top)
+    players = [{"name": r.player_name, "code": r.country_code, "pos": r.pos_group,
+                "score": round(r.player_score, 1),
+                "mv": round(r.market_value_eur / 1e6, 1) if pd.notna(r.market_value_eur) else None}
+               for r in top_rows.itertuples()]
+    return {"rated": int(len(rated)), "top": players}
 
 
 def _ablation() -> dict:
@@ -68,8 +73,9 @@ def _calibration() -> list[dict]:
 
 
 def build() -> dict:
+    pl = _players()
     return {"generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "gap": _gap(), "players": _players(),
+            "gap": _gap(), "players": pl["top"], "players_rated": pl["rated"],
             "ablation": _ablation(), "calibration": _calibration()}
 
 

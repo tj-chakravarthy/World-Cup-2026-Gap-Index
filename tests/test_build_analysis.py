@@ -53,6 +53,7 @@ def test_build_shapes_and_transforms(tmp_path, monkeypatch):
 
     assert [p["name"] for p in out["players"]] == ["Musiala", "Pedri"]  # score desc
     assert out["players"][0]["mv"] == 140.0                     # eur -> millions
+    assert out["players_rated"] == 2                            # rated pool size (for '40 of N')
 
     assert out["ablation"]["n"] == 198
     assert any(r["set"] == "+ market value" for r in out["ablation"]["rows"])

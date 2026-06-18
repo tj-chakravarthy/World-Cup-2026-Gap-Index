@@ -346,9 +346,13 @@ function renderGap(gap) {
 }
 
 // Player ratings: top club-stats scores (0-100), the score chip on the same heat ramp as the board.
-function renderPlayers(players) {
+function renderPlayers(players, rated) {
   const el = document.getElementById("players-list");
   if (!el || !(players || []).length) return;
+  const shown = document.getElementById("players-shown");
+  const total = document.getElementById("players-rated");
+  if (shown) shown.textContent = players.length;
+  if (total) total.textContent = rated ? rated.toLocaleString("en-US").replace(/,/g, " ") : "all";
   el.innerHTML = players.map((p, i) => {
     const fg = p.score / 100 >= 0.62 ? "#0A0A0F" : "#f5f5f7";   // dark text once the heat goes bright (matches the forecast cells)
     const mv = p.mv != null ? `€${p.mv}m` : "—";
@@ -453,7 +457,7 @@ async function main() {
     if (track) renderTrack(track, inputs, live);
     if (analysis) {
       renderGap(analysis.gap);
-      renderPlayers(analysis.players);
+      renderPlayers(analysis.players, analysis.players_rated);
       renderCalibration(analysis.calibration);
       renderAblation(analysis.ablation);
     }
