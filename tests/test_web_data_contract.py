@@ -48,12 +48,16 @@ def test_predictions_live_json_contract():
     assert isinstance(d.get("generated_at"), str) and d["generated_at"]
     assert isinstance(d.get("sources"), list)
     assert all("stale" in s for s in d["sources"]), "every source needs a 'stale' flag"
-    # renderLive: a list (usually empty); each entry is an in-progress match with no odds
+    # renderLive: a list (usually empty); each entry is an in-progress match + its pre-kickoff wdl
     live_now = d.get("live_now")
     assert isinstance(live_now, list), "live_now must be present (a list, possibly empty)"
     for g in live_now:
         for k in ("team1", "team2", "kickoff_utc"):
             assert isinstance(g.get(k), str), f"live_now entry missing/!str {k}"
+        w = g.get("wdl")  # the pre-kickoff call shown on the strip (absent until the cron regenerates)
+        if w is not None:
+            assert isinstance(w, dict) and {"team1", "draw", "team2"} <= w.keys()
+            assert all(isinstance(w[k], (int, float)) for k in ("team1", "draw", "team2"))
     preds = d.get("predictions")
     assert isinstance(preds, list) and preds, "predictions must be a non-empty list"
     for p in preds:

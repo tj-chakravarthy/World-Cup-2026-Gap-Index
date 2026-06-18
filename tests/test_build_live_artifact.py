@@ -105,8 +105,8 @@ def test_build_live_includes_future_fixture_with_string_played_false():
 
 
 def test_build_live_surfaces_in_progress_as_live_now():
-    # kicked-off-but-unresolved matches go to live_now (LIVE badge, no odds); a future match stays
-    # a forecast; a long-finished one (past the live window) is just excluded
+    # kicked-off-but-unresolved matches go to live_now (LIVE badge + the pre-kickoff wdl); a future
+    # match stays a forecast; a long-finished one (past the live window) is just excluded
     nowdt = datetime.now(timezone.utc)
     recent = (nowdt - timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")   # in progress
     old = (nowdt - timedelta(hours=5)).strftime("%Y-%m-%dT%H:%M:%SZ")       # finished, feed lagging
@@ -130,7 +130,8 @@ def test_build_live_surfaces_in_progress_as_live_now():
     assert "WC26-M101" in art["coverage"]["excluded_played_fixture_ids"]       # in progress -> not a forecast
     assert "WC26-M102" in art["coverage"]["excluded_played_fixture_ids"]
     g = art["live_now"][0]
-    assert g["team1"] == "BRA" and g["team2"] == "ARG" and "wdl" not in g      # no odds, just the match
+    assert g["team1"] == "BRA" and g["team2"] == "ARG"
+    assert g["wdl"] == {"team1": 0.40, "draw": 0.30, "team2": 0.30}            # the pre-kickoff call
 
 
 def test_build_live_rejects_silently_dropped_group_fixture():

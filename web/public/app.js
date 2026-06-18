@@ -146,9 +146,10 @@ function renderMovement(mv) {
 }
 
 function renderLive(live) {
-  // matches that have kicked off but aren't resolved yet — shown with a blinking LIVE badge, no
-  // odds (the pre-kickoff forecast already moved to the track record). Bounded client-side to
-  // ~2.5h after kickoff so a finished-but-feed-lagging match drops off on its own.
+  // matches that have kicked off but aren't resolved yet — a blinking LIVE badge plus the
+  // PRE-kickoff forecast (the model doesn't update in-play; this is the same call already logged
+  // as a receipt). Bounded client-side to ~2.5h after kickoff so a finished-but-feed-lagging match
+  // drops off on its own.
   const sec = document.getElementById("live");
   const el = document.getElementById("live-list");
   const navLive = document.getElementById("nav-live");
@@ -159,10 +160,24 @@ function renderLive(live) {
     return ko <= now && now - ko < 2.5 * 3600e3;
   });
   if (!games.length) { sec.hidden = true; if (navLive) navLive.hidden = true; return; }
-  el.innerHTML = games.map((g) =>
-    `<div class="live-row"><span class="live-badge">● LIVE</span>` +
-    `<span class="live-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}</span></div>`
-  ).join("");
+  el.innerHTML = games.map((g) => {
+    const w = g.wdl;
+    const odds = w ? `<div class="bar">
+        <i class="w" style="width:${w.team1 * 100}%"></i>
+        <i class="d" style="width:${w.draw * 100}%"></i>
+        <i class="l" style="width:${w.team2 * 100}%"></i>
+      </div>
+      <div class="pct">
+        <span><b>${Math.round(w.team1 * 100)}%</b> ${g.team1}</span>
+        <span>draw <b>${Math.round(w.draw * 100)}%</b></span>
+        <span>${g.team2} <b>${Math.round(w.team2 * 100)}%</b></span>
+      </div>
+      <div class="live-note">pre-kickoff call — the model doesn't update in-play</div>` : "";
+    return `<div class="live-row">
+      <div class="live-head"><span class="live-badge">● LIVE</span>` +
+      `<span class="live-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}</span></div>` +
+      odds + `</div>`;
+  }).join("");
   sec.hidden = false;
   if (navLive) navLive.hidden = false;   // surface the nav pill only while a match is live
 }

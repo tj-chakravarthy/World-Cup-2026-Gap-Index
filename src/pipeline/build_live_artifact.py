@@ -124,8 +124,13 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         if is_played(r.played) or kickoff <= now:
             excluded.append(r.fixture_id)
             if not is_played(r.played) and live_floor < kickoff <= now:   # kicked off, unresolved
+                # carry the pre-kickoff W/D/L (the frozen model is order-invariant, so this is the
+                # same call that was logged before kickoff) — the LIVE strip shows it, clearly as a
+                # pre-kickoff call, never an in-play update
                 live_now.append({"fixture_id": r.fixture_id, "team1": r.home_code,
-                                 "team2": r.away_code, "kickoff_utc": kickoff})
+                                 "team2": r.away_code, "kickoff_utc": kickoff,
+                                 "wdl": {"team1": float(r.p_home), "draw": float(r.p_draw),
+                                         "team2": float(r.p_away)}})
             continue
         na, nb = code2m.get(r.home_code), code2m.get(r.away_code)
         if na in dc.attack and nb in dc.attack:
