@@ -34,6 +34,10 @@ FIXTURES = RAW / "fixtures_2026.csv"
 CARDS = RAW / "cards_2026.csv"
 MARKER = PRED / ".last_played"
 CARDS_MARKER = PRED / ".cards_hash"   # hash of cards at last recompute, so a cards edit re-runs
+FIXHASH_MARKER = PRED / ".fixtures_hash"   # semantic fixtures hash, so a decided bracket re-runs
+# the fixture fields whose change should drive a recompute even when the played set is unchanged:
+# a knockout's participants filling in, or a winner_code landing on an already-played shootout.
+_FIXHASH_COLS = ["home_code", "away_code", "winner_code", "home_score", "away_score", "played"]
 LIVE = PRED / "predictions_live.json"
 SIM = PRED / "simulation.json"
 WEB_LIVE = REPO / "web" / "public" / "data" / "predictions_live.json"
@@ -70,15 +74,17 @@ def _step(name: str, fn) -> None:
 
 def _should_recompute(*, force: bool, rebuild: bool, artifacts_exist: bool, played: set, last: set,
                       fresh: bool, was_stale: bool, live_covers_kicked_off: bool,
-                      cards_changed: bool) -> bool:
+                      cards_changed: bool, fixtures_changed: bool) -> bool:
     """Whether main() must rebuild the live artifacts. Beyond a new result this also catches the
-    stale-banner transitions, a covered fixture passing kickoff, and a fair-play cards edit, so they
-    don't silently no-op when the caller didn't pass --force: publish the banner on a fresh feed
-    failure, clear it on recovery (was_stale != would-be-stale), drop a now-kicked-off match, and
-    pick up committed conduct. Mirrors check()'s recompute signal so the handoff can't drop one. Pure."""
+    stale-banner transitions, a covered fixture passing kickoff, a fair-play cards edit, and a
+    semantic fixtures change (a decided knockout / a landed winner_code that leaves the played set
+    unchanged), so they don't silently no-op when the caller didn't pass --force: publish the banner
+    on a fresh feed failure, clear it on recovery (was_stale != would-be-stale), drop a now-kicked-off
+    match, pick up committed conduct, re-pin a shootout. Mirrors check()'s signal so the handoff
+    can't drop one. Pure."""
     if force or rebuild or not artifacts_exist:
         return True
-    if played != last or live_covers_kicked_off or cards_changed:
+    if played != last or live_covers_kicked_off or cards_changed or fixtures_changed:
         return True
     return was_stale != (not fresh)   # the published stale flag would flip -> republish to reflect it
 
@@ -94,8 +100,9 @@ def main(force: bool = False, rebuild: bool = False) -> None:
                              played=played, last=last, fresh=fresh,
                              was_stale=_committed_live_is_stale(),
                              live_covers_kicked_off=_live_covers_kicked_off(now),
-                             cards_changed=_cards_changed()):
-        print(f"no new results ({len(played)} played) and no stale/kickoff/cards change; nothing to update")
+                             cards_changed=_cards_changed(),
+                             fixtures_changed=_fixtures_changed(fixtures)):
+        print(f"no new results ({len(played)} played) and no stale/kickoff/cards/bracket change; nothing to update")
         return
     print(f"new evidence: {len(played)} played (was {len(last)}); recomputing forecast")
 
@@ -199,6 +206,7 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         print(f"warn: README update skipped ({e})", file=sys.stderr)
     MARKER.write_text(" ".join(sorted(played)))
     CARDS_MARKER.write_text(_cards_hash())   # record the cards we just used, so next poll is idle
+    FIXHASH_MARKER.write_text(_fixtures_semantic_hash(fixtures))   # record the bracket state we used
     print(f"update complete {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')} "
           f"({len(played)} results in, data {'fresh' if fresh else 'STALE (cached)'})")
 
@@ -247,6 +255,26 @@ def _cards_changed() -> bool:
     return _cards_hash() != marked
 
 
+def _fixtures_semantic_hash(fixtures: pd.DataFrame) -> str:
+    """Hash of the fixture fields that should drive a recompute: results AND the bracket resolving
+    — a knockout's participants filling in, or a winner_code landing on an already-played shootout.
+    The played-set signal misses the latter two: same played set, changed meaning. Canonical
+    (sorted by id, fixed columns, string-normalised), so a stable feed hashes identically between
+    idle polls. Pure."""
+    cols = [c for c in _FIXHASH_COLS if c in fixtures.columns]
+    sub = fixtures[["fixture_id", *cols]].sort_values("fixture_id").astype(str)  # NaN -> 'nan', stable
+    return hashlib.sha256(sub.to_csv(index=False).encode()).hexdigest()
+
+
+def _fixtures_changed(fixtures: pd.DataFrame) -> bool:
+    """Did the semantic fixture content change since the last recompute? Catches a decided knockout
+    (participants filled) or a winner_code landing on an already-played match — neither moves the
+    played set, so the other signals miss them, leaving the sim wrong or a knockout prediction
+    omitted. Marker is committed, so it survives ephemeral runners."""
+    marked = FIXHASH_MARKER.read_text().strip() if FIXHASH_MARKER.exists() else ""
+    return _fixtures_semantic_hash(fixtures) != marked
+
+
 def check() -> int:
     """Cheap pre-step the cron runs every poll. Exit code: 10 = recompute, 0 = idle, 1 = fail.
 
@@ -261,19 +289,23 @@ def check() -> int:
         print("fixture feed down across consecutive polls — failing the run (stale already "
               "published; this escalates it)", file=sys.stderr)
         return 1
-    played = played_fixture_ids(pd.read_csv(FIXTURES))
+    fx_df = pd.read_csv(FIXTURES)
+    played = played_fixture_ids(fx_df)
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     kicked_off = _live_covers_kicked_off(now)
     cards_changed = _cards_changed()
+    fixtures_changed = _fixtures_changed(fx_df)
     # recompute on: a new result, missing artifacts, a fresh feed failure (publish the stale
     # heartbeat), recovery from a stale state (clear the banner), a covered fixture whose kickoff
-    # has passed (drop the now-in-progress/finished match), OR an edit to the manual fair-play
-    # cards (so committed conduct actually reaches the simulator).
+    # has passed (drop the now-in-progress/finished match), an edit to the manual fair-play cards
+    # (so committed conduct reaches the simulator), OR a semantic fixtures change with the played
+    # set unchanged (a decided knockout / a landed winner_code — re-pin it, add its prediction).
     changed = (played != last or not (LIVE.exists() and SIM.exists())
-               or not fresh or (fresh and was_stale) or kicked_off or cards_changed)
+               or not fresh or (fresh and was_stale) or kicked_off or cards_changed
+               or fixtures_changed)
     print(f"played={len(played)} marker={len(last)} fresh={fresh} was_stale={was_stale} "
-          f"kicked_off={kicked_off} cards_changed={cards_changed} -> "
+          f"kicked_off={kicked_off} cards_changed={cards_changed} fixtures_changed={fixtures_changed} -> "
           f"{'recompute' if changed else 'idle'}")
     return 10 if changed else 0
 

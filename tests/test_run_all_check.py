@@ -35,10 +35,11 @@ def _prep(tmp_path, monkeypatch, *, played_ids, marker_ids, artifacts=True):
     monkeypatch.setattr(run_all, "SIM", sim)
 
 
-def _stub(monkeypatch, *, fresh, was_stale, cards_changed=False):
+def _stub(monkeypatch, *, fresh, was_stale, cards_changed=False, fixtures_changed=False):
     monkeypatch.setattr(run_all, "_refresh_fixtures", lambda: fresh)
     monkeypatch.setattr(run_all, "_committed_live_is_stale", lambda: was_stale)
     monkeypatch.setattr(run_all, "_cards_changed", lambda: cards_changed)
+    monkeypatch.setattr(run_all, "_fixtures_changed", lambda fx: fixtures_changed)
 
 
 def test_idle_when_fresh_and_no_new_result(tmp_path, monkeypatch):
@@ -72,7 +73,8 @@ def test_recovery_from_stale_recomputes_to_clear_flag(tmp_path, monkeypatch):
 
 
 _BASE = dict(force=False, rebuild=False, artifacts_exist=True, played={"a"}, last={"a"},
-             fresh=True, was_stale=False, live_covers_kicked_off=False, cards_changed=False)
+             fresh=True, was_stale=False, live_covers_kicked_off=False, cards_changed=False,
+             fixtures_changed=False)
 
 
 @pytest.mark.parametrize("over,expected", [
@@ -84,6 +86,7 @@ _BASE = dict(force=False, rebuild=False, artifacts_exist=True, played={"a"}, las
     ({"was_stale": True}, True),                       # recovery -> clear stale banner
     ({"live_covers_kicked_off": True}, True),          # a covered fixture passed kickoff -> drop it
     ({"cards_changed": True}, True),                   # fair-play cards edited -> pick up conduct
+    ({"fixtures_changed": True}, True),                # decided knockout / landed winner_code, same played set
     ({}, False),                                       # idle: nothing changed
     ({"fresh": False, "was_stale": True}, False),      # still down + already stale (check escalates)
 ])
@@ -99,6 +102,36 @@ def test_recompute_on_cards_change(tmp_path, monkeypatch):
     _prep(tmp_path, monkeypatch, played_ids=["WC26-M001"], marker_ids=["WC26-M001"])
     _stub(monkeypatch, fresh=True, was_stale=False, cards_changed=True)
     assert run_all.check() == 10
+
+
+def test_recompute_on_semantic_fixtures_change(tmp_path, monkeypatch):
+    # no new played id, feed fine — but a knockout got its participants or a shootout winner_code
+    # landed (the played set is unchanged), so the semantic hash flips -> recompute
+    _prep(tmp_path, monkeypatch, played_ids=["WC26-M001"], marker_ids=["WC26-M001"])
+    _stub(monkeypatch, fresh=True, was_stale=False, fixtures_changed=True)
+    assert run_all.check() == 10
+
+
+def test_fixtures_changed_catches_decided_bracket_and_winner_code(tmp_path, monkeypatch):
+    marker = tmp_path / ".fixtures_hash"
+    monkeypatch.setattr(run_all, "FIXHASH_MARKER", marker)
+    cols = ["fixture_id", "home_code", "away_code", "winner_code", "home_score", "away_score", "played"]
+    base = pd.DataFrame([["WC26-M073", "", "", "", "", "", False]], columns=cols)  # undecided R32 slot
+    assert run_all._fixtures_changed(base) is True                       # marker absent -> changed
+    marker.write_text(run_all._fixtures_semantic_hash(base))
+    assert run_all._fixtures_changed(base) is False                      # stable feed -> idle
+
+    decided = base.copy()
+    decided.loc[0, ["home_code", "away_code"]] = ["ESP", "URU"]          # participants filled in
+    assert run_all._fixtures_changed(decided) is True                    # same played set, changed
+    marker.write_text(run_all._fixtures_semantic_hash(decided))
+
+    shootout = decided.copy()
+    shootout.loc[0, ["home_score", "away_score", "played"]] = [1, 1, True]
+    marker.write_text(run_all._fixtures_semantic_hash(shootout))         # played, no winner yet
+    landed = shootout.copy()
+    landed.loc[0, "winner_code"] = "URU"                                 # winner_code lands later
+    assert run_all._fixtures_changed(landed) is True                     # still played -> caught
 
 
 def test_cards_changed_compares_hash_to_marker(tmp_path, monkeypatch):
