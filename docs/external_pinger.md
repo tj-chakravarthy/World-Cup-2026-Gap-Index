@@ -74,3 +74,21 @@ curl -sS -o /dev/null -w "%{http_code}\n" -X POST \
 Expect `204`. Then check the Actions tab for an "Update Predictions (live)" run with event
 `repository_dispatch`, and — if a match has resolved — a `gapindex-bot` "data: live update"
 commit a few minutes later.
+
+## Manual step each matchday: fair-play cards
+
+The cron handles results automatically, but one Article 13 input has no feed: the group-stage
+fair-play **conduct** score (Art. 13 §1 f). No free card source exists, so it stays at zero until
+entered by hand — which means a group tie reaching the conduct criterion currently skips it and
+falls through to the FIFA ranking. A real table can hinge on this, so treat it as a recurring step:
+
+1. After each matchday, add a row per `fixture_id,team_code` to `data/raw/cards_2026.csv` with the
+   `yellow` / `indirect_red` (second yellow) / `direct_red` / `yellow_and_direct_red` counts. A
+   header-only template ships in the repo.
+2. Check it: `python3 -m src.pipeline.validate_cards` — rejects a stray code, a duplicate, a row
+   for a team that didn't play the fixture, or a negative/non-integer count.
+3. Commit `data/raw/cards_2026.csv`. The next cron run's `load_conduct` feeds it to the simulator
+   and fair-play starts breaking ties.
+
+Until then the site discloses the gap ("fair-play conduct isn't loaded yet, so it currently breaks
+no ties"). If no group ends up tied through conduct it never mattered; load cards before/when it does.
