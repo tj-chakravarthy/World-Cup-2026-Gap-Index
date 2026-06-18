@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T17:32:31Z",
+  "generated_at": "2026-06-18T18:15:27Z",
   "tournament": "FIFA World Cup 26",
   "n_sims": 100000,
   "param_uncertainty": true,
@@ -68,7 +68,7 @@
       "p_QF": 0.33815,
       "p_SF": 0.19303,
       "p_final": 0.1082,
-      "p_winner": 0.05957
+      "p_winner": 0.05958
     },
     {
       "country_code": "GER",
@@ -298,8 +298,8 @@
       "p_R16": 0.35559,
       "p_QF": 0.15408,
       "p_SF": 0.05902,
-      "p_final": 0.02232,
-      "p_winner": 0.00798
+      "p_final": 0.02231,
+      "p_winner": 0.00797
     },
     {
       "country_code": "ALG",
@@ -374,9 +374,9 @@
       "p_R32": 0.55146,
       "p_R16": 0.2425,
       "p_QF": 0.08243,
-      "p_SF": 0.0276,
-      "p_final": 0.00899,
-      "p_winner": 0.00269
+      "p_SF": 0.02762,
+      "p_final": 0.009,
+      "p_winner": 0.0027
     },
     {
       "country_code": "GHA",
@@ -396,9 +396,9 @@
       "p_R32": 0.64838,
       "p_R16": 0.25368,
       "p_QF": 0.0839,
-      "p_SF": 0.02323,
+      "p_SF": 0.02321,
       "p_final": 0.00684,
-      "p_winner": 0.00175
+      "p_winner": 0.00174
     },
     {
       "country_code": "UZB",
