@@ -13,8 +13,7 @@ the logistic — a CI-enforced coherence check. I Monte-Carlo the bracket 100,00
 games drawn from the tilted matrix, the FIFA Article 13 tiebreaker order (real FIFA ranking; fair-play conduct still zero — no cards loaded — so it breaks no ties yet), the eight best thirds
 into the round of 32, level knockouts to a ~50/50 shootout — for each team's odds of reaching
 every stage. Every run draws one of 25 bootstrap refits, so the odds are distributions, not
-point estimates; the model is cached and re-runs on each new result, within half an hour of
-full-time.
+point estimates; the model is cached and re-runs when new results are pulled.
 
 Open-source, updating live during the tournament.
 
@@ -52,8 +51,8 @@ teams, the FIFA Article 13 group-tiebreaker order, the official knockout bracket
 is implemented in full sequence, and the third-placed teams slot into the round of 32 by FIFA's
 exact Annex C table. **Caveat, not buried:** one input isn't live yet — the team-conduct
 (fair-play) score runs at **zero until match-card data is hand-loaded**, so fair-play currently
-breaks no ties. Everything else in the order is active; conduct updates within half an hour of
-each full-time once cards are entered.
+breaks no ties. Everything else in the order is active; conduct updates when new results are
+pulled, once cards are entered.
 
 <!-- TOPBOARD:START -->
 Top of the board to win it: **Spain 12%, Argentina 10%, France 10%, England 9%.** _(updated 2026-06-18 05:49 UTC)_
