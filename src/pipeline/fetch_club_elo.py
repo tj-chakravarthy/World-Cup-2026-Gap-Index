@@ -7,7 +7,7 @@ variance features) is downstream feature work — clubelo is Europe-centric, so
 non-European clubs get a documented FBref league-median fallback there, not here.
 
 Snapshot, regenerable -> gitignored (unlike the canonical spine). Stdlib only.
-Run: python -m src.pipeline.fetch_club_elo
+Run: python3 -m src.pipeline.fetch_club_elo
 """
 
 from __future__ import annotations

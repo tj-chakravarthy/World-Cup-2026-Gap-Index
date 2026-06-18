@@ -40,7 +40,7 @@ Bulk data the pipeline fetches on the dev boxes and writes under `data/raw/` (ig
 | [`martj42/international_results`](https://github.com/martj42/international_results) | ~150 years of international results | Public community dataset; fetched, not vendored |
 | eloratings.net | National-team Elo (reference) | Public reference; the project **computes its own Elo from results**, using eloratings only as a sanity check |
 | clubelo.com (API) | Club Elo | Free API; attribution requested |
-| Match cards (yellow/red) | Group-stage team conduct (Art. 13 §1 f) | No card feed wired here (no key) → conduct runs at zero until `data/raw/cards_2026.csv` is filled in by hand. Manual path: one row per `fixture_id,team_code` with counts in `yellow,indirect_red,direct_red,yellow_and_direct_red`; run `python -m src.pipeline.validate_cards` to check it, then `load_conduct` feeds it to the simulator. A header-only template ships in the repo (the zero-conduct default) |
+| Match cards (yellow/red) | Group-stage team conduct (Art. 13 §1 f) | No card feed wired here (no key) → conduct runs at zero until `data/raw/cards_2026.csv` is filled in by hand. Manual path: one row per `fixture_id,team_code` with counts in `yellow,indirect_red,direct_red,yellow_and_direct_red`; run `python3 -m src.pipeline.validate_cards` to check it, then `load_conduct` feeds it to the simulator. A header-only template ships in the repo (the zero-conduct default) |
 
 ## Notes
 

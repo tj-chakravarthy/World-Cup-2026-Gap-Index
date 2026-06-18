@@ -18,8 +18,8 @@ Each squad file maps to its pre-tournament Transfermarkt season (PLAN §1.2; sai
 the season's start year) — see SQUAD_SOURCES. Market value is time-stamped, so the
 backtest squads get their own season's values, not today's.
 
-Run discovery:  python -m src.pipeline.fetch_transfermarkt --discover
-Run the lot:    python -m src.pipeline.fetch_transfermarkt
+Run discovery:  python3 -m src.pipeline.fetch_transfermarkt --discover
+Run the lot:    python3 -m src.pipeline.fetch_transfermarkt
 """
 
 from __future__ import annotations

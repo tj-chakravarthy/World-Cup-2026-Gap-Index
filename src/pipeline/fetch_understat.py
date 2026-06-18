@@ -8,7 +8,7 @@ Big-5 leagues; season is the start year (2023 = 2023/24), matched to the FBref
 seasons so the two feeds join per player-season. One CSV per (league, season)
 under data/raw/ (gitignored). Stdlib only.
 
-Run: python -m src.pipeline.fetch_understat   (or --league/--season to narrow)
+Run: python3 -m src.pipeline.fetch_understat   (or --league/--season to narrow)
 """
 
 from __future__ import annotations

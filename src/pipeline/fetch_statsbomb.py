@@ -8,7 +8,7 @@ to event_url() below, not run here — no point dragging it in before the VAEP
 pipeline exists.
 
 Index + events are a regenerable cache -> gitignored. Stdlib only.
-Run: python -m src.pipeline.fetch_statsbomb
+Run: python3 -m src.pipeline.fetch_statsbomb
 """
 
 from __future__ import annotations

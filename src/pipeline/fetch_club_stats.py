@@ -21,8 +21,8 @@ docs/deviations.md). So pull `--stats standard,shooting` only; club xG comes fro
 Understat (fetch_understat.py). On a box where headless can't clear Cloudflare
 (e.g. bedford), run headed under xvfb: `xvfb-run -a python ... --headed`.
 
-Run a pilot:   python -m src.pipeline.fetch_club_stats --league ENG --season 2023-2024 --stats standard
-Run the lot:   python -m src.pipeline.fetch_club_stats --stats standard,shooting
+Run a pilot:   python3 -m src.pipeline.fetch_club_stats --league ENG --season 2023-2024 --stats standard
+Run the lot:   python3 -m src.pipeline.fetch_club_stats --stats standard,shooting
 """
 
 from __future__ import annotations

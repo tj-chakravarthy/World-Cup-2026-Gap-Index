@@ -6,7 +6,7 @@ manual name_overrides.csv review. Does NOT auto-write overrides — auto-match t
 easy majority, surface the rest. Match is per (league, season): the candidate set
 is that league-season's FBref players. Stdlib (rapidfuzz used if present).
 
-Run: python -m src.pipeline.name_match_report
+Run: python3 -m src.pipeline.name_match_report
 """
 
 from __future__ import annotations

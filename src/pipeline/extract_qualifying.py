@@ -7,7 +7,7 @@ result volatility, opponent-Elo-adjusted form, …) are built on top of it at
 indices time (PLAN.md §1.4 / Stage 3), not here.
 
 Derived + regenerable -> gitignored. Stdlib only.
-Run: python -m src.pipeline.extract_qualifying
+Run: python3 -m src.pipeline.extract_qualifying
 """
 
 from __future__ import annotations

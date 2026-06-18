@@ -9,7 +9,7 @@ teams aren't determined yet are pending. Writes through write_predictions, which
 enforces the artifact invariants and refuses to overwrite an existing lock.
 
 Headline W/D/L + scorelines are Dixon-Coles; the Elo baseline rides along in
-each prediction's `members` for audit. Run: python -m src.pipeline.build_lock
+each prediction's `members` for audit. Run: python3 -m src.pipeline.build_lock
 """
 
 from __future__ import annotations

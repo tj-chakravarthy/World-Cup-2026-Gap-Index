@@ -20,7 +20,7 @@ from leave-one-tournament-out CV (each tournament predicted by a model blind to 
 the same blind-fold scatter shown on /method. The production model (for the live
 2026 prediction) trains on everything; the nested-CV refit per fold is Stage 3.
 
-Run: python -m src.features.predicted_vaep
+Run: python3 -m src.features.predicted_vaep
 """
 
 from __future__ import annotations
@@ -198,7 +198,7 @@ def main() -> None:
     observed = pd.read_csv(PROC / "vaep_observed.csv")
     if "tournament" not in observed.columns:
         raise SystemExit("vaep_observed.csv has no `tournament` column — rerun "
-                         "`python -m src.features.vaep` first (PLAN §2.2 needs the grain)")
+                         "`python3 -m src.features.vaep` first (PLAN §2.2 needs the grain)")
     club_feats = load_player_features()
     table = build_training_table(observed, club_feats)
     print(f"training rows (matched player-tournaments): {len(table)}")

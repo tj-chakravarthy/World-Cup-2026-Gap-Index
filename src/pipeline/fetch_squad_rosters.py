@@ -21,8 +21,8 @@ skipped, not fatal — a partial file still feeds the index).
 
 bs4 + stdlib by design (no pandas). The default run fetches the historical editions
 (2018, 2022); squads_2026.csv already exists — regenerate it with `--year 2026`.
-Run: python -m src.pipeline.fetch_squad_rosters
-     python -m src.pipeline.fetch_squad_rosters --backtest euro2024
+Run: python3 -m src.pipeline.fetch_squad_rosters
+     python3 -m src.pipeline.fetch_squad_rosters --backtest euro2024
 """
 
 from __future__ import annotations
