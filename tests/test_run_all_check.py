@@ -115,23 +115,26 @@ def test_recompute_on_semantic_fixtures_change(tmp_path, monkeypatch):
 def test_fixtures_changed_catches_decided_bracket_and_winner_code(tmp_path, monkeypatch):
     marker = tmp_path / ".fixtures_hash"
     monkeypatch.setattr(run_all, "FIXHASH_MARKER", marker)
-    cols = ["fixture_id", "home_code", "away_code", "winner_code", "home_score", "away_score", "played"]
-    base = pd.DataFrame([["WC26-M073", "", "", "", "", "", False]], columns=cols)  # undecided R32 slot
-    assert run_all._fixtures_changed(base) is True                       # marker absent -> changed
+
+    def _fx(home="", away="", winner="", hs="", asc="", played=False):
+        # build each scenario as a fresh frame — pandas 3.0 infers a strict str dtype, so mutating
+        # one frame's string cell to an int (.loc) raises; a fresh frame per case sidesteps that
+        return pd.DataFrame([{"fixture_id": "WC26-M073", "home_code": home, "away_code": away,
+                              "winner_code": winner, "home_score": hs, "away_score": asc,
+                              "played": played}])
+
+    base = _fx()                                              # undecided R32 slot
+    assert run_all._fixtures_changed(base) is True            # marker absent -> changed
     marker.write_text(run_all._fixtures_semantic_hash(base))
-    assert run_all._fixtures_changed(base) is False                      # stable feed -> idle
+    assert run_all._fixtures_changed(base) is False           # stable feed -> idle
 
-    decided = base.copy()
-    decided.loc[0, ["home_code", "away_code"]] = ["ESP", "URU"]          # participants filled in
-    assert run_all._fixtures_changed(decided) is True                    # same played set, changed
-    marker.write_text(run_all._fixtures_semantic_hash(decided))
+    decided = _fx(home="ESP", away="URU")                     # participants filled in (same played set)
+    assert run_all._fixtures_changed(decided) is True         # caught
 
-    shootout = decided.copy()
-    shootout.loc[0, ["home_score", "away_score", "played"]] = [1, 1, True]
-    marker.write_text(run_all._fixtures_semantic_hash(shootout))         # played, no winner yet
-    landed = shootout.copy()
-    landed.loc[0, "winner_code"] = "URU"                                 # winner_code lands later
-    assert run_all._fixtures_changed(landed) is True                     # still played -> caught
+    shootout = _fx(home="ESP", away="URU", hs=1, asc=1, played=True)   # played, winner not named yet
+    marker.write_text(run_all._fixtures_semantic_hash(shootout))
+    landed = _fx(home="ESP", away="URU", winner="URU", hs=1, asc=1, played=True)  # winner_code lands
+    assert run_all._fixtures_changed(landed) is True          # still played -> caught
 
 
 def test_cards_changed_compares_hash_to_marker(tmp_path, monkeypatch):
