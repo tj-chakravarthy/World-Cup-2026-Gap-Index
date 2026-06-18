@@ -155,10 +155,24 @@ function renderLive(live) {
   const navLive = document.getElementById("nav-live");
   if (!sec || !el) return;
   const now = Date.now();
-  const games = (live.live_now || []).filter((g) => {
-    const ko = new Date(g.kickoff_utc).getTime();
-    return ko <= now && now - ko < 2.5 * 3600e3;
-  });
+  const inWindow = (ko) => ko <= now && now - ko < 2.5 * 3600e3;
+  const seen = new Set();
+  const games = [];
+  for (const g of live.live_now || []) {                 // cron-marked in-progress (carry wdl)
+    if (inWindow(new Date(g.kickoff_utc).getTime())) { games.push(g); seen.add(g.fixture_id); }
+  }
+  // client-side promotion: a published forecast whose kickoff just passed but the cron hasn't
+  // regenerated yet (up to ~15 min between runs). It already carries its pre-kickoff wdl, so show
+  // it on the strip immediately rather than letting it vanish between "upcoming" and "live".
+  for (const p of live.predictions || []) {
+    if (seen.has(p.fixture_id)) continue;
+    if (inWindow(new Date(p.kickoff_utc).getTime())) {
+      games.push({ fixture_id: p.fixture_id, team1: p.team1, team2: p.team2,
+                   kickoff_utc: p.kickoff_utc, wdl: p.wdl });
+      seen.add(p.fixture_id);
+    }
+  }
+  games.sort((a, b) => new Date(a.kickoff_utc) - new Date(b.kickoff_utc));
   if (!games.length) { sec.hidden = true; if (navLive) navLive.hidden = true; return; }
   el.innerHTML = games.map((g) => {
     const w = g.wdl;
