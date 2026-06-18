@@ -320,8 +320,11 @@ function renderGap(gap) {
     const over = t.gap >= 0;
     const w = Math.min(50, (Math.abs(t.gap) / maxAbs) * 50);
     const fill = over ? `left:50%;width:${w}%` : `right:50%;width:${w}%`;
+    // most gap teams are past tournaments, so they're outside the 48-team 2026 map — fall back to
+    // the full name the data carries (else they'd show as a bare FIFA code: VEN, SRB, DEN…)
+    const label = TEAM[t.code] || t.team || t.code;
     return `<div class="gap-row${headline.has(t) ? "" : " extra"}">
-      <div class="gap-team">${name(t.code)}<span class="gap-t">${esc(t.t)}</span></div>
+      <div class="gap-team">${esc(label)}<span class="gap-t">${esc(t.t)}</span></div>
       <div class="gap-track"><i class="gap-fill ${over ? "over" : "under"}" style="${fill}"></i></div>
       <div class="gap-num ${over ? "over" : "under"}">${t.gap >= 0 ? "+" : "−"}${Math.abs(t.gap).toFixed(2)}
         <span class="gap-band">[${t.lo.toFixed(1)}, ${t.hi.toFixed(1)}]</span></div>
