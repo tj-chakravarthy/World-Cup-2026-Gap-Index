@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@6638108",
-  "generated_at": "2026-06-18T15:50:51Z",
+  "model_version": "live-elo-mkt@ab528d6",
+  "generated_at": "2026-06-18T16:32:43Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M025",
       "WC26-M026",
       "WC26-M027",
       "WC26-M028",
@@ -80,7 +79,8 @@
       "WC26-M023",
       "WC26-M022",
       "WC26-M021",
-      "WC26-M024"
+      "WC26-M024",
+      "WC26-M025"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-18T15:50:51Z",
+      "as_of": "2026-06-18T16:32:43Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M025",
-      "stage": "group",
-      "kickoff_utc": "2026-06-18T16:00:00Z",
-      "team1": "CZE",
-      "team2": "RSA",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.5326637341895908,
-        "draw": 0.2570969221653209,
-        "team2": 0.21023934364508834
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1225
-        },
-        {
-          "score": "1-0",
-          "p": 0.1145
-        },
-        {
-          "score": "2-0",
-          "p": 0.1006
-        },
-        {
-          "score": "2-1",
-          "p": 0.0963
-        },
-        {
-          "score": "0-0",
-          "p": 0.0795
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.5326637341895908,
-          "draw": 0.2570969221653209,
-          "team2": 0.21023934364508834
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M026",
       "stage": "group",
@@ -2248,5 +2204,12 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M025",
+      "team1": "CZE",
+      "team2": "RSA",
+      "kickoff_utc": "2026-06-18T16:00:00Z"
+    }
+  ]
 }
