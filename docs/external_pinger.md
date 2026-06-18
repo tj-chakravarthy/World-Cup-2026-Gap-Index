@@ -83,12 +83,17 @@ entered by hand — which means a group tie reaching the conduct criterion curre
 falls through to the FIFA ranking. A real table can hinge on this, so treat it as a recurring step:
 
 1. After each matchday, add a row per `fixture_id,team_code` to `data/raw/cards_2026.csv` with the
-   `yellow` / `indirect_red` (second yellow) / `direct_red` / `yellow_and_direct_red` counts. A
+   `yellow` / `indirect_red` (second yellow) / `direct_red` / `yellow_and_direct_red` counts. Once
+   you enter any cards, enter them for **every played group match, both teams** — a team with no
+   cards is an all-zero row, not an omission (a missing row scores zero and unfairly helps it). A
    header-only template ships in the repo.
 2. Check it: `python3 -m src.pipeline.validate_cards` — rejects a stray code, a duplicate, a row
-   for a team that didn't play the fixture, or a negative/non-integer count.
-3. Commit `data/raw/cards_2026.csv`. The next cron run's `load_conduct` feeds it to the simulator
-   and fair-play starts breaking ties.
+   for a team that didn't play, a negative/non-integer count, **or incomplete coverage** (a played
+   group match missing a team).
+3. Commit `data/raw/cards_2026.csv`. The next cron run detects the change (the gate hashes the
+   file), recomputes, and `load_conduct` feeds it to the simulator — fair-play starts breaking ties.
+   The run re-validates first, so incomplete/malformed cards fail the run loud rather than silently
+   biasing the standings.
 
 Until then the site discloses the gap ("fair-play conduct isn't loaded yet, so it currently breaks
 no ties"). If no group ends up tied through conduct it never mattered; load cards before/when it does.

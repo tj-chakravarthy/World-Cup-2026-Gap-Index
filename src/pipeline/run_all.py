@@ -17,6 +17,7 @@ urgent). pandas only.
 
 from __future__ import annotations
 
+import hashlib
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -30,7 +31,9 @@ RAW = REPO / "data" / "raw"
 PRED = REPO / "data" / "predictions"
 PROC = REPO / "data" / "processed"
 FIXTURES = RAW / "fixtures_2026.csv"
+CARDS = RAW / "cards_2026.csv"
 MARKER = PRED / ".last_played"
+CARDS_MARKER = PRED / ".cards_hash"   # hash of cards at last recompute, so a cards edit re-runs
 LIVE = PRED / "predictions_live.json"
 SIM = PRED / "simulation.json"
 WEB_LIVE = REPO / "web" / "public" / "data" / "predictions_live.json"
@@ -66,17 +69,16 @@ def _step(name: str, fn) -> None:
 
 
 def _should_recompute(*, force: bool, rebuild: bool, artifacts_exist: bool, played: set, last: set,
-                      fresh: bool, was_stale: bool, live_covers_kicked_off: bool) -> bool:
+                      fresh: bool, was_stale: bool, live_covers_kicked_off: bool,
+                      cards_changed: bool) -> bool:
     """Whether main() must rebuild the live artifacts. Beyond a new result this also catches the
-    stale-banner transitions and a covered fixture passing kickoff, so they don't silently no-op
-    when the caller didn't pass --force: publish the banner on a fresh feed failure, clear it on
-    recovery (was_stale != would-be-stale), and drop a now-kicked-off match from the forecast.
-    Mirrors check()'s recompute signal so the cron's check->recompute handoff can't drop one. Pure."""
+    stale-banner transitions, a covered fixture passing kickoff, and a fair-play cards edit, so they
+    don't silently no-op when the caller didn't pass --force: publish the banner on a fresh feed
+    failure, clear it on recovery (was_stale != would-be-stale), drop a now-kicked-off match, and
+    pick up committed conduct. Mirrors check()'s recompute signal so the handoff can't drop one. Pure."""
     if force or rebuild or not artifacts_exist:
         return True
-    if played != last:
-        return True
-    if live_covers_kicked_off:
+    if played != last or live_covers_kicked_off or cards_changed:
         return True
     return was_stale != (not fresh)   # the published stale flag would flip -> republish to reflect it
 
@@ -91,8 +93,9 @@ def main(force: bool = False, rebuild: bool = False) -> None:
                              artifacts_exist=LIVE.exists() and SIM.exists(),
                              played=played, last=last, fresh=fresh,
                              was_stale=_committed_live_is_stale(),
-                             live_covers_kicked_off=_live_covers_kicked_off(now)):
-        print(f"no new results ({len(played)} played) and no stale/kickoff change; nothing to update")
+                             live_covers_kicked_off=_live_covers_kicked_off(now),
+                             cards_changed=_cards_changed()):
+        print(f"no new results ({len(played)} played) and no stale/kickoff/cards change; nothing to update")
         return
     print(f"new evidence: {len(played)} played (was {len(last)}); recomputing forecast")
 
@@ -143,6 +146,19 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         for p in (PRED / "model_inputs.json", WEB_LIVE.parent / "model_inputs.json"):
             p.write_text(mi)
 
+    def _cards():  # validate the manual fair-play cards before they feed the sim's Art. 13 tiebreaker
+        # if any cards are loaded they must be well-formed AND complete (every played group match,
+        # both teams) — load_conduct scores a missing row as zero, which would silently bias the
+        # standings. A red run beats a quietly wrong tiebreaker. Empty/absent cards = the zero default.
+        if not CARDS.exists():
+            return
+        df = pd.read_csv(CARDS)
+        if df.empty:
+            return
+        from src.pipeline.validate_cards import TEAM_CODES, validate_cards
+        validate_cards(df, set(pd.read_csv(TEAM_CODES)["fifa_code"]), fixtures)
+
+    _step("cards", _cards)
     _step("simulate", _sim)
     _step("live_artifact", _live)
     # track_record is a HARD gate: it's the public accountability receipt, and the cron commit is
@@ -182,6 +198,7 @@ def main(force: bool = False, rebuild: bool = False) -> None:
     except Exception as e:  # noqa: BLE001
         print(f"warn: README update skipped ({e})", file=sys.stderr)
     MARKER.write_text(" ".join(sorted(played)))
+    CARDS_MARKER.write_text(_cards_hash())   # record the cards we just used, so next poll is idle
     print(f"update complete {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')} "
           f"({len(played)} results in, data {'fresh' if fresh else 'STALE (cached)'})")
 
@@ -216,6 +233,20 @@ def _live_covers_kicked_off(now: str) -> bool:
         return False
 
 
+def _cards_hash() -> str:
+    """Content hash of the manual fair-play cards file ('' if absent)."""
+    return hashlib.sha256(CARDS.read_bytes()).hexdigest() if CARDS.exists() else ""
+
+
+def _cards_changed() -> bool:
+    """Did cards_2026.csv change since the last recompute? The result/freshness/kickoff signals
+    don't notice a committed cards edit on their own, so without this the simulator's conduct would
+    never pick it up (docs/external_pinger.md's 'next cron run' claim). The hash is stored in a
+    committed marker, so it survives ephemeral runners."""
+    marked = CARDS_MARKER.read_text().strip() if CARDS_MARKER.exists() else ""
+    return _cards_hash() != marked
+
+
 def check() -> int:
     """Cheap pre-step the cron runs every poll. Exit code: 10 = recompute, 0 = idle, 1 = fail.
 
@@ -234,14 +265,16 @@ def check() -> int:
     last = set(MARKER.read_text().split()) if MARKER.exists() else set()
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     kicked_off = _live_covers_kicked_off(now)
+    cards_changed = _cards_changed()
     # recompute on: a new result, missing artifacts, a fresh feed failure (publish the stale
-    # heartbeat), recovery from a stale state (clear the banner), OR a covered fixture whose
-    # kickoff has passed (drop the now-in-progress/finished match from the live forecast even
-    # before its result lands in the lagging feed).
+    # heartbeat), recovery from a stale state (clear the banner), a covered fixture whose kickoff
+    # has passed (drop the now-in-progress/finished match), OR an edit to the manual fair-play
+    # cards (so committed conduct actually reaches the simulator).
     changed = (played != last or not (LIVE.exists() and SIM.exists())
-               or not fresh or (fresh and was_stale) or kicked_off)
+               or not fresh or (fresh and was_stale) or kicked_off or cards_changed)
     print(f"played={len(played)} marker={len(last)} fresh={fresh} was_stale={was_stale} "
-          f"kicked_off={kicked_off} -> {'recompute' if changed else 'idle'}")
+          f"kicked_off={kicked_off} cards_changed={cards_changed} -> "
+          f"{'recompute' if changed else 'idle'}")
     return 10 if changed else 0
 
 

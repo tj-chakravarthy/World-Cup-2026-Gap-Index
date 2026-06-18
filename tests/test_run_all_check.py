@@ -35,9 +35,10 @@ def _prep(tmp_path, monkeypatch, *, played_ids, marker_ids, artifacts=True):
     monkeypatch.setattr(run_all, "SIM", sim)
 
 
-def _stub(monkeypatch, *, fresh, was_stale):
+def _stub(monkeypatch, *, fresh, was_stale, cards_changed=False):
     monkeypatch.setattr(run_all, "_refresh_fixtures", lambda: fresh)
     monkeypatch.setattr(run_all, "_committed_live_is_stale", lambda: was_stale)
+    monkeypatch.setattr(run_all, "_cards_changed", lambda: cards_changed)
 
 
 def test_idle_when_fresh_and_no_new_result(tmp_path, monkeypatch):
@@ -71,7 +72,7 @@ def test_recovery_from_stale_recomputes_to_clear_flag(tmp_path, monkeypatch):
 
 
 _BASE = dict(force=False, rebuild=False, artifacts_exist=True, played={"a"}, last={"a"},
-             fresh=True, was_stale=False, live_covers_kicked_off=False)
+             fresh=True, was_stale=False, live_covers_kicked_off=False, cards_changed=False)
 
 
 @pytest.mark.parametrize("over,expected", [
@@ -82,6 +83,7 @@ _BASE = dict(force=False, rebuild=False, artifacts_exist=True, played={"a"}, las
     ({"fresh": False}, True),                          # feed failure -> publish stale heartbeat
     ({"was_stale": True}, True),                       # recovery -> clear stale banner
     ({"live_covers_kicked_off": True}, True),          # a covered fixture passed kickoff -> drop it
+    ({"cards_changed": True}, True),                   # fair-play cards edited -> pick up conduct
     ({}, False),                                       # idle: nothing changed
     ({"fresh": False, "was_stale": True}, False),      # still down + already stale (check escalates)
 ])
@@ -89,6 +91,26 @@ def test_should_recompute_covers_all_signals(over, expected):
     # the follow-through to check()'s signals: main() must recompute on a stale flip OR a covered
     # fixture passing kickoff, even without --force, so those paths can't no-op
     assert run_all._should_recompute(**{**_BASE, **over}) is expected
+
+
+def test_recompute_on_cards_change(tmp_path, monkeypatch):
+    # no new result/kickoff change, but the manual fair-play cards were committed -> recompute so
+    # load_conduct's new values reach the sim (the 'next cron run' the docs promise)
+    _prep(tmp_path, monkeypatch, played_ids=["WC26-M001"], marker_ids=["WC26-M001"])
+    _stub(monkeypatch, fresh=True, was_stale=False, cards_changed=True)
+    assert run_all.check() == 10
+
+
+def test_cards_changed_compares_hash_to_marker(tmp_path, monkeypatch):
+    cards, marker = tmp_path / "cards.csv", tmp_path / ".cards_hash"
+    monkeypatch.setattr(run_all, "CARDS", cards)
+    monkeypatch.setattr(run_all, "CARDS_MARKER", marker)
+    cards.write_text("fixture_id,team_code,yellow\n")
+    assert run_all._cards_changed() is True                 # marker absent -> changed
+    marker.write_text(run_all._cards_hash())
+    assert run_all._cards_changed() is False                # marker matches -> idle
+    cards.write_text("fixture_id,team_code,yellow\nWC26-M005,ESP,2\n")
+    assert run_all._cards_changed() is True                 # cards edited -> changed
 
 
 def test_recompute_when_live_still_covers_a_kicked_off_fixture(tmp_path, monkeypatch):

@@ -85,6 +85,32 @@ def test_valid_with_fixtures_passes():
                         ("WC26-M001", "CRO", 1, 0, 1, 0)]), FIELD, _FX)
 
 
+_FX_PLAYED = pd.DataFrame([
+    {"fixture_id": "WC26-M001", "stage": "group", "home_code": "ESP", "away_code": "CRO", "played": True},
+    {"fixture_id": "WC26-M002", "stage": "group", "home_code": "BRA", "away_code": "CRO", "played": True},
+    {"fixture_id": "WC26-M003", "stage": "group", "home_code": "ESP", "away_code": "BRA", "played": False},
+])
+
+
+def test_incomplete_cards_for_a_played_match_rejected():
+    # M001 played (ESP v CRO) but only ESP entered — CRO's missing row would silently score zero
+    with pytest.raises(ValueError, match="incomplete"):
+        validate_cards(_df([("WC26-M001", "ESP", 2, 0, 0, 0)]), FIELD, _FX_PLAYED)
+
+
+def test_complete_cards_for_all_played_matches_pass():
+    # every PLAYED group match has both teams (M003 unplayed -> not required); all-zero rows count
+    validate_cards(_df([
+        ("WC26-M001", "ESP", 2, 0, 0, 0), ("WC26-M001", "CRO", 1, 0, 0, 0),
+        ("WC26-M002", "BRA", 0, 0, 0, 0), ("WC26-M002", "CRO", 3, 0, 1, 0),
+    ]), FIELD, _FX_PLAYED)
+
+
+def test_empty_cards_skip_completeness():
+    # header-only is the zero-conduct default — completeness isn't required until cards are entered
+    validate_cards(_df([]), FIELD, _FX_PLAYED)
+
+
 def test_committed_template_validates():
     p = Path(__file__).resolve().parents[1] / "data" / "raw" / "cards_2026.csv"
     validate_cards(pd.read_csv(p), FIELD)

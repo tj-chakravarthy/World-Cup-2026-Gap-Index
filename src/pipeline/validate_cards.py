@@ -33,9 +33,10 @@ def validate_cards(df: pd.DataFrame, field_codes: set[str], fixtures: pd.DataFra
     """Raise ValueError if the cards frame is malformed. Header-only (no rows) is valid.
 
     When `fixtures` is given, also enforce that each row is a real GROUP fixture and that the team
-    actually played in it (it's a home/away side) — load_conduct sums by team and ignores
-    fixture_id, so a row for the wrong fixture or a team that didn't play silently skews the
-    Art. 13 conduct tiebreaker."""
+    actually played in it (load_conduct sums by team and ignores fixture_id, so a row for the wrong
+    fixture or a team that didn't play silently skews the tiebreaker), AND — once any cards are
+    entered — that every PLAYED group match has a row for both teams (a missing row silently scores
+    zero, unfairly helping that team in the Art. 13 tiebreaker)."""
     missing = [c for c in REQUIRED if c not in df.columns]
     if missing:
         raise ValueError(f"cards: missing required column(s) {missing}")
@@ -63,6 +64,19 @@ def validate_cards(df: pd.DataFrame, field_codes: set[str], fixtures: pd.DataFra
             if r.team_code not in teams:
                 raise ValueError(
                     f"cards: {r.team_code} did not play in {r.fixture_id} (teams {sorted(teams)})")
+        # completeness: once any cards are entered, every PLAYED group match needs a row for BOTH
+        # teams — a missing row silently scores zero conduct, unfairly helping that team. Record a
+        # team with no cards as an all-zero row, not an omission.
+        if len(df) and "played" in fixtures.columns:
+            from src.played import played_mask
+            played = fixtures[(fixtures["stage"] == "group") & played_mask(fixtures["played"])]
+            required = {(r.fixture_id, t) for r in played.itertuples()
+                        for t in (r.home_code, r.away_code)}
+            gaps = sorted(required - {(r.fixture_id, r.team_code) for r in df.itertuples(index=False)})
+            if gaps:
+                raise ValueError(
+                    f"cards incomplete: {len(gaps)} (fixture, team) row(s) missing for played group "
+                    f"matches — a missing row silently scores zero conduct: {gaps[:10]}")
 
 
 def main() -> None:
