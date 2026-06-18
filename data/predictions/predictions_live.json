@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@7f0f89c",
-  "generated_at": "2026-06-18T00:15:12Z",
+  "model_version": "live-elo-mkt@c593956",
+  "generated_at": "2026-06-18T02:43:10Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M024",
       "WC26-M025",
       "WC26-M026",
       "WC26-M027",
@@ -80,7 +79,8 @@
       "WC26-M020",
       "WC26-M023",
       "WC26-M022",
-      "WC26-M021"
+      "WC26-M021",
+      "WC26-M024"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,65 +120,21 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-18T00:15:12Z",
+      "as_of": "2026-06-18T02:43:10Z",
       "stale": false
     },
     {
       "name": "match_results",
-      "as_of": "2026-06-18T00:15:12Z",
+      "as_of": "2026-06-18T02:43:10Z",
       "stale": false
     },
     {
       "name": "match_model",
-      "as_of": "2026-06-18T00:15:12Z",
+      "as_of": "2026-06-18T02:43:10Z",
       "stale": false
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M024",
-      "stage": "group",
-      "kickoff_utc": "2026-06-18T02:00:00Z",
-      "team1": "UZB",
-      "team2": "COL",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.18160714210097753,
-        "draw": 0.24739785629513064,
-        "team2": 0.5709950016038919
-      },
-      "scorelines": [
-        {
-          "score": "0-1",
-          "p": 0.12
-        },
-        {
-          "score": "1-1",
-          "p": 0.1177
-        },
-        {
-          "score": "0-2",
-          "p": 0.1101
-        },
-        {
-          "score": "1-2",
-          "p": 0.097
-        },
-        {
-          "score": "0-0",
-          "p": 0.0788
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.18160714210097753,
-          "draw": 0.24739785629513064,
-          "team2": 0.5709950016038919
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M025",
       "stage": "group",
@@ -2294,10 +2250,10 @@
   ],
   "live_now": [
     {
-      "fixture_id": "WC26-M021",
-      "team1": "GHA",
-      "team2": "PAN",
-      "kickoff_utc": "2026-06-17T23:00:00Z"
+      "fixture_id": "WC26-M024",
+      "team1": "UZB",
+      "team2": "COL",
+      "kickoff_utc": "2026-06-18T02:00:00Z"
     }
   ]
 }
