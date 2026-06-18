@@ -273,10 +273,13 @@ def _stage_of(match_id: str) -> str | None:
     return "final" if n == 104 else None
 
 
-def _walk_knockout(r32_winners: dict[str, str], m: int, tilted, rng, reach):
+def _walk_knockout(r32_winners: dict[str, str], m: int, tilted, rng, reach, ko_results=None):
     """Walk the bracket from the R32 winners to the champion (bootstrap member m),
-    tallying the stage each team reaches."""
+    tallying the stage each team reaches. A match in `ko_results` (an actually-played knockout
+    result, fixture_id -> winner code) is fixed to its real winner instead of re-drawn; the
+    `fixed in (a, b)` guard means it only pins once the bracket has resolved to the real teams."""
     from src.models import bracket
+    ko_results = ko_results or {}
     won = dict(r32_winners)
     for match_id, f1, f2 in bracket.bracket_tree():
         stage = _stage_of(match_id)
@@ -285,10 +288,57 @@ def _walk_knockout(r32_winners: dict[str, str], m: int, tilted, rng, reach):
         a, b = won[f1], won[f2]
         reach[a][stage] += 1
         reach[b][stage] += 1
-        w = _ko_winner(a, b, m, tilted, rng)
+        fixed = ko_results.get(match_id)
+        w = fixed if fixed in (a, b) else _ko_winner(a, b, m, tilted, rng)
         won[match_id] = w
         if stage == "final":
             reach[w]["winner"] += 1
+
+
+def _code(v) -> str:
+    """Normalise a fixture team code: '' for blank/NaN (an undecided knockout slot)."""
+    s = str(v).strip()
+    return "" if s.lower() in ("", "nan") else s
+
+
+def knockout_results(fixtures: pd.DataFrame) -> dict[str, str]:
+    """{fixture_id: winner code} for played knockout matches whose teams are coded — used to pin
+    real results in the sim instead of re-drawing them. The score gives the winner of a decided
+    match; a draw means penalties (winner not in the score), so that winner is read off whichever
+    of the two teams the feed has advanced into the next fixture. Pure."""
+    ko = fixtures[fixtures["stage"] != "group"]
+    out: dict[str, str] = {}
+    drawn = []
+    for fx in ko.itertuples():
+        if not is_played(fx.played):
+            continue
+        hc, ac = _code(fx.home_code), _code(fx.away_code)
+        if not hc or not ac:
+            continue
+        try:
+            hs, as_ = int(float(fx.home_score)), int(float(fx.away_score))
+        except (TypeError, ValueError):
+            continue
+        if hs > as_:
+            out[fx.fixture_id] = hc
+        elif as_ > hs:
+            out[fx.fixture_id] = ac
+        else:
+            drawn.append((fx.fixture_id, hc, ac))   # penalties -> resolve from the next round
+    if drawn:
+        from src.models import bracket
+        by_id = fixtures.set_index("fixture_id")
+        feeds = {f: mid for mid, f1, f2 in bracket.bracket_tree() if mid != "WC26-M103"
+                 for f in (f1, f2)}
+        for fid, hc, ac in drawn:
+            d = feeds.get(fid)
+            if d is None or d not in by_id.index:
+                continue
+            nxt = {_code(by_id.at[d, "home_code"]), _code(by_id.at[d, "away_code"])}
+            adv = {hc, ac} & nxt
+            if len(adv) == 1:
+                out[fid] = adv.pop()
+    return out
 
 
 def simulate(bundle: Bundle, fixtures: pd.DataFrame, n_sims: int = N_SIMS,
@@ -326,6 +376,7 @@ def simulate(bundle: Bundle, fixtures: pd.DataFrame, n_sims: int = N_SIMS,
         group_fix, sampled, fifa_rank, n_sims, conduct)
 
     from src.models import bracket
+    ko_results = knockout_results(fixtures)   # actual knockout winners (once groups resolve), pinned
     reach = defaultdict(lambda: defaultdict(int))
     for s in range(n_sims):
         m = int(members[s])
@@ -338,8 +389,11 @@ def simulate(bundle: Bundle, fixtures: pd.DataFrame, n_sims: int = N_SIMS,
             reach[sim_second[s][g]]["R32"] += 1
         third_groups = [g for g in GROUPS if sim_rank[s][g][2] in best8]
         r32 = bracket.resolve_r32(sim_rank[s], third_groups)
-        winners = {fid: _ko_winner(t1, t2, m, tilted, rng) for fid, (t1, t2) in r32.items()}
-        _walk_knockout(winners, m, tilted, rng, reach)
+        winners = {}
+        for fid, (t1, t2) in r32.items():
+            fixed = ko_results.get(fid)
+            winners[fid] = fixed if fixed in (t1, t2) else _ko_winner(t1, t2, m, tilted, rng)
+        _walk_knockout(winners, m, tilted, rng, reach, ko_results)
 
     rows = []
     for c in bundle.codes:
@@ -351,17 +405,22 @@ def simulate(bundle: Bundle, fixtures: pd.DataFrame, n_sims: int = N_SIMS,
     return pd.DataFrame(rows).sort_values("p_winner", ascending=False)
 
 
-def group_fixture_wdl(bundle: Bundle, fixtures: pd.DataFrame) -> pd.DataFrame:
-    """The 72 group fixtures' point W/D/L from the bundle (predictions_2026_wdl shape) —
-    lets run_all build the live match artifact off the cached bundle, no rebuild."""
+def fixture_wdl(bundle: Bundle, fixtures: pd.DataFrame) -> pd.DataFrame:
+    """Point W/D/L (predictions_2026_wdl shape) for every fixture whose two teams are known — all
+    72 group matches, plus each knockout match once its participants are decided. Lets run_all
+    build the live match artifact off the cached bundle, no rebuild. Pure."""
     rows = []
-    for _, fx in fixtures[fixtures.stage == "group"].iterrows():
-        p = bundle.wdl.get((fx.home_code, fx.away_code))
+    for _, fx in fixtures.iterrows():
+        hc, ac = _code(fx.home_code), _code(fx.away_code)
+        if not hc or not ac:
+            continue
+        p = bundle.wdl.get((hc, ac))
         if p is None:
             continue
-        rows.append({"fixture_id": fx.fixture_id, "group": fx.group,
+        rows.append({"fixture_id": fx.fixture_id, "stage": fx.stage,
+                     "group": fx.group if fx.stage == "group" else "",
                      "home_team": fx.home_team, "away_team": fx.away_team,
-                     "home_code": fx.home_code, "away_code": fx.away_code,
+                     "home_code": hc, "away_code": ac,
                      "played": is_played(fx.played), "home_score": fx.home_score,
                      "away_score": fx.away_score, "p_home": float(p[0]),
                      "p_draw": float(p[1]), "p_away": float(p[2])})

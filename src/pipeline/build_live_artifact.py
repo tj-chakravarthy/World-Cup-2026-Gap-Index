@@ -75,7 +75,7 @@ def model_inputs(indices: pd.DataFrame, fixtures: pd.DataFrame,
         return None if v is None or pd.isna(v) else int(round(v))
 
     fx = {}
-    for r in fixtures[fixtures["stage"] == "group"].itertuples():
+    for r in fixtures.itertuples():   # group + any decided knockout fixture (blank codes skip below)
         if r.home_code not in idx.index or r.away_code not in idx.index:
             continue
         fx[r.fixture_id] = {"team1": r.home_code, "team2": r.away_code,
@@ -120,7 +120,7 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         m = tilted_matrix(lam1, lam2, dc.rho, (r.p_home, r.p_draw, r.p_away))
         wdl = {"team1": float(r.p_home), "draw": float(r.p_draw), "team2": float(r.p_away)}
         predictions.append({
-            "fixture_id": r.fixture_id, "stage": "group",
+            "fixture_id": r.fixture_id, "stage": r.stage,
             "kickoff_utc": kickoff,
             "team1": r.home_code, "team2": r.away_code, "model_source": "live_full",
             "wdl": wdl, "scorelines": top_scorelines(m),
@@ -128,16 +128,23 @@ def build_live(preds: pd.DataFrame, fixtures: pd.DataFrame, dc, code2m: dict[str
         covered.append(r.fixture_id)
 
     all_ids = set(fixtures["fixture_id"])
-    pending = sorted(all_ids - set(covered) - set(excluded))  # knockout slots, teams TBD
-    # every known (group) fixture must be predicted or explicitly excluded — never silently
-    # pending. group_fixture_wdl drops a fixture whose (home,away) pair the bundle can't score
-    # (a code-mapping/model-coverage miss); without this it would vanish into pending yet still
-    # pass schema validation. Knockout slots legitimately stay pending (teams TBD).
-    dropped = sorted(set(fixtures.loc[fixtures["stage"] == "group", "fixture_id"]) & set(pending))
+    pending = sorted(all_ids - set(covered) - set(excluded))  # undecided knockout slots, teams TBD
+    # every fixture whose two teams are KNOWN (all group matches; a knockout match once decided)
+    # must be predicted or explicitly excluded — never silently pending. fixture_wdl drops a
+    # fixture whose (home,away) pair the bundle can't score (a code-mapping/model miss); without
+    # this it would vanish into pending yet still pass schema validation. Undecided knockout slots
+    # (blank codes) legitimately stay pending.
+    def _coded(v):
+        return str(v).strip().lower() not in ("", "nan")
+    if "home_code" in fixtures.columns:
+        known = {r.fixture_id for r in fixtures.itertuples() if _coded(r.home_code) and _coded(r.away_code)}
+    else:
+        known = set(fixtures.loc[fixtures["stage"] == "group", "fixture_id"])
+    dropped = sorted(known & set(pending))
     if dropped:
         raise ValueError(
-            f"{len(dropped)} known group fixture(s) neither predicted nor excluded — would "
-            f"publish as pending_undetermined (model/code-mapping coverage miss): {dropped}"
+            f"{len(dropped)} decided fixture(s) (both teams known) neither predicted nor excluded "
+            f"— would publish as pending_undetermined (model/code-mapping coverage miss): {dropped}"
         )
     return {
         "schema_version": SCHEMA_VERSION, "kind": "live",

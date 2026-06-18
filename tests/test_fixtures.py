@@ -46,16 +46,19 @@ def test_all_16_host_venues_used():
     assert len({r["venue_key"] for r in fx}) == 16  # every fixture maps to one of 16 venues
 
 
-def test_48_group_teams_coded_knockout_blank():
+def test_48_group_teams_coded_knockout_blank_or_field():
     fx = _fixtures()
-    codes = set()
+    field = set()
     for r in fx:
         if r["stage"] == "group":
             assert r["home_code"] and r["away_code"], f"{r['fixture_id']} uncoded group team"
-            codes |= {r["home_code"], r["away_code"]}
-        else:
-            assert not r["home_code"] and not r["away_code"], f"{r['fixture_id']} coded knockout slot"
-    assert len(codes) == 48
+            field |= {r["home_code"], r["away_code"]}
+    assert len(field) == 48
+    # knockout codes are blank until the bracket decides them, then a real field code
+    for r in fx:
+        if r["stage"] != "group":
+            for c in (r["home_code"], r["away_code"]):
+                assert c == "" or c in field, f"{r['fixture_id']} code {c!r} not blank/in field"
 
 
 def test_played_flag_matches_scores():

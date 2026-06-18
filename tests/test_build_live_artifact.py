@@ -34,7 +34,7 @@ def _inputs():
     # kickoff in the future so build_live treats it as upcoming (it excludes post-kickoff)
     future = (datetime.now(timezone.utc) + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
     preds = pd.DataFrame([{
-        "fixture_id": "WC26-M100", "played": False, "home_code": "ESP", "away_code": "FRA",
+        "fixture_id": "WC26-M100", "stage": "group", "played": False, "home_code": "ESP", "away_code": "FRA",
         "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25,
     }])
     fixtures = pd.DataFrame([{"fixture_id": "WC26-M100", "stage": "group", "kickoff_utc": future}])
@@ -63,7 +63,7 @@ def test_build_live_excludes_post_kickoff_fixture():
     # a kicked-off match the feed still marks unplayed (lagging) must NOT be published — it goes
     # to excluded, so the published set stays == the logged set (both pre-kickoff)
     preds = pd.DataFrame([{
-        "fixture_id": "WC26-M013", "played": False, "home_code": "KSA", "away_code": "URU",
+        "fixture_id": "WC26-M013", "stage": "group", "played": False, "home_code": "KSA", "away_code": "URU",
         "p_home": 0.13, "p_draw": 0.23, "p_away": 0.64,
     }])
     fixtures = pd.DataFrame([{"fixture_id": "WC26-M013", "stage": "group",
@@ -79,7 +79,7 @@ def test_build_live_includes_future_fixture_with_string_played_false():
     # (bool('False') is truthy) and wrongly excluded — a future fixture stays in the live set
     future = (datetime.now(timezone.utc) + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
     preds = pd.DataFrame([{
-        "fixture_id": "WC26-M100", "played": "False", "home_code": "ESP", "away_code": "FRA",
+        "fixture_id": "WC26-M100", "stage": "group", "played": "False", "home_code": "ESP", "away_code": "FRA",
         "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25,
     }])
     fixtures = pd.DataFrame([{"fixture_id": "WC26-M100", "stage": "group", "kickoff_utc": future}])
@@ -96,11 +96,11 @@ def test_build_live_surfaces_in_progress_as_live_now():
     old = (nowdt - timedelta(hours=5)).strftime("%Y-%m-%dT%H:%M:%SZ")       # finished, feed lagging
     future = (nowdt + timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
     preds = pd.DataFrame([
-        {"fixture_id": "WC26-M100", "played": False, "home_code": "ESP", "away_code": "FRA",
+        {"fixture_id": "WC26-M100", "stage": "group", "played": False, "home_code": "ESP", "away_code": "FRA",
          "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25},
-        {"fixture_id": "WC26-M101", "played": False, "home_code": "BRA", "away_code": "ARG",
+        {"fixture_id": "WC26-M101", "stage": "group", "played": False, "home_code": "BRA", "away_code": "ARG",
          "p_home": 0.40, "p_draw": 0.30, "p_away": 0.30},
-        {"fixture_id": "WC26-M102", "played": False, "home_code": "ENG", "away_code": "GER",
+        {"fixture_id": "WC26-M102", "stage": "group", "played": False, "home_code": "ENG", "away_code": "GER",
          "p_home": 0.40, "p_draw": 0.30, "p_away": 0.30},
     ])
     fixtures = pd.DataFrame([
@@ -118,11 +118,11 @@ def test_build_live_surfaces_in_progress_as_live_now():
 
 
 def test_build_live_rejects_silently_dropped_group_fixture():
-    # a group fixture present in fixtures but missing from preds (group_fixture_wdl dropped a pair
+    # a group fixture present in fixtures but missing from preds (fixture_wdl dropped a pair
     # it couldn't score) must fail loudly, not vanish into pending_undetermined and still validate
     future = (datetime.now(timezone.utc) + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
     preds = pd.DataFrame([{
-        "fixture_id": "WC26-M100", "played": False, "home_code": "ESP", "away_code": "FRA",
+        "fixture_id": "WC26-M100", "stage": "group", "played": False, "home_code": "ESP", "away_code": "FRA",
         "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25,
     }])
     fixtures = pd.DataFrame([
@@ -134,19 +134,38 @@ def test_build_live_rejects_silently_dropped_group_fixture():
 
 
 def test_build_live_allows_pending_knockout():
-    # an unpredicted KNOCKOUT slot (teams TBD) is legitimately pending — the guard must not fire
+    # an unpredicted KNOCKOUT slot (teams TBD, no codes) is legitimately pending — guard must not fire
     future = (datetime.now(timezone.utc) + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
     preds = pd.DataFrame([{
-        "fixture_id": "WC26-M100", "played": False, "home_code": "ESP", "away_code": "FRA",
+        "fixture_id": "WC26-M100", "stage": "group", "played": False, "home_code": "ESP", "away_code": "FRA",
         "p_home": 0.45, "p_draw": 0.30, "p_away": 0.25,
     }])
     fixtures = pd.DataFrame([
-        {"fixture_id": "WC26-M100", "stage": "group", "kickoff_utc": future},
-        {"fixture_id": "WC26-R32-01", "stage": "R32", "kickoff_utc": future},  # teams TBD
+        {"fixture_id": "WC26-M100", "stage": "group", "home_code": "ESP", "away_code": "FRA", "kickoff_utc": future},
+        {"fixture_id": "WC26-M073", "stage": "R32", "home_code": "", "away_code": "", "kickoff_utc": future},  # teams TBD
     ])
     art = build_live(preds, fixtures, _DummyDC(), {})
-    assert "WC26-R32-01" in art["coverage"]["pending_undetermined_fixture_ids"]
+    assert "WC26-M073" in art["coverage"]["pending_undetermined_fixture_ids"]
     assert "WC26-M100" in art["coverage"]["covered_fixture_ids"]
+
+
+def test_build_live_covers_a_decided_knockout_fixture():
+    # once a knockout match's teams are known, build_live publishes it (stage carried through) — and
+    # an undecided sibling (blank codes) stays pending, so the decided one isn't a coverage miss
+    future = (datetime.now(timezone.utc) + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    preds = pd.DataFrame([{
+        "fixture_id": "WC26-M073", "stage": "R32", "played": False, "home_code": "ESP", "away_code": "URU",
+        "p_home": 0.55, "p_draw": 0.24, "p_away": 0.21,
+    }])
+    fixtures = pd.DataFrame([
+        {"fixture_id": "WC26-M073", "stage": "R32", "home_code": "ESP", "away_code": "URU", "kickoff_utc": future},
+        {"fixture_id": "WC26-M074", "stage": "R32", "home_code": "", "away_code": "", "kickoff_utc": future},
+    ])
+    art = build_live(preds, fixtures, _DummyDC(), {})
+    p = art["predictions"][0]
+    assert p["fixture_id"] == "WC26-M073" and p["stage"] == "R32"          # stage carried, not hard 'group'
+    assert "WC26-M073" in art["coverage"]["covered_fixture_ids"]
+    assert "WC26-M074" in art["coverage"]["pending_undetermined_fixture_ids"]
 
 
 def test_model_inputs_percentiles_and_shape():
@@ -164,8 +183,8 @@ def test_model_inputs_percentiles_and_shape():
     ])
     mi = model_inputs(idx, fixtures)
     assert mi["metric"] == "percentile_within_field" and mi["field"] == "world_cup_2026"
-    # only group fixtures with both codes in the field — knockout + unknown code dropped
-    assert set(mi["fixtures"]) == {"WC26-M100"}
+    # group + decided knockout fixtures with both codes in the field; unknown code (XXX) dropped
+    assert set(mi["fixtures"]) == {"WC26-M100", "WC26-M200"}
     row = mi["fixtures"]["WC26-M100"]
     assert row["team1"] == "ESP" and row["team2"] == "CPV"
     assert row["elo1"] > row["elo2"] and row["mkt1"] > row["mkt2"]

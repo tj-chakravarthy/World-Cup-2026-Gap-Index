@@ -120,7 +120,7 @@ def main(force: bool = False, rebuild: bool = False) -> None:
         monte_carlo.write_simulation_json(df, LIVE_SIMS)
 
     def _live():  # validate, log, THEN publish — nothing goes live un-logged (the §6 guarantee)
-        preds = monte_carlo.group_fixture_wdl(bundle, fixtures)
+        preds = monte_carlo.fixture_wdl(bundle, fixtures)
         preds.to_csv(PROC / "predictions_2026_wdl.csv", index=False)
         artifact = build_live_artifact.build_live(preds, fixtures, bundle.dc, bundle.code2m,
                                                   stale=not fresh)

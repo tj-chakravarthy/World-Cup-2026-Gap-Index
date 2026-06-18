@@ -97,9 +97,11 @@ def build_fixtures(feed: list[dict]) -> list[dict]:
             "venue_key": m["Location"],
             "home_team": home,
             "away_team": away,
-            # codes only for the decided (group-stage) teams; knockout slots blank
-            "home_code": _FIFA_CODE[home] if is_group else "",
-            "away_code": _FIFA_CODE[away] if is_group else "",
+            # group teams are always decided; knockout teams are slot placeholders ("Winner Group
+            # A") until groups finish, then real names — code them once the feed resolves them, blank
+            # while still a placeholder, so live knockout results + receipts can attach.
+            "home_code": _FIFA_CODE[home] if is_group else _FIFA_CODE.get(home, ""),
+            "away_code": _FIFA_CODE[away] if is_group else _FIFA_CODE.get(away, ""),
             "home_score": m["HomeTeamScore"] if m["HomeTeamScore"] is not None else "",
             "away_score": m["AwayTeamScore"] if m["AwayTeamScore"] is not None else "",
             "played": m["HomeTeamScore"] is not None,
