@@ -21,6 +21,7 @@ from pathlib import Path
 
 from src.models import dixon_coles
 from src.models.elo_baseline import elo_wdl
+from src.played import is_played
 from src.pipeline import write_predictions
 from src.pipeline.team_codes import TeamCodes
 
@@ -72,7 +73,7 @@ def partition(fixtures: list[dict], locked_at: datetime) -> tuple[list, list, li
     covered, excluded, pending = [], [], []
     for r in fixtures:
         known = bool(r["home_code"]) and bool(r["away_code"])
-        kicked_off = r["played"].strip() == "True" or _dt(r["kickoff_utc"]) <= locked_at
+        kicked_off = is_played(r["played"]) or _dt(r["kickoff_utc"]) <= locked_at
         if kicked_off:
             excluded.append(r)
         elif known:
@@ -150,7 +151,7 @@ def main() -> None:
     # clock sanity: a played fixture kicking off after the lock instant means the
     # system clock trails the fixture feed — refuse rather than mislabel.
     for r in fixtures:
-        if r["played"].strip() == "True" and _dt(r["kickoff_utc"]) > locked_at:
+        if is_played(r["played"]) and _dt(r["kickoff_utc"]) > locked_at:
             raise SystemExit(f"clock behind feed ({r['fixture_id']} kicks off after lock); not locking")
 
     model = dixon_coles.fit(load_fit_matches())
