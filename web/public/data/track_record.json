@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-18T02:43:11Z",
+  "generated_at": "2026-06-18T03:16:30Z",
   "n_receipts": 68,
   "n_audit_rows": 491,
-  "n_resolved": 18,
+  "n_resolved": 19,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -271,6 +271,21 @@
       "actual": "4-2",
       "outcome": 0,
       "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M021",
+      "kickoff_utc": "2026-06-17T23:00:00Z",
+      "team1": "GHA",
+      "team2": "PAN",
+      "model": "live",
+      "p_team1": 0.3543,
+      "p_draw": 0.2775,
+      "p_team2": 0.3682,
+      "actual": "1-0",
+      "outcome": 0,
+      "called": false,
       "top_score": "1-1",
       "exact_hit": false
     }

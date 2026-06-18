@@ -1,7 +1,77 @@
 {
-  "generated_at": "2026-06-18T02:43:10Z",
+  "generated_at": "2026-06-18T03:16:29Z",
   "since": "2026-06-18T00:15:12Z",
-  "newly_resolved": [],
-  "title_movers": [],
-  "advance_movers": []
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M021",
+      "team1": "GHA",
+      "team2": "PAN",
+      "score": "1-0",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "ESP",
+      "before": 0.11969,
+      "after": 0.12201,
+      "delta": 0.00232
+    },
+    {
+      "country_code": "ARG",
+      "before": 0.10378,
+      "after": 0.10147,
+      "delta": -0.00231
+    },
+    {
+      "country_code": "POR",
+      "before": 0.05988,
+      "after": 0.06179,
+      "delta": 0.00191
+    },
+    {
+      "country_code": "ENG",
+      "before": 0.08805,
+      "after": 0.08671,
+      "delta": -0.00134
+    },
+    {
+      "country_code": "NED",
+      "before": 0.04372,
+      "after": 0.04254,
+      "delta": -0.00118
+    }
+  ],
+  "advance_movers": [
+    {
+      "country_code": "GHA",
+      "before": 0.44417,
+      "after": 0.74091,
+      "delta": 0.29674
+    },
+    {
+      "country_code": "PAN",
+      "before": 0.44096,
+      "after": 0.17486,
+      "delta": -0.2661
+    },
+    {
+      "country_code": "EGY",
+      "before": 0.7336,
+      "after": 0.72797,
+      "delta": -0.00563
+    },
+    {
+      "country_code": "CUW",
+      "before": 0.11658,
+      "after": 0.11202,
+      "delta": -0.00456
+    },
+    {
+      "country_code": "TUR",
+      "before": 0.52156,
+      "after": 0.51718,
+      "delta": -0.00438
+    }
+  ]
 }
