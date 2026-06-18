@@ -135,10 +135,12 @@ def validate(rows: list[dict]) -> None:
     if len(codes) != 48:
         raise ValueError(f"expected 48 distinct group-stage teams, got {len(codes)}")
     # a named winner must be one of the two participants and the match must be played — the sim
-    # pins knockout results off this, so a stray winner_code can't silently advance a non-participant
+    # pins knockout results off this, so a stray winner_code can't silently advance a non-participant.
+    # Only checked once the participants are coded: a winner on a still-blank knockout slot is a feed
+    # quirk that shouldn't fail the whole refresh (it'd flip the site to stale); the sim ignores it.
     for r in rows:
-        wc = r["winner_code"]
-        if wc and (wc not in (r["home_code"], r["away_code"]) or not r["played"]):
+        wc, hc, ac = r["winner_code"], r["home_code"], r["away_code"]
+        if wc and hc and ac and (wc not in (hc, ac) or not r["played"]):
             raise ValueError(f"{r['fixture_id']}: winner_code {wc!r} not a played participant")
 
 
