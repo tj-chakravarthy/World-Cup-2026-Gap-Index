@@ -80,8 +80,9 @@ def _should_recompute(*, force: bool, rebuild: bool, artifacts_exist: bool, play
     semantic fixtures change (a decided knockout / a landed winner_code that leaves the played set
     unchanged), so they don't silently no-op when the caller didn't pass --force: publish the banner
     on a fresh feed failure, clear it on recovery (was_stale != would-be-stale), drop a now-kicked-off
-    match, pick up committed conduct, re-pin a shootout. Mirrors check()'s signal so the handoff
-    can't drop one. Pure."""
+    match, pick up committed conduct, re-pin a shootout. Mirrors check()'s recompute signal EXCEPT the
+    sustained-outage case (fresh=False, was_stale=True), which check() escalates to a hard failure, so
+    main() is never reached on that branch. Pure."""
     if force or rebuild or not artifacts_exist:
         return True
     if played != last or live_covers_kicked_off or cards_changed or fixtures_changed:

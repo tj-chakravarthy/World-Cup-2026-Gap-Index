@@ -52,6 +52,8 @@ def tilt_rates(lam1: float, lam2: float, rho: float, target_wdl,
 
     res = minimize(loss, [0.0, 0.0], method="Nelder-Mead",
                    options={"xatol": 1e-5, "fatol": 1e-10, "maxiter": 1000})
+    if not res.success:
+        return lam1, lam2   # no reliable tilt -> the untilted DC rates (still a proper joint)
     s, d = res.x
     return lam1 * np.exp(s + d), lam2 * np.exp(s - d)
 

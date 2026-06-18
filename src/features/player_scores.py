@@ -130,8 +130,9 @@ def join_market_value(squads: pd.DataFrame, tm: dict[str, list[dict]]
 
 def recent_observed_pct(squads: pd.DataFrame, observed: pd.DataFrame,
                         pos_group: pd.Series) -> pd.Series:
-    """Percentile of each squad player's most-recent observed tournament VAEP-per-90
-    (WC22/Euro24, >=180 min), matched by name. NaN where the player has none."""
+    """Percentile of each squad player's highest-minutes recent-tournament observed VAEP-per-90
+    (WC22/Euro24, >=180 min; a player who featured in both is taken from his larger-sample
+    edition, not the later one), matched by name. NaN where the player has none."""
     rec = observed[observed["tournament"].isin(RECENT_TOURNAMENTS)
                    & (observed["minutes"].fillna(0) >= RECENT_MIN_MINUTES)]
     if rec.empty:
