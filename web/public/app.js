@@ -151,18 +151,20 @@ function renderLive(live) {
   // ~2.5h after kickoff so a finished-but-feed-lagging match drops off on its own.
   const sec = document.getElementById("live");
   const el = document.getElementById("live-list");
+  const navLive = document.getElementById("nav-live");
   if (!sec || !el) return;
   const now = Date.now();
   const games = (live.live_now || []).filter((g) => {
     const ko = new Date(g.kickoff_utc).getTime();
     return ko <= now && now - ko < 2.5 * 3600e3;
   });
-  if (!games.length) { sec.hidden = true; return; }
+  if (!games.length) { sec.hidden = true; if (navLive) navLive.hidden = true; return; }
   el.innerHTML = games.map((g) =>
     `<div class="live-row"><span class="live-badge">● LIVE</span>` +
     `<span class="live-teams">${name(g.team1)} <span class="v">v</span> ${name(g.team2)}</span></div>`
   ).join("");
   sec.hidden = false;
+  if (navLive) navLive.hidden = false;   // surface the nav pill only while a match is live
 }
 
 // collapse a list to its first `topN` items behind a Show more / Show fewer toggle. Items beyond
@@ -180,6 +182,21 @@ function setupCollapse(listEl, btn, topN, total) {
     btn.setAttribute("aria-expanded", String(!collapsed));
     btn.textContent = collapsed ? more : less;
   };
+}
+
+// highlight the sticky-nav pill for whichever section is currently centered in the viewport
+function setupSectionNav() {
+  const links = [...document.querySelectorAll(".sectnav a")];
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  const byId = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const a = byId.get(e.target.id);
+      if (a) links.forEach((x) => x.classList.toggle("active", x === a));
+    });
+  }, { rootMargin: "-45% 0px -45% 0px" });   // active when the section crosses the viewport middle
+  byId.forEach((_, id) => { const s = document.getElementById(id); if (s) obs.observe(s); });
 }
 
 function renderFixtures(live, inputs) {
@@ -307,6 +324,7 @@ async function main() {
     renderLive(live);
     renderFixtures(live, inputs);
     if (track) renderTrack(track, inputs, live);
+    setupSectionNav();
   } catch (e) {
     document.getElementById("meta").innerHTML =
       `<span class="err">Could not load the forecast (${e.message}).</span>`;

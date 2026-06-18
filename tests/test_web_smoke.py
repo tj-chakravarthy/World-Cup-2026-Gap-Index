@@ -82,6 +82,8 @@ def test_content_renders(base_url):
         assert page.locator("#track-list .tr").count() >= 1
         # the model-input bars (tale of the tape) render on the match cards
         assert page.locator(".tape").count() >= 1
+        # sticky section nav renders its pills (Forecast / Next / Track at minimum)
+        assert page.locator(".sectnav a").count() >= 3
         # collapse: with >3 receipts, only the top 3 show until the toggle is clicked
         n_track = page.locator("#track-list .tr").count()
         if n_track > 3:

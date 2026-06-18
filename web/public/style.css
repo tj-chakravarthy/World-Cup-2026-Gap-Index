@@ -59,6 +59,19 @@ tbody tr:hover td.team{color:var(--volt)}
   cursor:pointer; white-space:nowrap}
 .more:hover{text-decoration:underline}
 
+/* sticky section nav — swipeable pills that jump to each section (mobile-first, works on desktop) */
+.sectnav{position:sticky; top:0; z-index:10; display:flex; gap:6px; overflow-x:auto;
+  background:var(--black); margin:10px 0 0; padding:9px 0; border-bottom:1px solid var(--line);
+  -webkit-overflow-scrolling:touch; scrollbar-width:none}
+.sectnav::-webkit-scrollbar{display:none}
+.sectnav a{flex:0 0 auto; color:var(--muted); font-size:13px; font-weight:600;
+  padding:6px 14px; border:1px solid var(--line); border-radius:999px; white-space:nowrap}
+.sectnav a:hover{text-decoration:none; border-color:var(--volt); color:var(--white)}
+.sectnav a.active{color:var(--black); background:var(--volt); border-color:var(--volt)}
+section[id]{scroll-margin-top:52px}   /* clear the sticky nav when jumping to a section */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+
 /* live now — matches in progress (sports-style blinking badge) */
 #live-list{display:grid; gap:8px}
 .live-row{display:flex; align-items:center; gap:10px; background:var(--surface);
