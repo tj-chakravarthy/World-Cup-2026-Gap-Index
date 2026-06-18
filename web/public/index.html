@@ -117,12 +117,12 @@
 
     <section id="players" hidden>
       <h2>Player ratings</h2>
-      <p class="sec-intro">I rate every player in the 48 squads from club stats — FBref minutes and
+      <p class="sec-intro">I rate the players in the 48 squads from club stats — FBref minutes and
       Understat expected goals turned into a per-90 VAEP estimate, blended with market value into a
       0–100 score. It didn't move the match forecast (see Model), so the live model leaves it out —
       but the ratings stand on their own. The top <span id="players-shown">40</span> of
-      <span id="players-rated">…</span> rated players (the rest of the 48 squads have no market
-      value or recent minutes, so they're unrated):</p>
+      <span id="players-rated">…</span> rated players (a player is rated if he has a market value or
+      recent international minutes; those with neither are left unrated):</p>
       <div id="players-list"></div>
       <button id="players-toggle" class="toggle" type="button"
               aria-controls="players-list" aria-expanded="false" hidden>Show all ▾</button>
