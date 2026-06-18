@@ -448,3 +448,16 @@ before). Deploy via `deploy-pages.yml` (official Pages actions); since the cron 
 GITHUB_TOKEN — which doesn't trigger workflows — the deploy chains off the cron's `workflow_run`
 completion as well as source pushes. One-time manual step: repo Settings -> Pages -> Source =
 "GitHub Actions". Team names baked into app.js from team_codes.csv (fixed 48-team field).
+
+**Two known bugs deferred to the next bundle rebuild (frozen-model constraint).** A subagent bug
+sweep found two defects in code that feeds the *frozen* pre-tournament bundle, so they can't be
+fixed live: applying them needs a bundle rebuild, which we don't do mid-tournament (the bundle is
+fixed for the whole event, and the `model_code_sha256` re-cert gate would otherwise force a *false*
+re-bless of a stale pickle). Fix both together at the next BUNDLE_VERSION bump. (1)
+`src/features/elo_history.py` `_CONTINENTAL_FINALS` lists `"OFC Nations Cup"`, but match_results.csv
+names that competition `"Oceania Nations Cup"`, so OFC finals get the K=30 default instead of K=50 —
+biasing New Zealand's pre-tournament Elo slightly low (NZ is the lone OFC side in WC2026). (2)
+`src/models/monte_carlo.py` `_dc_matches` reads `bool(r.neutral)`; safe today (the column is a real
+bool dtype) but the exact string-truthiness trap `src/played.py` exists to avoid — route it through a
+robust bool parse on rebuild. Both are offline/build-time only: the live cron loads the frozen
+bundle and recomputes neither, so neither affects the running forecast until a rebuild.
