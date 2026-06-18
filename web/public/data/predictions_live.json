@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@0e72663",
-  "generated_at": "2026-06-18T21:55:17Z",
+  "model_version": "live-elo-mkt@a7c716a",
+  "generated_at": "2026-06-18T22:35:41Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M027",
       "WC26-M028",
       "WC26-M032",
       "WC26-M030",
@@ -80,7 +79,8 @@
       "WC26-M021",
       "WC26-M024",
       "WC26-M025",
-      "WC26-M026"
+      "WC26-M026",
+      "WC26-M027"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-18T21:55:17Z",
+      "as_of": "2026-06-18T22:35:41Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M027",
-      "stage": "group",
-      "kickoff_utc": "2026-06-18T22:00:00Z",
-      "team1": "CAN",
-      "team2": "QAT",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.6285457431364331,
-        "draw": 0.229492192354406,
-        "team2": 0.14196206450916088
-      },
-      "scorelines": [
-        {
-          "score": "1-0",
-          "p": 0.1278
-        },
-        {
-          "score": "2-0",
-          "p": 0.1249
-        },
-        {
-          "score": "1-1",
-          "p": 0.1087
-        },
-        {
-          "score": "2-1",
-          "p": 0.096
-        },
-        {
-          "score": "3-0",
-          "p": 0.0778
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.6285457431364331,
-          "draw": 0.229492192354406,
-          "team2": 0.14196206450916088
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M028",
       "stage": "group",
@@ -2160,5 +2116,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M027",
+      "team1": "CAN",
+      "team2": "QAT",
+      "kickoff_utc": "2026-06-18T22:00:00Z",
+      "wdl": {
+        "team1": 0.6285457431364331,
+        "draw": 0.229492192354406,
+        "team2": 0.14196206450916088
+      }
+    }
+  ]
 }
