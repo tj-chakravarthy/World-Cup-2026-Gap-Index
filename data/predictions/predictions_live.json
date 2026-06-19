@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@3a6dcfd",
-  "generated_at": "2026-06-19T22:19:11Z",
+  "model_version": "live-elo-mkt@6fc8d1f",
+  "generated_at": "2026-06-19T22:51:45Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-19T22:19:11Z",
+      "as_of": "2026-06-19T22:51:45Z",
       "stale": false
     },
     {
@@ -1985,17 +1985,6 @@
     }
   ],
   "live_now": [
-    {
-      "fixture_id": "WC26-M032",
-      "team1": "USA",
-      "team2": "AUS",
-      "kickoff_utc": "2026-06-19T19:00:00Z",
-      "wdl": {
-        "team1": 0.4652702456397255,
-        "draw": 0.2697544660164066,
-        "team2": 0.26497528834386785
-      }
-    },
     {
       "fixture_id": "WC26-M030",
       "team1": "SCO",
