@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-19T03:58:52Z",
+  "generated_at": "2026-06-19T04:39:55Z",
   "n_receipts": 68,
-  "n_audit_rows": 1281,
-  "n_resolved": 23,
+  "n_audit_rows": 1279,
+  "n_resolved": 24,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -347,6 +347,21 @@
       "outcome": 0,
       "called": true,
       "top_score": "1-0",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M028",
+      "kickoff_utc": "2026-06-19T01:00:00Z",
+      "team1": "MEX",
+      "team2": "KOR",
+      "model": "live",
+      "p_team1": 0.4322,
+      "p_draw": 0.2738,
+      "p_team2": 0.294,
+      "actual": "1-0",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-1",
       "exact_hit": false
     }
   ]
