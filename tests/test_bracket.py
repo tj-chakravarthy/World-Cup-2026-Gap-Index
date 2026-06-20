@@ -46,6 +46,15 @@ def test_r32_sixteen_wellformed_slots():
         assert len(s) >= 3  # "3" + at least two group letters
 
 
+def test_r32_slots_stay_static_not_resolved_names():
+    # Regression: the live feed overwrites fixtures_2026.csv home_team/away_team with the
+    # resolved team names once it slots group winners ("1A" -> "Mexico"). The R32 structure
+    # must stay the slot strings (a committed constant), or resolve_r32 parses a country name
+    # as a slot — group "Mexico"[1:] = "exico" -> KeyError. Host slots resolve earliest; pin one.
+    m = {fx: (a, b) for fx, a, b in r32_matchups()}
+    assert m["WC26-M079"] == ("1A", "3CEFHI")
+
+
 def _is_valid_alloc(alloc, qual):
     from src.models.bracket import _third_slots
 

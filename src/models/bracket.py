@@ -5,10 +5,12 @@
 elimination: R32 -> R16 -> QF -> SF -> Final, plus a third-place playoff between the
 two semifinal losers.
 
-This module is only the *wiring*: it reads the committed fixtures_2026.csv for the R32
-slot strings and encodes the R16..Final feeder adjacency from FIFA's official schedule.
+This module is only the *wiring*: the R32 slot strings and the R16..Final feeder
+adjacency, both encoded here as committed constants from FIFA's official schedule (the
+fixtures CSV is not a stable source — the live feed overwrites its team columns with
+resolved names as the bracket fills in).
 
-Slot strings (R32, as written in the CSV):
+Slot strings (R32):
   "1A" = winner of group A, "2B" = runner-up of group B,
   "3ABCDF" = a third-placed team from one of groups {A,B,C,D,F}.
 
@@ -37,7 +39,6 @@ from pathlib import Path
 import pandas as pd
 
 REPO = Path(__file__).resolve().parents[2]
-FIXTURES = REPO / "data" / "raw" / "fixtures_2026.csv"
 ANNEX_C = REPO / "data" / "raw" / "annex_c_thirds.csv"
 
 GROUPS = list("ABCDEFGHIJKL")
@@ -75,18 +76,36 @@ THIRD_PLACE = ("WC26-M103", "WC26-M101", "WC26-M102")
 
 BRACKET_TREE: list[tuple[str, str, str]] = _TREE + [THIRD_PLACE]
 
-
-def _knockout() -> pd.DataFrame:
-    df = pd.read_csv(FIXTURES, dtype=str)
-    return df[df["stage"].isin(["R32", "R16", "QF", "SF", "third_place", "final"])]
+# R32 slot strings, match-number order. Static FIFA structure, so a committed constant —
+# NOT read from fixtures_2026.csv: the live feed overwrites that file's home_team/away_team
+# with resolved team names once it slots group winners into the bracket ("1A" -> "Mexico"),
+# which would make r32_matchups() hand resolve_r32 a country name to parse as a slot
+# (group "Mexico"[1:] = "exico" -> KeyError). Cross-checked against the official schedule,
+# same source as _TREE.
+R32_SLOTS: list[tuple[str, str, str]] = [
+    ("WC26-M073", "2A", "2B"),
+    ("WC26-M074", "1E", "3ABCDF"),
+    ("WC26-M075", "1F", "2C"),
+    ("WC26-M076", "1C", "2F"),
+    ("WC26-M077", "1I", "3CDFGH"),
+    ("WC26-M078", "2E", "2I"),
+    ("WC26-M079", "1A", "3CEFHI"),
+    ("WC26-M080", "1L", "3EHIJK"),
+    ("WC26-M081", "1D", "3BEFIJ"),
+    ("WC26-M082", "1G", "3AEHIJ"),
+    ("WC26-M083", "2K", "2L"),
+    ("WC26-M084", "1H", "2J"),
+    ("WC26-M085", "1B", "3EFGIJ"),
+    ("WC26-M086", "1J", "2H"),
+    ("WC26-M087", "1K", "3DEIJL"),
+    ("WC26-M088", "2D", "2G"),
+]
 
 
 def r32_matchups() -> list[tuple[str, str, str]]:
-    """(fixture_id, slot1, slot2) for the 16 R32 matches, slot strings as in the CSV
-    ("1A","2B","3ABCDF"). Ordered by match number."""
-    df = _knockout()
-    r32 = df[df["stage"] == "R32"].sort_values("match_number", key=lambda c: c.astype(int))
-    return [(r.fixture_id, r.home_team, r.away_team) for r in r32.itertuples()]
+    """(fixture_id, slot1, slot2) for the 16 R32 matches, slot strings ("1A","2B","3ABCDF"),
+    match-number order. Static structure (see R32_SLOTS)."""
+    return R32_SLOTS
 
 
 def _third_slots() -> list[str]:
