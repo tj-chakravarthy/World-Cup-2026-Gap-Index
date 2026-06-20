@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-20T20:18:48Z",
+  "generated_at": "2026-06-20T20:37:49Z",
   "n_receipts": 68,
   "n_audit_rows": 2697,
-  "n_resolved": 28,
+  "n_resolved": 29,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -421,6 +421,21 @@
       "actual": "0-1",
       "outcome": 2,
       "called": false,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M035",
+      "kickoff_utc": "2026-06-20T17:00:00Z",
+      "team1": "NED",
+      "team2": "SWE",
+      "model": "live",
+      "p_team1": 0.5315,
+      "p_draw": 0.2574,
+      "p_team2": 0.2111,
+      "actual": "5-1",
+      "outcome": 0,
+      "called": true,
       "top_score": "1-1",
       "exact_hit": false
     }

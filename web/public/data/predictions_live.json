@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@f64dd9d",
-  "generated_at": "2026-06-20T20:18:47Z",
+  "model_version": "live-elo-mkt@f62a448",
+  "generated_at": "2026-06-20T20:37:48Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-20T20:18:47Z",
+      "as_of": "2026-06-20T20:37:48Z",
       "stale": false
     },
     {
@@ -1809,17 +1809,6 @@
     }
   ],
   "live_now": [
-    {
-      "fixture_id": "WC26-M035",
-      "team1": "NED",
-      "team2": "SWE",
-      "kickoff_utc": "2026-06-20T17:00:00Z",
-      "wdl": {
-        "team1": 0.5315228288944043,
-        "draw": 0.2573581624003407,
-        "team2": 0.211119008705255
-      }
-    },
     {
       "fixture_id": "WC26-M033",
       "team1": "GER",

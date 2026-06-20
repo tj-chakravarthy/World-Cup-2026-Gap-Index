@@ -1,7 +1,77 @@
 {
-  "generated_at": "2026-06-20T20:18:47Z",
-  "since": "2026-06-20T19:27:48Z",
-  "newly_resolved": [],
-  "title_movers": [],
-  "advance_movers": []
+  "generated_at": "2026-06-20T20:37:48Z",
+  "since": "2026-06-20T19:53:01Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M035",
+      "team1": "NED",
+      "team2": "SWE",
+      "score": "5-1",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "NED",
+      "before": 0.04171,
+      "after": 0.05066,
+      "delta": 0.00895
+    },
+    {
+      "country_code": "BRA",
+      "before": 0.06409,
+      "after": 0.06188,
+      "delta": -0.00221
+    },
+    {
+      "country_code": "ARG",
+      "before": 0.10412,
+      "after": 0.10228,
+      "delta": -0.00184
+    },
+    {
+      "country_code": "MAR",
+      "before": 0.02305,
+      "after": 0.0216,
+      "delta": -0.00145
+    },
+    {
+      "country_code": "ENG",
+      "before": 0.08306,
+      "after": 0.08446,
+      "delta": 0.0014
+    }
+  ],
+  "advance_movers": [
+    {
+      "country_code": "NED",
+      "before": 0.88268,
+      "after": 1.0,
+      "delta": 0.11732
+    },
+    {
+      "country_code": "SWE",
+      "before": 0.95521,
+      "after": 0.85609,
+      "delta": -0.09912
+    },
+    {
+      "country_code": "TUN",
+      "before": 0.13902,
+      "after": 0.12821,
+      "delta": -0.01081
+    },
+    {
+      "country_code": "SEN",
+      "before": 0.63795,
+      "after": 0.63034,
+      "delta": -0.00761
+    },
+    {
+      "country_code": "JPN",
+      "before": 0.82667,
+      "after": 0.82101,
+      "delta": -0.00566
+    }
+  ]
 }
