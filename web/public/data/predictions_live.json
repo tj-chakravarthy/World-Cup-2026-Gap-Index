@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@a21fd9e",
-  "generated_at": "2026-06-20T05:59:53Z",
+  "model_version": "live-elo-mkt@c6d5a70",
+  "generated_at": "2026-06-20T06:31:39Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-20T05:59:53Z",
+      "as_of": "2026-06-20T06:31:39Z",
       "stale": false
     },
     {
@@ -1896,17 +1896,5 @@
       "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M031",
-      "team1": "TUR",
-      "team2": "PAR",
-      "kickoff_utc": "2026-06-20T04:00:00Z",
-      "wdl": {
-        "team1": 0.44122913374940037,
-        "draw": 0.27286887365273926,
-        "team2": 0.2859019925978603
-      }
-    }
-  ]
+  "live_now": []
 }
