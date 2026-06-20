@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-20T02:59:15Z",
+  "generated_at": "2026-06-20T03:24:30Z",
   "n_receipts": 68,
-  "n_audit_rows": 2103,
-  "n_resolved": 25,
+  "n_audit_rows": 2099,
+  "n_resolved": 26,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -375,6 +375,21 @@
       "p_team2": 0.265,
       "actual": "2-0",
       "outcome": 0,
+      "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M030",
+      "kickoff_utc": "2026-06-19T22:00:00Z",
+      "team1": "SCO",
+      "team2": "MAR",
+      "model": "live",
+      "p_team1": 0.3003,
+      "p_draw": 0.2745,
+      "p_team2": 0.4252,
+      "actual": "0-1",
+      "outcome": 2,
       "called": true,
       "top_score": "1-1",
       "exact_hit": false
