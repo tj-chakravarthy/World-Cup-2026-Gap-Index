@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@e313680",
-  "generated_at": "2026-06-20T03:24:30Z",
+  "model_version": "live-elo-mkt@2acc40c",
+  "generated_at": "2026-06-20T04:05:13Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M031",
       "WC26-M035",
       "WC26-M033",
       "WC26-M034",
@@ -80,7 +79,8 @@
       "WC26-M028",
       "WC26-M032",
       "WC26-M030",
-      "WC26-M029"
+      "WC26-M029",
+      "WC26-M031"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-20T03:24:30Z",
+      "as_of": "2026-06-20T04:05:13Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M031",
-      "stage": "group",
-      "kickoff_utc": "2026-06-20T04:00:00Z",
-      "team1": "TUR",
-      "team2": "PAR",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.44122913374940037,
-        "draw": 0.27286887365273926,
-        "team2": 0.2859019925978603
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1301
-        },
-        {
-          "score": "1-0",
-          "p": 0.101
-        },
-        {
-          "score": "2-1",
-          "p": 0.0907
-        },
-        {
-          "score": "0-0",
-          "p": 0.0804
-        },
-        {
-          "score": "2-0",
-          "p": 0.0796
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.44122913374940037,
-          "draw": 0.27286887365273926,
-          "team2": 0.2859019925978603
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M035",
       "stage": "group",
@@ -1950,6 +1906,17 @@
         "team1": 0.6935541194370007,
         "draw": 0.2043930259549393,
         "team2": 0.10205285460805982
+      }
+    },
+    {
+      "fixture_id": "WC26-M031",
+      "team1": "TUR",
+      "team2": "PAR",
+      "kickoff_utc": "2026-06-20T04:00:00Z",
+      "wdl": {
+        "team1": 0.44122913374940037,
+        "draw": 0.27286887365273926,
+        "team2": 0.2859019925978603
       }
     }
   ]
