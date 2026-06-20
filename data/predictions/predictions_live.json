@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@9c68b90",
-  "generated_at": "2026-06-20T00:41:25Z",
+  "model_version": "live-elo-mkt@58931f6",
+  "generated_at": "2026-06-20T01:22:42Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M029",
       "WC26-M031",
       "WC26-M035",
       "WC26-M033",
@@ -80,7 +79,8 @@
       "WC26-M027",
       "WC26-M028",
       "WC26-M032",
-      "WC26-M030"
+      "WC26-M030",
+      "WC26-M029"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-20T00:41:25Z",
+      "as_of": "2026-06-20T01:22:42Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M029",
-      "stage": "group",
-      "kickoff_utc": "2026-06-20T01:00:00Z",
-      "team1": "BRA",
-      "team2": "HAI",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.6935541194370007,
-        "draw": 0.2043930259549393,
-        "team2": 0.10205285460805982
-      },
-      "scorelines": [
-        {
-          "score": "2-0",
-          "p": 0.1426
-        },
-        {
-          "score": "1-0",
-          "p": 0.1359
-        },
-        {
-          "score": "3-0",
-          "p": 0.0961
-        },
-        {
-          "score": "1-1",
-          "p": 0.0956
-        },
-        {
-          "score": "2-1",
-          "p": 0.0914
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.6935541194370007,
-          "draw": 0.2043930259549393,
-          "team2": 0.10205285460805982
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M031",
       "stage": "group",
@@ -1994,6 +1950,17 @@
         "team1": 0.3002898396101887,
         "draw": 0.2745205965595807,
         "team2": 0.42518956383023054
+      }
+    },
+    {
+      "fixture_id": "WC26-M029",
+      "team1": "BRA",
+      "team2": "HAI",
+      "kickoff_utc": "2026-06-20T01:00:00Z",
+      "wdl": {
+        "team1": 0.6935541194370007,
+        "draw": 0.2043930259549393,
+        "team2": 0.10205285460805982
       }
     }
   ]
