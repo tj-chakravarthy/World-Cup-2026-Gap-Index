@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@ebb6fa0",
-  "generated_at": "2026-06-21T06:18:06Z",
+  "model_version": "live-elo-mkt@d6a3903",
+  "generated_at": "2026-06-21T06:42:25Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-21T06:18:06Z",
+      "as_of": "2026-06-21T06:42:25Z",
       "stale": false
     },
     {
@@ -1720,17 +1720,5 @@
       "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M036",
-      "team1": "TUN",
-      "team2": "JPN",
-      "kickoff_utc": "2026-06-21T04:00:00Z",
-      "wdl": {
-        "team1": 0.19246597539065508,
-        "draw": 0.25135975571025637,
-        "team2": 0.5561742688990885
-      }
-    }
-  ]
+  "live_now": []
 }
