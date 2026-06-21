@@ -35,7 +35,7 @@ WC26-M035,35,group,F,2,2026-06-20T17:00:00Z,Houston Stadium,Netherlands,Sweden,N
 WC26-M033,33,group,E,2,2026-06-20T20:00:00Z,Toronto Stadium,Germany,Côte d'Ivoire,GER,CIV,2,1,GER,True
 WC26-M034,34,group,E,2,2026-06-21T00:00:00Z,Kansas City Stadium,Ecuador,Curaçao,ECU,CUW,0,0,,True
 WC26-M036,36,group,F,2,2026-06-21T04:00:00Z,Monterrey Stadium,Tunisia,Japan,TUN,JPN,0,4,JPN,True
-WC26-M038,38,group,H,2,2026-06-21T16:00:00Z,Atlanta Stadium,Spain,Saudi Arabia,ESP,KSA,,,,False
+WC26-M038,38,group,H,2,2026-06-21T16:00:00Z,Atlanta Stadium,Spain,Saudi Arabia,ESP,KSA,4,0,ESP,True
 WC26-M039,39,group,G,2,2026-06-21T19:00:00Z,Los Angeles Stadium,Belgium,IR Iran,BEL,IRN,,,,False
 WC26-M037,37,group,H,2,2026-06-21T22:00:00Z,Miami Stadium,Uruguay,Cabo Verde,URU,CPV,,,,False
 WC26-M040,40,group,G,2,2026-06-22T01:00:00Z,BC Place Vancouver,New Zealand,Egypt,NZL,EGY,,,,False
