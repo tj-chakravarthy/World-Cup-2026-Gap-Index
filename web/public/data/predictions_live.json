@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@d434773",
-  "generated_at": "2026-06-21T21:41:00Z",
+  "model_version": "live-elo-mkt@c82ce88",
+  "generated_at": "2026-06-21T22:05:26Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M037",
       "WC26-M040",
       "WC26-M043",
       "WC26-M042",
@@ -80,7 +79,8 @@
       "WC26-M034",
       "WC26-M036",
       "WC26-M038",
-      "WC26-M039"
+      "WC26-M039",
+      "WC26-M037"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-21T21:41:00Z",
+      "as_of": "2026-06-21T22:05:26Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M037",
-      "stage": "group",
-      "kickoff_utc": "2026-06-21T22:00:00Z",
-      "team1": "URU",
-      "team2": "CPV",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.6464496720179059,
-        "draw": 0.22310102290372785,
-        "team2": 0.13044930507836622
-      },
-      "scorelines": [
-        {
-          "score": "1-0",
-          "p": 0.1302
-        },
-        {
-          "score": "2-0",
-          "p": 0.1297
-        },
-        {
-          "score": "1-1",
-          "p": 0.1054
-        },
-        {
-          "score": "2-1",
-          "p": 0.0951
-        },
-        {
-          "score": "3-0",
-          "p": 0.0825
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.6464496720179059,
-          "draw": 0.22310102290372785,
-          "team2": 0.13044930507836622
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M040",
       "stage": "group",
@@ -1632,5 +1588,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M037",
+      "team1": "URU",
+      "team2": "CPV",
+      "kickoff_utc": "2026-06-21T22:00:00Z",
+      "wdl": {
+        "team1": 0.6464496720179059,
+        "draw": 0.22310102290372785,
+        "team2": 0.13044930507836622
+      }
+    }
+  ]
 }
