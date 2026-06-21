@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@856b352",
-  "generated_at": "2026-06-21T15:52:23Z",
+  "model_version": "live-elo-mkt@0196aa3",
+  "generated_at": "2026-06-21T16:15:58Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M038",
       "WC26-M039",
       "WC26-M037",
       "WC26-M040",
@@ -80,7 +79,8 @@
       "WC26-M035",
       "WC26-M033",
       "WC26-M034",
-      "WC26-M036"
+      "WC26-M036",
+      "WC26-M038"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-21T15:52:23Z",
+      "as_of": "2026-06-21T16:15:58Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M038",
-      "stage": "group",
-      "kickoff_utc": "2026-06-21T16:00:00Z",
-      "team1": "ESP",
-      "team2": "KSA",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.7610861559582571,
-        "draw": 0.1725985387553265,
-        "team2": 0.06631530528641627
-      },
-      "scorelines": [
-        {
-          "score": "2-0",
-          "p": 0.1616
-        },
-        {
-          "score": "1-0",
-          "p": 0.1424
-        },
-        {
-          "score": "3-0",
-          "p": 0.1187
-        },
-        {
-          "score": "2-1",
-          "p": 0.0818
-        },
-        {
-          "score": "1-1",
-          "p": 0.0784
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.7610861559582571,
-          "draw": 0.1725985387553265,
-          "team2": 0.06631530528641627
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M039",
       "stage": "group",
@@ -1720,5 +1676,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M038",
+      "team1": "ESP",
+      "team2": "KSA",
+      "kickoff_utc": "2026-06-21T16:00:00Z",
+      "wdl": {
+        "team1": 0.7610861559582571,
+        "draw": 0.1725985387553265,
+        "team2": 0.06631530528641627
+      }
+    }
+  ]
 }
