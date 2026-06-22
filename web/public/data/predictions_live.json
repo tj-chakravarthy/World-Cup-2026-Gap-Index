@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@c898ec0",
-  "generated_at": "2026-06-22T00:36:30Z",
+  "model_version": "live-elo-mkt@3b249b9",
+  "generated_at": "2026-06-22T00:54:19Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-22T00:36:30Z",
+      "as_of": "2026-06-22T00:54:19Z",
       "stale": false
     },
     {
@@ -1588,17 +1588,5 @@
       "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M037",
-      "team1": "URU",
-      "team2": "CPV",
-      "kickoff_utc": "2026-06-21T22:00:00Z",
-      "wdl": {
-        "team1": 0.6464496720179059,
-        "draw": 0.22310102290372785,
-        "team2": 0.13044930507836622
-      }
-    }
-  ]
+  "live_now": []
 }
