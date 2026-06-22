@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@3b249b9",
-  "generated_at": "2026-06-22T00:54:19Z",
+  "model_version": "live-elo-mkt@f77878f",
+  "generated_at": "2026-06-22T01:18:34Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M040",
       "WC26-M043",
       "WC26-M042",
       "WC26-M041",
@@ -80,7 +79,8 @@
       "WC26-M036",
       "WC26-M038",
       "WC26-M039",
-      "WC26-M037"
+      "WC26-M037",
+      "WC26-M040"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-22T00:54:19Z",
+      "as_of": "2026-06-22T01:18:34Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M040",
-      "stage": "group",
-      "kickoff_utc": "2026-06-22T01:00:00Z",
-      "team1": "NZL",
-      "team2": "EGY",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.2627125516655018,
-        "draw": 0.2693647609371079,
-        "team2": 0.4679226873973903
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1285
-        },
-        {
-          "score": "0-1",
-          "p": 0.105
-        },
-        {
-          "score": "1-2",
-          "p": 0.0929
-        },
-        {
-          "score": "0-2",
-          "p": 0.0855
-        },
-        {
-          "score": "0-0",
-          "p": 0.0802
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.2627125516655018,
-          "draw": 0.2693647609371079,
-          "team2": 0.4679226873973903
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M043",
       "stage": "group",
@@ -1588,5 +1544,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M040",
+      "team1": "NZL",
+      "team2": "EGY",
+      "kickoff_utc": "2026-06-22T01:00:00Z",
+      "wdl": {
+        "team1": 0.2627125516655018,
+        "draw": 0.2693647609371079,
+        "team2": 0.4679226873973903
+      }
+    }
+  ]
 }
