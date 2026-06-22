@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-22T05:28:10Z",
+  "generated_at": "2026-06-22T05:52:02Z",
   "n_receipts": 68,
-  "n_audit_rows": 4280,
-  "n_resolved": 35,
+  "n_audit_rows": 4278,
+  "n_resolved": 36,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -527,6 +527,21 @@
       "outcome": 1,
       "called": false,
       "top_score": "1-0",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M040",
+      "kickoff_utc": "2026-06-22T01:00:00Z",
+      "team1": "NZL",
+      "team2": "EGY",
+      "model": "live",
+      "p_team1": 0.2627,
+      "p_draw": 0.2694,
+      "p_team2": 0.4679,
+      "actual": "1-3",
+      "outcome": 2,
+      "called": true,
+      "top_score": "1-1",
       "exact_hit": false
     }
   ]
