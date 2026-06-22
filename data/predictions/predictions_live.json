@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@edcec45",
-  "generated_at": "2026-06-22T01:45:20Z",
+  "model_version": "live-elo-mkt@b7bc769",
+  "generated_at": "2026-06-22T02:09:37Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,8 +120,8 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-22T01:45:20Z",
-      "stale": true
+      "as_of": "2026-06-22T02:09:37Z",
+      "stale": false
     },
     {
       "name": "match_results",
@@ -177,7 +177,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M042",
@@ -221,7 +221,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M041",
@@ -265,7 +265,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M044",
@@ -309,7 +309,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M047",
@@ -353,7 +353,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M045",
@@ -397,7 +397,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M046",
@@ -441,7 +441,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M048",
@@ -485,7 +485,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M051",
@@ -529,7 +529,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M052",
@@ -573,7 +573,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M049",
@@ -617,7 +617,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M050",
@@ -661,7 +661,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M053",
@@ -705,7 +705,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M054",
@@ -749,7 +749,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M055",
@@ -793,7 +793,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M056",
@@ -837,7 +837,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M057",
@@ -881,7 +881,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M058",
@@ -925,7 +925,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M059",
@@ -969,7 +969,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M060",
@@ -1013,7 +1013,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M061",
@@ -1057,7 +1057,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M062",
@@ -1101,7 +1101,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M065",
@@ -1145,7 +1145,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M066",
@@ -1189,7 +1189,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M063",
@@ -1233,7 +1233,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M064",
@@ -1277,7 +1277,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M067",
@@ -1321,7 +1321,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M068",
@@ -1365,7 +1365,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M071",
@@ -1409,7 +1409,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M072",
@@ -1453,7 +1453,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M069",
@@ -1497,7 +1497,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M070",
@@ -1541,7 +1541,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     }
   ],
   "live_now": [
