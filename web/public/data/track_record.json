@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-23T01:57:40Z",
+  "generated_at": "2026-06-23T02:21:52Z",
   "n_receipts": 68,
   "n_audit_rows": 5183,
-  "n_resolved": 37,
+  "n_resolved": 38,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -557,6 +557,21 @@
       "outcome": 0,
       "called": true,
       "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M042",
+      "kickoff_utc": "2026-06-22T21:00:00Z",
+      "team1": "FRA",
+      "team2": "IRQ",
+      "model": "live",
+      "p_team1": 0.7404,
+      "p_draw": 0.183,
+      "p_team2": 0.0766,
+      "actual": "3-0",
+      "outcome": 0,
+      "called": true,
+      "top_score": "2-0",
       "exact_hit": false
     }
   ]
