@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@e664a5d",
-  "generated_at": "2026-06-23T19:58:35Z",
+  "model_version": "live-elo-mkt@4229d4a",
+  "generated_at": "2026-06-23T20:15:21Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M045",
       "WC26-M046",
       "WC26-M048",
       "WC26-M051",
@@ -80,7 +79,8 @@
       "WC26-M042",
       "WC26-M041",
       "WC26-M044",
-      "WC26-M047"
+      "WC26-M047",
+      "WC26-M045"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-23T19:58:35Z",
+      "as_of": "2026-06-23T20:15:21Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M045",
-      "stage": "group",
-      "kickoff_utc": "2026-06-23T20:00:00Z",
-      "team1": "ENG",
-      "team2": "GHA",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.6681433256944158,
-        "draw": 0.21482887474475504,
-        "team2": 0.1170277995608292
-      },
-      "scorelines": [
-        {
-          "score": "2-0",
-          "p": 0.1356
-        },
-        {
-          "score": "1-0",
-          "p": 0.1329
-        },
-        {
-          "score": "1-1",
-          "p": 0.1011
-        },
-        {
-          "score": "2-1",
-          "p": 0.0937
-        },
-        {
-          "score": "3-0",
-          "p": 0.0885
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.6681433256944158,
-          "draw": 0.21482887474475504,
-          "team2": 0.1170277995608292
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M046",
       "stage": "group",
@@ -1326,14 +1282,14 @@
   ],
   "live_now": [
     {
-      "fixture_id": "WC26-M047",
-      "team1": "POR",
-      "team2": "UZB",
-      "kickoff_utc": "2026-06-23T17:00:00Z",
+      "fixture_id": "WC26-M045",
+      "team1": "ENG",
+      "team2": "GHA",
+      "kickoff_utc": "2026-06-23T20:00:00Z",
       "wdl": {
-        "team1": 0.6342652242043001,
-        "draw": 0.22749310951386906,
-        "team2": 0.13824166628183085
+        "team1": 0.6681433256944158,
+        "draw": 0.21482887474475504,
+        "team2": 0.1170277995608292
       }
     }
   ]
