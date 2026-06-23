@@ -42,7 +42,7 @@ WC26-M040,40,group,G,2,2026-06-22T01:00:00Z,BC Place Vancouver,New Zealand,Egypt
 WC26-M043,43,group,J,2,2026-06-22T17:00:00Z,Dallas Stadium,Argentina,Austria,ARG,AUT,2,0,ARG,True
 WC26-M042,42,group,I,2,2026-06-22T21:00:00Z,Philadelphia Stadium,France,Iraq,FRA,IRQ,3,0,FRA,True
 WC26-M041,41,group,I,2,2026-06-23T00:00:00Z,New York/New Jersey Stadium,Norway,Senegal,NOR,SEN,3,2,NOR,True
-WC26-M044,44,group,J,2,2026-06-23T03:00:00Z,San Francisco Bay Area Stadium,Jordan,Algeria,JOR,ALG,,,,False
+WC26-M044,44,group,J,2,2026-06-23T03:00:00Z,San Francisco Bay Area Stadium,Jordan,Algeria,JOR,ALG,1,2,ALG,True
 WC26-M047,47,group,K,2,2026-06-23T17:00:00Z,Houston Stadium,Portugal,Uzbekistan,POR,UZB,,,,False
 WC26-M045,45,group,L,2,2026-06-23T20:00:00Z,Boston Stadium,England,Ghana,ENG,GHA,,,,False
 WC26-M046,46,group,L,2,2026-06-23T23:00:00Z,Toronto Stadium,Panama,Croatia,PAN,CRO,,,,False
