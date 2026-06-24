@@ -46,7 +46,7 @@ WC26-M044,44,group,J,2,2026-06-23T03:00:00Z,San Francisco Bay Area Stadium,Jorda
 WC26-M047,47,group,K,2,2026-06-23T17:00:00Z,Houston Stadium,Portugal,Uzbekistan,POR,UZB,5,0,POR,True
 WC26-M045,45,group,L,2,2026-06-23T20:00:00Z,Boston Stadium,England,Ghana,ENG,GHA,0,0,,True
 WC26-M046,46,group,L,2,2026-06-23T23:00:00Z,Toronto Stadium,Panama,Croatia,PAN,CRO,0,1,CRO,True
-WC26-M048,48,group,K,2,2026-06-24T02:00:00Z,Guadalajara Stadium,Colombia,Congo DR,COL,COD,,,,False
+WC26-M048,48,group,K,2,2026-06-24T02:00:00Z,Guadalajara Stadium,Colombia,Congo DR,COL,COD,1,0,COL,True
 WC26-M051,51,group,B,3,2026-06-24T19:00:00Z,BC Place Vancouver,Switzerland,Canada,SUI,CAN,,,,False
 WC26-M052,52,group,B,3,2026-06-24T19:00:00Z,Seattle Stadium,Bosnia and Herzegovina,Qatar,BIH,QAT,,,,False
 WC26-M049,49,group,C,3,2026-06-24T22:00:00Z,Miami Stadium,Scotland,Brazil,SCO,BRA,,,,False
