@@ -1,14 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@aa322fd",
-  "generated_at": "2026-06-24T21:37:35Z",
+  "model_version": "live-elo-mkt@3c0c20b",
+  "generated_at": "2026-06-24T22:00:40Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M049",
-      "WC26-M050",
       "WC26-M053",
       "WC26-M054",
       "WC26-M055",
@@ -80,7 +78,9 @@
       "WC26-M046",
       "WC26-M048",
       "WC26-M051",
-      "WC26-M052"
+      "WC26-M052",
+      "WC26-M049",
+      "WC26-M050"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M073",
@@ -120,8 +120,8 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-24T21:37:35Z",
-      "stale": false
+      "as_of": "2026-06-24T22:00:40Z",
+      "stale": true
     },
     {
       "name": "match_results",
@@ -135,94 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M049",
-      "stage": "group",
-      "kickoff_utc": "2026-06-24T22:00:00Z",
-      "team1": "SCO",
-      "team2": "BRA",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.2075369830633784,
-        "draw": 0.2562813707904502,
-        "team2": 0.5361816461461714
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1221
-        },
-        {
-          "score": "0-1",
-          "p": 0.115
-        },
-        {
-          "score": "0-2",
-          "p": 0.1015
-        },
-        {
-          "score": "1-2",
-          "p": 0.0964
-        },
-        {
-          "score": "0-0",
-          "p": 0.0794
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.2075369830633784,
-          "draw": 0.2562813707904502,
-          "team2": 0.5361816461461714
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
-    {
-      "fixture_id": "WC26-M050",
-      "stage": "group",
-      "kickoff_utc": "2026-06-24T22:00:00Z",
-      "team1": "MAR",
-      "team2": "HAI",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.6000359080446335,
-        "draw": 0.23886372541641213,
-        "team2": 0.16110036653895438
-      },
-      "scorelines": [
-        {
-          "score": "1-0",
-          "p": 0.124
-        },
-        {
-          "score": "2-0",
-          "p": 0.1174
-        },
-        {
-          "score": "1-1",
-          "p": 0.1134
-        },
-        {
-          "score": "2-1",
-          "p": 0.0969
-        },
-        {
-          "score": "0-0",
-          "p": 0.0782
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.6000359080446335,
-          "draw": 0.23886372541641213,
-          "team2": 0.16110036653895438
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M053",
       "stage": "group",
@@ -265,7 +177,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M054",
@@ -309,7 +221,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M055",
@@ -353,7 +265,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M056",
@@ -397,7 +309,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M057",
@@ -441,7 +353,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M058",
@@ -485,7 +397,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M059",
@@ -529,7 +441,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M060",
@@ -573,7 +485,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M061",
@@ -617,7 +529,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M062",
@@ -661,7 +573,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M065",
@@ -705,7 +617,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M066",
@@ -749,7 +661,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M063",
@@ -793,7 +705,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M064",
@@ -837,7 +749,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M067",
@@ -881,7 +793,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M068",
@@ -925,7 +837,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M071",
@@ -969,7 +881,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M072",
@@ -1013,7 +925,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M069",
@@ -1057,7 +969,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M070",
@@ -1101,7 +1013,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     }
   ],
   "live_now": [
@@ -1125,6 +1037,28 @@
         "team1": 0.4958966160711231,
         "draw": 0.264707885566806,
         "team2": 0.2393954983620708
+      }
+    },
+    {
+      "fixture_id": "WC26-M049",
+      "team1": "SCO",
+      "team2": "BRA",
+      "kickoff_utc": "2026-06-24T22:00:00Z",
+      "wdl": {
+        "team1": 0.2075369830633784,
+        "draw": 0.2562813707904502,
+        "team2": 0.5361816461461714
+      }
+    },
+    {
+      "fixture_id": "WC26-M050",
+      "team1": "MAR",
+      "team2": "HAI",
+      "kickoff_utc": "2026-06-24T22:00:00Z",
+      "wdl": {
+        "team1": 0.6000359080446335,
+        "draw": 0.23886372541641213,
+        "team2": 0.16110036653895438
       }
     }
   ]
