@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@3c0c20b",
-  "generated_at": "2026-06-24T22:00:40Z",
+  "model_version": "live-elo-mkt@c1e996f",
+  "generated_at": "2026-06-24T22:20:35Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,8 +120,8 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-24T22:00:40Z",
-      "stale": true
+      "as_of": "2026-06-24T22:20:35Z",
+      "stale": false
     },
     {
       "name": "match_results",
@@ -177,7 +177,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M054",
@@ -221,7 +221,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M055",
@@ -265,7 +265,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M056",
@@ -309,7 +309,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M057",
@@ -353,7 +353,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M058",
@@ -397,7 +397,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M059",
@@ -441,7 +441,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M060",
@@ -485,7 +485,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M061",
@@ -529,7 +529,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M062",
@@ -573,7 +573,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M065",
@@ -617,7 +617,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M066",
@@ -661,7 +661,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M063",
@@ -705,7 +705,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M064",
@@ -749,7 +749,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M067",
@@ -793,7 +793,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M068",
@@ -837,7 +837,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M071",
@@ -881,7 +881,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M072",
@@ -925,7 +925,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M069",
@@ -969,7 +969,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M070",
@@ -1013,32 +1013,10 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     }
   ],
   "live_now": [
-    {
-      "fixture_id": "WC26-M051",
-      "team1": "SUI",
-      "team2": "CAN",
-      "kickoff_utc": "2026-06-24T19:00:00Z",
-      "wdl": {
-        "team1": 0.42203699884723866,
-        "draw": 0.27480433250493624,
-        "team2": 0.30315866864782504
-      }
-    },
-    {
-      "fixture_id": "WC26-M052",
-      "team1": "BIH",
-      "team2": "QAT",
-      "kickoff_utc": "2026-06-24T19:00:00Z",
-      "wdl": {
-        "team1": 0.4958966160711231,
-        "draw": 0.264707885566806,
-        "team2": 0.2393954983620708
-      }
-    },
     {
       "fixture_id": "WC26-M049",
       "team1": "SCO",
