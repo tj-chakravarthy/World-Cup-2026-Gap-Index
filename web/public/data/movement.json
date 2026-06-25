@@ -1,7 +1,84 @@
 {
-  "generated_at": "2026-06-25T22:35:32Z",
-  "since": "2026-06-25T22:01:13Z",
-  "newly_resolved": [],
-  "title_movers": [],
-  "advance_movers": []
+  "generated_at": "2026-06-25T22:53:49Z",
+  "since": "2026-06-25T22:20:32Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M055",
+      "team1": "CUW",
+      "team2": "CIV",
+      "score": "0-2",
+      "outcome": 2
+    },
+    {
+      "fixture_id": "WC26-M056",
+      "team1": "ECU",
+      "team2": "GER",
+      "score": "2-1",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "ECU",
+      "before": 0.00545,
+      "after": 0.02021,
+      "delta": 0.01476
+    },
+    {
+      "country_code": "ENG",
+      "before": 0.0811,
+      "after": 0.07863,
+      "delta": -0.00247
+    },
+    {
+      "country_code": "SCO",
+      "before": 0.00377,
+      "after": 0.00145,
+      "delta": -0.00232
+    },
+    {
+      "country_code": "GER",
+      "before": 0.05467,
+      "after": 0.05251,
+      "delta": -0.00216
+    },
+    {
+      "country_code": "MEX",
+      "before": 0.01654,
+      "after": 0.01474,
+      "delta": -0.0018
+    }
+  ],
+  "advance_movers": [
+    {
+      "country_code": "ECU",
+      "before": 0.2914,
+      "after": 1.0,
+      "delta": 0.7086
+    },
+    {
+      "country_code": "CUW",
+      "before": 0.16825,
+      "after": 0.0,
+      "delta": -0.16825
+    },
+    {
+      "country_code": "SCO",
+      "before": 0.28863,
+      "after": 0.13155,
+      "delta": -0.15708
+    },
+    {
+      "country_code": "KOR",
+      "before": 0.90746,
+      "after": 0.81419,
+      "delta": -0.09327
+    },
+    {
+      "country_code": "CIV",
+      "before": 0.92395,
+      "after": 1.0,
+      "delta": 0.07605
+    }
+  ]
 }
