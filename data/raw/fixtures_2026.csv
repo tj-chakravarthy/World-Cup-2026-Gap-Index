@@ -55,8 +55,8 @@ WC26-M053,53,group,A,3,2026-06-25T01:00:00Z,Mexico City Stadium,Czechia,Mexico,C
 WC26-M054,54,group,A,3,2026-06-25T01:00:00Z,Monterrey Stadium,South Africa,Korea Republic,RSA,KOR,1,0,RSA,True
 WC26-M055,55,group,E,3,2026-06-25T20:00:00Z,Philadelphia Stadium,Curaçao,Côte d'Ivoire,CUW,CIV,0,2,CIV,True
 WC26-M056,56,group,E,3,2026-06-25T20:00:00Z,New York/New Jersey Stadium,Ecuador,Germany,ECU,GER,2,1,ECU,True
-WC26-M057,57,group,F,3,2026-06-25T23:00:00Z,Dallas Stadium,Japan,Sweden,JPN,SWE,,,,False
-WC26-M058,58,group,F,3,2026-06-25T23:00:00Z,Kansas City Stadium,Tunisia,Netherlands,TUN,NED,,,,False
+WC26-M057,57,group,F,3,2026-06-25T23:00:00Z,Dallas Stadium,Japan,Sweden,JPN,SWE,1,1,,True
+WC26-M058,58,group,F,3,2026-06-25T23:00:00Z,Kansas City Stadium,Tunisia,Netherlands,TUN,NED,1,3,NED,True
 WC26-M059,59,group,D,3,2026-06-26T02:00:00Z,Los Angeles Stadium,Türkiye,USA,TUR,USA,,,,False
 WC26-M060,60,group,D,3,2026-06-26T02:00:00Z,San Francisco Bay Area Stadium,Paraguay,Australia,PAR,AUS,,,,False
 WC26-M061,61,group,I,3,2026-06-26T19:00:00Z,Boston Stadium,Norway,France,NOR,FRA,,,,False
