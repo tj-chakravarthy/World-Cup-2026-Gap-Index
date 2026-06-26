@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T08:30:39Z",
+  "generated_at": "2026-06-26T08:47:49Z",
   "field": "world_cup_2026",
   "metric": "percentile_within_field",
   "fixtures": {
@@ -586,6 +586,30 @@
       "elo2": 54,
       "mkt1": 10,
       "mkt2": 44
+    },
+    "WC26-M076": {
+      "team1": "BRA",
+      "team2": "JPN",
+      "elo1": 92,
+      "elo2": 79,
+      "mkt1": 92,
+      "mkt2": 58
+    },
+    "WC26-M075": {
+      "team1": "NED",
+      "team2": "MAR",
+      "elo1": 83,
+      "elo2": 77,
+      "mkt1": 85,
+      "mkt2": 56
+    },
+    "WC26-M081": {
+      "team1": "USA",
+      "team2": "BIH",
+      "elo1": 40,
+      "elo2": 8,
+      "mkt1": 73,
+      "mkt2": 33
     }
   }
 }
