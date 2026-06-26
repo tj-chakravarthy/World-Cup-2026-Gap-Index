@@ -1,7 +1,84 @@
 {
-  "generated_at": "2026-06-26T21:45:29Z",
-  "since": "2026-06-26T21:14:32Z",
-  "newly_resolved": [],
-  "title_movers": [],
-  "advance_movers": []
+  "generated_at": "2026-06-26T21:58:33Z",
+  "since": "2026-06-26T21:28:06Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M061",
+      "team1": "NOR",
+      "team2": "FRA",
+      "score": "1-4",
+      "outcome": 2
+    },
+    {
+      "fixture_id": "WC26-M062",
+      "team1": "SEN",
+      "team2": "IRQ",
+      "score": "5-0",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "SEN",
+      "before": 0.00683,
+      "after": 0.0166,
+      "delta": 0.00977
+    },
+    {
+      "country_code": "FRA",
+      "before": 0.09626,
+      "after": 0.09953,
+      "delta": 0.00327
+    },
+    {
+      "country_code": "GER",
+      "before": 0.0497,
+      "after": 0.04656,
+      "delta": -0.00314
+    },
+    {
+      "country_code": "KOR",
+      "before": 0.0064,
+      "after": 0.00405,
+      "delta": -0.00235
+    },
+    {
+      "country_code": "BRA",
+      "before": 0.05968,
+      "after": 0.06175,
+      "delta": 0.00207
+    }
+  ],
+  "advance_movers": [
+    {
+      "country_code": "SEN",
+      "before": 0.41215,
+      "after": 0.94845,
+      "delta": 0.5363
+    },
+    {
+      "country_code": "KOR",
+      "before": 0.61684,
+      "after": 0.39614,
+      "delta": -0.2207
+    },
+    {
+      "country_code": "SCO",
+      "before": 0.08734,
+      "after": 0.02502,
+      "delta": -0.06232
+    },
+    {
+      "country_code": "AUT",
+      "before": 0.84448,
+      "after": 0.78389,
+      "delta": -0.06059
+    },
+    {
+      "country_code": "ALG",
+      "before": 0.67825,
+      "after": 0.64191,
+      "delta": -0.03634
+    }
+  ]
 }
