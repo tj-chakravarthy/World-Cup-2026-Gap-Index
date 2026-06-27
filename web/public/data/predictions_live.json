@@ -1,14 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@1231327",
-  "generated_at": "2026-06-27T23:26:15Z",
+  "model_version": "live-elo-mkt@fc5b5e7",
+  "generated_at": "2026-06-27T23:37:49Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M071",
-      "WC26-M072",
       "WC26-M069",
       "WC26-M070",
       "WC26-M073",
@@ -89,7 +87,9 @@
       "WC26-M063",
       "WC26-M064",
       "WC26-M067",
-      "WC26-M068"
+      "WC26-M068",
+      "WC26-M071",
+      "WC26-M072"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M079",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-27T23:26:15Z",
+      "as_of": "2026-06-27T23:37:49Z",
       "stale": false
     },
     {
@@ -135,94 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M071",
-      "stage": "group",
-      "kickoff_utc": "2026-06-27T23:30:00Z",
-      "team1": "COL",
-      "team2": "POR",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.2952180145722665,
-        "draw": 0.2739822645943221,
-        "team2": 0.43079972083341134
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1307
-        },
-        {
-          "score": "0-1",
-          "p": 0.0994
-        },
-        {
-          "score": "1-2",
-          "p": 0.0897
-        },
-        {
-          "score": "0-0",
-          "p": 0.0804
-        },
-        {
-          "score": "1-0",
-          "p": 0.0781
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.2952180145722665,
-          "draw": 0.2739822645943221,
-          "team2": 0.43079972083341134
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
-    {
-      "fixture_id": "WC26-M072",
-      "stage": "group",
-      "kickoff_utc": "2026-06-27T23:30:00Z",
-      "team1": "COD",
-      "team2": "UZB",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.3987785497680135,
-        "draw": 0.2764730134782148,
-        "team2": 0.32474843675377174
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1318
-        },
-        {
-          "score": "1-0",
-          "p": 0.0946
-        },
-        {
-          "score": "2-1",
-          "p": 0.0864
-        },
-        {
-          "score": "0-1",
-          "p": 0.0829
-        },
-        {
-          "score": "0-0",
-          "p": 0.0805
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.3987785497680135,
-          "draw": 0.2764730134782148,
-          "team2": 0.32474843675377174
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M069",
       "stage": "group",
@@ -729,6 +641,28 @@
         "team1": 0.5524516472542464,
         "draw": 0.25231301997490363,
         "team2": 0.1952353327708498
+      }
+    },
+    {
+      "fixture_id": "WC26-M071",
+      "team1": "COL",
+      "team2": "POR",
+      "kickoff_utc": "2026-06-27T23:30:00Z",
+      "wdl": {
+        "team1": 0.2952180145722665,
+        "draw": 0.2739822645943221,
+        "team2": 0.43079972083341134
+      }
+    },
+    {
+      "fixture_id": "WC26-M072",
+      "team1": "COD",
+      "team2": "UZB",
+      "kickoff_utc": "2026-06-27T23:30:00Z",
+      "wdl": {
+        "team1": 0.3987785497680135,
+        "draw": 0.2764730134782148,
+        "team2": 0.32474843675377174
       }
     }
   ]
