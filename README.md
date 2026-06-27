@@ -55,7 +55,7 @@ breaks no ties. Everything else in the order is active; conduct updates when new
 pulled, once cards are entered.
 
 <!-- TOPBOARD:START -->
-Top of the board to win it: **Argentina 14%, Spain 13%, France 10%, England 8%.** _(updated 2026-06-27 13:00 UTC)_
+Top of the board to win it: **Argentina 14%, Spain 13%, France 10%, England 8%.** _(updated 2026-06-27 13:15 UTC)_
 <!-- TOPBOARD:END -->
 
 ## How it's built
