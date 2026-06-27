@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T05:45:15Z",
+  "generated_at": "2026-06-27T05:56:46Z",
   "field": "world_cup_2026",
   "metric": "percentile_within_field",
   "fixtures": {
@@ -595,6 +595,14 @@
       "mkt1": 92,
       "mkt2": 58
     },
+    "WC26-M074": {
+      "team1": "GER",
+      "team2": "PAR",
+      "elo1": 81,
+      "elo2": 60,
+      "mkt1": 90,
+      "mkt2": 40
+    },
     "WC26-M075": {
       "team1": "NED",
       "team2": "MAR",
@@ -603,6 +611,22 @@
       "mkt1": 85,
       "mkt2": 56
     },
+    "WC26-M078": {
+      "team1": "CIV",
+      "team2": "NOR",
+      "elo1": 35,
+      "elo2": 71,
+      "mkt1": 75,
+      "mkt2": 77
+    },
+    "WC26-M077": {
+      "team1": "FRA",
+      "team2": "SWE",
+      "elo1": 96,
+      "elo2": 27,
+      "mkt1": 98,
+      "mkt2": 62
+    },
     "WC26-M081": {
       "team1": "USA",
       "team2": "BIH",
@@ -610,6 +634,22 @@
       "elo2": 8,
       "mkt1": 73,
       "mkt2": 33
+    },
+    "WC26-M088": {
+      "team1": "AUS",
+      "team2": "EGY",
+      "elo1": 56,
+      "elo2": 33,
+      "mkt1": 19,
+      "mkt2": 31
+    },
+    "WC26-M086": {
+      "team1": "ARG",
+      "team2": "CPV",
+      "elo1": 98,
+      "elo2": 10,
+      "mkt1": 88,
+      "mkt2": 21
     }
   }
 }
