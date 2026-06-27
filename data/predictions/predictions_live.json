@@ -1,14 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@b6f7a5a",
-  "generated_at": "2026-06-27T02:43:39Z",
+  "model_version": "live-elo-mkt@ee9b050",
+  "generated_at": "2026-06-27T03:00:13Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M063",
-      "WC26-M064",
       "WC26-M067",
       "WC26-M068",
       "WC26-M071",
@@ -84,7 +82,9 @@
       "WC26-M061",
       "WC26-M062",
       "WC26-M065",
-      "WC26-M066"
+      "WC26-M066",
+      "WC26-M063",
+      "WC26-M064"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M074",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-27T02:43:39Z",
+      "as_of": "2026-06-27T03:00:13Z",
       "stale": false
     },
     {
@@ -135,94 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M063",
-      "stage": "group",
-      "kickoff_utc": "2026-06-27T03:00:00Z",
-      "team1": "EGY",
-      "team2": "IRN",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.3618719296881445,
-        "draw": 0.27752655221022027,
-        "team2": 0.3606015181016352
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1323
-        },
-        {
-          "score": "1-0",
-          "p": 0.0888
-        },
-        {
-          "score": "0-1",
-          "p": 0.0886
-        },
-        {
-          "score": "2-1",
-          "p": 0.0818
-        },
-        {
-          "score": "1-2",
-          "p": 0.0816
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.3618719296881445,
-          "draw": 0.27752655221022027,
-          "team2": 0.3606015181016352
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
-    {
-      "fixture_id": "WC26-M064",
-      "stage": "group",
-      "kickoff_utc": "2026-06-27T03:00:00Z",
-      "team1": "NZL",
-      "team2": "BEL",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.1362791859202665,
-        "draw": 0.2264135952685175,
-        "team2": 0.637307218811216
-      },
-      "scorelines": [
-        {
-          "score": "0-1",
-          "p": 0.129
-        },
-        {
-          "score": "0-2",
-          "p": 0.1272
-        },
-        {
-          "score": "1-1",
-          "p": 0.1071
-        },
-        {
-          "score": "1-2",
-          "p": 0.0956
-        },
-        {
-          "score": "0-3",
-          "p": 0.0801
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.1362791859202665,
-          "draw": 0.2264135952685175,
-          "team2": 0.637307218811216
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M067",
       "stage": "group",
@@ -666,25 +578,25 @@
   ],
   "live_now": [
     {
-      "fixture_id": "WC26-M065",
-      "team1": "CPV",
-      "team2": "KSA",
-      "kickoff_utc": "2026-06-27T00:00:00Z",
+      "fixture_id": "WC26-M063",
+      "team1": "EGY",
+      "team2": "IRN",
+      "kickoff_utc": "2026-06-27T03:00:00Z",
       "wdl": {
-        "team1": 0.3531322284593469,
-        "draw": 0.2774760825044183,
-        "team2": 0.36939168903623476
+        "team1": 0.3618719296881445,
+        "draw": 0.27752655221022027,
+        "team2": 0.3606015181016352
       }
     },
     {
-      "fixture_id": "WC26-M066",
-      "team1": "URU",
-      "team2": "ESP",
-      "kickoff_utc": "2026-06-27T00:00:00Z",
+      "fixture_id": "WC26-M064",
+      "team1": "NZL",
+      "team2": "BEL",
+      "kickoff_utc": "2026-06-27T03:00:00Z",
       "wdl": {
-        "team1": 0.21652734936911672,
-        "draw": 0.258919350253207,
-        "team2": 0.5245533003776762
+        "team1": 0.1362791859202665,
+        "draw": 0.2264135952685175,
+        "team2": 0.637307218811216
       }
     }
   ]
