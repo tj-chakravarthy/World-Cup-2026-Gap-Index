@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-27T22:24:38Z",
+  "generated_at": "2026-06-27T22:34:10Z",
   "n_receipts": 77,
-  "n_audit_rows": 9387,
+  "n_audit_rows": 9400,
   "n_resolved": 62,
   "resolved": [
     {
@@ -725,21 +725,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M053",
-      "kickoff_utc": "2026-06-25T01:00:00Z",
-      "team1": "CZE",
-      "team2": "MEX",
-      "model": "live",
-      "p_team1": 0.2894,
-      "p_draw": 0.2733,
-      "p_team2": 0.4373,
-      "actual": "0-3",
-      "outcome": 2,
-      "called": true,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M054",
       "kickoff_utc": "2026-06-25T01:00:00Z",
       "team1": "RSA",
@@ -751,6 +736,21 @@
       "actual": "1-0",
       "outcome": 0,
       "called": false,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M053",
+      "kickoff_utc": "2026-06-25T01:00:00Z",
+      "team1": "CZE",
+      "team2": "MEX",
+      "model": "live",
+      "p_team1": 0.2894,
+      "p_draw": 0.2733,
+      "p_team2": 0.4373,
+      "actual": "0-3",
+      "outcome": 2,
+      "called": true,
       "top_score": "1-1",
       "exact_hit": false
     },
