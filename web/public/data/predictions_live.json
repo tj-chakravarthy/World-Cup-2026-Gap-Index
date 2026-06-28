@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@542984e",
-  "generated_at": "2026-06-28T02:58:16Z",
+  "model_version": "live-elo-mkt@8210275",
+  "generated_at": "2026-06-28T03:13:20Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -13,9 +13,14 @@
       "WC26-M075",
       "WC26-M078",
       "WC26-M077",
+      "WC26-M079",
+      "WC26-M080",
+      "WC26-M082",
       "WC26-M081",
+      "WC26-M083",
       "WC26-M088",
-      "WC26-M086"
+      "WC26-M086",
+      "WC26-M087"
     ],
     "excluded_played_fixture_ids": [
       "WC26-M001",
@@ -92,13 +97,8 @@
       "WC26-M070"
     ],
     "pending_undetermined_fixture_ids": [
-      "WC26-M079",
-      "WC26-M080",
-      "WC26-M082",
-      "WC26-M083",
       "WC26-M084",
       "WC26-M085",
-      "WC26-M087",
       "WC26-M089",
       "WC26-M090",
       "WC26-M091",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-28T02:58:16Z",
+      "as_of": "2026-06-28T03:13:20Z",
       "stale": false
     },
     {
@@ -400,6 +400,138 @@
       "stale": false
     },
     {
+      "fixture_id": "WC26-M079",
+      "stage": "R32",
+      "kickoff_utc": "2026-07-01T01:00:00Z",
+      "team1": "MEX",
+      "team2": "ECU",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.33533043156289977,
+        "draw": 0.277000416868736,
+        "team2": 0.38766915156836423
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1321
+        },
+        {
+          "score": "0-1",
+          "p": 0.0929
+        },
+        {
+          "score": "1-2",
+          "p": 0.0851
+        },
+        {
+          "score": "1-0",
+          "p": 0.0846
+        },
+        {
+          "score": "0-0",
+          "p": 0.0806
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.33533043156289977,
+          "draw": 0.277000416868736,
+          "team2": 0.38766915156836423
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M080",
+      "stage": "R32",
+      "kickoff_utc": "2026-07-01T16:00:00Z",
+      "team1": "ENG",
+      "team2": "COD",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.6248190360414636,
+        "draw": 0.23077330117172185,
+        "team2": 0.14440766278681463
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1274
+        },
+        {
+          "score": "2-0",
+          "p": 0.1239
+        },
+        {
+          "score": "1-1",
+          "p": 0.1093
+        },
+        {
+          "score": "2-1",
+          "p": 0.0962
+        },
+        {
+          "score": "0-0",
+          "p": 0.0776
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.6248190360414636,
+          "draw": 0.23077330117172185,
+          "team2": 0.14440766278681463
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M082",
+      "stage": "R32",
+      "kickoff_utc": "2026-07-01T20:00:00Z",
+      "team1": "BEL",
+      "team2": "SEN",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.40763559903383445,
+        "draw": 0.2759265903792308,
+        "team2": 0.31643781058693476
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1316
+        },
+        {
+          "score": "1-0",
+          "p": 0.0959
+        },
+        {
+          "score": "2-1",
+          "p": 0.0874
+        },
+        {
+          "score": "0-1",
+          "p": 0.0816
+        },
+        {
+          "score": "0-0",
+          "p": 0.0805
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.40763559903383445,
+          "draw": 0.2759265903792308,
+          "team2": 0.31643781058693476
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
       "fixture_id": "WC26-M081",
       "stage": "R32",
       "kickoff_utc": "2026-07-02T00:00:00Z",
@@ -438,6 +570,50 @@
           "team1": 0.5124898519480422,
           "draw": 0.2614802518898586,
           "team2": 0.2260298961620992
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M083",
+      "stage": "R32",
+      "kickoff_utc": "2026-07-02T23:00:00Z",
+      "team1": "POR",
+      "team2": "CRO",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.4638256198158637,
+        "draw": 0.2699628954399945,
+        "team2": 0.26621148474414186
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1287
+        },
+        {
+          "score": "1-0",
+          "p": 0.1044
+        },
+        {
+          "score": "2-1",
+          "p": 0.0926
+        },
+        {
+          "score": "2-0",
+          "p": 0.0846
+        },
+        {
+          "score": "0-0",
+          "p": 0.0802
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.4638256198158637,
+          "draw": 0.2699628954399945,
+          "team2": 0.26621148474414186
         }
       },
       "conformal_set": null,
@@ -526,6 +702,50 @@
           "team1": 0.7412119929653957,
           "draw": 0.18258605093275163,
           "team2": 0.07620195610185264
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M087",
+      "stage": "R32",
+      "kickoff_utc": "2026-07-04T01:30:00Z",
+      "team1": "COL",
+      "team2": "GHA",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5834452627934339,
+        "draw": 0.24386406730492888,
+        "team2": 0.17269066990163723
+      },
+      "scorelines": [
+        {
+          "score": "1-0",
+          "p": 0.1217
+        },
+        {
+          "score": "1-1",
+          "p": 0.116
+        },
+        {
+          "score": "2-0",
+          "p": 0.1132
+        },
+        {
+          "score": "2-1",
+          "p": 0.097
+        },
+        {
+          "score": "0-0",
+          "p": 0.0786
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5834452627934339,
+          "draw": 0.24386406730492888,
+          "team2": 0.17269066990163723
         }
       },
       "conformal_set": null,
