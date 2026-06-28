@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-28T18:44:52Z",
+  "generated_at": "2026-06-28T18:55:24Z",
   "n_receipts": 84,
-  "n_audit_rows": 10467,
+  "n_audit_rows": 10483,
   "n_resolved": 68,
   "resolved": [
     {
@@ -665,6 +665,21 @@
       "exact_hit": false
     },
     {
+      "fixture_id": "WC26-M051",
+      "kickoff_utc": "2026-06-24T19:00:00Z",
+      "team1": "SUI",
+      "team2": "CAN",
+      "model": "live",
+      "p_team1": 0.422,
+      "p_draw": 0.2748,
+      "p_team2": 0.3032,
+      "actual": "2-1",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
       "fixture_id": "WC26-M052",
       "kickoff_utc": "2026-06-24T19:00:00Z",
       "team1": "BIH",
@@ -680,16 +695,16 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M051",
-      "kickoff_utc": "2026-06-24T19:00:00Z",
-      "team1": "SUI",
-      "team2": "CAN",
+      "fixture_id": "WC26-M049",
+      "kickoff_utc": "2026-06-24T22:00:00Z",
+      "team1": "SCO",
+      "team2": "BRA",
       "model": "live",
-      "p_team1": 0.422,
-      "p_draw": 0.2748,
-      "p_team2": 0.3032,
-      "actual": "2-1",
-      "outcome": 0,
+      "p_team1": 0.2075,
+      "p_draw": 0.2563,
+      "p_team2": 0.5362,
+      "actual": "0-3",
+      "outcome": 2,
       "called": true,
       "top_score": "1-1",
       "exact_hit": false
@@ -710,14 +725,14 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M049",
-      "kickoff_utc": "2026-06-24T22:00:00Z",
-      "team1": "SCO",
-      "team2": "BRA",
+      "fixture_id": "WC26-M053",
+      "kickoff_utc": "2026-06-25T01:00:00Z",
+      "team1": "CZE",
+      "team2": "MEX",
       "model": "live",
-      "p_team1": 0.2075,
-      "p_draw": 0.2563,
-      "p_team2": 0.5362,
+      "p_team1": 0.2894,
+      "p_draw": 0.2733,
+      "p_team2": 0.4373,
       "actual": "0-3",
       "outcome": 2,
       "called": true,
@@ -736,21 +751,6 @@
       "actual": "1-0",
       "outcome": 0,
       "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
-      "fixture_id": "WC26-M053",
-      "kickoff_utc": "2026-06-25T01:00:00Z",
-      "team1": "CZE",
-      "team2": "MEX",
-      "model": "live",
-      "p_team1": 0.2894,
-      "p_draw": 0.2733,
-      "p_team2": 0.4373,
-      "actual": "0-3",
-      "outcome": 2,
-      "called": true,
       "top_score": "1-1",
       "exact_hit": false
     },
@@ -785,21 +785,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M057",
-      "kickoff_utc": "2026-06-25T23:00:00Z",
-      "team1": "JPN",
-      "team2": "SWE",
-      "model": "live",
-      "p_team1": 0.4576,
-      "p_draw": 0.2708,
-      "p_team2": 0.2716,
-      "actual": "1-1",
-      "outcome": 1,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": true
-    },
-    {
       "fixture_id": "WC26-M058",
       "kickoff_utc": "2026-06-25T23:00:00Z",
       "team1": "TUN",
@@ -813,6 +798,21 @@
       "called": true,
       "top_score": "0-1",
       "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M057",
+      "kickoff_utc": "2026-06-25T23:00:00Z",
+      "team1": "JPN",
+      "team2": "SWE",
+      "model": "live",
+      "p_team1": 0.4576,
+      "p_draw": 0.2708,
+      "p_team2": 0.2716,
+      "actual": "1-1",
+      "outcome": 1,
+      "called": false,
+      "top_score": "1-1",
+      "exact_hit": true
     },
     {
       "fixture_id": "WC26-M059",
@@ -875,21 +875,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M065",
-      "kickoff_utc": "2026-06-27T00:00:00Z",
-      "team1": "CPV",
-      "team2": "KSA",
-      "model": "live",
-      "p_team1": 0.3531,
-      "p_draw": 0.2775,
-      "p_team2": 0.3694,
-      "actual": "0-0",
-      "outcome": 1,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M066",
       "kickoff_utc": "2026-06-27T00:00:00Z",
       "team1": "URU",
@@ -901,6 +886,21 @@
       "actual": "0-1",
       "outcome": 2,
       "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M065",
+      "kickoff_utc": "2026-06-27T00:00:00Z",
+      "team1": "CPV",
+      "team2": "KSA",
+      "model": "live",
+      "p_team1": 0.3531,
+      "p_draw": 0.2775,
+      "p_team2": 0.3694,
+      "actual": "0-0",
+      "outcome": 1,
+      "called": false,
       "top_score": "1-1",
       "exact_hit": false
     },
@@ -965,21 +965,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M072",
-      "kickoff_utc": "2026-06-27T23:30:00Z",
-      "team1": "COD",
-      "team2": "UZB",
-      "model": "live",
-      "p_team1": 0.3988,
-      "p_draw": 0.2765,
-      "p_team2": 0.3247,
-      "actual": "3-1",
-      "outcome": 0,
-      "called": true,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M071",
       "kickoff_utc": "2026-06-27T23:30:00Z",
       "team1": "COL",
@@ -991,6 +976,21 @@
       "actual": "0-0",
       "outcome": 1,
       "called": false,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M072",
+      "kickoff_utc": "2026-06-27T23:30:00Z",
+      "team1": "COD",
+      "team2": "UZB",
+      "model": "live",
+      "p_team1": 0.3988,
+      "p_draw": 0.2765,
+      "p_team2": 0.3247,
+      "actual": "3-1",
+      "outcome": 0,
+      "called": true,
       "top_score": "1-1",
       "exact_hit": false
     },
