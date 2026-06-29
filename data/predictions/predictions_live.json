@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@be2dbfe",
-  "generated_at": "2026-06-29T20:27:50Z",
+  "model_version": "live-elo-mkt@1a302fb",
+  "generated_at": "2026-06-29T20:42:48Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M074",
       "WC26-M075",
       "WC26-M078",
       "WC26-M077",
@@ -96,7 +95,8 @@
       "WC26-M069",
       "WC26-M070",
       "WC26-M073",
-      "WC26-M076"
+      "WC26-M076",
+      "WC26-M074"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M089",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-29T20:27:50Z",
+      "as_of": "2026-06-29T20:42:48Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M074",
-      "stage": "R32",
-      "kickoff_utc": "2026-06-29T20:30:00Z",
-      "team1": "GER",
-      "team2": "PAR",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.49985861873904025,
-        "draw": 0.2639684292813711,
-        "team2": 0.23617295197958854
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1259
-        },
-        {
-          "score": "1-0",
-          "p": 0.1097
-        },
-        {
-          "score": "2-1",
-          "p": 0.0949
-        },
-        {
-          "score": "2-0",
-          "p": 0.0929
-        },
-        {
-          "score": "0-0",
-          "p": 0.0799
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.49985861873904025,
-          "draw": 0.2639684292813711,
-          "team2": 0.23617295197958854
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M075",
       "stage": "R32",
@@ -752,5 +708,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M074",
+      "team1": "GER",
+      "team2": "PAR",
+      "kickoff_utc": "2026-06-29T20:30:00Z",
+      "wdl": {
+        "team1": 0.49985861873904025,
+        "draw": 0.2639684292813711,
+        "team2": 0.23617295197958854
+      }
+    }
+  ]
 }
