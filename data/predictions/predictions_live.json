@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@8534702",
-  "generated_at": "2026-06-29T19:33:17Z",
+  "model_version": "live-elo-mkt@ccd8e09",
+  "generated_at": "2026-06-29T19:44:57Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,8 +120,8 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-29T19:33:17Z",
-      "stale": true
+      "as_of": "2026-06-29T19:44:57Z",
+      "stale": false
     },
     {
       "name": "match_results",
@@ -177,7 +177,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M075",
@@ -221,7 +221,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M078",
@@ -265,7 +265,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M077",
@@ -309,7 +309,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M079",
@@ -353,7 +353,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M080",
@@ -397,7 +397,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M082",
@@ -441,7 +441,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M081",
@@ -485,7 +485,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M084",
@@ -529,7 +529,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M083",
@@ -573,7 +573,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M085",
@@ -617,7 +617,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M088",
@@ -661,7 +661,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M086",
@@ -705,7 +705,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M087",
@@ -749,20 +749,8 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M076",
-      "team1": "BRA",
-      "team2": "JPN",
-      "kickoff_utc": "2026-06-29T17:00:00Z",
-      "wdl": {
-        "team1": 0.4677914875044481,
-        "draw": 0.2693842503957985,
-        "team2": 0.2628242620997534
-      }
-    }
-  ]
+  "live_now": []
 }

@@ -1,7 +1,46 @@
 {
-  "generated_at": "2026-06-29T19:33:17Z",
-  "since": "2026-06-29T19:11:07Z",
-  "newly_resolved": [],
-  "title_movers": [],
+  "generated_at": "2026-06-29T19:44:57Z",
+  "since": "2026-06-29T19:21:24Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M076",
+      "team1": "BRA",
+      "team2": "JPN",
+      "score": "2-1",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "BRA",
+      "before": 0.06123,
+      "after": 0.10189,
+      "delta": 0.04066
+    },
+    {
+      "country_code": "JPN",
+      "before": 0.01766,
+      "after": 0.0,
+      "delta": -0.01766
+    },
+    {
+      "country_code": "ENG",
+      "before": 0.09243,
+      "after": 0.08805,
+      "delta": -0.00438
+    },
+    {
+      "country_code": "ARG",
+      "before": 0.14459,
+      "after": 0.14123,
+      "delta": -0.00336
+    },
+    {
+      "country_code": "NOR",
+      "before": 0.02622,
+      "after": 0.0234,
+      "delta": -0.00282
+    }
+  ],
   "advance_movers": []
 }
