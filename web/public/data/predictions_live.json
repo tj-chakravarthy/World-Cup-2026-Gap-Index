@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "kind": "live",
   "model_version": "live-elo-mkt@df2eb0c",
-  "generated_at": "2026-06-29T19:11:07Z",
+  "generated_at": "2026-06-29T19:21:24Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,8 +120,8 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-06-29T19:11:07Z",
-      "stale": false
+      "as_of": "2026-06-29T19:21:24Z",
+      "stale": true
     },
     {
       "name": "match_results",
@@ -177,7 +177,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M075",
@@ -221,7 +221,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M078",
@@ -265,7 +265,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M077",
@@ -309,7 +309,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M079",
@@ -353,7 +353,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M080",
@@ -397,7 +397,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M082",
@@ -441,7 +441,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M081",
@@ -485,7 +485,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M084",
@@ -529,7 +529,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M083",
@@ -573,7 +573,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M085",
@@ -617,7 +617,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M088",
@@ -661,7 +661,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M086",
@@ -705,7 +705,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     },
     {
       "fixture_id": "WC26-M087",
@@ -749,7 +749,7 @@
         }
       },
       "conformal_set": null,
-      "stale": false
+      "stale": true
     }
   ],
   "live_now": [
