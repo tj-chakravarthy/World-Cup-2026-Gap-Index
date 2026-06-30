@@ -75,7 +75,7 @@ WC26-M073,73,R32,,,2026-06-28T19:00:00Z,Los Angeles Stadium,South Africa,Canada,
 WC26-M076,76,R32,,,2026-06-29T17:00:00Z,Houston Stadium,Brazil,Japan,BRA,JPN,2,1,BRA,True
 WC26-M074,74,R32,,,2026-06-29T20:30:00Z,Boston Stadium,Germany,Paraguay,GER,PAR,1,1,PAR,True
 WC26-M075,75,R32,,,2026-06-30T01:00:00Z,Monterrey Stadium,Netherlands,Morocco,NED,MAR,1,1,MAR,True
-WC26-M078,78,R32,,,2026-06-30T17:00:00Z,Dallas Stadium,Côte d'Ivoire,Norway,CIV,NOR,,,,False
+WC26-M078,78,R32,,,2026-06-30T17:00:00Z,Dallas Stadium,Côte d'Ivoire,Norway,CIV,NOR,1,2,NOR,True
 WC26-M077,77,R32,,,2026-06-30T21:00:00Z,New York/New Jersey Stadium,France,Sweden,FRA,SWE,,,,False
 WC26-M079,79,R32,,,2026-07-01T01:00:00Z,Mexico City Stadium,Mexico,Ecuador,MEX,ECU,,,,False
 WC26-M080,80,R32,,,2026-07-01T16:00:00Z,Atlanta Stadium,England,Congo DR,ENG,COD,,,,False
@@ -89,7 +89,7 @@ WC26-M086,86,R32,,,2026-07-03T22:00:00Z,Miami Stadium,Argentina,Cabo Verde,ARG,C
 WC26-M087,87,R32,,,2026-07-04T01:30:00Z,Kansas City Stadium,Colombia,Ghana,COL,GHA,,,,False
 WC26-M090,90,R16,,,2026-07-04T17:00:00Z,Houston Stadium,Canada,Morocco,CAN,MAR,,,,False
 WC26-M089,89,R16,,,2026-07-04T21:00:00Z,Philadelphia Stadium,Paraguay,To be announced,PAR,,,,,False
-WC26-M091,91,R16,,,2026-07-05T20:00:00Z,New York/New Jersey Stadium,Brazil,To be announced,BRA,,,,,False
+WC26-M091,91,R16,,,2026-07-05T20:00:00Z,New York/New Jersey Stadium,Brazil,Norway,BRA,NOR,,,,False
 WC26-M092,92,R16,,,2026-07-06T00:00:00Z,Mexico City Stadium,To be announced,To be announced,,,,,,False
 WC26-M093,93,R16,,,2026-07-06T19:00:00Z,Dallas Stadium,To be announced,To be announced,,,,,,False
 WC26-M094,94,R16,,,2026-07-07T00:00:00Z,Seattle Stadium,To be announced,To be announced,,,,,,False
