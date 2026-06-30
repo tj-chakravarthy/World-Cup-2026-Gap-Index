@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-30T10:26:00Z",
+  "generated_at": "2026-06-30T10:39:53Z",
   "n_receipts": 85,
-  "n_audit_rows": 12530,
+  "n_audit_rows": 12543,
   "n_resolved": 72,
   "resolved": [
     {
@@ -785,21 +785,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M057",
-      "kickoff_utc": "2026-06-25T23:00:00Z",
-      "team1": "JPN",
-      "team2": "SWE",
-      "model": "live",
-      "p_team1": 0.4576,
-      "p_draw": 0.2708,
-      "p_team2": 0.2716,
-      "actual": "1-1",
-      "outcome": 1,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": true
-    },
-    {
       "fixture_id": "WC26-M058",
       "kickoff_utc": "2026-06-25T23:00:00Z",
       "team1": "TUN",
@@ -813,6 +798,21 @@
       "called": true,
       "top_score": "0-1",
       "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M057",
+      "kickoff_utc": "2026-06-25T23:00:00Z",
+      "team1": "JPN",
+      "team2": "SWE",
+      "model": "live",
+      "p_team1": 0.4576,
+      "p_draw": 0.2708,
+      "p_team2": 0.2716,
+      "actual": "1-1",
+      "outcome": 1,
+      "called": false,
+      "top_score": "1-1",
+      "exact_hit": true
     },
     {
       "fixture_id": "WC26-M060",
@@ -935,21 +935,6 @@
       "exact_hit": true
     },
     {
-      "fixture_id": "WC26-M068",
-      "kickoff_utc": "2026-06-27T21:00:00Z",
-      "team1": "CRO",
-      "team2": "GHA",
-      "model": "live",
-      "p_team1": 0.5525,
-      "p_draw": 0.2523,
-      "p_team2": 0.1952,
-      "actual": "2-1",
-      "outcome": 0,
-      "called": true,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M067",
       "kickoff_utc": "2026-06-27T21:00:00Z",
       "team1": "PAN",
@@ -963,6 +948,21 @@
       "called": true,
       "top_score": "0-2",
       "exact_hit": true
+    },
+    {
+      "fixture_id": "WC26-M068",
+      "kickoff_utc": "2026-06-27T21:00:00Z",
+      "team1": "CRO",
+      "team2": "GHA",
+      "model": "live",
+      "p_team1": 0.5525,
+      "p_draw": 0.2523,
+      "p_team2": 0.1952,
+      "actual": "2-1",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
     },
     {
       "fixture_id": "WC26-M071",
