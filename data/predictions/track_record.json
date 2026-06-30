@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-30T14:26:03Z",
+  "generated_at": "2026-06-30T14:41:47Z",
   "n_receipts": 85,
-  "n_audit_rows": 12738,
+  "n_audit_rows": 12751,
   "n_resolved": 72,
   "resolved": [
     {
@@ -755,21 +755,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M056",
-      "kickoff_utc": "2026-06-25T20:00:00Z",
-      "team1": "ECU",
-      "team2": "GER",
-      "model": "live",
-      "p_team1": 0.2929,
-      "p_draw": 0.2737,
-      "p_team2": 0.4333,
-      "actual": "2-1",
-      "outcome": 0,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M055",
       "kickoff_utc": "2026-06-25T20:00:00Z",
       "team1": "CUW",
@@ -782,6 +767,21 @@
       "outcome": 2,
       "called": true,
       "top_score": "0-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M056",
+      "kickoff_utc": "2026-06-25T20:00:00Z",
+      "team1": "ECU",
+      "team2": "GER",
+      "model": "live",
+      "p_team1": 0.2929,
+      "p_draw": 0.2737,
+      "p_team2": 0.4333,
+      "actual": "2-1",
+      "outcome": 0,
+      "called": false,
+      "top_score": "1-1",
       "exact_hit": false
     },
     {
@@ -815,21 +815,6 @@
       "exact_hit": true
     },
     {
-      "fixture_id": "WC26-M059",
-      "kickoff_utc": "2026-06-26T02:00:00Z",
-      "team1": "TUR",
-      "team2": "USA",
-      "model": "live",
-      "p_team1": 0.4318,
-      "p_draw": 0.2739,
-      "p_team2": 0.2943,
-      "actual": "3-2",
-      "outcome": 0,
-      "called": true,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M060",
       "kickoff_utc": "2026-06-26T02:00:00Z",
       "team1": "PAR",
@@ -841,6 +826,21 @@
       "actual": "0-0",
       "outcome": 1,
       "called": false,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M059",
+      "kickoff_utc": "2026-06-26T02:00:00Z",
+      "team1": "TUR",
+      "team2": "USA",
+      "model": "live",
+      "p_team1": 0.4318,
+      "p_draw": 0.2739,
+      "p_team2": 0.2943,
+      "actual": "3-2",
+      "outcome": 0,
+      "called": true,
       "top_score": "1-1",
       "exact_hit": false
     },
@@ -935,6 +935,21 @@
       "exact_hit": true
     },
     {
+      "fixture_id": "WC26-M068",
+      "kickoff_utc": "2026-06-27T21:00:00Z",
+      "team1": "CRO",
+      "team2": "GHA",
+      "model": "live",
+      "p_team1": 0.5525,
+      "p_draw": 0.2523,
+      "p_team2": 0.1952,
+      "actual": "2-1",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
       "fixture_id": "WC26-M067",
       "kickoff_utc": "2026-06-27T21:00:00Z",
       "team1": "PAN",
@@ -950,15 +965,15 @@
       "exact_hit": true
     },
     {
-      "fixture_id": "WC26-M068",
-      "kickoff_utc": "2026-06-27T21:00:00Z",
-      "team1": "CRO",
-      "team2": "GHA",
+      "fixture_id": "WC26-M072",
+      "kickoff_utc": "2026-06-27T23:30:00Z",
+      "team1": "COD",
+      "team2": "UZB",
       "model": "live",
-      "p_team1": 0.5525,
-      "p_draw": 0.2523,
-      "p_team2": 0.1952,
-      "actual": "2-1",
+      "p_team1": 0.3988,
+      "p_draw": 0.2765,
+      "p_team2": 0.3247,
+      "actual": "3-1",
       "outcome": 0,
       "called": true,
       "top_score": "1-1",
@@ -976,21 +991,6 @@
       "actual": "0-0",
       "outcome": 1,
       "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
-      "fixture_id": "WC26-M072",
-      "kickoff_utc": "2026-06-27T23:30:00Z",
-      "team1": "COD",
-      "team2": "UZB",
-      "model": "live",
-      "p_team1": 0.3988,
-      "p_draw": 0.2765,
-      "p_team2": 0.3247,
-      "actual": "3-1",
-      "outcome": 0,
-      "called": true,
       "top_score": "1-1",
       "exact_hit": false
     },
