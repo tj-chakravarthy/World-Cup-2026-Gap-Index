@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-30T06:25:29Z",
+  "generated_at": "2026-06-30T06:41:21Z",
   "n_receipts": 85,
-  "n_audit_rows": 12335,
+  "n_audit_rows": 12348,
   "n_resolved": 72,
   "resolved": [
     {
@@ -905,21 +905,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M064",
-      "kickoff_utc": "2026-06-27T03:00:00Z",
-      "team1": "NZL",
-      "team2": "BEL",
-      "model": "live",
-      "p_team1": 0.1363,
-      "p_draw": 0.2264,
-      "p_team2": 0.6373,
-      "actual": "1-5",
-      "outcome": 2,
-      "called": true,
-      "top_score": "0-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M063",
       "kickoff_utc": "2026-06-27T03:00:00Z",
       "team1": "EGY",
@@ -935,19 +920,19 @@
       "exact_hit": true
     },
     {
-      "fixture_id": "WC26-M067",
-      "kickoff_utc": "2026-06-27T21:00:00Z",
-      "team1": "PAN",
-      "team2": "ENG",
+      "fixture_id": "WC26-M064",
+      "kickoff_utc": "2026-06-27T03:00:00Z",
+      "team1": "NZL",
+      "team2": "BEL",
       "model": "live",
-      "p_team1": 0.1206,
-      "p_draw": 0.2171,
-      "p_team2": 0.6623,
-      "actual": "0-2",
+      "p_team1": 0.1363,
+      "p_draw": 0.2264,
+      "p_team2": 0.6373,
+      "actual": "1-5",
       "outcome": 2,
       "called": true,
-      "top_score": "0-2",
-      "exact_hit": true
+      "top_score": "0-1",
+      "exact_hit": false
     },
     {
       "fixture_id": "WC26-M068",
@@ -965,19 +950,19 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M071",
-      "kickoff_utc": "2026-06-27T23:30:00Z",
-      "team1": "COL",
-      "team2": "POR",
+      "fixture_id": "WC26-M067",
+      "kickoff_utc": "2026-06-27T21:00:00Z",
+      "team1": "PAN",
+      "team2": "ENG",
       "model": "live",
-      "p_team1": 0.2952,
-      "p_draw": 0.274,
-      "p_team2": 0.4308,
-      "actual": "0-0",
-      "outcome": 1,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
+      "p_team1": 0.1206,
+      "p_draw": 0.2171,
+      "p_team2": 0.6623,
+      "actual": "0-2",
+      "outcome": 2,
+      "called": true,
+      "top_score": "0-2",
+      "exact_hit": true
     },
     {
       "fixture_id": "WC26-M072",
@@ -991,6 +976,21 @@
       "actual": "3-1",
       "outcome": 0,
       "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M071",
+      "kickoff_utc": "2026-06-27T23:30:00Z",
+      "team1": "COL",
+      "team2": "POR",
+      "model": "live",
+      "p_team1": 0.2952,
+      "p_draw": 0.274,
+      "p_team2": 0.4308,
+      "actual": "0-0",
+      "outcome": 1,
+      "called": false,
       "top_score": "1-1",
       "exact_hit": false
     },
