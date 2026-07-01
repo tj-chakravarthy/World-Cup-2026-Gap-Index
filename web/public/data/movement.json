@@ -1,7 +1,46 @@
 {
-  "generated_at": "2026-07-01T04:41:22Z",
-  "since": "2026-07-01T04:26:07Z",
-  "newly_resolved": [],
-  "title_movers": [],
+  "generated_at": "2026-07-01T04:52:32Z",
+  "since": "2026-07-01T04:41:22Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M079",
+      "team1": "MEX",
+      "team2": "ECU",
+      "score": "2-0",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "ECU",
+      "before": 0.0188,
+      "after": 0.0,
+      "delta": -0.0188
+    },
+    {
+      "country_code": "MEX",
+      "before": 0.01346,
+      "after": 0.02802,
+      "delta": 0.01456
+    },
+    {
+      "country_code": "BRA",
+      "before": 0.09723,
+      "after": 0.09911,
+      "delta": 0.00188
+    },
+    {
+      "country_code": "FRA",
+      "before": 0.15535,
+      "after": 0.15715,
+      "delta": 0.0018
+    },
+    {
+      "country_code": "POR",
+      "before": 0.05384,
+      "after": 0.05532,
+      "delta": 0.00148
+    }
+  ],
   "advance_movers": []
 }
