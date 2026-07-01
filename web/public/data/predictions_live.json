@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@ab62b5f",
-  "generated_at": "2026-07-01T00:56:04Z",
+  "model_version": "live-elo-mkt@e33ce40",
+  "generated_at": "2026-07-01T01:09:39Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M079",
       "WC26-M080",
       "WC26-M082",
       "WC26-M081",
@@ -99,7 +98,8 @@
       "WC26-M074",
       "WC26-M075",
       "WC26-M078",
-      "WC26-M077"
+      "WC26-M077",
+      "WC26-M079"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M092",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-01T00:56:04Z",
+      "as_of": "2026-07-01T01:09:39Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M079",
-      "stage": "R32",
-      "kickoff_utc": "2026-07-01T01:00:00Z",
-      "team1": "MEX",
-      "team2": "ECU",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.33533043156289977,
-        "draw": 0.277000416868736,
-        "team2": 0.38766915156836423
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1321
-        },
-        {
-          "score": "0-1",
-          "p": 0.0929
-        },
-        {
-          "score": "1-2",
-          "p": 0.0851
-        },
-        {
-          "score": "1-0",
-          "p": 0.0846
-        },
-        {
-          "score": "0-0",
-          "p": 0.0806
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.33533043156289977,
-          "draw": 0.277000416868736,
-          "team2": 0.38766915156836423
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M080",
       "stage": "R32",
@@ -708,5 +664,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M079",
+      "team1": "MEX",
+      "team2": "ECU",
+      "kickoff_utc": "2026-07-01T01:00:00Z",
+      "wdl": {
+        "team1": 0.33533043156289977,
+        "draw": 0.277000416868736,
+        "team2": 0.38766915156836423
+      }
+    }
+  ]
 }
