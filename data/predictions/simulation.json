@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T18:39:09Z",
+  "generated_at": "2026-07-01T18:54:53Z",
   "tournament": "FIFA World Cup 26",
   "n_sims": 100000,
   "param_uncertainty": true,
@@ -10,32 +10,43 @@
       "runner_up": 0.0,
       "p_R32": 1.0,
       "p_R16": 1.0,
-      "p_QF": 0.7039,
-      "p_SF": 0.47363,
-      "p_final": 0.27365,
-      "p_winner": 0.15715
+      "p_QF": 0.70166,
+      "p_SF": 0.47329,
+      "p_final": 0.27218,
+      "p_winner": 0.1532
     },
     {
       "country_code": "ARG",
       "win_group": 1.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.83245,
-      "p_QF": 0.64207,
-      "p_SF": 0.42683,
-      "p_final": 0.2481,
-      "p_winner": 0.13999
+      "p_R16": 0.83293,
+      "p_QF": 0.64422,
+      "p_SF": 0.42787,
+      "p_final": 0.24271,
+      "p_winner": 0.13876
     },
     {
       "country_code": "ESP",
       "win_group": 1.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.71666,
-      "p_QF": 0.44375,
-      "p_SF": 0.31308,
-      "p_final": 0.19825,
-      "p_winner": 0.1212
+      "p_R16": 0.71577,
+      "p_QF": 0.44253,
+      "p_SF": 0.3112,
+      "p_final": 0.19744,
+      "p_winner": 0.11917
+    },
+    {
+      "country_code": "ENG",
+      "win_group": 1.0,
+      "runner_up": 0.0,
+      "p_R32": 1.0,
+      "p_R16": 1.0,
+      "p_QF": 0.654,
+      "p_SF": 0.36682,
+      "p_final": 0.21316,
+      "p_winner": 0.11854
     },
     {
       "country_code": "BRA",
@@ -43,32 +54,21 @@
       "runner_up": 0.0,
       "p_R32": 1.0,
       "p_R16": 1.0,
-      "p_QF": 0.59145,
-      "p_SF": 0.33436,
-      "p_final": 0.18766,
-      "p_winner": 0.09911
-    },
-    {
-      "country_code": "ENG",
-      "win_group": 1.0,
-      "runner_up": 0.0,
-      "p_R32": 1.0,
-      "p_R16": 0.74431,
-      "p_QF": 0.49091,
-      "p_SF": 0.27416,
-      "p_final": 0.16171,
-      "p_winner": 0.08951
+      "p_QF": 0.59112,
+      "p_SF": 0.3148,
+      "p_final": 0.17814,
+      "p_winner": 0.09416
     },
     {
       "country_code": "POR",
       "win_group": 0.0,
       "runner_up": 1.0,
       "p_R32": 1.0,
-      "p_R16": 0.60427,
-      "p_QF": 0.29238,
-      "p_SF": 0.18381,
-      "p_final": 0.10194,
-      "p_winner": 0.05532
+      "p_R16": 0.60424,
+      "p_QF": 0.29225,
+      "p_SF": 0.18477,
+      "p_final": 0.10179,
+      "p_winner": 0.05287
     },
     {
       "country_code": "MAR",
@@ -76,21 +76,21 @@
       "runner_up": 1.0,
       "p_R32": 1.0,
       "p_R16": 1.0,
-      "p_QF": 0.56219,
-      "p_SF": 0.23112,
-      "p_final": 0.09847,
-      "p_winner": 0.04186
+      "p_QF": 0.56092,
+      "p_SF": 0.23168,
+      "p_final": 0.09994,
+      "p_winner": 0.04208
     },
     {
       "country_code": "COL",
       "win_group": 1.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.69936,
-      "p_QF": 0.39267,
-      "p_SF": 0.19372,
-      "p_final": 0.08975,
-      "p_winner": 0.04148
+      "p_R16": 0.70122,
+      "p_QF": 0.3936,
+      "p_SF": 0.19414,
+      "p_final": 0.08859,
+      "p_winner": 0.04054
     },
     {
       "country_code": "NOR",
@@ -98,21 +98,32 @@
       "runner_up": 1.0,
       "p_R32": 1.0,
       "p_R16": 1.0,
-      "p_QF": 0.40855,
-      "p_SF": 0.19597,
-      "p_final": 0.09376,
-      "p_winner": 0.04085
+      "p_QF": 0.40888,
+      "p_SF": 0.17976,
+      "p_final": 0.08612,
+      "p_winner": 0.03861
     },
     {
       "country_code": "BEL",
       "win_group": 1.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.54605,
-      "p_QF": 0.34066,
-      "p_SF": 0.1424,
-      "p_final": 0.06784,
-      "p_winner": 0.0313
+      "p_R16": 0.54789,
+      "p_QF": 0.344,
+      "p_SF": 0.14361,
+      "p_final": 0.06876,
+      "p_winner": 0.03117
+    },
+    {
+      "country_code": "SUI",
+      "win_group": 1.0,
+      "runner_up": 0.0,
+      "p_R32": 1.0,
+      "p_R16": 0.55611,
+      "p_QF": 0.29135,
+      "p_SF": 0.13337,
+      "p_final": 0.05658,
+      "p_winner": 0.02442
     },
     {
       "country_code": "MEX",
@@ -120,21 +131,10 @@
       "runner_up": 0.0,
       "p_R32": 1.0,
       "p_R16": 1.0,
-      "p_QF": 0.40746,
-      "p_SF": 0.16365,
-      "p_final": 0.07169,
-      "p_winner": 0.02802
-    },
-    {
-      "country_code": "SUI",
-      "win_group": 1.0,
-      "runner_up": 0.0,
-      "p_R32": 1.0,
-      "p_R16": 0.55331,
-      "p_QF": 0.29096,
-      "p_SF": 0.13312,
-      "p_final": 0.05712,
-      "p_winner": 0.02367
+      "p_QF": 0.346,
+      "p_SF": 0.13862,
+      "p_final": 0.06051,
+      "p_winner": 0.02431
     },
     {
       "country_code": "CAN",
@@ -142,10 +142,10 @@
       "runner_up": 1.0,
       "p_R32": 1.0,
       "p_R16": 1.0,
-      "p_QF": 0.43781,
-      "p_SF": 0.15615,
-      "p_final": 0.05729,
-      "p_winner": 0.02201
+      "p_QF": 0.43908,
+      "p_SF": 0.15706,
+      "p_final": 0.05853,
+      "p_winner": 0.02136
     },
     {
       "country_code": "PAR",
@@ -153,131 +153,131 @@
       "runner_up": 0.0,
       "p_R32": 1.0,
       "p_R16": 1.0,
-      "p_QF": 0.2961,
-      "p_SF": 0.1391,
-      "p_final": 0.05184,
-      "p_winner": 0.01945
+      "p_QF": 0.29834,
+      "p_SF": 0.13797,
+      "p_final": 0.05094,
+      "p_winner": 0.01817
     },
     {
       "country_code": "SEN",
       "win_group": 0.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.45395,
-      "p_QF": 0.26565,
-      "p_SF": 0.09978,
-      "p_final": 0.04393,
-      "p_winner": 0.01849
+      "p_R16": 0.45211,
+      "p_QF": 0.26248,
+      "p_SF": 0.09956,
+      "p_final": 0.04402,
+      "p_winner": 0.01787
     },
     {
       "country_code": "CRO",
       "win_group": 0.0,
       "runner_up": 1.0,
       "p_R32": 1.0,
-      "p_R16": 0.39573,
-      "p_QF": 0.15315,
-      "p_SF": 0.08158,
-      "p_final": 0.03706,
-      "p_winner": 0.01592
+      "p_R16": 0.39576,
+      "p_QF": 0.15322,
+      "p_SF": 0.08171,
+      "p_final": 0.03685,
+      "p_winner": 0.01596
     },
     {
       "country_code": "USA",
       "win_group": 1.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.64754,
-      "p_QF": 0.28628,
-      "p_SF": 0.09975,
-      "p_final": 0.03994,
-      "p_winner": 0.01552
+      "p_R16": 0.64506,
+      "p_QF": 0.28546,
+      "p_SF": 0.0985,
+      "p_final": 0.03995,
+      "p_winner": 0.01549
     },
     {
       "country_code": "ALG",
       "win_group": 0.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.44669,
-      "p_QF": 0.20872,
-      "p_SF": 0.08695,
-      "p_final": 0.03318,
-      "p_winner": 0.01207
+      "p_R16": 0.44389,
+      "p_QF": 0.20917,
+      "p_SF": 0.08607,
+      "p_final": 0.03142,
+      "p_winner": 0.0116
     },
     {
       "country_code": "AUT",
       "win_group": 0.0,
       "runner_up": 1.0,
       "p_R32": 1.0,
-      "p_R16": 0.28334,
-      "p_QF": 0.11072,
-      "p_SF": 0.05443,
-      "p_final": 0.02254,
-      "p_winner": 0.00901
+      "p_R16": 0.28423,
+      "p_QF": 0.112,
+      "p_SF": 0.05441,
+      "p_final": 0.02234,
+      "p_winner": 0.00816
     },
     {
       "country_code": "EGY",
       "win_group": 0.0,
       "runner_up": 1.0,
       "p_R32": 1.0,
-      "p_R16": 0.512,
-      "p_QF": 0.15182,
-      "p_SF": 0.05597,
-      "p_final": 0.01702,
-      "p_winner": 0.00494
+      "p_R16": 0.51224,
+      "p_QF": 0.14986,
+      "p_SF": 0.05632,
+      "p_final": 0.01645,
+      "p_winner": 0.00466
     },
     {
       "country_code": "AUS",
       "win_group": 0.0,
       "runner_up": 1.0,
       "p_R32": 1.0,
-      "p_R16": 0.488,
-      "p_QF": 0.1398,
-      "p_SF": 0.05113,
-      "p_final": 0.01488,
-      "p_winner": 0.00403
-    },
-    {
-      "country_code": "COD",
-      "win_group": 0.0,
-      "runner_up": 0.0,
-      "p_R32": 1.0,
-      "p_R16": 0.25569,
-      "p_QF": 0.10163,
-      "p_SF": 0.03186,
-      "p_final": 0.01106,
-      "p_winner": 0.00351
+      "p_R16": 0.48776,
+      "p_QF": 0.14004,
+      "p_SF": 0.05076,
+      "p_final": 0.01373,
+      "p_winner": 0.00384
     },
     {
       "country_code": "GHA",
       "win_group": 0.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.30064,
-      "p_QF": 0.10765,
-      "p_SF": 0.03383,
-      "p_final": 0.00967,
-      "p_winner": 0.00268
+      "p_R16": 0.29878,
+      "p_QF": 0.10588,
+      "p_SF": 0.03351,
+      "p_final": 0.00899,
+      "p_winner": 0.00243
     },
     {
       "country_code": "BIH",
       "win_group": 0.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.35246,
-      "p_QF": 0.10741,
-      "p_SF": 0.02517,
-      "p_final": 0.00725,
-      "p_winner": 0.00187
+      "p_R16": 0.35494,
+      "p_QF": 0.10806,
+      "p_SF": 0.02624,
+      "p_final": 0.00726,
+      "p_winner": 0.00165
     },
     {
       "country_code": "CPV",
       "win_group": 0.0,
       "runner_up": 1.0,
       "p_R32": 1.0,
-      "p_R16": 0.16755,
-      "p_QF": 0.06631,
-      "p_SF": 0.01845,
-      "p_final": 0.0044,
-      "p_winner": 0.00104
+      "p_R16": 0.16707,
+      "p_QF": 0.06588,
+      "p_SF": 0.01796,
+      "p_final": 0.0036,
+      "p_winner": 0.00098
+    },
+    {
+      "country_code": "ECU",
+      "win_group": 0.0,
+      "runner_up": 0.0,
+      "p_R32": 1.0,
+      "p_R16": 0.0,
+      "p_QF": 0.0,
+      "p_SF": 0.0,
+      "p_final": 0.0,
+      "p_winner": 0.0
     },
     {
       "country_code": "CZE",
@@ -313,7 +313,7 @@
       "p_winner": 0.0
     },
     {
-      "country_code": "ECU",
+      "country_code": "COD",
       "win_group": 0.0,
       "runner_up": 0.0,
       "p_R32": 1.0,
