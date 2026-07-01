@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-01T02:54:01Z",
+  "generated_at": "2026-07-01T03:10:45Z",
   "n_receipts": 87,
-  "n_audit_rows": 13346,
+  "n_audit_rows": 13358,
   "n_resolved": 74,
   "resolved": [
     {
@@ -755,21 +755,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M055",
-      "kickoff_utc": "2026-06-25T20:00:00Z",
-      "team1": "CUW",
-      "team2": "CIV",
-      "model": "live",
-      "p_team1": 0.1702,
-      "p_draw": 0.2428,
-      "p_team2": 0.587,
-      "actual": "0-2",
-      "outcome": 2,
-      "called": true,
-      "top_score": "0-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M056",
       "kickoff_utc": "2026-06-25T20:00:00Z",
       "team1": "ECU",
@@ -782,6 +767,21 @@
       "outcome": 0,
       "called": false,
       "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M055",
+      "kickoff_utc": "2026-06-25T20:00:00Z",
+      "team1": "CUW",
+      "team2": "CIV",
+      "model": "live",
+      "p_team1": 0.1702,
+      "p_draw": 0.2428,
+      "p_team2": 0.587,
+      "actual": "0-2",
+      "outcome": 2,
+      "called": true,
+      "top_score": "0-1",
       "exact_hit": false
     },
     {
