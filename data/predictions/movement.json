@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-01T23:57:04Z",
-  "since": "2026-07-01T23:40:38Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M082",
-      "team1": "BEL",
-      "team2": "SEN",
-      "score": "3-2",
-      "outcome": 0
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "BEL",
-      "before": 0.03117,
-      "after": 0.05576,
-      "delta": 0.02459
-    },
-    {
-      "country_code": "SEN",
-      "before": 0.01787,
-      "after": 0.0,
-      "delta": -0.01787
-    },
-    {
-      "country_code": "SUI",
-      "before": 0.02442,
-      "after": 0.02226,
-      "delta": -0.00216
-    },
-    {
-      "country_code": "BRA",
-      "before": 0.09416,
-      "after": 0.09217,
-      "delta": -0.00199
-    },
-    {
-      "country_code": "FRA",
-      "before": 0.1532,
-      "after": 0.15483,
-      "delta": 0.00163
-    }
-  ],
+  "generated_at": "2026-07-02T00:10:42Z",
+  "since": "2026-07-01T23:57:04Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
