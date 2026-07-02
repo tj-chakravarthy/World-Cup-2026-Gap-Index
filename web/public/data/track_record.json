@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-02T20:54:39Z",
+  "generated_at": "2026-07-02T21:09:43Z",
   "n_receipts": 89,
-  "n_audit_rows": 15211,
+  "n_audit_rows": 15221,
   "n_resolved": 78,
   "resolved": [
     {
@@ -815,21 +815,6 @@
       "exact_hit": true
     },
     {
-      "fixture_id": "WC26-M060",
-      "kickoff_utc": "2026-06-26T02:00:00Z",
-      "team1": "PAR",
-      "team2": "AUS",
-      "model": "live",
-      "p_team1": 0.4559,
-      "p_draw": 0.2711,
-      "p_team2": 0.2731,
-      "actual": "0-0",
-      "outcome": 1,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M059",
       "kickoff_utc": "2026-06-26T02:00:00Z",
       "team1": "TUR",
@@ -841,6 +826,21 @@
       "actual": "3-2",
       "outcome": 0,
       "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M060",
+      "kickoff_utc": "2026-06-26T02:00:00Z",
+      "team1": "PAR",
+      "team2": "AUS",
+      "model": "live",
+      "p_team1": 0.4559,
+      "p_draw": 0.2711,
+      "p_team2": 0.2731,
+      "actual": "0-0",
+      "outcome": 1,
+      "called": false,
       "top_score": "1-1",
       "exact_hit": false
     },
