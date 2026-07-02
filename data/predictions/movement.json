@@ -1,7 +1,46 @@
 {
-  "generated_at": "2026-07-02T02:53:26Z",
-  "since": "2026-07-02T02:40:12Z",
-  "newly_resolved": [],
-  "title_movers": [],
+  "generated_at": "2026-07-02T03:08:45Z",
+  "since": "2026-07-02T02:53:26Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M081",
+      "team1": "USA",
+      "team2": "BIH",
+      "score": "2-0",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "USA",
+      "before": 0.01428,
+      "after": 0.02211,
+      "delta": 0.00783
+    },
+    {
+      "country_code": "ESP",
+      "before": 0.12017,
+      "after": 0.11698,
+      "delta": -0.00319
+    },
+    {
+      "country_code": "BEL",
+      "before": 0.05576,
+      "after": 0.05282,
+      "delta": -0.00294
+    },
+    {
+      "country_code": "ENG",
+      "before": 0.11694,
+      "after": 0.11856,
+      "delta": 0.00162
+    },
+    {
+      "country_code": "BIH",
+      "before": 0.00152,
+      "after": 0.0,
+      "delta": -0.00152
+    }
+  ],
   "advance_movers": []
 }
