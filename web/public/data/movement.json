@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-02T22:09:55Z",
-  "since": "2026-07-02T21:54:30Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M084",
-      "team1": "ESP",
-      "team2": "AUT",
-      "score": "3-0",
-      "outcome": 0
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "ESP",
-      "before": 0.11698,
-      "after": 0.15984,
-      "delta": 0.04286
-    },
-    {
-      "country_code": "AUT",
-      "before": 0.00834,
-      "after": 0.0,
-      "delta": -0.00834
-    },
-    {
-      "country_code": "POR",
-      "before": 0.05201,
-      "after": 0.04534,
-      "delta": -0.00667
-    },
-    {
-      "country_code": "FRA",
-      "before": 0.15334,
-      "after": 0.14738,
-      "delta": -0.00596
-    },
-    {
-      "country_code": "BEL",
-      "before": 0.05282,
-      "after": 0.04812,
-      "delta": -0.0047
-    }
-  ],
+  "generated_at": "2026-07-02T22:22:18Z",
+  "since": "2026-07-02T22:09:55Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
