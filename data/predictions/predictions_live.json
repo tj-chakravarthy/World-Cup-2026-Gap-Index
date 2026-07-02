@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@a0ff4985",
-  "generated_at": "2026-07-02T01:25:34Z",
+  "model_version": "live-elo-mkt@dcdb5c72",
+  "generated_at": "2026-07-02T02:08:56Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,8 +120,8 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-02T01:25:34Z",
-      "stale": true
+      "as_of": "2026-07-02T02:08:56Z",
+      "stale": false
     },
     {
       "name": "match_results",
@@ -177,7 +177,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M083",
@@ -221,7 +221,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M085",
@@ -265,7 +265,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M088",
@@ -309,7 +309,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M086",
@@ -353,7 +353,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M087",
@@ -397,7 +397,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M090",
@@ -441,7 +441,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M089",
@@ -485,7 +485,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M091",
@@ -529,7 +529,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     },
     {
       "fixture_id": "WC26-M092",
@@ -573,7 +573,7 @@
         }
       },
       "conformal_set": null,
-      "stale": true
+      "stale": false
     }
   ],
   "live_now": [
