@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-03T02:09:51Z",
-  "since": "2026-07-03T01:54:28Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M083",
-      "team1": "POR",
-      "team2": "CRO",
-      "score": "2-1",
-      "outcome": 0
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "POR",
-      "before": 0.04534,
-      "after": 0.07483,
-      "delta": 0.02949
-    },
-    {
-      "country_code": "CRO",
-      "before": 0.01351,
-      "after": 0.0,
-      "delta": -0.01351
-    },
-    {
-      "country_code": "ESP",
-      "before": 0.15984,
-      "after": 0.15472,
-      "delta": -0.00512
-    },
-    {
-      "country_code": "COL",
-      "before": 0.03996,
-      "after": 0.03682,
-      "delta": -0.00314
-    },
-    {
-      "country_code": "BRA",
-      "before": 0.09107,
-      "after": 0.08808,
-      "delta": -0.00299
-    }
-  ],
+  "generated_at": "2026-07-03T02:23:51Z",
+  "since": "2026-07-03T02:09:51Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
