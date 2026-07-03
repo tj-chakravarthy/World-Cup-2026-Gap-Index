@@ -36,7 +36,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      # whichever attempt published wins; `||` returns the first non-empty page_url
+      url: ${{ steps.deploy.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
@@ -46,5 +47,24 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/public
-      - id: deployment
+      # Pages' backend började pajja 2026-07-02 ~15:00 UTC: deploy-pages returnerar
+      # "Deployment failed, try again later." på ca 35-40% av körningarna. Vår deploy-frekvens och
+      # site är oförändrade (0% fel dagarna innan, samma rolling-hour-densitet), så det är en
+      # Pages-side-flake, inte oss. Felet är en snabb backend-avvisning som ber oss försöka igen, så
+      # publicera om upp till tre gånger innan run:et fälls. Alla försök återanvänder samma redan
+      # uppladdade artifact; concurrency-gruppen "pages" hindrar överlapp mellan körningar.
+      - id: deploy
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - if: steps.deploy.outcome == 'failure'
+        run: sleep 20
+      - id: deploy2
+        if: steps.deploy.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - if: steps.deploy.outcome == 'failure' && steps.deploy2.outcome == 'failure'
+        run: sleep 30
+      # last attempt: no continue-on-error, so a sustained Pages outage still fails the run honestly
+      - id: deploy3
+        if: steps.deploy.outcome == 'failure' && steps.deploy2.outcome == 'failure'
         uses: actions/deploy-pages@v4
