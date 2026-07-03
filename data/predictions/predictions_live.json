@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@0b3c589e",
-  "generated_at": "2026-07-03T21:24:01Z",
+  "model_version": "live-elo-mkt@7980f1ee",
+  "generated_at": "2026-07-03T21:38:27Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-03T21:24:01Z",
+      "as_of": "2026-07-03T21:38:27Z",
       "stale": false
     },
     {
@@ -488,17 +488,5 @@
       "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M088",
-      "team1": "AUS",
-      "team2": "EGY",
-      "kickoff_utc": "2026-07-03T18:00:00Z",
-      "wdl": {
-        "team1": 0.35319946101260524,
-        "draw": 0.27747692418393677,
-        "team2": 0.369323614803458
-      }
-    }
-  ]
+  "live_now": []
 }

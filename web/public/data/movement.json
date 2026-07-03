@@ -1,7 +1,46 @@
 {
-  "generated_at": "2026-07-03T21:24:01Z",
-  "since": "2026-07-03T21:09:56Z",
-  "newly_resolved": [],
-  "title_movers": [],
+  "generated_at": "2026-07-03T21:38:27Z",
+  "since": "2026-07-03T21:24:01Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M088",
+      "team1": "AUS",
+      "team2": "EGY",
+      "score": "1-1",
+      "outcome": 1
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "EGY",
+      "before": 0.00446,
+      "after": 0.00868,
+      "delta": 0.00422
+    },
+    {
+      "country_code": "AUS",
+      "before": 0.0038,
+      "after": 0.0,
+      "delta": -0.0038
+    },
+    {
+      "country_code": "ESP",
+      "before": 0.15437,
+      "after": 0.15202,
+      "delta": -0.00235
+    },
+    {
+      "country_code": "FRA",
+      "before": 0.14571,
+      "after": 0.14774,
+      "delta": 0.00203
+    },
+    {
+      "country_code": "ARG",
+      "before": 0.13257,
+      "after": 0.13097,
+      "delta": -0.0016
+    }
+  ],
   "advance_movers": []
 }
