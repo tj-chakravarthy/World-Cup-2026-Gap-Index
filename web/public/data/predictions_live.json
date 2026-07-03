@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@d0d069ce",
-  "generated_at": "2026-07-03T17:52:42Z",
+  "model_version": "live-elo-mkt@9b9d63da",
+  "generated_at": "2026-07-03T18:09:19Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M088",
       "WC26-M086",
       "WC26-M087",
       "WC26-M090",
@@ -102,7 +101,8 @@
       "WC26-M081",
       "WC26-M084",
       "WC26-M083",
-      "WC26-M085"
+      "WC26-M085",
+      "WC26-M088"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M095",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-03T17:52:42Z",
+      "as_of": "2026-07-03T18:09:19Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M088",
-      "stage": "R32",
-      "kickoff_utc": "2026-07-03T18:00:00Z",
-      "team1": "AUS",
-      "team2": "EGY",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.35319946101260524,
-        "draw": 0.27747692418393677,
-        "team2": 0.369323614803458
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1323
-        },
-        {
-          "score": "0-1",
-          "p": 0.09
-        },
-        {
-          "score": "1-0",
-          "p": 0.0875
-        },
-        {
-          "score": "1-2",
-          "p": 0.0828
-        },
-        {
-          "score": "2-1",
-          "p": 0.0806
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.35319946101260524,
-          "draw": 0.27747692418393677,
-          "team2": 0.369323614803458
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M086",
       "stage": "R32",
@@ -532,5 +488,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M088",
+      "team1": "AUS",
+      "team2": "EGY",
+      "kickoff_utc": "2026-07-03T18:00:00Z",
+      "wdl": {
+        "team1": 0.35319946101260524,
+        "draw": 0.27747692418393677,
+        "team2": 0.369323614803458
+      }
+    }
+  ]
 }
