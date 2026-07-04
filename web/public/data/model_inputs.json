@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T01:21:20Z",
+  "generated_at": "2026-07-04T01:38:55Z",
   "field": "world_cup_2026",
   "metric": "percentile_within_field",
   "fixtures": {
@@ -754,6 +754,14 @@
       "elo2": 65,
       "mkt1": 73,
       "mkt2": 83
+    },
+    "WC26-M095": {
+      "team1": "ARG",
+      "team2": "EGY",
+      "elo1": 98,
+      "elo2": 33,
+      "mkt1": 88,
+      "mkt2": 31
     }
   }
 }
