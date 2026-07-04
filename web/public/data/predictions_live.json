@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@cd316988",
-  "generated_at": "2026-07-04T20:53:16Z",
+  "model_version": "live-elo-mkt@57246689",
+  "generated_at": "2026-07-04T21:08:26Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M089",
       "WC26-M091",
       "WC26-M092",
       "WC26-M093",
@@ -104,7 +103,8 @@
       "WC26-M088",
       "WC26-M086",
       "WC26-M087",
-      "WC26-M090"
+      "WC26-M090",
+      "WC26-M089"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M097",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-04T20:53:16Z",
+      "as_of": "2026-07-04T21:08:26Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M089",
-      "stage": "R16",
-      "kickoff_utc": "2026-07-04T21:00:00Z",
-      "team1": "PAR",
-      "team2": "FRA",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.17882768660217357,
-        "draw": 0.24632427950703345,
-        "team2": 0.574848033890793
-      },
-      "scorelines": [
-        {
-          "score": "0-1",
-          "p": 0.1205
-        },
-        {
-          "score": "1-1",
-          "p": 0.1172
-        },
-        {
-          "score": "0-2",
-          "p": 0.111
-        },
-        {
-          "score": "1-2",
-          "p": 0.0971
-        },
-        {
-          "score": "0-0",
-          "p": 0.0788
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.17882768660217357,
-          "draw": 0.24632427950703345,
-          "team2": 0.574848033890793
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M091",
       "stage": "R16",
@@ -444,5 +400,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M089",
+      "team1": "PAR",
+      "team2": "FRA",
+      "kickoff_utc": "2026-07-04T21:00:00Z",
+      "wdl": {
+        "team1": 0.17882768660217357,
+        "draw": 0.24632427950703345,
+        "team2": 0.574848033890793
+      }
+    }
+  ]
 }
