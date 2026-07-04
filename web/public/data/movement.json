@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-04T19:38:40Z",
-  "since": "2026-07-04T19:26:19Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M090",
-      "team1": "CAN",
-      "team2": "MAR",
-      "score": "0-3",
-      "outcome": 2
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "MAR",
-      "before": 0.03762,
-      "after": 0.06807,
-      "delta": 0.03045
-    },
-    {
-      "country_code": "CAN",
-      "before": 0.01843,
-      "after": 0.0,
-      "delta": -0.01843
-    },
-    {
-      "country_code": "FRA",
-      "before": 0.14735,
-      "after": 0.14002,
-      "delta": -0.00733
-    },
-    {
-      "country_code": "COL",
-      "before": 0.04889,
-      "after": 0.04743,
-      "delta": -0.00146
-    },
-    {
-      "country_code": "ENG",
-      "before": 0.10981,
-      "after": 0.11118,
-      "delta": 0.00137
-    }
-  ],
+  "generated_at": "2026-07-04T19:52:47Z",
+  "since": "2026-07-04T19:38:40Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
