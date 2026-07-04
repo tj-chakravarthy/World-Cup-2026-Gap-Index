@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@7d327e1a",
-  "generated_at": "2026-07-04T19:26:19Z",
+  "model_version": "live-elo-mkt@b36f73c8",
+  "generated_at": "2026-07-04T19:38:40Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-04T19:26:19Z",
+      "as_of": "2026-07-04T19:38:40Z",
       "stale": false
     },
     {
@@ -444,17 +444,5 @@
       "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M090",
-      "team1": "CAN",
-      "team2": "MAR",
-      "kickoff_utc": "2026-07-04T17:00:00Z",
-      "wdl": {
-        "team1": 0.3013577116829781,
-        "draw": 0.27462795376865357,
-        "team2": 0.42401433454836834
-      }
-    }
-  ]
+  "live_now": []
 }
