@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-04T01:38:54Z",
-  "since": "2026-07-04T01:21:20Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M086",
-      "team1": "ARG",
-      "team2": "CPV",
-      "score": "3-2",
-      "outcome": 0
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "ARG",
-      "before": 0.13097,
-      "after": 0.15869,
-      "delta": 0.02772
-    },
-    {
-      "country_code": "SUI",
-      "before": 0.03942,
-      "after": 0.03543,
-      "delta": -0.00399
-    },
-    {
-      "country_code": "COL",
-      "before": 0.03731,
-      "after": 0.03384,
-      "delta": -0.00347
-    },
-    {
-      "country_code": "FRA",
-      "before": 0.14774,
-      "after": 0.14466,
-      "delta": -0.00308
-    },
-    {
-      "country_code": "NOR",
-      "before": 0.03641,
-      "after": 0.03343,
-      "delta": -0.00298
-    }
-  ],
+  "generated_at": "2026-07-04T01:51:19Z",
+  "since": "2026-07-04T01:38:54Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
