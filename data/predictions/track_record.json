@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-05T06:50:04Z",
+  "generated_at": "2026-07-05T07:08:16Z",
   "n_receipts": 93,
-  "n_audit_rows": 17067,
+  "n_audit_rows": 17074,
   "n_resolved": 86,
   "resolved": [
     {
@@ -695,21 +695,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M050",
-      "kickoff_utc": "2026-06-24T22:00:00Z",
-      "team1": "MAR",
-      "team2": "HAI",
-      "model": "live",
-      "p_team1": 0.6,
-      "p_draw": 0.2389,
-      "p_team2": 0.1611,
-      "actual": "4-2",
-      "outcome": 0,
-      "called": true,
-      "top_score": "1-0",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M049",
       "kickoff_utc": "2026-06-24T22:00:00Z",
       "team1": "SCO",
@@ -722,6 +707,21 @@
       "outcome": 2,
       "called": true,
       "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M050",
+      "kickoff_utc": "2026-06-24T22:00:00Z",
+      "team1": "MAR",
+      "team2": "HAI",
+      "model": "live",
+      "p_team1": 0.6,
+      "p_draw": 0.2389,
+      "p_team2": 0.1611,
+      "actual": "4-2",
+      "outcome": 0,
+      "called": true,
+      "top_score": "1-0",
       "exact_hit": false
     },
     {
