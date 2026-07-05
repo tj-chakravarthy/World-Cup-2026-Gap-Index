@@ -1,7 +1,46 @@
 {
-  "generated_at": "2026-07-05T22:08:46Z",
-  "since": "2026-07-05T21:52:50Z",
-  "newly_resolved": [],
-  "title_movers": [],
+  "generated_at": "2026-07-05T22:22:33Z",
+  "since": "2026-07-05T22:08:46Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M091",
+      "team1": "BRA",
+      "team2": "NOR",
+      "score": "1-2",
+      "outcome": 2
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "BRA",
+      "before": 0.085,
+      "after": 0.0,
+      "delta": -0.085
+    },
+    {
+      "country_code": "NOR",
+      "before": 0.03239,
+      "after": 0.07893,
+      "delta": 0.04654
+    },
+    {
+      "country_code": "ENG",
+      "before": 0.1076,
+      "after": 0.11811,
+      "delta": 0.01051
+    },
+    {
+      "country_code": "ARG",
+      "before": 0.14763,
+      "after": 0.15406,
+      "delta": 0.00643
+    },
+    {
+      "country_code": "FRA",
+      "before": 0.19861,
+      "after": 0.20326,
+      "delta": 0.00465
+    }
+  ],
   "advance_movers": []
 }
