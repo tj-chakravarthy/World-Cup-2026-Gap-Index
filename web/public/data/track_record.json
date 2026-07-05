@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-05T00:23:30Z",
-  "n_receipts": 92,
-  "n_audit_rows": 16885,
-  "n_resolved": 85,
+  "generated_at": "2026-07-05T00:38:07Z",
+  "n_receipts": 93,
+  "n_audit_rows": 16892,
+  "n_resolved": 86,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -1278,6 +1278,21 @@
       "called": true,
       "top_score": "1-1",
       "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M089",
+      "kickoff_utc": "2026-07-04T21:00:00Z",
+      "team1": "PAR",
+      "team2": "FRA",
+      "model": "live",
+      "p_team1": 0.1788,
+      "p_draw": 0.2463,
+      "p_team2": 0.5748,
+      "actual": "0-1",
+      "outcome": 2,
+      "called": true,
+      "top_score": "0-1",
+      "exact_hit": true
     }
   ]
 }
