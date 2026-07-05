@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-05T07:08:16Z",
+  "generated_at": "2026-07-05T07:23:07Z",
   "n_receipts": 93,
-  "n_audit_rows": 17074,
+  "n_audit_rows": 17081,
   "n_resolved": 86,
   "resolved": [
     {
@@ -905,21 +905,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M064",
-      "kickoff_utc": "2026-06-27T03:00:00Z",
-      "team1": "NZL",
-      "team2": "BEL",
-      "model": "live",
-      "p_team1": 0.1363,
-      "p_draw": 0.2264,
-      "p_team2": 0.6373,
-      "actual": "1-5",
-      "outcome": 2,
-      "called": true,
-      "top_score": "0-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M063",
       "kickoff_utc": "2026-06-27T03:00:00Z",
       "team1": "EGY",
@@ -933,6 +918,21 @@
       "called": false,
       "top_score": "1-1",
       "exact_hit": true
+    },
+    {
+      "fixture_id": "WC26-M064",
+      "kickoff_utc": "2026-06-27T03:00:00Z",
+      "team1": "NZL",
+      "team2": "BEL",
+      "model": "live",
+      "p_team1": 0.1363,
+      "p_draw": 0.2264,
+      "p_team2": 0.6373,
+      "actual": "1-5",
+      "outcome": 2,
+      "called": true,
+      "top_score": "0-1",
+      "exact_hit": false
     },
     {
       "fixture_id": "WC26-M068",
@@ -995,21 +995,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M069",
-      "kickoff_utc": "2026-06-28T02:00:00Z",
-      "team1": "ALG",
-      "team2": "AUT",
-      "model": "live",
-      "p_team1": 0.3439,
-      "p_draw": 0.2773,
-      "p_team2": 0.3788,
-      "actual": "3-3",
-      "outcome": 1,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M070",
       "kickoff_utc": "2026-06-28T02:00:00Z",
       "team1": "JOR",
@@ -1022,6 +1007,21 @@
       "outcome": 2,
       "called": true,
       "top_score": "0-2",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M069",
+      "kickoff_utc": "2026-06-28T02:00:00Z",
+      "team1": "ALG",
+      "team2": "AUT",
+      "model": "live",
+      "p_team1": 0.3439,
+      "p_draw": 0.2773,
+      "p_team2": 0.3788,
+      "actual": "3-3",
+      "outcome": 1,
+      "called": false,
+      "top_score": "1-1",
       "exact_hit": false
     },
     {
