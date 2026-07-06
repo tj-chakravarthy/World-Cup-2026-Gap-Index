@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-06T21:22:50Z",
-  "since": "2026-07-06T21:07:32Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M093",
-      "team1": "POR",
-      "team2": "ESP",
-      "score": "0-1",
-      "outcome": 2
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "ESP",
-      "before": 0.14159,
-      "after": 0.24145,
-      "delta": 0.09986
-    },
-    {
-      "country_code": "POR",
-      "before": 0.06627,
-      "after": 0.0,
-      "delta": -0.06627
-    },
-    {
-      "country_code": "FRA",
-      "before": 0.19736,
-      "after": 0.18641,
-      "delta": -0.01095
-    },
-    {
-      "country_code": "ENG",
-      "before": 0.17887,
-      "after": 0.17454,
-      "delta": -0.00433
-    },
-    {
-      "country_code": "BEL",
-      "before": 0.04181,
-      "after": 0.03798,
-      "delta": -0.00383
-    }
-  ],
+  "generated_at": "2026-07-06T21:37:50Z",
+  "since": "2026-07-06T21:22:50Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
