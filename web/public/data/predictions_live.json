@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@bff56741",
-  "generated_at": "2026-07-06T03:07:34Z",
+  "model_version": "live-elo-mkt@ce56e06d",
+  "generated_at": "2026-07-06T03:21:50Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -11,7 +11,8 @@
       "WC26-M094",
       "WC26-M095",
       "WC26-M096",
-      "WC26-M097"
+      "WC26-M097",
+      "WC26-M099"
     ],
     "excluded_played_fixture_ids": [
       "WC26-M001",
@@ -109,7 +110,6 @@
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M098",
-      "WC26-M099",
       "WC26-M100",
       "WC26-M101",
       "WC26-M102",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-06T03:07:34Z",
+      "as_of": "2026-07-06T03:21:50Z",
       "stale": false
     },
     {
@@ -354,19 +354,51 @@
       },
       "conformal_set": null,
       "stale": false
+    },
+    {
+      "fixture_id": "WC26-M099",
+      "stage": "QF",
+      "kickoff_utc": "2026-07-11T21:00:00Z",
+      "team1": "NOR",
+      "team2": "ENG",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.2533455579939111,
+        "draw": 0.2676367467943608,
+        "team2": 0.4790176952117281
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1276
+        },
+        {
+          "score": "0-1",
+          "p": 0.1066
+        },
+        {
+          "score": "1-2",
+          "p": 0.0936
+        },
+        {
+          "score": "0-2",
+          "p": 0.0881
+        },
+        {
+          "score": "0-0",
+          "p": 0.0801
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.2533455579939111,
+          "draw": 0.2676367467943608,
+          "team2": 0.4790176952117281
+        }
+      },
+      "conformal_set": null,
+      "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M092",
-      "team1": "MEX",
-      "team2": "ENG",
-      "kickoff_utc": "2026-07-06T00:00:00Z",
-      "wdl": {
-        "team1": 0.22021205564675808,
-        "draw": 0.25993947962600983,
-        "team2": 0.5198484647272321
-      }
-    }
-  ]
+  "live_now": []
 }
