@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@dfc7147f",
-  "generated_at": "2026-07-07T02:22:10Z",
+  "model_version": "live-elo-mkt@73fec49a",
+  "generated_at": "2026-07-07T02:37:26Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -10,6 +10,7 @@
       "WC26-M095",
       "WC26-M096",
       "WC26-M097",
+      "WC26-M098",
       "WC26-M099"
     ],
     "excluded_played_fixture_ids": [
@@ -109,7 +110,6 @@
       "WC26-M094"
     ],
     "pending_undetermined_fixture_ids": [
-      "WC26-M098",
       "WC26-M100",
       "WC26-M101",
       "WC26-M102",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-07T02:22:10Z",
+      "as_of": "2026-07-07T02:37:26Z",
       "stale": false
     },
     {
@@ -268,6 +268,50 @@
       "stale": false
     },
     {
+      "fixture_id": "WC26-M098",
+      "stage": "QF",
+      "kickoff_utc": "2026-07-10T19:00:00Z",
+      "team1": "ESP",
+      "team2": "BEL",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.5276483123717812,
+        "draw": 0.25823342260667753,
+        "team2": 0.2141182650215413
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1231
+        },
+        {
+          "score": "1-0",
+          "p": 0.1138
+        },
+        {
+          "score": "2-0",
+          "p": 0.0994
+        },
+        {
+          "score": "2-1",
+          "p": 0.0962
+        },
+        {
+          "score": "0-0",
+          "p": 0.0795
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.5276483123717812,
+          "draw": 0.25823342260667753,
+          "team2": 0.2141182650215413
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
       "fixture_id": "WC26-M099",
       "stage": "QF",
       "kickoff_utc": "2026-07-11T21:00:00Z",
@@ -312,17 +356,5 @@
       "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M094",
-      "team1": "USA",
-      "team2": "BEL",
-      "kickoff_utc": "2026-07-07T00:00:00Z",
-      "wdl": {
-        "team1": 0.28375109805149834,
-        "draw": 0.2725884503500673,
-        "team2": 0.44366045159843437
-      }
-    }
-  ]
+  "live_now": []
 }

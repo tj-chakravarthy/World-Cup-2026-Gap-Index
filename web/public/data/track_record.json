@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-07T02:22:10Z",
-  "n_receipts": 94,
-  "n_audit_rows": 18115,
-  "n_resolved": 89,
+  "generated_at": "2026-07-07T02:37:26Z",
+  "n_receipts": 95,
+  "n_audit_rows": 18120,
+  "n_resolved": 90,
   "resolved": [
     {
       "fixture_id": "WC26-M008",
@@ -1334,6 +1334,21 @@
       "p_draw": 0.272,
       "p_team2": 0.4487,
       "actual": "0-1",
+      "outcome": 2,
+      "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M094",
+      "kickoff_utc": "2026-07-07T00:00:00Z",
+      "team1": "USA",
+      "team2": "BEL",
+      "model": "live",
+      "p_team1": 0.2838,
+      "p_draw": 0.2726,
+      "p_team2": 0.4437,
+      "actual": "1-4",
       "outcome": 2,
       "called": true,
       "top_score": "1-1",
