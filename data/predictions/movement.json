@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-07T18:51:43Z",
-  "since": "2026-07-07T18:37:52Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M095",
-      "team1": "ARG",
-      "team2": "EGY",
-      "score": "3-2",
-      "outcome": 0
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "ARG",
-      "before": 0.14178,
-      "after": 0.18477,
-      "delta": 0.04299
-    },
-    {
-      "country_code": "ENG",
-      "before": 0.17371,
-      "after": 0.1636,
-      "delta": -0.01011
-    },
-    {
-      "country_code": "COL",
-      "before": 0.04351,
-      "after": 0.03739,
-      "delta": -0.00612
-    },
-    {
-      "country_code": "EGY",
-      "before": 0.00606,
-      "after": 0.0,
-      "delta": -0.00606
-    },
-    {
-      "country_code": "FRA",
-      "before": 0.1869,
-      "after": 0.18128,
-      "delta": -0.00562
-    }
-  ],
+  "generated_at": "2026-07-07T19:01:27Z",
+  "since": "2026-07-07T18:51:43Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
