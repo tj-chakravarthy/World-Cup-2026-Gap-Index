@@ -1,13 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@1c90b790",
-  "generated_at": "2026-07-06T23:52:09Z",
+  "model_version": "live-elo-mkt@7c8a38a6",
+  "generated_at": "2026-07-07T00:07:53Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M094",
       "WC26-M095",
       "WC26-M096",
       "WC26-M097",
@@ -106,7 +105,8 @@
       "WC26-M089",
       "WC26-M091",
       "WC26-M092",
-      "WC26-M093"
+      "WC26-M093",
+      "WC26-M094"
     ],
     "pending_undetermined_fixture_ids": [
       "WC26-M098",
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-06T23:52:09Z",
+      "as_of": "2026-07-07T00:07:53Z",
       "stale": false
     },
     {
@@ -135,50 +135,6 @@
     }
   ],
   "predictions": [
-    {
-      "fixture_id": "WC26-M094",
-      "stage": "R16",
-      "kickoff_utc": "2026-07-07T00:00:00Z",
-      "team1": "USA",
-      "team2": "BEL",
-      "model_source": "live_full",
-      "wdl": {
-        "team1": 0.28375109805149834,
-        "draw": 0.2725884503500673,
-        "team2": 0.44366045159843437
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.13
-        },
-        {
-          "score": "0-1",
-          "p": 0.1014
-        },
-        {
-          "score": "1-2",
-          "p": 0.0909
-        },
-        {
-          "score": "0-0",
-          "p": 0.0803
-        },
-        {
-          "score": "0-2",
-          "p": 0.0801
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.28375109805149834,
-          "draw": 0.2725884503500673,
-          "team2": 0.44366045159843437
-        }
-      },
-      "conformal_set": null,
-      "stale": false
-    },
     {
       "fixture_id": "WC26-M095",
       "stage": "R16",
@@ -356,5 +312,17 @@
       "stale": false
     }
   ],
-  "live_now": []
+  "live_now": [
+    {
+      "fixture_id": "WC26-M094",
+      "team1": "USA",
+      "team2": "BEL",
+      "kickoff_utc": "2026-07-07T00:00:00Z",
+      "wdl": {
+        "team1": 0.28375109805149834,
+        "draw": 0.2725884503500673,
+        "team2": 0.44366045159843437
+      }
+    }
+  ]
 }
