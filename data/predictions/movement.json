@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-07T23:26:37Z",
-  "since": "2026-07-07T23:08:04Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M096",
-      "team1": "SUI",
-      "team2": "COL",
-      "score": "0-0",
-      "outcome": 1
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "COL",
-      "before": 0.03739,
-      "after": 0.0,
-      "delta": -0.03739
-    },
-    {
-      "country_code": "SUI",
-      "before": 0.02474,
-      "after": 0.05247,
-      "delta": 0.02773
-    },
-    {
-      "country_code": "ENG",
-      "before": 0.1636,
-      "after": 0.16718,
-      "delta": 0.00358
-    },
-    {
-      "country_code": "BEL",
-      "before": 0.0661,
-      "after": 0.06287,
-      "delta": -0.00323
-    },
-    {
-      "country_code": "ARG",
-      "before": 0.18477,
-      "after": 0.18702,
-      "delta": 0.00225
-    }
-  ],
+  "generated_at": "2026-07-07T23:37:25Z",
+  "since": "2026-07-07T23:26:37Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
