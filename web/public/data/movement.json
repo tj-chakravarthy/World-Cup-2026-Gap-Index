@@ -1,7 +1,46 @@
 {
-  "generated_at": "2026-07-09T22:21:32Z",
-  "since": "2026-07-09T22:14:15Z",
-  "newly_resolved": [],
-  "title_movers": [],
+  "generated_at": "2026-07-09T22:38:34Z",
+  "since": "2026-07-09T22:21:32Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M097",
+      "team1": "FRA",
+      "team2": "MAR",
+      "score": "2-0",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "FRA",
+      "before": 0.1829,
+      "after": 0.28305,
+      "delta": 0.10015
+    },
+    {
+      "country_code": "MAR",
+      "before": 0.05254,
+      "after": 0.0,
+      "delta": -0.05254
+    },
+    {
+      "country_code": "ESP",
+      "before": 0.23014,
+      "after": 0.20826,
+      "delta": -0.02188
+    },
+    {
+      "country_code": "ENG",
+      "before": 0.16718,
+      "after": 0.16,
+      "delta": -0.00718
+    },
+    {
+      "country_code": "BEL",
+      "before": 0.06287,
+      "after": 0.05602,
+      "delta": -0.00685
+    }
+  ],
   "advance_movers": []
 }
