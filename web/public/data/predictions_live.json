@@ -1,14 +1,15 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@8cb89656",
-  "generated_at": "2026-07-10T21:35:06Z",
+  "model_version": "live-elo-mkt@b1790754",
+  "generated_at": "2026-07-10T21:51:37Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
       "WC26-M099",
-      "WC26-M100"
+      "WC26-M100",
+      "WC26-M101"
     ],
     "excluded_played_fixture_ids": [
       "WC26-M001",
@@ -111,7 +112,6 @@
       "WC26-M098"
     ],
     "pending_undetermined_fixture_ids": [
-      "WC26-M101",
       "WC26-M102",
       "WC26-M103",
       "WC26-M104"
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-10T21:35:06Z",
+      "as_of": "2026-07-10T21:51:37Z",
       "stale": false
     },
     {
@@ -222,19 +222,51 @@
       },
       "conformal_set": null,
       "stale": false
+    },
+    {
+      "fixture_id": "WC26-M101",
+      "stage": "SF",
+      "kickoff_utc": "2026-07-14T19:00:00Z",
+      "team1": "FRA",
+      "team2": "ESP",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3201859322823308,
+        "draw": 0.2761876391904774,
+        "team2": 0.4036264285271919
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1317
+        },
+        {
+          "score": "0-1",
+          "p": 0.0953
+        },
+        {
+          "score": "1-2",
+          "p": 0.0869
+        },
+        {
+          "score": "1-0",
+          "p": 0.0822
+        },
+        {
+          "score": "0-0",
+          "p": 0.0805
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3201859322823308,
+          "draw": 0.2761876391904774,
+          "team2": 0.4036264285271919
+        }
+      },
+      "conformal_set": null,
+      "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M098",
-      "team1": "ESP",
-      "team2": "BEL",
-      "kickoff_utc": "2026-07-10T19:00:00Z",
-      "wdl": {
-        "team1": 0.5276483123717812,
-        "draw": 0.25823342260667753,
-        "team2": 0.2141182650215413
-      }
-    }
-  ]
+  "live_now": []
 }
