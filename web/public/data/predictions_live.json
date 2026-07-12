@@ -1,13 +1,14 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@6b9b9c68",
-  "generated_at": "2026-07-12T04:21:33Z",
+  "model_version": "live-elo-mkt@431c5345",
+  "generated_at": "2026-07-12T04:36:51Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
     "covered_fixture_ids": [
-      "WC26-M101"
+      "WC26-M101",
+      "WC26-M102"
     ],
     "excluded_played_fixture_ids": [
       "WC26-M001",
@@ -112,7 +113,6 @@
       "WC26-M100"
     ],
     "pending_undetermined_fixture_ids": [
-      "WC26-M102",
       "WC26-M103",
       "WC26-M104"
     ]
@@ -120,7 +120,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-12T04:21:33Z",
+      "as_of": "2026-07-12T04:36:51Z",
       "stale": false
     },
     {
@@ -178,19 +178,51 @@
       },
       "conformal_set": null,
       "stale": false
+    },
+    {
+      "fixture_id": "WC26-M102",
+      "stage": "SF",
+      "kickoff_utc": "2026-07-15T19:00:00Z",
+      "team1": "ENG",
+      "team2": "ARG",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.34035116146936567,
+        "draw": 0.2771861246011412,
+        "team2": 0.3824627139294931
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1322
+        },
+        {
+          "score": "0-1",
+          "p": 0.0921
+        },
+        {
+          "score": "1-0",
+          "p": 0.0854
+        },
+        {
+          "score": "1-2",
+          "p": 0.0844
+        },
+        {
+          "score": "0-0",
+          "p": 0.0806
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.34035116146936567,
+          "draw": 0.2771861246011412,
+          "team2": 0.3824627139294931
+        }
+      },
+      "conformal_set": null,
+      "stale": false
     }
   ],
-  "live_now": [
-    {
-      "fixture_id": "WC26-M100",
-      "team1": "ARG",
-      "team2": "SUI",
-      "kickoff_utc": "2026-07-12T01:00:00Z",
-      "wdl": {
-        "team1": 0.5212412717911635,
-        "draw": 0.2596403241863344,
-        "team2": 0.21911840402250216
-      }
-    }
-  ]
+  "live_now": []
 }
