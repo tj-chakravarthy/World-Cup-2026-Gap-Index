@@ -1,46 +1,7 @@
 {
-  "generated_at": "2026-07-12T00:37:09Z",
-  "since": "2026-07-12T00:20:45Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M099",
-      "team1": "NOR",
-      "team2": "ENG",
-      "score": "1-2",
-      "outcome": 2
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "ENG",
-      "before": 0.15225,
-      "after": 0.24816,
-      "delta": 0.09591
-    },
-    {
-      "country_code": "NOR",
-      "before": 0.05719,
-      "after": 0.0,
-      "delta": -0.05719
-    },
-    {
-      "country_code": "ARG",
-      "before": 0.17623,
-      "after": 0.16225,
-      "delta": -0.01398
-    },
-    {
-      "country_code": "FRA",
-      "before": 0.25206,
-      "after": 0.24096,
-      "delta": -0.0111
-    },
-    {
-      "country_code": "ESP",
-      "before": 0.31448,
-      "after": 0.30617,
-      "delta": -0.00831
-    }
-  ],
+  "generated_at": "2026-07-12T00:51:57Z",
+  "since": "2026-07-12T00:37:09Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
