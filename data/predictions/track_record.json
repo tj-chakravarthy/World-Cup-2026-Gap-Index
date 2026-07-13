@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-13T00:14:30Z",
+  "generated_at": "2026-07-13T00:21:53Z",
   "n_receipts": 98,
-  "n_audit_rows": 20005,
+  "n_audit_rows": 20007,
   "n_resolved": 96,
   "resolved": [
     {
@@ -875,21 +875,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M065",
-      "kickoff_utc": "2026-06-27T00:00:00Z",
-      "team1": "CPV",
-      "team2": "KSA",
-      "model": "live",
-      "p_team1": 0.3531,
-      "p_draw": 0.2775,
-      "p_team2": 0.3694,
-      "actual": "0-0",
-      "outcome": 1,
-      "called": false,
-      "top_score": "1-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M066",
       "kickoff_utc": "2026-06-27T00:00:00Z",
       "team1": "URU",
@@ -901,6 +886,21 @@
       "actual": "0-1",
       "outcome": 2,
       "called": true,
+      "top_score": "1-1",
+      "exact_hit": false
+    },
+    {
+      "fixture_id": "WC26-M065",
+      "kickoff_utc": "2026-06-27T00:00:00Z",
+      "team1": "CPV",
+      "team2": "KSA",
+      "model": "live",
+      "p_team1": 0.3531,
+      "p_draw": 0.2775,
+      "p_team2": 0.3694,
+      "actual": "0-0",
+      "outcome": 1,
+      "called": false,
       "top_score": "1-1",
       "exact_hit": false
     },
