@@ -99,7 +99,7 @@ WC26-M097,97,QF,,,2026-07-09T20:00:00Z,Boston Stadium,France,Morocco,FRA,MAR,2,0
 WC26-M098,98,QF,,,2026-07-10T19:00:00Z,Los Angeles Stadium,Spain,Belgium,ESP,BEL,2,1,ESP,True
 WC26-M099,99,QF,,,2026-07-11T21:00:00Z,Miami Stadium,Norway,England,NOR,ENG,1,2,ENG,True
 WC26-M100,100,QF,,,2026-07-12T01:00:00Z,Kansas City Stadium,Argentina,Switzerland,ARG,SUI,3,1,ARG,True
-WC26-M101,101,SF,,,2026-07-14T19:00:00Z,Dallas Stadium,France,Spain,FRA,ESP,,,,False
+WC26-M101,101,SF,,,2026-07-14T19:00:00Z,Dallas Stadium,France,Spain,FRA,ESP,0,2,ESP,True
 WC26-M102,102,SF,,,2026-07-15T19:00:00Z,Atlanta Stadium,England,Argentina,ENG,ARG,,,,False
-WC26-M103,103,third_place,,,2026-07-18T21:00:00Z,Miami Stadium,To be announced,To be announced,,,,,,False
-WC26-M104,104,final,,,2026-07-19T19:00:00Z,New York/New Jersey Stadium,To be announced,To be announced,,,,,,False
+WC26-M103,103,third_place,,,2026-07-18T21:00:00Z,Miami Stadium,France,To be announced,FRA,,,,,False
+WC26-M104,104,final,,,2026-07-19T19:00:00Z,New York/New Jersey Stadium,Spain,To be announced,ESP,,,,,False
