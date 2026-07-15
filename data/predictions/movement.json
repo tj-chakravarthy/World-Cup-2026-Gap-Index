@@ -1,34 +1,7 @@
 {
-  "generated_at": "2026-07-15T21:51:20Z",
-  "since": "2026-07-15T21:43:02Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M102",
-      "team1": "ENG",
-      "team2": "ARG",
-      "score": "1-2",
-      "outcome": 2
-    }
-  ],
-  "title_movers": [
-    {
-      "country_code": "ARG",
-      "before": 0.24,
-      "after": 0.45994,
-      "delta": 0.21994
-    },
-    {
-      "country_code": "ENG",
-      "before": 0.21387,
-      "after": 0.0,
-      "delta": -0.21387
-    },
-    {
-      "country_code": "ESP",
-      "before": 0.54613,
-      "after": 0.54006,
-      "delta": -0.00607
-    }
-  ],
+  "generated_at": "2026-07-15T22:07:45Z",
+  "since": "2026-07-15T21:51:20Z",
+  "newly_resolved": [],
+  "title_movers": [],
   "advance_movers": []
 }
