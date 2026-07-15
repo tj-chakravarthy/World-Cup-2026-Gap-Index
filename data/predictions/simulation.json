@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-15T21:43:02Z",
+  "generated_at": "2026-07-15T21:51:20Z",
   "tournament": "FIFA World Cup 26",
   "n_sims": 100000,
   "param_uncertainty": true,
@@ -13,7 +13,7 @@
       "p_QF": 1.0,
       "p_SF": 1.0,
       "p_final": 1.0,
-      "p_winner": 0.54613
+      "p_winner": 0.54006
     },
     {
       "country_code": "ARG",
@@ -23,19 +23,19 @@
       "p_R16": 1.0,
       "p_QF": 1.0,
       "p_SF": 1.0,
-      "p_final": 0.52021,
-      "p_winner": 0.24
+      "p_final": 1.0,
+      "p_winner": 0.45994
     },
     {
-      "country_code": "ENG",
-      "win_group": 1.0,
-      "runner_up": 0.0,
+      "country_code": "AUS",
+      "win_group": 0.0,
+      "runner_up": 1.0,
       "p_R32": 1.0,
-      "p_R16": 1.0,
-      "p_QF": 1.0,
-      "p_SF": 1.0,
-      "p_final": 0.47979,
-      "p_winner": 0.21387
+      "p_R16": 0.0,
+      "p_QF": 0.0,
+      "p_SF": 0.0,
+      "p_final": 0.0,
+      "p_winner": 0.0
     },
     {
       "country_code": "ALG",
@@ -71,11 +71,11 @@
       "p_winner": 0.0
     },
     {
-      "country_code": "AUS",
-      "win_group": 0.0,
-      "runner_up": 1.0,
+      "country_code": "BRA",
+      "win_group": 1.0,
+      "runner_up": 0.0,
       "p_R32": 1.0,
-      "p_R16": 0.0,
+      "p_R16": 1.0,
       "p_QF": 0.0,
       "p_SF": 0.0,
       "p_final": 0.0,
@@ -159,11 +159,11 @@
       "p_winner": 0.0
     },
     {
-      "country_code": "BRA",
-      "win_group": 1.0,
+      "country_code": "CZE",
+      "win_group": 0.0,
       "runner_up": 0.0,
-      "p_R32": 1.0,
-      "p_R16": 1.0,
+      "p_R32": 0.0,
+      "p_R16": 0.0,
       "p_QF": 0.0,
       "p_SF": 0.0,
       "p_final": 0.0,
@@ -192,17 +192,6 @@
       "p_winner": 0.0
     },
     {
-      "country_code": "CZE",
-      "win_group": 0.0,
-      "runner_up": 0.0,
-      "p_R32": 0.0,
-      "p_R16": 0.0,
-      "p_QF": 0.0,
-      "p_SF": 0.0,
-      "p_final": 0.0,
-      "p_winner": 0.0
-    },
-    {
       "country_code": "EGY",
       "win_group": 0.0,
       "runner_up": 1.0,
@@ -210,6 +199,17 @@
       "p_R16": 1.0,
       "p_QF": 0.0,
       "p_SF": 0.0,
+      "p_final": 0.0,
+      "p_winner": 0.0
+    },
+    {
+      "country_code": "ENG",
+      "win_group": 1.0,
+      "runner_up": 0.0,
+      "p_R32": 1.0,
+      "p_R16": 1.0,
+      "p_QF": 1.0,
+      "p_SF": 1.0,
       "p_final": 0.0,
       "p_winner": 0.0
     },

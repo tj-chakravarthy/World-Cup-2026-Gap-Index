@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-15T21:43:02Z",
+  "generated_at": "2026-07-15T21:51:20Z",
   "field": "world_cup_2026",
   "metric": "percentile_within_field",
   "fixtures": {
@@ -817,6 +817,22 @@
       "elo1": 94,
       "elo2": 98,
       "mkt1": 96,
+      "mkt2": 88
+    },
+    "WC26-M103": {
+      "team1": "FRA",
+      "team2": "ENG",
+      "elo1": 96,
+      "elo2": 94,
+      "mkt1": 98,
+      "mkt2": 96
+    },
+    "WC26-M104": {
+      "team1": "ESP",
+      "team2": "ARG",
+      "elo1": 100,
+      "elo2": 98,
+      "mkt1": 100,
       "mkt2": 88
     }
   }

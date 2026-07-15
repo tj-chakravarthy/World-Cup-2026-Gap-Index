@@ -1,12 +1,15 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@46feb768",
-  "generated_at": "2026-07-15T21:43:02Z",
+  "model_version": "live-elo-mkt@79dc0ecd",
+  "generated_at": "2026-07-15T21:51:20Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
-    "covered_fixture_ids": [],
+    "covered_fixture_ids": [
+      "WC26-M103",
+      "WC26-M104"
+    ],
     "excluded_played_fixture_ids": [
       "WC26-M001",
       "WC26-M002",
@@ -111,15 +114,12 @@
       "WC26-M101",
       "WC26-M102"
     ],
-    "pending_undetermined_fixture_ids": [
-      "WC26-M103",
-      "WC26-M104"
-    ]
+    "pending_undetermined_fixture_ids": []
   },
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-15T21:43:02Z",
+      "as_of": "2026-07-15T21:51:20Z",
       "stale": false
     },
     {
@@ -133,18 +133,95 @@
       "stale": false
     }
   ],
-  "predictions": [],
-  "live_now": [
+  "predictions": [
     {
-      "fixture_id": "WC26-M102",
-      "team1": "ENG",
-      "team2": "ARG",
-      "kickoff_utc": "2026-07-15T19:00:00Z",
+      "fixture_id": "WC26-M103",
+      "stage": "third_place",
+      "kickoff_utc": "2026-07-18T21:00:00Z",
+      "team1": "FRA",
+      "team2": "ENG",
+      "model_source": "live_full",
       "wdl": {
-        "team1": 0.34035116146936567,
-        "draw": 0.2771861246011412,
-        "team2": 0.3824627139294931
-      }
+        "team1": 0.37859340250305296,
+        "draw": 0.27729839236281384,
+        "team2": 0.3441082051341332
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1322
+        },
+        {
+          "score": "1-0",
+          "p": 0.0915
+        },
+        {
+          "score": "0-1",
+          "p": 0.086
+        },
+        {
+          "score": "2-1",
+          "p": 0.084
+        },
+        {
+          "score": "0-0",
+          "p": 0.0806
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.37859340250305296,
+          "draw": 0.27729839236281384,
+          "team2": 0.3441082051341332
+        }
+      },
+      "conformal_set": null,
+      "stale": false
+    },
+    {
+      "fixture_id": "WC26-M104",
+      "stage": "final",
+      "kickoff_utc": "2026-07-19T19:00:00Z",
+      "team1": "ESP",
+      "team2": "ARG",
+      "model_source": "live_full",
+      "wdl": {
+        "team1": 0.3997177290079056,
+        "draw": 0.27642032936080396,
+        "team2": 0.32386194163129045
+      },
+      "scorelines": [
+        {
+          "score": "1-1",
+          "p": 0.1318
+        },
+        {
+          "score": "1-0",
+          "p": 0.0947
+        },
+        {
+          "score": "2-1",
+          "p": 0.0865
+        },
+        {
+          "score": "0-1",
+          "p": 0.0828
+        },
+        {
+          "score": "0-0",
+          "p": 0.0805
+        }
+      ],
+      "members": {
+        "full": {
+          "team1": 0.3997177290079056,
+          "draw": 0.27642032936080396,
+          "team2": 0.32386194163129045
+        }
+      },
+      "conformal_set": null,
+      "stale": false
     }
-  ]
+  ],
+  "live_now": []
 }
