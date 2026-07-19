@@ -1,14 +1,12 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@9c67dc62",
-  "generated_at": "2026-07-19T18:58:26Z",
+  "model_version": "live-elo-mkt@b67f24ef",
+  "generated_at": "2026-07-19T19:06:52Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
-    "covered_fixture_ids": [
-      "WC26-M104"
-    ],
+    "covered_fixture_ids": [],
     "excluded_played_fixture_ids": [
       "WC26-M001",
       "WC26-M002",
@@ -112,14 +110,15 @@
       "WC26-M100",
       "WC26-M101",
       "WC26-M102",
-      "WC26-M103"
+      "WC26-M103",
+      "WC26-M104"
     ],
     "pending_undetermined_fixture_ids": []
   },
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-19T18:58:26Z",
+      "as_of": "2026-07-19T19:06:52Z",
       "stale": false
     },
     {
@@ -133,51 +132,18 @@
       "stale": false
     }
   ],
-  "predictions": [
+  "predictions": [],
+  "live_now": [
     {
       "fixture_id": "WC26-M104",
-      "stage": "final",
-      "kickoff_utc": "2026-07-19T19:00:00Z",
       "team1": "ESP",
       "team2": "ARG",
-      "model_source": "live_full",
+      "kickoff_utc": "2026-07-19T19:00:00Z",
       "wdl": {
         "team1": 0.3997177290079056,
         "draw": 0.27642032936080396,
         "team2": 0.32386194163129045
-      },
-      "scorelines": [
-        {
-          "score": "1-1",
-          "p": 0.1318
-        },
-        {
-          "score": "1-0",
-          "p": 0.0947
-        },
-        {
-          "score": "2-1",
-          "p": 0.0865
-        },
-        {
-          "score": "0-1",
-          "p": 0.0828
-        },
-        {
-          "score": "0-0",
-          "p": 0.0805
-        }
-      ],
-      "members": {
-        "full": {
-          "team1": 0.3997177290079056,
-          "draw": 0.27642032936080396,
-          "team2": 0.32386194163129045
-        }
-      },
-      "conformal_set": null,
-      "stale": false
+      }
     }
-  ],
-  "live_now": []
+  ]
 }
