@@ -1,7 +1,28 @@
 {
-  "generated_at": "2026-07-19T22:21:21Z",
-  "since": "2026-07-19T22:12:11Z",
-  "newly_resolved": [],
-  "title_movers": [],
+  "generated_at": "2026-07-19T22:36:10Z",
+  "since": "2026-07-19T22:21:21Z",
+  "newly_resolved": [
+    {
+      "fixture_id": "WC26-M104",
+      "team1": "ESP",
+      "team2": "ARG",
+      "score": "1-0",
+      "outcome": 0
+    }
+  ],
+  "title_movers": [
+    {
+      "country_code": "ESP",
+      "before": 0.54006,
+      "after": 1.0,
+      "delta": 0.45994
+    },
+    {
+      "country_code": "ARG",
+      "before": 0.45994,
+      "after": 0.0,
+      "delta": -0.45994
+    }
+  ],
   "advance_movers": []
 }
