@@ -1,15 +1,7 @@
 {
-  "generated_at": "2026-07-18T23:51:12Z",
-  "since": "2026-07-18T23:42:06Z",
-  "newly_resolved": [
-    {
-      "fixture_id": "WC26-M103",
-      "team1": "FRA",
-      "team2": "ENG",
-      "score": "4-6",
-      "outcome": 2
-    }
-  ],
+  "generated_at": "2026-07-19T00:05:59Z",
+  "since": "2026-07-18T23:51:12Z",
+  "newly_resolved": [],
   "title_movers": [],
   "advance_movers": []
 }
