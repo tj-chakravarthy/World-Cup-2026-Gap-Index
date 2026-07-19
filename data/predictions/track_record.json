@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-19T16:51:32Z",
+  "generated_at": "2026-07-19T17:06:50Z",
   "n_receipts": 100,
-  "n_audit_rows": 21115,
+  "n_audit_rows": 21116,
   "n_resolved": 99,
   "resolved": [
     {
@@ -905,21 +905,6 @@
       "exact_hit": false
     },
     {
-      "fixture_id": "WC26-M064",
-      "kickoff_utc": "2026-06-27T03:00:00Z",
-      "team1": "NZL",
-      "team2": "BEL",
-      "model": "live",
-      "p_team1": 0.1363,
-      "p_draw": 0.2264,
-      "p_team2": 0.6373,
-      "actual": "1-5",
-      "outcome": 2,
-      "called": true,
-      "top_score": "0-1",
-      "exact_hit": false
-    },
-    {
       "fixture_id": "WC26-M063",
       "kickoff_utc": "2026-06-27T03:00:00Z",
       "team1": "EGY",
@@ -933,6 +918,21 @@
       "called": false,
       "top_score": "1-1",
       "exact_hit": true
+    },
+    {
+      "fixture_id": "WC26-M064",
+      "kickoff_utc": "2026-06-27T03:00:00Z",
+      "team1": "NZL",
+      "team2": "BEL",
+      "model": "live",
+      "p_team1": 0.1363,
+      "p_draw": 0.2264,
+      "p_team2": 0.6373,
+      "actual": "1-5",
+      "outcome": 2,
+      "called": true,
+      "top_score": "0-1",
+      "exact_hit": false
     },
     {
       "fixture_id": "WC26-M067",
