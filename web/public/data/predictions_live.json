@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "kind": "live",
-  "model_version": "live-elo-mkt@dfb49171",
-  "generated_at": "2026-07-24T22:07:40Z",
+  "model_version": "live-elo-mkt@1f671907",
+  "generated_at": "2026-07-24T22:21:33Z",
   "locked_at_utc": null,
   "tournament": "FIFA World Cup 26",
   "coverage": {
@@ -118,7 +118,7 @@
   "sources": [
     {
       "name": "fixtures",
-      "as_of": "2026-07-24T22:07:40Z",
+      "as_of": "2026-07-24T22:21:33Z",
       "stale": false
     },
     {
